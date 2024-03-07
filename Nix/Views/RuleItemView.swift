@@ -1,0 +1,65 @@
+//
+//  RuleItemView.swift
+//  Nix
+//
+//  Created by Su Lei Yadanar on 2/16/24.
+//
+
+import SwiftUI
+
+
+struct RuleItemView: View {
+    @Environment(\.colorScheme) var colorScheme
+    let item : RuleItem
+    let iconName : String
+    let actionBtnLogo: String
+    let stroke: Double
+    let fill: Double
+    var body: some View {
+        
+        
+        VStack(){
+            HStack(){
+                Image(systemName:iconName)
+                    .background(
+                    RoundedRectangle(cornerRadius:5)
+                        .fill(Color(red: 0.8, green: 0.9, blue:0.9))
+                        .frame(width:50, height:50))
+                    .padding(.leading,30)
+                Spacer()
+                VStack(alignment: .leading){
+                    Text(item.title).bold().padding(.bottom,2)
+                    HStack(){
+                        Label("",systemImage:"clock")
+                        Text("\(Date(timeIntervalSince1970: item.startTime).formatted(.dateTime.hour().minute()))")
+                        Text("-")
+                        Text("\(Date(timeIntervalSince1970: item.endTime).formatted(.dateTime.hour().minute()))")
+//                        Text(endTimeOfDay)
+                    }.font(.body)
+                }
+                .padding(15)
+                
+                Spacer(minLength:2)
+                Button(){
+                }label:{
+                    Image(systemName:actionBtnLogo).padding(.trailing,15).foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                }
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color(red: 0.6, green: 0.7, blue:0.9).opacity(fill))
+                    .stroke(Color(red: 0.6, green: 0.7, blue:0.9).opacity(stroke), lineWidth: 4))
+            .padding(.bottom, 10)
+        }
+    }
+}
+
+#Preview {
+    RuleItemView(item: .init (
+    id: "123",
+    title: "Test",
+    startTime: Date().timeIntervalSince1970,
+    endTime: Date().timeIntervalSince1970,
+    selectedDays: [0,1,2]
+    ), iconName: "plus.circle.fill", actionBtnLogo: "pencil", stroke:1, fill:0)
+}

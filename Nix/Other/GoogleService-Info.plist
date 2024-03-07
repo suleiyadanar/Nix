@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBOO0xRJ70w3N1qEp2kJp5oG_pyRmhKuOk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>619760553436</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>nix.Nix</string>
+	<key>PROJECT_ID</key>
+	<string>nixapp-d7683</string>
+	<key>STORAGE_BUCKET</key>
+	<string>nixapp-d7683.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:619760553436:ios:0983c59c1d69175825d319</string>
+</dict>
+</plist>
