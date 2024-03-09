@@ -1,4 +1,4 @@
-## Git Workflow Guide
+## Nix Workflow Guide
 
 ### Clone a Repo
 
