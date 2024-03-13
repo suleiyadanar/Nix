@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import DeviceActivity
+
 
 struct NewRuleItemView: View {
     @StateObject var viewModel = NewRuleItemViewViewModel()
@@ -19,7 +21,6 @@ struct NewRuleItemView: View {
     let currentDate = Date()
     
     var body: some View {
-        
         Form {
             Text("New Rule")
             VStack {

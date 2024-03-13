@@ -47,6 +47,16 @@
 		3F7B97172B87110700F465D2 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7B97162B87110700F465D2 /* CalendarModel.swift */; };
 		3F7B97192B87116F00F465D2 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7B97182B87116F00F465D2 /* DataExtension.swift */; };
 		3F7B971B2B8791FC00F465D2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7B971A2B8791FC00F465D2 /* ViewController.swift */; };
+		3F856E662B9D7E2500E479EB /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F856E652B9D7E2500E479EB /* PieChartView.swift */; };
+		3F856E6E2B9D8EEE00E479EB /* ReportExtension_Nix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F856E6D2B9D8EEE00E479EB /* ReportExtension_Nix.swift */; };
+		3F856E702B9D8EEE00E479EB /* TotalScreenTimeReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F856E6F2B9D8EEE00E479EB /* TotalScreenTimeReport.swift */; };
+		3F856E722B9D8EEE00E479EB /* TotalScreenTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F856E712B9D8EEE00E479EB /* TotalScreenTimeView.swift */; };
+		3F856E772B9D8EEE00E479EB /* ReportExtension Nix.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 3F856E6B2B9D8EEE00E479EB /* ReportExtension Nix.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3F856E7E2B9D95DD00E479EB /* DeviceActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F856E7C2B9D941600E479EB /* DeviceActivityModel.swift */; };
+		3F856E802B9E2B1100E479EB /* TotalActivityReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F856E7F2B9E2B1100E479EB /* TotalActivityReport.swift */; };
+		3F856E822B9E305D00E479EB /* TotalActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F856E812B9E305D00E479EB /* TotalActivityView.swift */; };
+		3F856E842B9F6A7700E479EB /* TotalActivityTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F856E832B9F6A7700E479EB /* TotalActivityTabView.swift */; };
+		3F856E862B9F73FA00E479EB /* TotalActivityItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F856E852B9F73FA00E479EB /* TotalActivityItemView.swift */; };
 		3FA16D9A2B8FBB60003CC5C7 /* DayPickerViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA16D992B8FBB60003CC5C7 /* DayPickerViewViewModel.swift */; };
 		3FB234252B8871FF007894D5 /* client_secret_619760553436-cr1od3vc3nm146b1ae2eq5bnf76iu2mm.apps.googleusercontent.com.json in Resources */ = {isa = PBXBuildFile; fileRef = 3FB234242B8871FF007894D5 /* client_secret_619760553436-cr1od3vc3nm146b1ae2eq5bnf76iu2mm.apps.googleusercontent.com.json */; };
 		3FB2342A2B889A82007894D5 /* GoogleCalendarViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB234292B889A82007894D5 /* GoogleCalendarViewViewModel.swift */; };
@@ -55,6 +65,30 @@
 		3FF59BC92B8F99A400428DBB /* NewRuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */; };
 		9D86BC3007177C62D9745F38 /* Pods_Nix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A9553277B99ECBCCEA7FE7F /* Pods_Nix.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3F856E752B9D8EEE00E479EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F7234902B86C8CF0095EA42 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3F856E6A2B9D8EEE00E479EB;
+			remoteInfo = "ReportExtension Nix";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3F856E7B2B9D8EEE00E479EB /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+				3F856E772B9D8EEE00E479EB /* ReportExtension Nix.appex in Embed ExtensionKit Extensions */,
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3F262D6A2B995F4F0080214E /* Nix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nix.entitlements; sourceTree = "<group>"; };
@@ -96,6 +130,18 @@
 		3F7B97162B87110700F465D2 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		3F7B97182B87116F00F465D2 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		3F7B971A2B8791FC00F465D2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3F856E652B9D7E2500E479EB /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
+		3F856E6B2B9D8EEE00E479EB /* ReportExtension Nix.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = "ReportExtension Nix.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F856E6D2B9D8EEE00E479EB /* ReportExtension_Nix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportExtension_Nix.swift; sourceTree = "<group>"; };
+		3F856E6F2B9D8EEE00E479EB /* TotalScreenTimeReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalScreenTimeReport.swift; sourceTree = "<group>"; };
+		3F856E712B9D8EEE00E479EB /* TotalScreenTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalScreenTimeView.swift; sourceTree = "<group>"; };
+		3F856E732B9D8EEE00E479EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F856E742B9D8EEE00E479EB /* ReportExtension_Nix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReportExtension_Nix.entitlements; sourceTree = "<group>"; };
+		3F856E7C2B9D941600E479EB /* DeviceActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityModel.swift; sourceTree = "<group>"; };
+		3F856E7F2B9E2B1100E479EB /* TotalActivityReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalActivityReport.swift; sourceTree = "<group>"; };
+		3F856E812B9E305D00E479EB /* TotalActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalActivityView.swift; sourceTree = "<group>"; };
+		3F856E832B9F6A7700E479EB /* TotalActivityTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalActivityTabView.swift; sourceTree = "<group>"; };
+		3F856E852B9F73FA00E479EB /* TotalActivityItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalActivityItemView.swift; sourceTree = "<group>"; };
 		3FA16D992B8FBB60003CC5C7 /* DayPickerViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPickerViewViewModel.swift; sourceTree = "<group>"; };
 		3FB234242B8871FF007894D5 /* client_secret_619760553436-cr1od3vc3nm146b1ae2eq5bnf76iu2mm.apps.googleusercontent.com.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "client_secret_619760553436-cr1od3vc3nm146b1ae2eq5bnf76iu2mm.apps.googleusercontent.com.json"; sourceTree = "<group>"; };
 		3FB234262B8872E0007894D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,6 +166,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3F856E682B9D8EEE00E479EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -127,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				3F72349A2B86C8CF0095EA42 /* Nix */,
+				3F856E6C2B9D8EEE00E479EB /* ReportExtension Nix */,
 				3F7234992B86C8CF0095EA42 /* Products */,
 				EF20467D81C37E211C022C97 /* Pods */,
 				49E5B8EB0F8DDAABC197C153 /* Frameworks */,
@@ -137,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				3F7234982B86C8CF0095EA42 /* Nix.app */,
+				3F856E6B2B9D8EEE00E479EB /* ReportExtension Nix.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -215,6 +270,7 @@
 				3F7234C02B86CAF70095EA42 /* SettingsView.swift */,
 				3F7234C12B86CAF70095EA42 /* LoginView.swift */,
 				3F7234C22B86CAF70095EA42 /* RuleItemView.swift */,
+				3F856E652B9D7E2500E479EB /* PieChartView.swift */,
 				3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */,
 				3F7234C32B86CAF70095EA42 /* PomodoroView.swift */,
 				3F7234C42B86CAF70095EA42 /* QuickStartBtnView.swift */,
@@ -228,9 +284,26 @@
 				3F7234C92B86CAF70095EA42 /* RuleSettingsView.swift */,
 				3F7234CA2B86CAF70095EA42 /* MainView.swift */,
 				3F7234CB2B86CAF70095EA42 /* HomepageView.swift */,
+				3F856E832B9F6A7700E479EB /* TotalActivityTabView.swift */,
 				3F7234CC2B86CAF70095EA42 /* ResponsiveView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		3F856E6C2B9D8EEE00E479EB /* ReportExtension Nix */ = {
+			isa = PBXGroup;
+			children = (
+				3F856E7C2B9D941600E479EB /* DeviceActivityModel.swift */,
+				3F856E6D2B9D8EEE00E479EB /* ReportExtension_Nix.swift */,
+				3F856E6F2B9D8EEE00E479EB /* TotalScreenTimeReport.swift */,
+				3F856E7F2B9E2B1100E479EB /* TotalActivityReport.swift */,
+				3F856E812B9E305D00E479EB /* TotalActivityView.swift */,
+				3F856E852B9F73FA00E479EB /* TotalActivityItemView.swift */,
+				3F856E712B9D8EEE00E479EB /* TotalScreenTimeView.swift */,
+				3F856E732B9D8EEE00E479EB /* Info.plist */,
+				3F856E742B9D8EEE00E479EB /* ReportExtension_Nix.entitlements */,
+			);
+			path = "ReportExtension Nix";
 			sourceTree = "<group>";
 		};
 		49E5B8EB0F8DDAABC197C153 /* Frameworks */ = {
@@ -263,10 +336,12 @@
 				3F7234962B86C8CF0095EA42 /* Resources */,
 				49B7225889B126B865B857E2 /* [CP] Embed Pods Frameworks */,
 				0C35CBEFC20095A57A286038 /* [CP] Copy Pods Resources */,
+				3F856E7B2B9D8EEE00E479EB /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3F856E762B9D8EEE00E479EB /* PBXTargetDependency */,
 			);
 			name = Nix;
 			packageProductDependencies = (
@@ -278,6 +353,23 @@
 			productReference = 3F7234982B86C8CF0095EA42 /* Nix.app */;
 			productType = "com.apple.product-type.application";
 		};
+		3F856E6A2B9D8EEE00E479EB /* ReportExtension Nix */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F856E782B9D8EEE00E479EB /* Build configuration list for PBXNativeTarget "ReportExtension Nix" */;
+			buildPhases = (
+				3F856E672B9D8EEE00E479EB /* Sources */,
+				3F856E682B9D8EEE00E479EB /* Frameworks */,
+				3F856E692B9D8EEE00E479EB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ReportExtension Nix";
+			productName = "ReportExtension Nix";
+			productReference = 3F856E6B2B9D8EEE00E479EB /* ReportExtension Nix.appex */;
+			productType = "com.apple.product-type.extensionkit-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -285,11 +377,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1520;
+				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					3F7234972B86C8CF0095EA42 = {
 						CreatedOnToolsVersion = 15.2;
+					};
+					3F856E6A2B9D8EEE00E479EB = {
+						CreatedOnToolsVersion = 15.3;
 					};
 				};
 			};
@@ -310,6 +405,7 @@
 			projectRoot = "";
 			targets = (
 				3F7234972B86C8CF0095EA42 /* Nix */,
+				3F856E6A2B9D8EEE00E479EB /* ReportExtension Nix */,
 			);
 		};
 /* End PBXProject section */
@@ -324,6 +420,13 @@
 				3F7234A02B86C8D20095EA42 /* Assets.xcassets in Resources */,
 				3F7234AA2B86C93A0095EA42 /* GoogleService-Info.plist in Resources */,
 				3F72352B2B86D6350095EA42 /* client_619760553436-cvr4rum3g66l7knjji81n76n1rag8i0b.apps.googleusercontent.com.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F856E692B9D8EEE00E479EB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,7 +510,9 @@
 				3F72349E2B86C8CF0095EA42 /* ContentView.swift in Sources */,
 				3F7234CD2B86CAF70095EA42 /* PomodoroViewViewModel.swift in Sources */,
 				3F7234DE2B86CAF70095EA42 /* RegisterView.swift in Sources */,
+				3F856E842B9F6A7700E479EB /* TotalActivityTabView.swift in Sources */,
 				3F7234B22B86CAD80095EA42 /* RuleItem.swift in Sources */,
+				3F856E662B9D7E2500E479EB /* PieChartView.swift in Sources */,
 				3FB2342A2B889A82007894D5 /* GoogleCalendarViewViewModel.swift in Sources */,
 				3F7234E22B86CAF70095EA42 /* ResponsiveView.swift in Sources */,
 				3F7234DB2B86CAF70095EA42 /* LoginSignUpHeaderView.swift in Sources */,
@@ -434,7 +539,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3F856E672B9D8EEE00E479EB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F856E822B9E305D00E479EB /* TotalActivityView.swift in Sources */,
+				3F856E722B9D8EEE00E479EB /* TotalScreenTimeView.swift in Sources */,
+				3F856E802B9E2B1100E479EB /* TotalActivityReport.swift in Sources */,
+				3F856E6E2B9D8EEE00E479EB /* ReportExtension_Nix.swift in Sources */,
+				3F856E7E2B9D95DD00E479EB /* DeviceActivityModel.swift in Sources */,
+				3F856E862B9F73FA00E479EB /* TotalActivityItemView.swift in Sources */,
+				3F856E702B9D8EEE00E479EB /* TotalScreenTimeReport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3F856E762B9D8EEE00E479EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3F856E6A2B9D8EEE00E479EB /* ReportExtension Nix */;
+			targetProxy = 3F856E752B9D8EEE00E479EB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3F7234A42B86C8D20095EA42 /* Debug */ = {
@@ -560,6 +687,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7433FF89550809AAAAC2F9D4 /* Pods-Nix.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Nix/Nix.entitlements;
@@ -592,6 +720,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4D5B1DC7DA0BD943C928B883 /* Pods-Nix.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Nix/Nix.entitlements;
@@ -620,6 +749,62 @@
 			};
 			name = Release;
 		};
+		3F856E792B9D8EEE00E479EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "ReportExtension Nix/ReportExtension_Nix.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76KZ9G4542;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ReportExtension Nix/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ReportExtension Nix";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nix.Nix.ReportExtension-Nix";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3F856E7A2B9D8EEE00E479EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "ReportExtension Nix/ReportExtension_Nix.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76KZ9G4542;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ReportExtension Nix/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ReportExtension Nix";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "nix.Nix.ReportExtension-Nix";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -637,6 +822,15 @@
 			buildConfigurations = (
 				3F7234A72B86C8D20095EA42 /* Debug */,
 				3F7234A82B86C8D20095EA42 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F856E782B9D8EEE00E479EB /* Build configuration list for PBXNativeTarget "ReportExtension Nix" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F856E792B9D8EEE00E479EB /* Debug */,
+				3F856E7A2B9D8EEE00E479EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

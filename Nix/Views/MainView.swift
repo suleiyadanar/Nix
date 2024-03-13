@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import DeviceActivity
 
 struct MainView: View {
+
+    
     @StateObject var viewModel = MainViewViewModel()
     var body: some View  {
         if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
@@ -48,6 +51,6 @@ struct MainView: View {
     }
 }
 
-#Preview {
-    MainView()
-}
+//#Preview {
+//    MainView()
+//}

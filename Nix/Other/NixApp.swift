@@ -8,9 +8,18 @@
 import SwiftUI
 import FirebaseCore
 import FamilyControls
+import DeviceActivity
+
+extension DeviceActivityReport.Context {
+    static let pieChart = Self("Pie Chart")
+}
+
+private let thisWeek = DateInterval(start: Date(), end: Date())
 
 @main
+
 struct NixApp: App {
+    
     init() {
         FirebaseApp.configure()
     }
@@ -18,16 +27,17 @@ struct NixApp: App {
 
     var body: some Scene {
         WindowGroup {
+
             MainView()
-//                .onAppear {
-//                    Task {
-//                        do {
-//                            try await center.requestAuthorization(for: .individual)
-//                        } catch {
-//                            print("Error")
-//                        }
-//                    }
-//                }
+                .onAppear {
+                    Task {
+                        do {
+                            try await center.requestAuthorization(for: .individual)
+                        } catch {
+                            print("Error")
+                        }
+                    }
+                }
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-
+/// Template for a Control Item
 struct RuleItemView: View {
     @Environment(\.colorScheme) var colorScheme
     let item : RuleItem

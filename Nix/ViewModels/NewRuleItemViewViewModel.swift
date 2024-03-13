@@ -7,7 +7,10 @@
 
 import FirebaseAuth
 import FirebaseFirestore
+import DeviceActivity
+import FamilyControls
 import Foundation
+
 
 class NewRuleItemViewViewModel : ObservableObject {
     @Published var title = ""

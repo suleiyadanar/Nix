@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DeviceActivity
 
 struct HomepageView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -13,10 +14,22 @@ struct HomepageView: View {
     
     private let today = Date()
     private let userId: String
+   
     
     init(userId: String){
         self.userId = userId
     }
+    
+    @State private var context: DeviceActivityReport.Context = .init(rawValue: "Total ScreenTime")
+    @State private var filter = DeviceActivityFilter(
+        segment: .daily(
+        during: Calendar.current.dateInterval(
+        of: .day, for: .now
+            )!
+        ),
+        users: .all,
+        devices: .init([.iPhone, .iPad])
+    )
     
     var body: some View {
         NavigationView {
@@ -31,11 +44,11 @@ struct HomepageView: View {
                 }
                 .font(.title)
                 
-              
+                DeviceActivityReport(context, filter: filter)
+
                 
                 // Screen Time Data
                 VStack(alignment:.leading){
-                   
                         Text("Today's Screen Time").font(.body)
                         Text("1hr 52mins").font(.title3).fontWeight(.heavy)
                         Label("Expert", systemImage:"heart.fill").padding(.bottom,10)
@@ -44,7 +57,7 @@ struct HomepageView: View {
                         Spacer()
                         NavigationLink("Show All>", destination: RulesView(userId: userId))
                     }
-                        
+                  
                     VStack(){
                         HStack(){
                             QuickStartBtnView(time: "25 min", rule: "Me Time", iconName:  "person")
@@ -58,7 +71,7 @@ struct HomepageView: View {
                         }
                     }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                         .padding(.horizontal, 20)
-     
+                   
                     
                     VStack (alignment:.leading){
                         Text("Today's Schedule")
@@ -85,6 +98,6 @@ struct HomepageView: View {
     }
 }
 
-#Preview {
-    HomepageView(userId: "")
-}
+//#Preview {
+//    HomepageView(userId: "")
+//}
