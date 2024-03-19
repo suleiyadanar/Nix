@@ -54,12 +54,12 @@ struct RuleItemView: View {
     }
 }
 
-#Preview {
-    RuleItemView(item: .init (
-    id: "123",
-    title: "Test",
-    startTime: Date().timeIntervalSince1970,
-    endTime: Date().timeIntervalSince1970,
-    selectedDays: [0,1,2]
-    ), iconName: "plus.circle.fill", actionBtnLogo: "pencil", stroke:1, fill:0)
-}
+//#Preview {
+//    RuleItemView(item: .init (
+//    id: "123",
+//    title: "Test",
+//    startTime: Date().timeIntervalSince1970,
+//    endTime: Date().timeIntervalSince1970,
+//    selectedDays: [0,1,2]
+//    ), iconName: "plus.circle.fill", actionBtnLogo: "pencil", stroke:1, fill:0)
+//}

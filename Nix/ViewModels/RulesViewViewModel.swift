@@ -10,7 +10,7 @@ import Foundation
 
 class RulesViewViewModel : ObservableObject {
     @Published var showingNewItemView = false
-    
+    @Published var showingEditItemView = false
     private let userId : String
     
     init(userId: String){
@@ -26,4 +26,6 @@ class RulesViewViewModel : ObservableObject {
             .document(id)
             .delete()
     }
+    
+     
 }

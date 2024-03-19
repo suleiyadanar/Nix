@@ -7,11 +7,19 @@
 
 import SwiftUI
 import DeviceActivity
+import ManagedSettings
 
+
+//extension DeviceActivityName {
+//    static let daily = Self("daily")
+//}
 
 struct NewRuleItemView: View {
     @StateObject var viewModel = NewRuleItemViewViewModel()
+    @State private var pickerIsPresented = false
+    @ObservedObject var model = BlockedAppsModel()
     @Binding var newItemPresented: Bool
+
     
     @State private var errorMessage: String = ""
 
@@ -21,7 +29,7 @@ struct NewRuleItemView: View {
     let currentDate = Date()
     
     var body: some View {
-        Form {
+        VStack {
             Text("New Rule")
             VStack {
                 TextField("Title", text: $viewModel.title)
@@ -34,7 +42,16 @@ struct NewRuleItemView: View {
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .frame(height: 50)
                
-            
+                Button {
+                            pickerIsPresented = true
+                        } label: {
+                            Text("Select Apps")
+                        }
+                        .familyActivityPicker(
+                            isPresented: $pickerIsPresented,
+                            selection: $model.activitySelection
+                )
+                
                     ScrollView {
                         HStack {
                             ForEach(0..<daysOfWeek.count, id: \.self) { index in
@@ -58,12 +75,41 @@ struct NewRuleItemView: View {
                 }
                 
                 TLButton(text: "Save", background: .pink) {
+                   
+//                    self.viewModel.selectedApps = model.activitySelection.applicationTokens
+                    
+                    let activityName = DeviceActivityName(rawValue: "\(viewModel.title)")
+                   
+                    let calendar = Calendar.current
+                    let intervalStart = calendar.dateComponents([.hour, .minute], from: self.viewModel.startTime)
+                    let intervalEnd = calendar.dateComponents([.hour, .minute], from: self.viewModel.endTime)
+                    let center = DeviceActivityCenter()
+                    let schedule = DeviceActivitySchedule(intervalStart:intervalStart, intervalEnd: intervalEnd,repeats: true)
+                    do {
+                        try center.startMonitoring(activityName, during: schedule)
+                        print("monitoring")
+                    } catch let error {
+                        print("error\(error)")
+                    }
+//                    for day in self.viewModel.selectedDays {
+//                        let dayOfWeek = self.daysOfWeek[day]
+//                        let daily = DeviceActivityName(rawValue: dayOfWeek)
+//                        let schedule = DeviceActivitySchedule(intervalStart:intervalStart, intervalEnd: intervalEnd,repeats: true)
+//                        do {
+//                            try center.startMonitoring(.daily, during: schedule)
+//
+//                        }catch let error{
+//                            print("error\(error)")
+//                        }
+//                    }
+
                     if viewModel.canSave {
+//                        print("\(model.activitySelection)")
                         viewModel.save()
                         newItemPresented = false
                     }
                     else{
-                        viewModel.showAlert=true
+                        viewModel.showAlert = true
                     }
                    
                 }.alert(isPresented: $viewModel.showAlert){
@@ -75,10 +121,10 @@ struct NewRuleItemView: View {
 }
 
 
-
-#Preview {
-    NewRuleItemView(newItemPresented: Binding(get:{
-        return true
-    }, set: {_ in
-    }))
-}
+//
+//#Preview {
+//    NewRuleItemView(newItemPresented: Binding(get:{
+//        return true
+//    }, set: {_ in
+//    }))
+//}

@@ -9,16 +9,16 @@ import SwiftUI
 
 struct PomodoroView: View {
     @StateObject var viewModel = PomodoroViewViewModel()
-
+    
     var body: some View {
         VStack{
             Text("hello")
-                TotalActivityTabView()
-
-                    }
+            TotalActivityTabView()
+            
+        }
     }
 }
-
-#Preview {
-    PomodoroView()
-}
+//
+//#Preview {
+//    PomodoroView()
+//}

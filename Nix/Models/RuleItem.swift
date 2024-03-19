@@ -13,4 +13,5 @@ struct RuleItem: Codable, Identifiable {
     let startTime: TimeInterval
     let endTime: TimeInterval
     let selectedDays: [Int]
+   
 }

@@ -1,19 +1,19 @@
 //
-//  NewRuleItemViewViewModel.swift
+//  EditItemViewViewModel.swift
 //  Nix
 //
-//  Created by Su Lei Yadanar on 2/16/24.
+//  Created by Su Lei Yadanar on 3/14/24.
 //
 
 import FirebaseAuth
 import FirebaseFirestore
 import DeviceActivity
 import FamilyControls
-import ManagedSettings
 import Foundation
 
 
-class NewRuleItemViewViewModel : ObservableObject {
+class EditRuleItemViewViewModel : ObservableObject {
+    @Published var id = ""
     @Published var title = ""
     @Published var startTime = Date()
     @Published var endTime = Date()
@@ -46,7 +46,7 @@ class NewRuleItemViewViewModel : ObservableObject {
     ///     Text(iceSloth.name)
     /// }
     /// ```
-    func save(){
+    func update(){
         guard canSave else {
             return
         }
@@ -57,21 +57,23 @@ class NewRuleItemViewViewModel : ObservableObject {
         }
         
         // Create model
-        let newId = UUID().uuidString
-        let newRule = RuleItem(
-            id:newId,
-            title: title,
-            startTime: startTime.timeIntervalSince1970,
-            endTime: endTime.timeIntervalSince1970,
-            selectedDays: Array(selectedDays)
-        )
+       
+//        let newRule = [
+//            title: title,
+//            startTime: startTime.timeIntervalSince1970,
+//            endTime: endTime.timeIntervalSince1970,
+//            selectedDays: Array(selectedDays)] as [AnyHashable : Any]
+        
         // Save model
         let db = Firestore.firestore()
+        print(endTime)
         db.collection("users")
             .document(uId)
             .collection("rules")
-            .document(newId)
-            .setData(newRule.asDictionary())
+            .document(id)
+            .updateData(["title":title, "startTime":startTime.timeIntervalSince1970, "endTime":endTime.timeIntervalSince1970, 
+                "selectedDays": Array(selectedDays)])
+
     }
     
 }
