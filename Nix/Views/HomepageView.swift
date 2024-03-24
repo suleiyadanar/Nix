@@ -4,13 +4,14 @@
 //
 //  Created by Su Lei Yadanar on 2/18/24.
 //
-
 import SwiftUI
 import DeviceActivity
-
 struct HomepageView: View {
+    
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel = HomepageViewViewModel()
+    
+    @State var settingsView: Bool = false
     
     private let today = Date()
     private let userId: String
@@ -35,7 +36,6 @@ struct HomepageView: View {
         NavigationView {
             VStack(alignment:.leading) {
                 Text("Good Morning, Su Lei!").font(.title)
-
                 // Today's Date
                 HStack {
                     Text(today.formatted(.dateTime.day().month()))
@@ -45,7 +45,6 @@ struct HomepageView: View {
                 .font(.title)
                 
                 DeviceActivityReport(context, filter: filter)
-
                 
                 // Screen Time Data
                 VStack(alignment:.leading){
@@ -85,19 +84,22 @@ struct HomepageView: View {
                     
                 }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
             }
-
             .toolbar {
                 Button {
-                        // Action
+                    self.settingsView = true
                 } label: {
                     Image(systemName: "gearshape.fill")
                         .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                 }
             }.padding(0)
-        }.padding(.horizontal, 20)
+        }
+        .padding(.horizontal, 20)
+        .sheet(isPresented: $settingsView) {
+            SettingsView()
+        }
     }
 }
-
 //#Preview {
 //    HomepageView(userId: "")
 //}
+

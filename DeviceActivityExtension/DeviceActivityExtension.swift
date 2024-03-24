@@ -11,8 +11,6 @@ import DeviceActivity
 
 import ManagedSettings
 
-import FirebaseFirestore
-
 
 class MyDeviceActivityMonitor: DeviceActivityMonitor{
 
