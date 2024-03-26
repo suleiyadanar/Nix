@@ -234,6 +234,9 @@ struct SettingsView: View {
         .sheet(isPresented: $termsAndPoliciesView) {
             TermsAndPolView()
         }
+        .sheet(isPresented: $freeUpSpaceView) {
+            FreeUpSpaceView()
+        }
         .sheet(isPresented: $dataSaverView) {
             DataSaverView()
         }
