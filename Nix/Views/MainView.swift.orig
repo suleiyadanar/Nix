@@ -7,11 +7,16 @@
 
 import SwiftUI
 import DeviceActivity
+<<<<<<< HEAD
 
 let lavender = Color(red: 0.8, green: 0.85, blue: 0.95)
 let purple = Color(red: 0.45, green: 0.3, blue: 0.6)
+=======
+>>>>>>> e319906645e422bf1938724ee22d5e691c983c2d
 
 struct MainView: View {
+
+    
     @StateObject var viewModel = MainViewViewModel()
     
     var body: some View  {
@@ -93,7 +98,7 @@ struct MainView: View {
                 }
                 
                 .padding(.horizontal, 20)
-                .padding(.vertical, 13)
+                .padding(.vertical, 20)
                  
             }
             
