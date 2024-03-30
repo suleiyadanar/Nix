@@ -6,86 +6,54 @@
 //
 
 import Foundation
-
 import DeviceActivity
-
 import ManagedSettings
-
-import FirebaseFirestore
 
 
 class MyDeviceActivityMonitor: DeviceActivityMonitor{
 
     let store = ManagedSettingsStore()
   
-
     override func intervalDidStart(for activity: DeviceActivityName) {
         
         super.intervalDidStart(for: activity)
-//        
-//        let model = BlockedAppsModel()
-//        let applications = model.activitySelection.applicationTokens
-//        
-//        NSLog("\(applications)")
-//        store.shield.applications = applications
         
+        // connect to the app groups
         let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+        
         do {
-            if let data = userDefaults?.object(forKey: "activitySelection") as? Data {
-                let decodedActivityTokens = try JSONDecoder().decode([ApplicationToken].self, from: data)
-                store.shield.applications = decodedActivityTokens.isEmpty ? nil : Set(decodedActivityTokens)
-                print("\(decodedActivityTokens)")
-                print("Got Here")
+            // get selected app tokens from app groups
+            if let appData = userDefaults?.object(forKey: "applications") as? Data {
+                let decodedApplicationTokens = try JSONDecoder().decode([ApplicationToken].self, from: appData)
+                
+                //
+                store.shield.applications = decodedApplicationTokens.isEmpty ? nil : Set(decodedApplicationTokens)
+                
+                print("\(decodedApplicationTokens)")
+                print("Got Here 1")
+            }
+            
+            // get selected website tokens from app groups
+            if let webData = userDefaults?.object(forKey: "websites") as? Data {
+                let decodedWebsiteTokens = try JSONDecoder().decode([WebDomainToken].self, from: webData)
+                
+                //
+                store.shield.webDomains = decodedWebsiteTokens.isEmpty ? nil : Set(decodedWebsiteTokens)
+                
+                print("\(decodedWebsiteTokens)")
+                print("Got Here 2")
             }
         }catch {
             print("Error: \(error)")
         }
-//        let blockedApps = UserDefaults(suiteName: "group.nix.Nix.DeviceActivityExtension")
-//        let test = blockedApps?.object(forKey: "appsModel") as? String
-//        let testURL = URL(fileURLWithPath: test!)
-        
-//        do {
-//            // Read the contents of the file at the URL
-//            let data = try Data(contentsOf: testURL)
-//            
-//            // Decode the data into a BlockedAppsModel instance
-//            let decoder = JSONDecoder()
-//            let blockedAppsModel = try decoder.decode(BlockedAppsModel.self, from: data)
-//            
-//            let applications  = blockedAppsModel.activitySelection.applicationTokens
-////            let model = BlockedAppsModel()
-//            
-//            
-//            store.shield.applications = applications
-//            // Access the properties of the decoded object
-//            print("activitySelection: \(blockedAppsModel.activitySelection)")
-//        } catch {
-//            // Handle error
-//            print("Error reading or decoding contents from URL: \(error)")
-//        }
-        
-        
     }
-
     
-
     override func intervalDidEnd(for activity: DeviceActivityName) {
-
         super.intervalDidEnd(for: activity)
         store.shield.applications = nil
-
     }
-
-    
 
     override func eventDidReachThreshold(_ event:DeviceActivityEvent.Name,activity:DeviceActivityName){
-
-        
-
         super.eventDidReachThreshold(event, activity: activity)
-
     }
-
-    
-
 }
