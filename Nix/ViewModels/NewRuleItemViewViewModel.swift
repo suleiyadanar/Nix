@@ -14,12 +14,16 @@ import Foundation
 
 
 class NewRuleItemViewViewModel : ObservableObject {
+    @Published var id = ""
     @Published var title = ""
     @Published var startTime = Date()
     @Published var endTime = Date()
     @Published var selectedDays = Set<Int>()
+//    @Published var selectedApps = Set<ApplicationToken>()
     @Published var showAlert = false
     
+    var selectedApps = String()
+    var selectedData = String()
     init(){}
     
     var canSave : Bool{
@@ -56,22 +60,52 @@ class NewRuleItemViewViewModel : ObservableObject {
             return
         }
         
-        // Create model
-        let newId = UUID().uuidString
-        let newRule = RuleItem(
-            id:newId,
-            title: title,
-            startTime: startTime.timeIntervalSince1970,
-            endTime: endTime.timeIntervalSince1970,
-            selectedDays: Array(selectedDays)
-        )
-        // Save model
+        let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+     
+            if let appData = userDefaults?.object(forKey: "applications") as? Data {
+                selectedApps = String(decoding: appData, as: UTF8.self)
+                }
+            
+            if let selectData = userDefaults?.object(forKey: "selectedApps") as? Data {
+                selectedData = String(decoding: selectData, as: UTF8.self)
+                }
+         
+        
         let db = Firestore.firestore()
-        db.collection("users")
-            .document(uId)
-            .collection("rules")
-            .document(newId)
-            .setData(newRule.asDictionary())
+        
+        if self.id != "" {
+            // Update model
+            db.collection("users")
+                .document(uId)
+                .collection("rules")
+                .document(id)
+                .updateData(["title":title, "startTime":startTime.timeIntervalSince1970, "endTime":endTime.timeIntervalSince1970,
+                    "selectedDays": Array(selectedDays),
+                    "selectedApps": selectedApps,
+                    "selectedData": selectedData])
+            print(selectedApps)
+        }else {
+            // Create model
+            let newId = UUID().uuidString
+            let newRule = RuleItem(
+                id:newId,
+                title: title,
+                startTime: startTime.timeIntervalSince1970,
+                endTime: endTime.timeIntervalSince1970,
+                selectedDays: Array(selectedDays),
+                selectedApps: selectedApps,
+                selectedData: selectedData
+            )
+            print(selectedApps)
+
+            // Save model
+            db.collection("users")
+                .document(uId)
+                .collection("rules")
+                .document(newId)
+                .setData(newRule.asDictionary())
+        }
+        
+       
     }
-    
 }

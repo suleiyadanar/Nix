@@ -7,9 +7,25 @@
 
 import SwiftUI
 import DeviceActivity
+import FamilyControls
+
+func convertToOriginalSelection(selection: String) -> FamilyActivitySelection? {
+    guard let data = selection.data(using: .utf8) else {
+        return nil
+    }
+    do {
+        let originalSelection = try JSONDecoder().decode(FamilyActivitySelection.self, from: data)
+        return originalSelection
+    } catch {
+        print("Error decoding originalSelection string:", error)
+        return nil
+    }
+}
 
 struct EditRuleItemView: View {
     @StateObject var viewModel = EditRuleItemViewViewModel()
+    @State private var pickerIsPresented = false
+
     @State var item : RuleItem
     
     @Binding var newItemPresented: Bool
@@ -64,7 +80,28 @@ struct EditRuleItemView: View {
                         }
                     .frame(maxWidth: .infinity)
                 }
-                
+                Button {
+                    pickerIsPresented = true
+                } label: {
+                    Text("Select Apps")
+                }
+                .familyActivityPicker(
+                    isPresented: $pickerIsPresented,
+                    selection: Binding(
+                        get: {
+                            if let originalSelection = convertToOriginalSelection(selection: item.selectedData) {
+                                return originalSelection
+                            } else {
+                                // If conversion fails, return nil
+                                return FamilyActivitySelection()
+                            }
+                        }
+                          ,
+                        set: { newValue in
+                            // Set does not need to be implemented
+                        }
+                    )
+                )
                 TLButton(text: "Save", background: .pink) {
                    
                     if viewModel.canSave {

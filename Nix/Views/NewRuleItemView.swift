@@ -20,7 +20,8 @@ struct NewRuleItemView: View {
     @ObservedObject var model = BlockedAppsModel()
     @Binding var newItemPresented: Bool
 
-    
+    @State var item : RuleItem?
+
     @State private var errorMessage: String = ""
 
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -34,13 +35,22 @@ struct NewRuleItemView: View {
             VStack {
                 TextField("Title", text: $viewModel.title)
                                     .textFieldStyle(DefaultTextFieldStyle())
+                                    .onAppear {
+                                        viewModel.id = item?.id ?? ""
+                                        viewModel.title = item?.title ?? ""}
                 DatePicker("Start Time", selection: $viewModel.startTime, displayedComponents: .hourAndMinute)
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .frame(height: 50)
+                    .onAppear {
+                        viewModel.startTime = Date(timeIntervalSince1970: item?.startTime ?? TimeInterval())
+                    }
                 
                 DatePicker("End Time", selection: $viewModel.endTime, displayedComponents: .hourAndMinute)
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .frame(height: 50)
+                    .onAppear {
+                        viewModel.endTime = Date(timeIntervalSince1970: item?.endTime ?? TimeInterval())
+                    }
                
                 Button {
                             pickerIsPresented = true
@@ -50,7 +60,7 @@ struct NewRuleItemView: View {
                         .familyActivityPicker(
                             isPresented: $pickerIsPresented,
                             selection: $model.activitySelection
-                )
+                        )
                 
                     ScrollView {
                         HStack {
@@ -70,21 +80,21 @@ struct NewRuleItemView: View {
                                     }
                             }
                         }
-                    
                     .frame(maxWidth: .infinity)
                 }
                 
                 TLButton(text: "Save", background: .pink) {
                    
-//                    self.viewModel.selectedApps = model.activitySelection.applicationTokens
-                    
                     let activityName = DeviceActivityName(rawValue: "\(viewModel.title)")
                    
                     let calendar = Calendar.current
                     let intervalStart = calendar.dateComponents([.hour, .minute], from: self.viewModel.startTime)
                     let intervalEnd = calendar.dateComponents([.hour, .minute], from: self.viewModel.endTime)
                     let center = DeviceActivityCenter()
-                    let schedule = DeviceActivitySchedule(intervalStart:intervalStart, intervalEnd: intervalEnd,repeats: true)
+                    let schedule = DeviceActivitySchedule(intervalStart:intervalStart, intervalEnd: intervalEnd,repeats: false)
+                    
+//                    let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+                    
                     do {
                         try center.startMonitoring(activityName, during: schedule)
                         print("monitoring")
@@ -104,7 +114,6 @@ struct NewRuleItemView: View {
 //                    }
 
                     if viewModel.canSave {
-//                        print("\(model.activitySelection)")
                         viewModel.save()
                         newItemPresented = false
                     }

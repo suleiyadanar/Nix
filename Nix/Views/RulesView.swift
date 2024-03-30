@@ -1,22 +1,38 @@
 import FirebaseFirestoreSwift
 import SwiftUI
+import ManagedSettings
+import DeviceActivity
+
+
+// Define a function to convert the selectedApps string into an array of ApplicationToken objects
+func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
+    guard let data = selectedApps.data(using: .utf8) else {
+        return nil
+    }
+    do {
+        let originalTokensArray = try JSONDecoder().decode([ApplicationToken].self, from: data)
+        return originalTokensArray
+    } catch {
+        print("Error decoding selectedApps string:", error)
+        return nil
+    }
+}
 
 struct RulesView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel : RulesViewViewModel
-
     @State private var selectedItem: RuleItem?
-
-     @FirestoreQuery var items: [RuleItem]
+    @State private var userId : String
+    @FirestoreQuery var items: [RuleItem]
 
      init(userId: String){
          self._items = FirestoreQuery(collectionPath:"users/\(userId)/rules")
          self._viewModel = StateObject(
          wrappedValue: RulesViewViewModel(userId: userId))
+         self.userId = userId
      }
 
      var body: some View {
-
          NavigationView {
              VStack(){
 
@@ -27,14 +43,12 @@ struct RulesView: View {
                              .fontWeight(.heavy)
                              .padding(.bottom, 20)
                          List(items) { item in
-
+                             
                              Button(action:{
                                  self.selectedItem = item
                                  viewModel.showingEditItemView = true
                              }) {
-                                 RuleItemView(item: item, iconName: "person", actionBtnLogo: "pencil", stroke:1 , fill:0 )
-
-
+                                 RuleItemView(item: item, iconName: "person", actionBtnLogo: "pencil", stroke:1 , fill:0, originalTokensArray: convertToOriginalTokensArray(selectedApps: item.selectedApps) ?? [] )
                              }
                              .swipeActions {
                                  Button("Delete"){
@@ -43,10 +57,12 @@ struct RulesView: View {
                                  .tint(.red)
                              }
                              
+                             
                              }.sheet(isPresented: $viewModel.showingEditItemView) {
-                                 EditRuleItemView(item:selectedItem!, newItemPresented: $viewModel.showingEditItemView )
+                                 NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, item:selectedItem)
 
-                         }
+                             }
+                             
                              .listStyle(PlainListStyle())
  //                        ScrollView{
  //
@@ -84,7 +100,6 @@ struct RulesView: View {
              }
              .sheet(isPresented: $viewModel.showingNewItemView){
                  NewRuleItemView(newItemPresented: $viewModel.showingNewItemView)
-
              }
          }
      }

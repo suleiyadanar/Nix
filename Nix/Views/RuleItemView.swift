@@ -6,18 +6,52 @@
 //
 
 import SwiftUI
+import ManagedSettings
+import DeviceActivity
+
+
+//// Define a function to convert the selectedApps string into an array of ApplicationToken objects
+//func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
+//    guard let data = selectedApps.data(using: .utf8) else {
+//        return nil
+//    }
+//    do {
+//        let originalTokensArray = try JSONDecoder().decode([ApplicationToken].self, from: data)
+//        return originalTokensArray
+//    } catch {
+//        print("Error decoding selectedApps string:", error)
+//        return nil
+//    }
+//}
 
 /// Template for a Control Item
 struct RuleItemView: View {
     @Environment(\.colorScheme) var colorScheme
-    let item : RuleItem
+    @State var item : RuleItem
     let iconName : String
     let actionBtnLogo: String
     let stroke: Double
     let fill: Double
+    
+    @State var originalTokensArray: [ApplicationToken]
+    
+//    init(item: RuleItem, iconName: String, actionBtnLogo: String, stroke: Double, fill: Double) {
+//        self.item = item
+//        self.iconName = iconName
+//        self.actionBtnLogo = actionBtnLogo
+//        self.stroke = stroke
+//        self.fill = fill
+//        
+//        // Initialize originalTokensArray by converting selectedApps string
+//        if let tokensArray = convertToOriginalTokensArray(selectedApps: item.selectedApps) {
+//            self.originalTokensArray = tokensArray
+//        } else {
+//            // Handle the case where conversion fails, perhaps by providing a default value or an empty array
+//            self.originalTokensArray = []
+//        }
+//    }
+    
     var body: some View {
-        
-        
         VStack(){
             HStack(){
                 Image(systemName:iconName)
@@ -29,18 +63,23 @@ struct RuleItemView: View {
                 Spacer()
                 VStack(alignment: .leading){
                     Text(item.title).bold().padding(.bottom,2)
+                    HStack{
+                        ForEach(0..<originalTokensArray.count, id: \.self) { index in
+                            Label(originalTokensArray[index]).labelStyle(.iconOnly)
+                        }
+                    }
                     HStack(){
                         Label("",systemImage:"clock")
                         Text("\(Date(timeIntervalSince1970: item.startTime).formatted(.dateTime.hour().minute()))")
                         Text("-")
                         Text("\(Date(timeIntervalSince1970: item.endTime).formatted(.dateTime.hour().minute()))")
-//                        Text(endTimeOfDay)
                     }.font(.body)
                 }
                 .padding(15)
                 
                 Spacer(minLength:2)
                 Button(){
+                    // Add action for the button
                 }label:{
                     Image(systemName:actionBtnLogo).padding(.trailing,15).foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                 }
@@ -53,7 +92,6 @@ struct RuleItemView: View {
         }
     }
 }
-
 //#Preview {
 //    RuleItemView(item: .init (
 //    id: "123",

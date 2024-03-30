@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import FamilyControls
+import ManagedSettings
 
 struct RuleItem: Codable, Identifiable {
     let id: String
@@ -13,5 +15,6 @@ struct RuleItem: Codable, Identifiable {
     let startTime: TimeInterval
     let endTime: TimeInterval
     let selectedDays: [Int]
-   
+    let selectedApps: String
+    let selectedData: String
 }

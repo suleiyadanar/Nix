@@ -27,5 +27,6 @@ class RulesViewViewModel : ObservableObject {
             .delete()
     }
     
+    
      
 }
