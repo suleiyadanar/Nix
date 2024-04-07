@@ -8,46 +8,202 @@
 import SwiftUI
 
 struct ProfileView: View {
+    
     @StateObject var viewModel = ProfileViewViewModel()
+    @Environment(\.colorScheme) var colorScheme
+    @State var settingsView: Bool = false
+    
     var body: some View {
         NavigationView {
             VStack {
                 if let user = viewModel.user {
                     profile(user: user)
+                    
                 }else {
                     Text("Loading Profile...")
                 }
                 
-            }.navigationTitle("Profile")
+            }//.navigationTitle("Profile")
         }
         .onAppear {
             viewModel.fetchUser()
         }
     }
+
     
     @ViewBuilder
     func profile(user: User) -> some View {
-        // Avatar
-        Image(systemName: "person.circle")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .foregroundColor(Color.blue)
-            .frame(width: 125, height:125)
-        // Info: Name, Email, Member since
-        VStack(alignment: .leading) {
-            HStack {
-                Text(user.firstName)
-                Text(user.email)
-                Text("\(Date(timeIntervalSince1970: user.joined).formatted(date: .abbreviated, time: .shortened))")
+        ScrollView {
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        self.settingsView = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .resizable()
+                            .frame(width: 23.5, height: 23)
+                            .padding(.top, 11)
+                            .padding(.trailing, 17)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                    }
+                }
+                
+                HStack {
+                    Image(systemName: "person.circle") // Avatar
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(indigo)
+                        .frame(width: 80, height: 80)
+                        .padding(.leading, 10)
+                        .padding(.trailing, 15)
+                    VStack {
+                        HStack {
+                            Text(user.firstName).fontWeight(.heavy)
+                                .font(.system(size: 30))
+                            Spacer()
+                        }
+                        HStack {
+                            Text(user.email)
+                            Spacer()
+                        }
+                        
+                    }
+                }
+                
+                Spacer(minLength:15)
+                
+                VStack {
+                    VStack {
+                        HStack {
+                            Text("You have been a Nix Member since: ")
+                                .font(.system(size: 10))
+                                .foregroundStyle(Color.black)
+                        }
+                        HStack {
+                            Text("\(Date(timeIntervalSince1970: user.joined).formatted(date: .abbreviated, time: .shortened))")
+                                .font(.system(size: 15))
+                                .foregroundStyle(Color.black)
+                        }
+                    }
+                    
+                    .padding(10)
+                    .background(Rectangle().fill(lavender).shadow(radius: 3).frame(width: 500))
+                    
+                    Spacer (minLength: 15)
+                    
+                    HStack {
+                        Text("progress: ").fontWeight(.heavy)
+                        Spacer()
+                    }
+                    
+                      
+                    ZStack {
+                        Rectangle() // add screentime progress report
+                            .foregroundStyle(indigo)
+                            .frame(width: 350, height: 250)
+                            .cornerRadius(35)
+                            .padding(.bottom, 20)
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Text("TOTAL HOURS SAVED FROM REDUCING SCREENTIME: _______")
+                                    .padding()
+                                    .foregroundStyle(Color.white)
+                                Spacer()
+                            }
+                            HStack {
+                                VStack {
+                                    Image(systemName: "checkmark.circle")
+                                    Text("GOAL 1:")
+                                    Text("_______")
+                                    Text("_______")
+                                    Text("_______")
+                                }
+                                    .padding()
+                                    .background(lavender)
+                                    .cornerRadius(35)
+                                VStack {
+                                    Image(systemName: "checkmark.circle")
+                                    Text("GOAL 2:")
+                                    Text("_______")
+                                    Text("_______")
+                                    Text("_______")
+                                }
+                                    .padding()
+                                    .background(lavender)
+                                    .cornerRadius(35)
+                                VStack {
+                                    Image(systemName: "checkmark.circle")
+                                    Text("GOAL 3:")
+                                    Text("_______")
+                                    Text("_______")
+                                    Text("_______")
+                                }
+                                    .padding()
+                                    .background(lavender)
+                                    .cornerRadius(35)
+                            }
+                            Spacer()
+                        }
+                    }
+                    Spacer()
+                    
+                    HStack {
+                        Text("journey map: ").fontWeight(.heavy)
+                        Spacer()
+                    }
+                    VStack {
+                        Rectangle() // journey map!
+                            .foregroundStyle(lavender)
+                            .frame(width: 350, height: 100)
+                            .cornerRadius(35)
+                            .padding(.bottom, 20)
+                        
+                    }
+                    
+                    HStack {
+                        Text("statistics: ").fontWeight(.heavy)
+                        Spacer()
+                    }
+                    ZStack {
+                        Rectangle() // add screentime statistics
+                            .foregroundStyle(lavender)
+                            .frame(width: 350, height: 300)
+                            .padding(.bottom, 20)
+                        Rectangle() // add screentime statistics
+                            .foregroundStyle(indigo)
+                            .frame(width: 300, height: 250)
+                            .padding(.bottom, 20)
+                        Text("Insert cool-looking graph for screentime statistics!!!")
+                            .font(.system(size: 10))
+                            .foregroundStyle(Color.white)
+                            
+                    }
+                    
+                    Button("Log Out"){
+                        viewModel.logOut()
+
+                    }
+                    .tint(.red)
+                    .padding()
+
+                    
+                }
+
             }
+            .padding(.leading, 50)
+            .padding(.trailing, 50)
+            
         }
-        Button("Log Out"){
-            viewModel.logOut()
+        .sheet(isPresented: $settingsView) {
+            SettingsView()
         }
-        .tint(.red)
-        .padding()
     }
+    
 }
+
 
 #Preview {
     ProfileView()
