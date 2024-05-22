@@ -9,6 +9,7 @@ import SwiftUI
 import DeviceActivity
 
 let lavender = Color(red: 0.8, green: 0.85, blue: 0.95)
+let indigo = Color(red: 0.4, green: 0.4, blue: 0.6)
 let purple = Color(red: 0.45, green: 0.3, blue: 0.6)
 
 struct MainView: View {
@@ -54,15 +55,13 @@ struct MainView: View {
                     .tag("person.crop.circle.fill")
             }
         }
-        
-        
-        
+
         .overlay (
             CustomTabBar(),
             alignment: .bottom // moves it to bottom of screen
+            
         )
         
-
         .ignoresSafeArea()
     }
     
@@ -86,7 +85,7 @@ struct MainView: View {
                             Rectangle()
                                 .frame(width: 35, height: 3)
                                 .foregroundColor(purple)
-                                .padding(.top, 2) // Adjust spacing as needed
+                                .padding(.top, 2) 
                         }
                     }
                         
@@ -102,7 +101,8 @@ struct MainView: View {
         
         .background(lavender)
         .cornerRadius(35)
-        .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom)
+        .padding(.bottom, 20)
+        //.padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom)
         
         
     }
