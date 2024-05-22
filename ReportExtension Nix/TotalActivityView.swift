@@ -22,7 +22,7 @@ struct TotalActivityView: View {
         ScrollView{
             VStack (alignment: .leading) {
                 ForEach(sortedTotalActivity.indices, id: \.self) { index in
-                    AppActivityItemView(totalActivity: sortedTotalActivity[index])
+                    TotalActivityItemView(totalActivity: sortedTotalActivity[index])
                 }
             }
         }.frame(maxWidth:.infinity)

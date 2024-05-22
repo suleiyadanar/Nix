@@ -11,7 +11,7 @@ struct TotalScreenTimeView: View {
     let totalScreenTime: String
     
     var body: some View {
-        Text(totalScreenTime)
+        Text(totalScreenTime).frame(height: 100)
     }
 }
 

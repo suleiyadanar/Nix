@@ -8,7 +8,7 @@
 import SwiftUI
 import ManagedSettings
 
-struct AppActivityItemView: View {
+struct TotalActivityItemView: View {
     
     let totalActivity: DeviceActivityModel
 

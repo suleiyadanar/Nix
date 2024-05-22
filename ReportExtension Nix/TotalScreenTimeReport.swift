@@ -33,7 +33,15 @@ struct TotalScreenTimeReport: DeviceActivityReportScene {
         let totalActivityDuration = await data.flatMap { $0.activitySegments }.reduce(0, {
             $0 + $1.totalActivityDuration
         })
-        
-        return (formatter.string(from: totalActivityDuration) ?? "No activity data")
+                
+        // Check if totalActivityDuration is greater than a day
+                if totalActivityDuration > 86400 { // 86400 seconds = 1 day
+                    // Divide totalActivityDuration by 7
+                    let averageDuration = totalActivityDuration / 7
+                    return (formatter.string(from: averageDuration) ?? "No activity data")
+                } else {
+                    // Otherwise, return totalActivityDuration as it is
+                    return (formatter.string(from: totalActivityDuration) ?? "No activity data")
+                }
     }
 }
