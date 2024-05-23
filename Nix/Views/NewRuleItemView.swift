@@ -9,11 +9,6 @@ import SwiftUI
 import DeviceActivity
 import ManagedSettings
 
-
-//extension DeviceActivityName {
-//    static let daily = Self("daily")
-//}
-
 struct NewRuleItemView: View {
     @StateObject var viewModel = NewRuleItemViewViewModel()
     @State private var pickerIsPresented = false
@@ -25,19 +20,20 @@ struct NewRuleItemView: View {
     @State private var errorMessage: String = ""
 
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-
-    
     let currentDate = Date()
     
     var body: some View {
         VStack {
             Text("New Rule")
             VStack {
+                
                 TextField("Title", text: $viewModel.title)
                                     .textFieldStyle(DefaultTextFieldStyle())
                                     .onAppear {
                                         viewModel.id = item?.id ?? ""
                                         viewModel.title = item?.title ?? ""}
+                
+                // SELECT START TIME
                 DatePicker("Start Time", selection: $viewModel.startTime, displayedComponents: .hourAndMinute)
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .frame(height: 50)
@@ -45,6 +41,7 @@ struct NewRuleItemView: View {
                         viewModel.startTime = Date(timeIntervalSince1970: item?.startTime ?? TimeInterval())
                     }
                 
+                // SELECT END TIME
                 DatePicker("End Time", selection: $viewModel.endTime, displayedComponents: .hourAndMinute)
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .frame(height: 50)

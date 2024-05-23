@@ -26,7 +26,4 @@ class RulesViewViewModel : ObservableObject {
             .document(id)
             .delete()
     }
-    
-    
-     
 }

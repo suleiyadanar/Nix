@@ -17,12 +17,6 @@ struct CalendarView: View {
     
         var body: some View {
             VStack {
-                //                    Button("MyViewController") {
-                //                        isPresented = true
-                //                    }.sheet(isPresented: $isPresented) {
-                //                        ViewControllerRepresentableView(identifier: $clasificationIdentifier)
-                //                            .ignoresSafeArea()
-                //                    }
                 if clasificationIdentifier.count == 0 {
                     ViewControllerRepresentableView(identifier: $clasificationIdentifier)
                         .ignoresSafeArea()
@@ -66,21 +60,6 @@ struct CalendarView: View {
                 .background(.blue, in: .rect(cornerRadius: 15))
                 .offset(y:-8)
             }
-//            VStack (alignment: .leading) {
-//                Text(event.summary ?? "").bold()
-//                Text(event.start?.formatted(.dateTime.hour().minute()) ?? "")
-//                Text("\(event.startTime ?? "")\(event.startTimeOfDay ?? "")-\(event.endTime ?? "")\(event.endTimeOfDay ?? "")")
-//            }
-//        .font(.caption)
-//                .frame(maxWidth: .infinity, alignment: .leading)
-//                .padding(4)
-//                .frame(height: height, alignment: .top)
-//                .background(
-//                    RoundedRectangle(cornerRadius: 8)
-//                        .fill(.teal).opacity(0.5)
-//                )
-//                .padding(.trailing, 3)
-//                .offset(x: 3, y: offset + 24)
         )
     }
 }

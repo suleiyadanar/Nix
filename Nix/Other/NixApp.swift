@@ -10,9 +10,6 @@ import FirebaseCore
 import FamilyControls
 import DeviceActivity
 
-extension DeviceActivityReport.Context {
-    static let pieChart = Self("Pie Chart")
-}
 
 private let thisWeek = DateInterval(start: Date(), end: Date())
 

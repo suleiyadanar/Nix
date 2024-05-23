@@ -4,6 +4,7 @@ import ManagedSettings
 import DeviceActivity
 
 
+// View for rules tab in the tab bar
 // Define a function to convert the selectedApps string into an array of ApplicationToken objects
 func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
     guard let data = selectedApps.data(using: .utf8) else {
@@ -25,6 +26,9 @@ struct RulesView: View {
     @State private var userId : String
     @FirestoreQuery var items: [RuleItem]
 
+    // USES THE USERID TO
+    // (1) fetch the rule items of the user
+    // (2) populate the RulesViewViewModel with the userId
      init(userId: String){
          self._items = FirestoreQuery(collectionPath:"users/\(userId)/rules")
          self._viewModel = StateObject(
@@ -35,21 +39,23 @@ struct RulesView: View {
      var body: some View {
          NavigationView {
              VStack(){
-
                      VStack(alignment:.leading){
-
+                         // RULES SPECIFIC TO THE USER
                          Text("Your Rules")
                              .font(.subheadline)
                              .fontWeight(.heavy)
                              .padding(.bottom, 20)
+                         
+                         // ITERATE THROUGH THE RULE ITEMS FETCHED FROM THE DATABASE
                          List(items) { item in
-                             
                              Button(action:{
                                  self.selectedItem = item
                                  viewModel.showingEditItemView = true
                              }) {
                                  RuleItemView(item: item, iconName: "person", actionBtnLogo: "pencil", stroke:1 , fill:0, originalTokensArray: convertToOriginalTokensArray(selectedApps: item.selectedApps) ?? [] )
                              }
+                             
+                             // SHOW DELETE BUTTON WHEN A RULE ITEM IS SWIPED
                              .swipeActions {
                                  Button("Delete"){
                                      viewModel.delete(id: item.id)
@@ -57,38 +63,28 @@ struct RulesView: View {
                                  .tint(.red)
                              }
                              
-                             
+                             // EDITING THE EXISTING ITEM
                              }.sheet(isPresented: $viewModel.showingEditItemView) {
                                  NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, item:selectedItem)
-
                              }
-                             
                              .listStyle(PlainListStyle())
- //                        ScrollView{
- //
- //
- //                        }
                      }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                          .padding(.horizontal, 20)
-
-
+                     
+                     // TODO : MAYBE A SEPARATE PAGE FOR THE TEMPLATES LIBRARY
                      VStack(alignment:.leading){
                          Text("Rules Template")
                              .font(.subheadline)
                              .fontWeight(.heavy)
                              .padding(.vertical, 20)
                          ScrollView{
- //                            RuleItemView(iconName: "person", item: <#RuleItem#>, task: "Morning Focus", startTimeOfDay: "AM", start: "2:32", endTimeOfDay: "PM", end:"5:32", actionBtnLogo: "plus.circle.fill", stroke:0 , fill:1 )
- //                            RuleItemView(iconName: "person", task: "Morning Focus", startTimeOfDay: "AM", start: "2:32", endTimeOfDay: "PM", end:"5:32",actionBtnLogo: "plus.circle.fill", stroke:0 , fill:1)
- //                            RuleItemView(iconName: "person", task: "Morning Focus", startTimeOfDay: "AM", start: "2:32", endTimeOfDay: "PM", end:"5:32",actionBtnLogo: "plus.circle.fill", stroke:0 ,fill:1)
- //                            RuleItemView(iconName: "person", task: "Morning Focus", startTimeOfDay: "AM", start: "2:32", endTimeOfDay: "PM", end:"5:32",actionBtnLogo: "plus.circle.fill", stroke:0 ,fill:1)
- //                            RuleItemView(iconName: "person", task: "Morning Focus", startTimeOfDay: "AM", start: "2:32", endTimeOfDay: "PM", end:"5:32",actionBtnLogo: "plus.circle.fill", stroke:0 ,fill:1)
+
                          }
                      }.frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
                          .padding(.horizontal, 20)
-
                  Spacer()
              }.toolbar {
+                 // TOOL BAR WITH THE OPTION TO ADD A CUSTOMIZED TEMPLATE
                  Button {
                      viewModel.showingNewItemView = true
                  } label: {
@@ -96,7 +92,6 @@ struct RulesView: View {
                      Image(systemName: "calendar")
                      Image(systemName: "gearshape.fill")
                  }.foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-
              }
              .sheet(isPresented: $viewModel.showingNewItemView){
                  NewRuleItemView(newItemPresented: $viewModel.showingNewItemView)

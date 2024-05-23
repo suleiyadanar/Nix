@@ -10,21 +10,7 @@ import ManagedSettings
 import DeviceActivity
 
 
-//// Define a function to convert the selectedApps string into an array of ApplicationToken objects
-//func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
-//    guard let data = selectedApps.data(using: .utf8) else {
-//        return nil
-//    }
-//    do {
-//        let originalTokensArray = try JSONDecoder().decode([ApplicationToken].self, from: data)
-//        return originalTokensArray
-//    } catch {
-//        print("Error decoding selectedApps string:", error)
-//        return nil
-//    }
-//}
-
-/// Template for a Control Item
+// Template for each rule item in the RulesView
 struct RuleItemView: View {
     @Environment(\.colorScheme) var colorScheme
     @State var item : RuleItem
@@ -34,26 +20,10 @@ struct RuleItemView: View {
     let fill: Double
     
     @State var originalTokensArray: [ApplicationToken]
-    
-//    init(item: RuleItem, iconName: String, actionBtnLogo: String, stroke: Double, fill: Double) {
-//        self.item = item
-//        self.iconName = iconName
-//        self.actionBtnLogo = actionBtnLogo
-//        self.stroke = stroke
-//        self.fill = fill
-//        
-//        // Initialize originalTokensArray by converting selectedApps string
-//        if let tokensArray = convertToOriginalTokensArray(selectedApps: item.selectedApps) {
-//            self.originalTokensArray = tokensArray
-//        } else {
-//            // Handle the case where conversion fails, perhaps by providing a default value or an empty array
-//            self.originalTokensArray = []
-//        }
-//    }
-    
     var body: some View {
         VStack(){
             HStack(){
+                // ICON FOR THE TEMPLATE
                 Image(systemName:iconName)
                     .background(
                     RoundedRectangle(cornerRadius:5)
@@ -61,8 +31,12 @@ struct RuleItemView: View {
                         .frame(width:50, height:50))
                     .padding(.leading,30)
                 Spacer()
+                
+                // 
                 VStack(alignment: .leading){
                     Text(item.title).bold().padding(.bottom,2)
+                    
+                    // ICONS OF THE BLOCKED APPS
                     HStack{
                         ForEach(0..<originalTokensArray.count, id: \.self) { index in
                             Label(originalTokensArray[index]).labelStyle(.iconOnly)
@@ -78,6 +52,7 @@ struct RuleItemView: View {
                 .padding(15)
                 
                 Spacer(minLength:2)
+                
                 Button(){
                     // Add action for the button
                 }label:{

@@ -32,7 +32,7 @@ struct EditRuleItemView: View {
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
     var body: some View {
-
+        
         Form {
             Text("New Rule")
             VStack {
