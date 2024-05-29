@@ -25,7 +25,7 @@ func convertToOriginalSelection(selection: String) -> FamilyActivitySelection? {
 struct EditRuleItemView: View {
     @StateObject var viewModel = EditRuleItemViewViewModel()
     @State private var pickerIsPresented = false
-
+    
     @State var item : RuleItem
     
     @Binding var newItemPresented: Bool
@@ -34,7 +34,7 @@ struct EditRuleItemView: View {
     var body: some View {
         
         Form {
-            Text("New Rule")
+            Text("Edit Rule")
             VStack {
                 TextField("Title", text: $viewModel.title)
                                     .textFieldStyle(DefaultTextFieldStyle())
@@ -90,9 +90,12 @@ struct EditRuleItemView: View {
                     selection: Binding(
                         get: {
                             if let originalSelection = convertToOriginalSelection(selection: item.selectedData) {
+                                
+                                print(originalSelection)
                                 return originalSelection
                             } else {
                                 // If conversion fails, return nil
+                                
                                 return FamilyActivitySelection()
                             }
                         }

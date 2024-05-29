@@ -8,6 +8,7 @@
 import SwiftUI
 import DeviceActivity
 import ManagedSettings
+import FamilyControls
 
 struct NewRuleItemView: View {
     @StateObject var viewModel = NewRuleItemViewViewModel()
@@ -22,9 +23,24 @@ struct NewRuleItemView: View {
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let currentDate = Date()
     
+   
+    
+    func savedSelection() -> FamilyActivitySelection? {
+        let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")!
+        guard let data = userDefaults.object(forKey: "selectedApps") as? Data else {
+                return nil
+        }
+        print("data here",data)
+        return try? JSONDecoder().decode(
+                FamilyActivitySelection.self,
+                from: data
+            )
+        }
+    
     var body: some View {
         VStack {
             Text("New Rule")
+            Text(String(newItemPresented))
             VStack {
                 
                 TextField("Title", text: $viewModel.title)
@@ -48,7 +64,6 @@ struct NewRuleItemView: View {
                     .onAppear {
                         viewModel.endTime = Date(timeIntervalSince1970: item?.endTime ?? TimeInterval())
                     }
-               
                 Button {
                             pickerIsPresented = true
                         } label: {
@@ -56,8 +71,12 @@ struct NewRuleItemView: View {
                         }
                         .familyActivityPicker(
                             isPresented: $pickerIsPresented,
-                            selection: $model.activitySelection
-                        )
+                            selection: Binding(
+                                get: { savedSelection() ?? model.activitySelection},
+                                set: { newValue in
+                                    model.activitySelection = newValue
+                            }
+                            ))
                 
                     ScrollView {
                         HStack {

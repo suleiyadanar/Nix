@@ -19,13 +19,15 @@ func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
     }
 }
 
+
 struct RulesView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel : RulesViewViewModel
     @State private var selectedItem: RuleItem?
     @State private var userId : String
-    @FirestoreQuery var items: [RuleItem]
+    @FirestoreQuery var items: [RuleItem] 
 
+    
     // USES THE USERID TO
     // (1) fetch the rule items of the user
     // (2) populate the RulesViewViewModel with the userId
@@ -45,6 +47,8 @@ struct RulesView: View {
                              .font(.subheadline)
                              .fontWeight(.heavy)
                              .padding(.bottom, 20)
+                         Text(String(viewModel.showingEditItemView))
+
                          
                          // ITERATE THROUGH THE RULE ITEMS FETCHED FROM THE DATABASE
                          List(items) { item in
@@ -52,7 +56,17 @@ struct RulesView: View {
                                  self.selectedItem = item
                                  viewModel.showingEditItemView = true
                              }) {
-                                 RuleItemView(item: item, iconName: "person", actionBtnLogo: "pencil", stroke:1 , fill:0, originalTokensArray: convertToOriginalTokensArray(selectedApps: item.selectedApps) ?? [] )
+//                                 RuleItemView(item: item, iconName: "person", actionBtnLogo: "pencil", stroke:1 , fill:0, originalTokensArray: convertToOriginalTokensArray(selectedApps: item.selectedApps) ?? [] )
+                                 Text(item.title)
+                                 Text("\(Date(timeIntervalSince1970: item.startTime).formatted(.dateTime.hour().minute()))")
+                                 Text("-")
+                                 Text("\(Date(timeIntervalSince1970: item.endTime).formatted(.dateTime.hour().minute()))")
+                                 let tokensArray = convertToOriginalTokensArray(selectedApps: item.selectedApps) ?? []
+                                 Text(String(tokensArray.count))
+                                     ForEach(0..<tokensArray.count, id: \.self) { index in
+                                         Label(tokensArray[index])
+                                     }
+                                 
                              }
                              
                              // SHOW DELETE BUTTON WHEN A RULE ITEM IS SWIPED
@@ -64,8 +78,9 @@ struct RulesView: View {
                              }
                              
                              // EDITING THE EXISTING ITEM
-                             }.sheet(isPresented: $viewModel.showingEditItemView) {
+                         }.sheet(isPresented: $viewModel.showingEditItemView) {
                                  NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, item:selectedItem)
+                             Text(items[0].title)
                              }
                              .listStyle(PlainListStyle())
                      }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)

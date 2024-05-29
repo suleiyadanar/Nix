@@ -50,7 +50,6 @@ struct RuleItemView: View {
                     }.font(.body)
                 }
                 .padding(15)
-                
                 Spacer(minLength:2)
                 
                 Button(){
