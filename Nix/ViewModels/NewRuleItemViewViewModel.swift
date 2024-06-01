@@ -18,22 +18,49 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var title = ""
     @Published var startTime = Date()
     @Published var endTime = Date()
+    
     @Published var selectedDays = Set<Int>()
-//    @Published var selectedApps = Set<ApplicationToken>()
     @Published var showAlert = false
+    @Published var alertMessage = ""
+    
     
     var selectedApps = String()
     var selectedData = String()
+    
+    func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
+        guard let data = selectedApps.data(using: .utf8) else {
+            return nil
+        }
+        do {
+            let originalTokensArray = try JSONDecoder().decode([ApplicationToken].self, from: data)
+            return originalTokensArray
+        } catch {
+            print("Error decoding selectedApps string:", error)
+            return nil
+        }
+    }
+    
     init(){}
     
     var canSave : Bool{
+        alertMessage = ""
+
         guard !title.trimmingCharacters(in: .whitespaces).isEmpty else {
+            alertMessage += "Please fill in the title field."
             return false
         }
-        guard startTime < endTime else {
+        alertMessage = ""
+        let timeInterval = endTime.timeIntervalSince(startTime)
+        let minimumInterval: TimeInterval = 15 * 60 // 15 minutes in seconds
+
+        guard timeInterval >= minimumInterval else {
+            alertMessage += "The session needs to be at least 15 minutes long."
             return false
         }
-        
+//        guard convertToOriginalTokensArray(selectedApps: selectedApps)?.count ?? 0 >= 1 else {
+//            alertMessage += "At least one app needs to be selected."
+//            return false
+//        }
         return true
     }
     /// This is documentation summary for save()
@@ -80,10 +107,9 @@ class NewRuleItemViewViewModel : ObservableObject {
                 .collection("rules")
                 .document(id)
                 .updateData(["title":title, "startTime":startTime.timeIntervalSince1970, "endTime":endTime.timeIntervalSince1970,
-                    "selectedDays": Array(selectedDays),
+                             "selectedDays": Array(selectedDays).sorted(),
                     "selectedApps": selectedApps,
                     "selectedData": selectedData])
-            print(selectedApps)
         }else {
             // Create model
             let newId = UUID().uuidString
@@ -92,11 +118,10 @@ class NewRuleItemViewViewModel : ObservableObject {
                 title: title,
                 startTime: startTime.timeIntervalSince1970,
                 endTime: endTime.timeIntervalSince1970,
-                selectedDays: Array(selectedDays),
+                selectedDays: Array(selectedDays).sorted(),
                 selectedApps: selectedApps,
                 selectedData: selectedData
             )
-            print(selectedApps)
 
             // Save model
             db.collection("users")

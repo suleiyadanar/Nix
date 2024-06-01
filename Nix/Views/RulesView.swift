@@ -25,9 +25,11 @@ struct RulesView: View {
     @StateObject var viewModel : RulesViewViewModel
     @State private var selectedItem: RuleItem?
     @State private var userId : String
-    @FirestoreQuery var items: [RuleItem] 
+    @FirestoreQuery var items: [RuleItem]
 
     
+    let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
     // USES THE USERID TO
     // (1) fetch the rule items of the user
     // (2) populate the RulesViewViewModel with the userId
@@ -62,10 +64,23 @@ struct RulesView: View {
                                  Text("-")
                                  Text("\(Date(timeIntervalSince1970: item.endTime).formatted(.dateTime.hour().minute()))")
                                  let tokensArray = convertToOriginalTokensArray(selectedApps: item.selectedApps) ?? []
-                                 Text(String(tokensArray.count))
-                                     ForEach(0..<tokensArray.count, id: \.self) { index in
-                                         Label(tokensArray[index])
+                                 
+                                 Text(String(tokensArray.count)+" apps blocked")
+//                                     ForEach(0..<tokensArray.count, id: \.self) { index in
+//                                         Label(tokensArray[index])
+//                                     }
+                                 
+                                 if item.selectedDays == [1,2,3,4,5]{
+                                     Text("Weekdays")
+                                 }else if (item.selectedDays == [0,6]) {
+                                     Text("Weekends")
+                                 }else if (item.selectedDays == [0,1,2,3,4,5,6]) {
+                                     Text("Everyday")
+                                 }else{
+                                     ForEach(0..<item.selectedDays.count, id: \.self) { index in
+                                         Text(daysOfWeek[item.selectedDays[index]])
                                      }
+                                 }
                                  
                              }
                              

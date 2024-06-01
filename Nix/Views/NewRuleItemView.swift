@@ -23,19 +23,19 @@ struct NewRuleItemView: View {
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let currentDate = Date()
     
-   
     
     func savedSelection() -> FamilyActivitySelection? {
         let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")!
         guard let data = userDefaults.object(forKey: "selectedApps") as? Data else {
                 return nil
         }
-        print("data here",data)
         return try? JSONDecoder().decode(
                 FamilyActivitySelection.self,
                 from: data
             )
         }
+    
+
     
     var body: some View {
         VStack {
@@ -47,22 +47,24 @@ struct NewRuleItemView: View {
                                     .textFieldStyle(DefaultTextFieldStyle())
                                     .onAppear {
                                         viewModel.id = item?.id ?? ""
-                                        viewModel.title = item?.title ?? ""}
+                                        viewModel.title = item?.title ?? ""
+                                        viewModel.selectedDays = Set(item?.selectedDays ?? [])
+                                    }
                 
+
                 // SELECT START TIME
                 DatePicker("Start Time", selection: $viewModel.startTime, displayedComponents: .hourAndMinute)
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .frame(height: 50)
                     .onAppear {
-                        viewModel.startTime = Date(timeIntervalSince1970: item?.startTime ?? TimeInterval())
+                        viewModel.startTime = Date(timeIntervalSince1970: item?.startTime ?? Date().timeIntervalSince1970)
                     }
-                
                 // SELECT END TIME
                 DatePicker("End Time", selection: $viewModel.endTime, displayedComponents: .hourAndMinute)
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .frame(height: 50)
                     .onAppear {
-                        viewModel.endTime = Date(timeIntervalSince1970: item?.endTime ?? TimeInterval())
+                        viewModel.endTime = Date(timeIntervalSince1970: item?.endTime ?? Date().timeIntervalSince1970)
                     }
                 Button {
                             pickerIsPresented = true
@@ -101,22 +103,50 @@ struct NewRuleItemView: View {
                 
                 TLButton(text: "Save", background: .pink) {
                    
-                    let activityName = DeviceActivityName(rawValue: "\(viewModel.title)")
-                   
+                    var activityName = DeviceActivityName(rawValue: "\(viewModel.title)")
                     let calendar = Calendar.current
-                    let intervalStart = calendar.dateComponents([.hour, .minute], from: self.viewModel.startTime)
-                    let intervalEnd = calendar.dateComponents([.hour, .minute], from: self.viewModel.endTime)
-                    let center = DeviceActivityCenter()
-                    let schedule = DeviceActivitySchedule(intervalStart:intervalStart, intervalEnd: intervalEnd,repeats: false)
+                    var intervalStart = calendar.dateComponents([.hour, .minute], from: self.viewModel.startTime)
+                    var intervalEnd = calendar.dateComponents([.hour, .minute], from: self.viewModel.endTime)
                     
-//                    let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+//                    let warningTimeComponent = calendar.date(byAdding: .minute, value: -5, to: self.viewModel.startTime)
+//                    let warningTime = calendar.dateComponents([.hour, .minute], from: warningTimeComponent ?? Date())
+                    var warningTime = DateComponents()
+                    warningTime.minute = 5 
+                
+//                    print("\(warningTime.hour!):\(warningTime.minute!)")
+                        let center = DeviceActivityCenter()
+                        var schedule = DeviceActivitySchedule(intervalStart:intervalStart, intervalEnd: intervalEnd,repeats: false)
                     
-                    do {
-                        try center.startMonitoring(activityName, during: schedule)
-                        print("monitoring")
-                    } catch let error {
-                        print("error\(error)")
+                    
+                    if (viewModel.selectedDays.count == 0) {
+                        do {
+                            try center.startMonitoring(activityName, during: schedule)
+
+                            print("monitoring")
+                        } catch let error {
+                            print("error\(error)")
+                        }
+                    }else {
+                        for i in 0..<viewModel.selectedDays.count{
+                            activityName = DeviceActivityName(rawValue: "\(viewModel.title)" + String(i))
+                            intervalStart.weekday = Array(viewModel.selectedDays)[i]+1
+                            intervalEnd.weekday = Array(viewModel.selectedDays)[i]+1
+                            schedule = DeviceActivitySchedule(intervalStart:intervalStart, intervalEnd: intervalEnd,repeats: true, warningTime: warningTime)
+                        }
+                        do {
+                            try center.startMonitoring(activityName, during: schedule)
+
+                            print("monitoring")
+                        } catch let error {
+                            print("error\(error)")
+                        }
                     }
+                  
+                    
+                    
+                    
+                    
+                    
 //                    for day in self.viewModel.selectedDays {
 //                        let dayOfWeek = self.daysOfWeek[day]
 //                        let daily = DeviceActivityName(rawValue: dayOfWeek)
@@ -138,7 +168,7 @@ struct NewRuleItemView: View {
                     }
                    
                 }.alert(isPresented: $viewModel.showAlert){
-                    Alert(title: Text("Error"), message: Text("Please fill in all fields and select end time that is after the start time."))
+                    Alert(title: Text("Error"), message: Text(viewModel.alertMessage))
                 }
             }.padding()
         }
