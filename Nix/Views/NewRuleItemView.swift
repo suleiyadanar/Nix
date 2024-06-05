@@ -41,6 +41,7 @@ struct NewRuleItemView: View {
         VStack {
             Text("New Rule")
             Text(String(newItemPresented))
+            Text(item?.id ?? "None")
             VStack {
                 
                 TextField("Title", text: $viewModel.title)

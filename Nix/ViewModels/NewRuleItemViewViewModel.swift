@@ -43,8 +43,17 @@ class NewRuleItemViewViewModel : ObservableObject {
     init(){}
     
     var canSave : Bool{
+        let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+     
+            if let appData = userDefaults?.object(forKey: "applications") as? Data {
+                selectedApps = String(decoding: appData, as: UTF8.self)
+                }
+            
+            if let selectData = userDefaults?.object(forKey: "selectedApps") as? Data {
+                selectedData = String(decoding: selectData, as: UTF8.self)
+                }
+        
         alertMessage = ""
-
         guard !title.trimmingCharacters(in: .whitespaces).isEmpty else {
             alertMessage += "Please fill in the title field."
             return false
@@ -52,17 +61,33 @@ class NewRuleItemViewViewModel : ObservableObject {
         alertMessage = ""
         let timeInterval = endTime.timeIntervalSince(startTime)
         let minimumInterval: TimeInterval = 15 * 60 // 15 minutes in seconds
-
+        
+        print(timeInterval)
+        print(minimumInterval)
         guard timeInterval >= minimumInterval else {
+            print("Got here")
             alertMessage += "The session needs to be at least 15 minutes long."
             return false
         }
-//        guard convertToOriginalTokensArray(selectedApps: selectedApps)?.count ?? 0 >= 1 else {
-//            alertMessage += "At least one app needs to be selected."
-//            return false
-//        }
+        alertMessage = ""
+        print(convertToOriginalTokensArray(selectedApps: selectedApps) ?? "nah")
+
+        guard convertToOriginalTokensArray(selectedApps: selectedApps)?.count ?? 0 >= 1 else {
+            alertMessage += "At least one app needs to be selected."
+            return false
+        }
+        alertMessage = ""
+
+        guard convertToOriginalTokensArray(selectedApps: selectedApps)?.count ?? 0 <= 50 else {
+            alertMessage += "Please select less than 50 apps."
+            return false
+        }
+        alertMessage = ""
+
         return true
     }
+    
+    
     /// This is documentation summary for save()
     ///
     /// This is discussion
@@ -81,23 +106,12 @@ class NewRuleItemViewViewModel : ObservableObject {
         guard canSave else {
             return
         }
-        
         // Get current user id
         guard let uId = Auth.auth().currentUser?.uid else{
             return
         }
-        
-        let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
-     
-            if let appData = userDefaults?.object(forKey: "applications") as? Data {
-                selectedApps = String(decoding: appData, as: UTF8.self)
-                }
-            
-            if let selectData = userDefaults?.object(forKey: "selectedApps") as? Data {
-                selectedData = String(decoding: selectData, as: UTF8.self)
-                }
-         
-        
+
+       
         let db = Firestore.firestore()
         
         if self.id != "" {

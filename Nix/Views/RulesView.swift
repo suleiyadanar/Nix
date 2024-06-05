@@ -19,17 +19,52 @@ func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
     }
 }
 
+// Model of the pre-made template item
+
+
+func formatTime(_ timeInterval: TimeInterval) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter.string(from: Date(timeIntervalSince1970: timeInterval))
+    }
+
+
+func loadJson(fileName: String) -> [RuleItem]? {
+    let decoder = JSONDecoder()
+    print("bundle path", Bundle.main.bundlePath)
+    print("bundle url")
+    
+    // Step 1: Attempt to get the URL of the JSON file
+    guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+        return nil
+    }
+
+    // Step 2: Attempt to load data from the URL
+    do {
+        let data = try Data(contentsOf: url)
+        // Step 3: Attempt to decode JSON data into templateItem
+        do {
+            let template = try decoder.decode([RuleItem].self, from: data)
+            return template
+        } catch {
+            return nil
+        }
+    } catch {
+        return nil
+    }
+}
 
 struct RulesView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel : RulesViewViewModel
     @State private var selectedItem: RuleItem?
+    @State private var selectedTemplate: RuleItem?
     @State private var userId : String
     @FirestoreQuery var items: [RuleItem]
 
     
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-
+//    let templates = loadJson(fileName:"templates")
     // USES THE USERID TO
     // (1) fetch the rule items of the user
     // (2) populate the RulesViewViewModel with the userId
@@ -95,7 +130,6 @@ struct RulesView: View {
                              // EDITING THE EXISTING ITEM
                          }.sheet(isPresented: $viewModel.showingEditItemView) {
                                  NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, item:selectedItem)
-                             Text(items[0].title)
                              }
                              .listStyle(PlainListStyle())
                      }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
@@ -107,9 +141,37 @@ struct RulesView: View {
                              .font(.subheadline)
                              .fontWeight(.heavy)
                              .padding(.vertical, 20)
-                         ScrollView{
-
-                         }
+//                         ForEach(0..<templates) { index in
+//                             Text(templates.items[index])
+//                         }
+                         
+                         
+                         if let templates = loadJson(fileName: "templates") {
+                                     VStack(alignment: .leading) {
+//
+                                         List(templates) { template in
+                                             
+                                             Button(action:{
+                                                 self.selectedItem = template
+                                                 viewModel.showingEditItemView = true
+                                             }) {
+                                                 Text("ID: \(template.id)")
+                                                                                          Text("Title: \(template.title)")
+                                                                                          Text("Start Time: \(formatTime(template.startTime))")
+                                                                                          Text("End Time: \(formatTime(template.endTime))")
+                                                                                          Text("Selected Days: \(template.selectedDays)")
+                                             }
+                                         }.sheet(isPresented: $viewModel.showingEditItemView) {
+                                             NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, item:selectedItem)
+                                         }
+                                         .listStyle(PlainListStyle())
+                                     }
+                                     .padding()
+                                 } else {
+                                     Text("Failed to load JSON file.")
+                                 }
+                         
+                         
                      }.frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
                          .padding(.horizontal, 20)
                  Spacer()
