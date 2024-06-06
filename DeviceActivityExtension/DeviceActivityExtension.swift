@@ -29,7 +29,7 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
                 //
                 store.shield.applications = decodedApplicationTokens.isEmpty ? nil : Set(decodedApplicationTokens)
                 
-                print("\(decodedApplicationTokens)")
+//                print("\(decodedApplicationTokens)")
                 print("Got Here 1")
             }
             
@@ -40,7 +40,7 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
                 //
                 store.shield.webDomains = decodedWebsiteTokens.isEmpty ? nil : Set(decodedWebsiteTokens)
                 
-                print("\(decodedWebsiteTokens)")
+//                print("\(decodedWebsiteTokens)")
                 print("Got Here 2")
             }
         }catch {
@@ -53,6 +53,15 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
         store.shield.applications = nil
     }
 
+//    override func intervalWillStartWarning(for activity: DeviceActivityName) {
+//            // Handle the warning that the interval is about to start
+//            print("Activity interval will start in 5 minutes.")
+//        }
+//
+//    override func intervalWillEndWarning(for activity: DeviceActivityName) {
+//            // Handle the warning that the interval is about to end
+//            print("Activity interval will end in 5 minutes.")
+//        }
     override func eventDidReachThreshold(_ event:DeviceActivityEvent.Name,activity:DeviceActivityName){
         super.eventDidReachThreshold(event, activity: activity)
     }
