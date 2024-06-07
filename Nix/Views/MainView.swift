@@ -8,10 +8,6 @@
 import SwiftUI
 import DeviceActivity
 
-let lavender = Color(red: 0.8, green: 0.85, blue: 0.95)
-let indigo = Color(red: 0.4, green: 0.4, blue: 0.6)
-let purple = Color(red: 0.45, green: 0.3, blue: 0.6)
-
 struct MainView: View {
     @StateObject var viewModel = MainViewViewModel()
     @EnvironmentObject var pomodoroModel: PomodoroViewViewModel
@@ -22,7 +18,8 @@ struct MainView: View {
         } else {
             //            ResponsiveView { properties in
             NavigationView{
-                LoginView().padding(0)
+                Onboarding1View()
+                //LoginView().padding(0)
             }
             //            }
         }
@@ -80,13 +77,13 @@ struct MainView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 30, height: 30)
-                            .foregroundColor(selectedTab == image ? purple : .gray)
+                            .foregroundColor(selectedTab == image ? .purple : .gray)
                       
                         if (selectedTab == image) {
                             Rectangle()
                                 .frame(width: 35, height: 3)
-                                .foregroundColor(purple)
-                                .padding(.top, 2) 
+                                .foregroundColor(.purple)
+                                .padding(.top, 2)
                         }
                     }
                         
@@ -100,11 +97,9 @@ struct MainView: View {
             
         }
         
-        .background(lavender)
+        .background(Color.lavender)
         .cornerRadius(35)
-        .padding(.bottom, 20)
-        //.padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom)
-        
+        .padding(.bottom, 20)        
         
     }
 }

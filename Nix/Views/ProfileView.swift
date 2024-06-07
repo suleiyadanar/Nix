@@ -54,7 +54,7 @@ struct ProfileView: View {
                     Image(systemName: "person.circle") // Avatar
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .foregroundColor(indigo)
+                        .foregroundColor(Color.indigo)
                         .frame(width: 80, height: 80)
                         .padding(.leading, 10)
                         .padding(.trailing, 15)
@@ -89,7 +89,7 @@ struct ProfileView: View {
                     }
                     
                     .padding(10)
-                    .background(Rectangle().fill(lavender).shadow(radius: 3).frame(width: 500))
+                    .background(Rectangle().fill(Color.lavender).shadow(radius: 3).frame(width: 500))
                     
                     Spacer (minLength: 15)
                     
@@ -101,7 +101,7 @@ struct ProfileView: View {
                       
                     ZStack {
                         Rectangle() // add screentime progress report
-                            .foregroundStyle(indigo)
+                            .foregroundStyle(Color.indigo)
                             .frame(width: 350, height: 250)
                             .cornerRadius(35)
                             .padding(.bottom, 20)
@@ -122,7 +122,7 @@ struct ProfileView: View {
                                     Text("_______")
                                 }
                                     .padding()
-                                    .background(lavender)
+                                    .background(Color.lavender)
                                     .cornerRadius(35)
                                 VStack {
                                     Image(systemName: "checkmark.circle")
@@ -132,7 +132,7 @@ struct ProfileView: View {
                                     Text("_______")
                                 }
                                     .padding()
-                                    .background(lavender)
+                                    .background(Color.lavender)
                                     .cornerRadius(35)
                                 VStack {
                                     Image(systemName: "checkmark.circle")
@@ -142,7 +142,7 @@ struct ProfileView: View {
                                     Text("_______")
                                 }
                                     .padding()
-                                    .background(lavender)
+                                    .background(Color.lavender)
                                     .cornerRadius(35)
                             }
                             Spacer()
@@ -156,7 +156,7 @@ struct ProfileView: View {
                     }
                     VStack {
                         Rectangle() // journey map!
-                            .foregroundStyle(lavender)
+                            .foregroundStyle(Color.lavender)
                             .frame(width: 350, height: 100)
                             .cornerRadius(35)
                             .padding(.bottom, 20)
@@ -169,11 +169,11 @@ struct ProfileView: View {
                     }
                     ZStack {
                         Rectangle() // add screentime statistics
-                            .foregroundStyle(lavender)
+                            .foregroundStyle(Color.lavender)
                             .frame(width: 350, height: 300)
                             .padding(.bottom, 20)
                         Rectangle() // add screentime statistics
-                            .foregroundStyle(indigo)
+                            .foregroundStyle(Color.indigo)
                             .frame(width: 300, height: 250)
                             .padding(.bottom, 20)
                         Text("Insert cool-looking graph for screentime statistics!!!")

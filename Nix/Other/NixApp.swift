@@ -17,6 +17,8 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
 
 struct NixApp: App {
     
+    var userSettings = UserSettings()
+    
     init() {
         FirebaseApp.configure()
     }
@@ -38,6 +40,7 @@ struct NixApp: App {
                         }
                     }
                 }
+
         }.onChange(of: phase) {
             if pomodoroModel.isStarted {
                 if phase == .background {
@@ -54,6 +57,12 @@ struct NixApp: App {
                     }
                 }
             }
+
+                .environment(\.colorScheme, .light)
+                // sorry we can change this after i figure out how to change the placeholder text color for the
+                // text input boxes bc it keeps changing when its light/dark mode and becoming invisible in dark mode
+                .environmentObject(userSettings)
+
         }
     }
 }
