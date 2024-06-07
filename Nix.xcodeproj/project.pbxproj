@@ -388,7 +388,8 @@
 				3BA6CA8F2C114CA10031B2E1 /* Onboarding10View.swift */,
 			);
 			path = "Onboarding Views";
-
+            sourceTree = "<group>";
+        };
 		3F47EBC22C0E4D010043507C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
