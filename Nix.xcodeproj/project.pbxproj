@@ -72,6 +72,11 @@
 		3F86B2E22BA32DD200F39E9B /* EditRuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F86B2E12BA32DD200F39E9B /* EditRuleItemView.swift */; };
 		3F86B2E62BA3468600F39E9B /* EditRuleItemViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F86B2E52BA3468600F39E9B /* EditRuleItemViewViewModel.swift */; };
 		3F91F2E32BA6180200DE07BC /* TLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F91F2E22BA6180200DE07BC /* TLButton.swift */; };
+		3F9EB4E22C10224F0019200C /* BlockedAppsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EB4E12C10224F0019200C /* BlockedAppsView.swift */; };
+		3F9EB4E42C1029AC0019200C /* NewBlockedAppsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EB4E32C1029AB0019200C /* NewBlockedAppsView.swift */; };
+		3F9EB4E62C102A4F0019200C /* NewBlockedAppsViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EB4E52C102A4F0019200C /* NewBlockedAppsViewViewModel.swift */; };
+		3F9EB4E82C103CC00019200C /* BlockedAppsViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EB4E72C103CC00019200C /* BlockedAppsViewViewModel.swift */; };
+		3F9EB4EA2C10F3240019200C /* AppGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EB4E92C10F3240019200C /* AppGroupModel.swift */; };
 		3FA4376A2C0B6E9F00520D13 /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FA437692C0B6E9F00520D13 /* ManagedSettings.framework */; };
 		3FA4376D2C0B6E9F00520D13 /* ShieldActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA4376C2C0B6E9F00520D13 /* ShieldActionExtension.swift */; };
 		3FA437722C0B6E9F00520D13 /* ShieldAction.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3FA437682C0B6E9F00520D13 /* ShieldAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -216,6 +221,11 @@
 		3F86B2E12BA32DD200F39E9B /* EditRuleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRuleItemView.swift; sourceTree = "<group>"; };
 		3F86B2E52BA3468600F39E9B /* EditRuleItemViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRuleItemViewViewModel.swift; sourceTree = "<group>"; };
 		3F91F2E22BA6180200DE07BC /* TLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLButton.swift; sourceTree = "<group>"; };
+		3F9EB4E12C10224F0019200C /* BlockedAppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsView.swift; sourceTree = "<group>"; };
+		3F9EB4E32C1029AB0019200C /* NewBlockedAppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBlockedAppsView.swift; sourceTree = "<group>"; };
+		3F9EB4E52C102A4F0019200C /* NewBlockedAppsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBlockedAppsViewViewModel.swift; sourceTree = "<group>"; };
+		3F9EB4E72C103CC00019200C /* BlockedAppsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsViewViewModel.swift; sourceTree = "<group>"; };
+		3F9EB4E92C10F3240019200C /* AppGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupModel.swift; sourceTree = "<group>"; };
 		3FA437682C0B6E9F00520D13 /* ShieldAction.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShieldAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FA437692C0B6E9F00520D13 /* ManagedSettings.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettings.framework; path = System/Library/Frameworks/ManagedSettings.framework; sourceTree = SDKROOT; };
 		3FA4376C2C0B6E9F00520D13 /* ShieldActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldActionExtension.swift; sourceTree = "<group>"; };
@@ -393,6 +403,7 @@
 			children = (
 				3F7234AF2B86CAD80095EA42 /* RuleItem.swift */,
 				3F7B97162B87110700F465D2 /* CalendarModel.swift */,
+				3F9EB4E92C10F3240019200C /* AppGroupModel.swift */,
 				3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */,
 				3F7234B02B86CAD80095EA42 /* User.swift */,
 				3F7234B12B86CAD80095EA42 /* RuleTemplateItem.swift */,
@@ -405,6 +416,7 @@
 			children = (
 				3F7234B62B86CAF70095EA42 /* PomodoroViewViewModel.swift */,
 				3F7234B72B86CAF70095EA42 /* SettingsViewViewModel.swift */,
+				3F9EB4E72C103CC00019200C /* BlockedAppsViewViewModel.swift */,
 				3F7234B82B86CAF70095EA42 /* RulesViewViewModel.swift */,
 				3F7234B92B86CAF70095EA42 /* NewRuleItemViewViewModel.swift */,
 				3FB234292B889A82007894D5 /* GoogleCalendarViewViewModel.swift */,
@@ -412,6 +424,7 @@
 				3FCB35FD2B92795A00FB6088 /* ProfileViewViewModel.swift */,
 				3F7234BB2B86CAF70095EA42 /* MainViewViewModel.swift */,
 				3F7234BC2B86CAF70095EA42 /* HomepageViewViewModel.swift */,
+				3F9EB4E52C102A4F0019200C /* NewBlockedAppsViewViewModel.swift */,
 				3F7234BD2B86CAF70095EA42 /* RegisterViewViewModel.swift */,
 				3F86B2E52BA3468600F39E9B /* EditRuleItemViewViewModel.swift */,
 				3F7234BE2B86CAF70095EA42 /* LoginViewViewModel.swift */,
@@ -424,6 +437,8 @@
 			children = (
 				3B3222212BB0C5450037FE2D /* Settings Views */,
 				3F7234C02B86CAF70095EA42 /* SettingsView.swift */,
+				3F9EB4E12C10224F0019200C /* BlockedAppsView.swift */,
+				3F9EB4E32C1029AB0019200C /* NewBlockedAppsView.swift */,
 				3F7234C12B86CAF70095EA42 /* LoginView.swift */,
 				3F7234C22B86CAF70095EA42 /* RuleItemView.swift */,
 				3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */,
@@ -775,10 +790,12 @@
 				3B3222182BB0C5090037FE2D /* FreeUpSpaceView.swift in Sources */,
 				3F38E3872BA61154001E57CE /* NewRuleItemView.swift in Sources */,
 				3FCB35FC2B92783900FB6088 /* ProfileView.swift in Sources */,
+				3F9EB4E62C102A4F0019200C /* NewBlockedAppsViewViewModel.swift in Sources */,
 				3F91F2E32BA6180200DE07BC /* TLButton.swift in Sources */,
 				3B32221C2BB0C5270037FE2D /* ReportAProblemView.swift in Sources */,
 				3F7234D22B86CAF70095EA42 /* MainViewViewModel.swift in Sources */,
 				3F7B97112B870DBD00F465D2 /* ViewControllerRepresentableView.swift in Sources */,
+				3F9EB4E82C103CC00019200C /* BlockedAppsViewViewModel.swift in Sources */,
 				3F72349E2B86C8CF0095EA42 /* ContentView.swift in Sources */,
 				3F7234CD2B86CAF70095EA42 /* PomodoroViewViewModel.swift in Sources */,
 				3B32221A2BB0C51A0037FE2D /* DataSaverView.swift in Sources */,
@@ -790,6 +807,7 @@
 				3FB2342A2B889A82007894D5 /* GoogleCalendarViewViewModel.swift in Sources */,
 				3F7234E22B86CAF70095EA42 /* ResponsiveView.swift in Sources */,
 				3F7234DB2B86CAF70095EA42 /* LoginSignUpHeaderView.swift in Sources */,
+				3F9EB4E22C10224F0019200C /* BlockedAppsView.swift in Sources */,
 				3B3222202BB0C5400037FE2D /* LogOutView.swift in Sources */,
 				3F735A532B885BFB00A0F2F1 /* CalendarView.swift in Sources */,
 				3F7234DA2B86CAF70095EA42 /* QuickStartBtnView.swift in Sources */,
@@ -799,10 +817,12 @@
 				3F7234D92B86CAF70095EA42 /* PomodoroView.swift in Sources */,
 				3B3222102BB0C4D90037FE2D /* PrivacyView.swift in Sources */,
 				3F7234E12B86CAF70095EA42 /* HomepageView.swift in Sources */,
+				3F9EB4EA2C10F3240019200C /* AppGroupModel.swift in Sources */,
 				3F7234D42B86CAF70095EA42 /* RegisterViewViewModel.swift in Sources */,
 				3B32221E2BB0C5340037FE2D /* AddAccountView.swift in Sources */,
 				3F7235292B86CD540095EA42 /* NixApp.swift in Sources */,
 				3F7234DC2B86CAF70095EA42 /* RulesView.swift in Sources */,
+				3F9EB4E42C1029AC0019200C /* NewBlockedAppsView.swift in Sources */,
 				3F7234CF2B86CAF70095EA42 /* RulesViewViewModel.swift in Sources */,
 				3F86B2E22BA32DD200F39E9B /* EditRuleItemView.swift in Sources */,
 				3F7B97192B87116F00F465D2 /* DataExtension.swift in Sources */,

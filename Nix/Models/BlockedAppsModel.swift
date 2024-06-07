@@ -11,6 +11,7 @@ import ManagedSettings
 import DeviceActivity
 
 class BlockedAppsModel: ObservableObject {
+    @Published var appGroupName: String = ""
     @Published var activitySelection: FamilyActivitySelection {
         didSet {
             // connect to the app groups

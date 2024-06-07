@@ -21,11 +21,14 @@ struct NixApp: App {
         FirebaseApp.configure()
     }
     let center = AuthorizationCenter.shared
-
+    @StateObject var pomodoroModel: PomodoroViewViewModel = .init()
+    @Environment(\.scenePhase) var phase
+    @State var lastActiveTimeStamp: Date = Date()
     var body: some Scene {
         WindowGroup {
 
             MainView()
+                .environmentObject(pomodoroModel)
                 .onAppear {
                     Task {
                         do {
@@ -35,6 +38,22 @@ struct NixApp: App {
                         }
                     }
                 }
+        }.onChange(of: phase) {
+            if pomodoroModel.isStarted {
+                if phase == .background {
+                    lastActiveTimeStamp = Date()
+                }
+                if phase == .active {
+                    let currentTimeStampDiff = Date().timeIntervalSince(lastActiveTimeStamp)
+                    if pomodoroModel.totalSeconds - Int(currentTimeStampDiff) <= 0 {
+                        pomodoroModel.isStarted = false
+                        pomodoroModel.totalSeconds = 0
+                        pomodoroModel.isFinished = true
+                    }else{
+                        pomodoroModel.totalSeconds -= Int(currentTimeStampDiff)
+                    }
+                }
+            }
         }
     }
 }

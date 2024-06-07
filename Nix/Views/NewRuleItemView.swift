@@ -12,7 +12,10 @@ import FamilyControls
 
 struct NewRuleItemView: View {
     @StateObject var viewModel = NewRuleItemViewViewModel()
+    @State var userId : String
     @State private var pickerIsPresented = false
+    @State private var showingAppGroup = false
+
     @ObservedObject var model = BlockedAppsModel()
     @Binding var newItemPresented: Bool
 
@@ -24,9 +27,9 @@ struct NewRuleItemView: View {
     let currentDate = Date()
     
     
-    func savedSelection() -> FamilyActivitySelection? {
+    func savedSelection(selectionKey: String) -> FamilyActivitySelection? {
         let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")!
-        guard let data = userDefaults.object(forKey: "selectedApps") as? Data else {
+        guard let data = userDefaults.object(forKey: selectionKey) as? Data else {
                 return nil
         }
         return try? JSONDecoder().decode(
@@ -67,19 +70,21 @@ struct NewRuleItemView: View {
                     .onAppear {
                         viewModel.endTime = Date(timeIntervalSince1970: item?.endTime ?? Date().timeIntervalSince1970)
                     }
-                Button {
-                            pickerIsPresented = true
-                        } label: {
-                            Text("Select Apps")
-                        }
-                        .familyActivityPicker(
-                            isPresented: $pickerIsPresented,
-                            selection: Binding(
-                                get: { savedSelection() ?? model.activitySelection},
-                                set: { newValue in
-                                    model.activitySelection = newValue
-                            }
-                            ))
+//                Button {
+//                            pickerIsPresented = true
+//                        } label: {
+//                            Text("Select Apps")
+//                        }
+//                        .familyActivityPicker(
+//                            isPresented: $pickerIsPresented,
+//                            selection: Binding(
+//                                get: { savedSelection() ?? model.activitySelection},
+//                                set: { newValue in
+//                                    model.activitySelection = newValue
+//                            }
+//                            ))
+                
+                
                 
                     ScrollView {
                         HStack {
@@ -101,6 +106,15 @@ struct NewRuleItemView: View {
                         }
                     .frame(maxWidth: .infinity)
                 }
+                // Leads to blocked app screen
+                Button (action: {
+                    self.showingAppGroup.toggle()
+                }){
+                    Text("Blocked Apps")
+                }.sheet(isPresented: $showingAppGroup){
+                    BlockedAppsView(userId: userId, ruleId: item?.id ?? "newCustom")
+                }
+
                 
                 TLButton(text: "Save", background: .pink) {
                    
