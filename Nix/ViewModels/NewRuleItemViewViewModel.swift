@@ -23,6 +23,7 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var showAlert = false
     @Published var alertMessage = ""
     
+    @Published var showingAppGroup = false
     
     var selectedApps = String()
     var selectedData = String()

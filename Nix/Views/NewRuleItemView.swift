@@ -15,6 +15,7 @@ struct NewRuleItemView: View {
     @State private var pickerIsPresented = false
     @ObservedObject var model = BlockedAppsModel()
     @Binding var newItemPresented: Bool
+    @State var userId : String
 
     @State var item : RuleItem?
 
@@ -23,11 +24,10 @@ struct NewRuleItemView: View {
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let currentDate = Date()
     
-    
+
     func savedSelection() -> FamilyActivitySelection? {
         // Check if the rule is saved
         guard let selectedData = item?.selectedData else {
-            print("selectedData is nil")
             return nil
         }
 
@@ -91,7 +91,7 @@ struct NewRuleItemView: View {
                                     if let jsonData = try? JSONEncoder().encode(newValue),
                                                           let jsonString = String(data: jsonData, encoding: .utf8) {
                                                            item?.selectedData = jsonString
-                                                       } 
+                                                       }
                                     model.activitySelection = newValue
                             }
                             ))
@@ -116,7 +116,15 @@ struct NewRuleItemView: View {
                         }
                     .frame(maxWidth: .infinity)
                 }
-                
+                // Leads to blocked app screen
+                Button (action: {
+                    viewModel.showingAppGroup.toggle()
+                }){
+                    Text("Blocked Apps")
+                }.sheet(isPresented: $viewModel.showingAppGroup){
+                    BlockedAppsView(userId: userId)
+                }
+
                 TLButton(text: "Save", background: .pink) {
                    
                     var activityName = DeviceActivityName(rawValue: "\(viewModel.title)")

@@ -10,5 +10,6 @@ import Foundation
 
 struct AppGroup: Codable, Identifiable {
     let id: String
-    let keyName: String
+    let title: String
+    var selectedData: String
 }

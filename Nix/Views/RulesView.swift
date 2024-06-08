@@ -129,7 +129,7 @@ struct RulesView: View {
                              
                              // EDITING THE EXISTING ITEM
                          }.sheet(isPresented: $viewModel.showingEditItemView) {
-                                 NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, item:selectedItem)
+                             NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item:selectedItem)
                              }
                              .listStyle(PlainListStyle())
                      }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
@@ -162,7 +162,7 @@ struct RulesView: View {
                                                                                           Text("Selected Days: \(template.selectedDays)")
                                              }
                                          }.sheet(isPresented: $viewModel.showingEditItemView) {
-                                             NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, item:selectedItem)
+                                             NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item:selectedItem)
                                          }
                                          .listStyle(PlainListStyle())
                                      }
@@ -180,13 +180,13 @@ struct RulesView: View {
                  Button {
                      viewModel.showingNewItemView = true
                  } label: {
-                     NavigationLink("add stuff", destination: NewRuleItemView(newItemPresented: $viewModel.showingNewItemView))
+                     NavigationLink("add stuff", destination: NewRuleItemView(newItemPresented: $viewModel.showingNewItemView, userId: userId))
                      Image(systemName: "calendar")
                      Image(systemName: "gearshape.fill")
                  }.foregroundColor(colorScheme == .dark ? Color.white : Color.black)
              }
              .sheet(isPresented: $viewModel.showingNewItemView){
-                 NewRuleItemView(newItemPresented: $viewModel.showingNewItemView)
+                 NewRuleItemView(newItemPresented: $viewModel.showingNewItemView, userId: userId)
              }
          }
      }
