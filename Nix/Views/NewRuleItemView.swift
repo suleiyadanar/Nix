@@ -12,10 +12,7 @@ import FamilyControls
 
 struct NewRuleItemView: View {
     @StateObject var viewModel = NewRuleItemViewViewModel()
-    @State var userId : String
     @State private var pickerIsPresented = false
-    @State private var showingAppGroup = false
-
     @ObservedObject var model = BlockedAppsModel()
     @Binding var newItemPresented: Bool
 
@@ -27,15 +24,26 @@ struct NewRuleItemView: View {
     let currentDate = Date()
     
     
-    func savedSelection(selectionKey: String) -> FamilyActivitySelection? {
-        let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")!
-        guard let data = userDefaults.object(forKey: selectionKey) as? Data else {
-                return nil
+    func savedSelection() -> FamilyActivitySelection? {
+        // Check if the rule is saved
+        guard let selectedData = item?.selectedData else {
+            print("selectedData is nil")
+            return nil
         }
-        return try? JSONDecoder().decode(
-                FamilyActivitySelection.self,
-                from: data
-            )
+
+        guard let data = selectedData.data(using: .utf8) else {
+            print("Failed to convert selectedData to Data")
+            return nil
+        }
+           
+           do {
+               let selection = try JSONDecoder().decode(FamilyActivitySelection.self, from: data)
+               return selection
+           } catch {
+               // Handle the decoding error if necessary
+               print("Failed to decode FamilyActivitySelection: \(error)")
+               return nil
+           }
         }
     
 
@@ -70,21 +78,23 @@ struct NewRuleItemView: View {
                     .onAppear {
                         viewModel.endTime = Date(timeIntervalSince1970: item?.endTime ?? Date().timeIntervalSince1970)
                     }
-//                Button {
-//                            pickerIsPresented = true
-//                        } label: {
-//                            Text("Select Apps")
-//                        }
-//                        .familyActivityPicker(
-//                            isPresented: $pickerIsPresented,
-//                            selection: Binding(
-//                                get: { savedSelection() ?? model.activitySelection},
-//                                set: { newValue in
-//                                    model.activitySelection = newValue
-//                            }
-//                            ))
-                
-                
+                Button {
+                            pickerIsPresented = true
+                        } label: {
+                            Text("Select Apps")
+                        }
+                        .familyActivityPicker(
+                            isPresented: $pickerIsPresented,
+                            selection: Binding(
+                                get: { savedSelection() ?? model.activitySelection},
+                                set: { newValue in
+                                    if let jsonData = try? JSONEncoder().encode(newValue),
+                                                          let jsonString = String(data: jsonData, encoding: .utf8) {
+                                                           item?.selectedData = jsonString
+                                                       } 
+                                    model.activitySelection = newValue
+                            }
+                            ))
                 
                     ScrollView {
                         HStack {
@@ -106,15 +116,6 @@ struct NewRuleItemView: View {
                         }
                     .frame(maxWidth: .infinity)
                 }
-                // Leads to blocked app screen
-                Button (action: {
-                    self.showingAppGroup.toggle()
-                }){
-                    Text("Blocked Apps")
-                }.sheet(isPresented: $showingAppGroup){
-                    BlockedAppsView(userId: userId, ruleId: item?.id ?? "newCustom")
-                }
-
                 
                 TLButton(text: "Save", background: .pink) {
                    
@@ -126,7 +127,7 @@ struct NewRuleItemView: View {
 //                    let warningTimeComponent = calendar.date(byAdding: .minute, value: -5, to: self.viewModel.startTime)
 //                    let warningTime = calendar.dateComponents([.hour, .minute], from: warningTimeComponent ?? Date())
                     var warningTime = DateComponents()
-                    warningTime.minute = 5 
+                    warningTime.minute = 5
                 
 //                    print("\(warningTime.hour!):\(warningTime.minute!)")
                         let center = DeviceActivityCenter()

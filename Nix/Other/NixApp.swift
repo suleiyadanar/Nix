@@ -31,6 +31,7 @@ struct NixApp: App {
 
             MainView()
                 .environmentObject(pomodoroModel)
+                .environmentObject(userSettings)
                 .onAppear {
                     Task {
                         do {
@@ -58,10 +59,9 @@ struct NixApp: App {
                 }
             }
 
-                .environment(\.colorScheme, .light)
                 // sorry we can change this after i figure out how to change the placeholder text color for the
                 // text input boxes bc it keeps changing when its light/dark mode and becoming invisible in dark mode
-                .environmentObject(userSettings)
+                
 
         }
     }

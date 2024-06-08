@@ -11,7 +11,6 @@ import ManagedSettings
 import DeviceActivity
 
 class BlockedAppsModel: ObservableObject {
-    @Published var appGroupName: String = ""
     @Published var activitySelection: FamilyActivitySelection {
         didSet {
             // connect to the app groups
@@ -20,10 +19,15 @@ class BlockedAppsModel: ObservableObject {
             do {
                 let selectedApps = try
                 JSONEncoder().encode(self.activitySelection)
+                print("all  model")
                 // encode app tokens
                 let encodedApps = try JSONEncoder().encode(self.activitySelection.applicationTokens)
+                print(" apps model")
+
                 // encode web tokens
                 let encodedWebsites = try JSONEncoder().encode(self.activitySelection.webDomainTokens)
+                print(" website model")
+
                 // save selection
                 userDefaults.set(selectedApps, forKey: "selectedApps")
                 // save app tokens
@@ -44,4 +48,3 @@ class BlockedAppsModel: ObservableObject {
 
 
     
-
