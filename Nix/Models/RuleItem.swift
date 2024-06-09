@@ -17,4 +17,5 @@ struct RuleItem: Codable, Identifiable {
     let selectedDays: [Int]
     let selectedApps: String
     var selectedData: String
+    var selectionType: String
 }

@@ -27,6 +27,7 @@ class NewRuleItemViewViewModel : ObservableObject {
     
     var selectedApps = String()
     var selectedData = String()
+    var selectionType = String()
     
     func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
         guard let data = selectedApps.data(using: .utf8) else {
@@ -124,7 +125,9 @@ class NewRuleItemViewViewModel : ObservableObject {
                 .updateData(["title":title, "startTime":startTime.timeIntervalSince1970, "endTime":endTime.timeIntervalSince1970,
                              "selectedDays": Array(selectedDays).sorted(),
                     "selectedApps": selectedApps,
-                    "selectedData": selectedData])
+                    "selectedData": selectedData,
+                             "selectionType": selectionType
+                            ])
         }else {
             // Create model
             let newId = UUID().uuidString
@@ -135,7 +138,8 @@ class NewRuleItemViewViewModel : ObservableObject {
                 endTime: endTime.timeIntervalSince1970,
                 selectedDays: Array(selectedDays).sorted(),
                 selectedApps: selectedApps,
-                selectedData: selectedData
+                selectedData: selectedData,
+                selectionType: selectionType
             )
 
             // Save model

@@ -85,9 +85,11 @@ struct RulesView: View {
                              .fontWeight(.heavy)
                              .padding(.bottom, 20)
                          Text(String(viewModel.showingEditItemView))
-
+                         Text(userId)
                          
                          // ITERATE THROUGH THE RULE ITEMS FETCHED FROM THE DATABASE
+                         
+                         Text(String(items.count))
                          List(items) { item in
                              Button(action:{
                                  self.selectedItem = item
