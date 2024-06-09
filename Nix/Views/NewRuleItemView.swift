@@ -8,6 +8,7 @@ struct NewRuleItemView: View {
     @State private var pickerIsPresented = false
     @ObservedObject var model = BlockedAppsModel()
     @Binding var newItemPresented: Bool
+    @State var newTemplate: Bool
     @State var userId: String
     @State var item: RuleItem?
     @State private var errorMessage: String = ""
@@ -43,7 +44,7 @@ struct NewRuleItemView: View {
                 TextField("Title", text: $viewModel.title)
                     .textFieldStyle(DefaultTextFieldStyle())
                     .onAppear {
-                        viewModel.id = item?.id ?? ""
+                        viewModel.id = newTemplate ?? true ? "" : (item?.id ?? "")
                         viewModel.title = item?.title ?? ""
                         viewModel.selectedDays = Set(item?.selectedDays ?? [])
                         viewModel.selectionType = item?.selectionType ?? ""

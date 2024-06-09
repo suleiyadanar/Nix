@@ -118,6 +118,7 @@ class NewRuleItemViewViewModel : ObservableObject {
         
         if self.id != "" {
             // Update model
+            print("updating")
             db.collection("users")
                 .document(uId)
                 .collection("rules")
@@ -130,6 +131,7 @@ class NewRuleItemViewViewModel : ObservableObject {
                             ])
         }else {
             // Create model
+            print("creating")
             let newId = UUID().uuidString
             let newRule = RuleItem(
                 id:newId,

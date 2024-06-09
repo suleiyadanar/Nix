@@ -11,6 +11,7 @@ import Foundation
 class RulesViewViewModel : ObservableObject {
     @Published var showingNewItemView = false
     @Published var showingEditItemView = false
+    @Published var showingTemplateView = false
     private let userId : String
     
     init(userId: String){

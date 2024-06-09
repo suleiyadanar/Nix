@@ -36,6 +36,7 @@ func loadJson(fileName: String) -> [RuleItem]? {
     
     // Step 1: Attempt to get the URL of the JSON file
     guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+        print("oof")
         return nil
     }
 
@@ -131,7 +132,7 @@ struct RulesView: View {
                              
                              // EDITING THE EXISTING ITEM
                          }.sheet(isPresented: $viewModel.showingEditItemView) {
-                             NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item:selectedItem)
+                             NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, newTemplate: viewModel.showingTemplateView, userId: userId, item:selectedItem)
                              }
                              .listStyle(PlainListStyle())
                      }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
@@ -155,6 +156,7 @@ struct RulesView: View {
                                              
                                              Button(action:{
                                                  self.selectedItem = template
+                                                 viewModel.showingTemplateView = true
                                                  viewModel.showingEditItemView = true
                                              }) {
                                                  Text("ID: \(template.id)")
@@ -164,7 +166,7 @@ struct RulesView: View {
                                                                                           Text("Selected Days: \(template.selectedDays)")
                                              }
                                          }.sheet(isPresented: $viewModel.showingEditItemView) {
-                                             NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item:selectedItem)
+                                             NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, newTemplate: viewModel.showingTemplateView ,userId: userId, item:selectedItem)
                                          }
                                          .listStyle(PlainListStyle())
                                      }
@@ -182,13 +184,13 @@ struct RulesView: View {
                  Button {
                      viewModel.showingNewItemView = true
                  } label: {
-                     NavigationLink("add stuff", destination: NewRuleItemView(newItemPresented: $viewModel.showingNewItemView, userId: userId))
+                     NavigationLink("add stuff", destination: NewRuleItemView(newItemPresented: $viewModel.showingNewItemView, newTemplate: viewModel.showingTemplateView, userId: userId))
                      Image(systemName: "calendar")
                      Image(systemName: "gearshape.fill")
                  }.foregroundColor(colorScheme == .dark ? Color.white : Color.black)
              }
              .sheet(isPresented: $viewModel.showingNewItemView){
-                 NewRuleItemView(newItemPresented: $viewModel.showingNewItemView, userId: userId)
+                 NewRuleItemView(newItemPresented: $viewModel.showingNewItemView, newTemplate: viewModel.showingTemplateView, userId: userId)
              }
          }
      }
