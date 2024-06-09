@@ -44,7 +44,7 @@ struct NewRuleItemView: View {
                 TextField("Title", text: $viewModel.title)
                     .textFieldStyle(DefaultTextFieldStyle())
                     .onAppear {
-                        viewModel.id = newTemplate ?? true ? "" : (item?.id ?? "")
+                        viewModel.id = newTemplate ? "" : (item?.id ?? "")
                         viewModel.title = item?.title ?? ""
                         viewModel.selectedDays = Set(item?.selectedDays ?? [])
                         viewModel.selectionType = item?.selectionType ?? ""

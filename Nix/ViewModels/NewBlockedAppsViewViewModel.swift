@@ -8,6 +8,8 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
+import ManagedSettings
+import FamilyControls
 
 
 class NewBlockedAppsViewViewModel : ObservableObject {
@@ -16,23 +18,60 @@ class NewBlockedAppsViewViewModel : ObservableObject {
     @Published var id = ""
     @Published var selectedData = ""
     
-    
-    func save() {
-        let db = Firestore.firestore()
+    @Published var showAlert = false
+    @Published var alertMessage = ""
 
+    func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
+        guard let data = selectedApps.data(using: .utf8) else {
+            return nil
+        }
+        do {
+            let originalTokensArray = try JSONDecoder().decode(FamilyActivitySelection.self, from: data)
+            return Array(originalTokensArray.applicationTokens)
+        } catch {
+            print(data)
+            print("Error decoding selectedApps string:", error)
+            return nil
+        }
+    }
+    
+    var canSave: Bool {
+        alertMessage = ""
         let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
      
-//            if let appData = userDefaults?.object(forKey: "applications") as? Data {
-//                selectedApps = String(decoding: appData, as: UTF8.self)
-//                }
-//            
-            if let selectData = userDefaults?.object(forKey: "selectedApps") as? Data {
+        if let selectData = userDefaults?.object(forKey: "selectedApps") as? Data {
                 selectedData = String(decoding: selectData, as: UTF8.self)
-                }
+        }
+        guard !title.trimmingCharacters(in: .whitespaces).isEmpty else {
+            alertMessage += "Please fill in the title field."
+            return false
+        }
+        alertMessage = ""
         
+        guard convertToOriginalTokensArray(selectedApps: selectedData)?.count ?? 0 >= 1 else {
+            alertMessage += "At least one app needs to be selected."
+            return false
+        }
+        alertMessage = ""
+
+        guard convertToOriginalTokensArray(selectedApps: selectedData)?.count ?? 0 <= 50 else {
+            alertMessage += "Please select less than 50 apps."
+            return false
+        }
+        alertMessage = ""
+        
+        return true
+    }
+    func save() {
+        guard canSave else {
+            return
+        }
         guard let uId = Auth.auth().currentUser?.uid else{
             return
         }
+        let db = Firestore.firestore()
+
+       
         print("before update", selectedData)
         print(id)
         if self.id != "" {

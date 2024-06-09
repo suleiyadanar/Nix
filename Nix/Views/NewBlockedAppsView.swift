@@ -48,8 +48,14 @@ struct NewBlockedAppsView: View {
             ))
             
             TLButton(text: "Save", background: .pink) {
-                viewModel.save()
-                presentationMode.wrappedValue.dismiss() // Go back to the previous view
+                if viewModel.canSave {
+                    viewModel.save()
+                    presentationMode.wrappedValue.dismiss() // Go back to the previous view
+                }else{
+                    viewModel.showAlert = true
+                }
+            } .alert(isPresented: $viewModel.showAlert) {
+                Alert(title: Text("Error"), message: Text(viewModel.alertMessage))
             }
         }
         .navigationTitle(forNewAppGroup ? "New App Group" : "Edit App Group")
