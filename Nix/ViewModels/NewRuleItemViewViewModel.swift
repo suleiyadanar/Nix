@@ -23,9 +23,11 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var showAlert = false
     @Published var alertMessage = ""
     
+    @Published var showingAppGroup = false
     
     var selectedApps = String()
     var selectedData = String()
+    var selectionType = String()
     
     func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
         guard let data = selectedApps.data(using: .utf8) else {
@@ -116,6 +118,7 @@ class NewRuleItemViewViewModel : ObservableObject {
         
         if self.id != "" {
             // Update model
+            print("updating")
             db.collection("users")
                 .document(uId)
                 .collection("rules")
@@ -123,9 +126,12 @@ class NewRuleItemViewViewModel : ObservableObject {
                 .updateData(["title":title, "startTime":startTime.timeIntervalSince1970, "endTime":endTime.timeIntervalSince1970,
                              "selectedDays": Array(selectedDays).sorted(),
                     "selectedApps": selectedApps,
-                    "selectedData": selectedData])
+                    "selectedData": selectedData,
+                             "selectionType": selectionType
+                            ])
         }else {
             // Create model
+            print("creating")
             let newId = UUID().uuidString
             let newRule = RuleItem(
                 id:newId,
@@ -134,7 +140,8 @@ class NewRuleItemViewViewModel : ObservableObject {
                 endTime: endTime.timeIntervalSince1970,
                 selectedDays: Array(selectedDays).sorted(),
                 selectedApps: selectedApps,
-                selectedData: selectedData
+                selectedData: selectedData,
+                selectionType: selectionType
             )
 
             // Save model

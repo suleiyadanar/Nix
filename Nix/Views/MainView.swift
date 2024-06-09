@@ -10,7 +10,7 @@ import DeviceActivity
 
 struct MainView: View {
     @StateObject var viewModel = MainViewViewModel()
-    
+    @EnvironmentObject var pomodoroModel: PomodoroViewViewModel
     var body: some View  {
         if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
             //signed in
@@ -44,7 +44,8 @@ struct MainView: View {
                 RulesView(userId: viewModel.currentUserId)
                     .ignoresSafeArea()
                     .tag("chart.bar.doc.horizontal.fill")
-                PomodoroView()
+                PomodoroView(viewModel: pomodoroModel)
+                    .environmentObject(pomodoroModel)
                     .ignoresSafeArea()
                     .tag("timer.circle.fill")
                 ProfileView()

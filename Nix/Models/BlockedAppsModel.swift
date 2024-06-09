@@ -21,8 +21,10 @@ class BlockedAppsModel: ObservableObject {
                 JSONEncoder().encode(self.activitySelection)
                 // encode app tokens
                 let encodedApps = try JSONEncoder().encode(self.activitySelection.applicationTokens)
+
                 // encode web tokens
                 let encodedWebsites = try JSONEncoder().encode(self.activitySelection.webDomainTokens)
+
                 // save selection
                 userDefaults.set(selectedApps, forKey: "selectedApps")
                 // save app tokens
@@ -43,4 +45,3 @@ class BlockedAppsModel: ObservableObject {
 
 
     
-

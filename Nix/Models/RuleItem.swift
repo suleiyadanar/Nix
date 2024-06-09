@@ -16,5 +16,6 @@ struct RuleItem: Codable, Identifiable {
     let endTime: TimeInterval
     let selectedDays: [Int]
     let selectedApps: String
-    let selectedData: String
+    var selectedData: String
+    var selectionType: String
 }

@@ -6,15 +6,18 @@
     "endTime":1622743200,
     "selectedDays":[1,2,3],
     "selectedApps": "",
-    "selectedData": ""
+    "selectedData": "",
+    "selectionType": ""
+    
   },
   {
     "id":"1",
     "title":"Wind Down",
-    "startTime":1622786400,
-    "endTime":1622762400,
+    "startTime":1622736000,
+    "endTime":1622743200,
     "selectedDays":[1,2,3],
     "selectedApps": "",
-    "selectedData": ""
+    "selectedData": "",
+    "selectionType": ""
   }
 ]
