@@ -56,6 +56,8 @@ func loadJson(fileName: String) -> [RuleItem]? {
 }
 
 struct RulesView: View {
+    @State private var showSheet = false
+
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel : RulesViewViewModel
     @State private var selectedItem: RuleItem?
@@ -77,6 +79,7 @@ struct RulesView: View {
      }
 
      var body: some View {
+
          NavigationView {
              VStack(){
                      VStack(alignment:.leading){
@@ -192,6 +195,13 @@ struct RulesView: View {
              .sheet(isPresented: $viewModel.showingNewItemView){
                  NewRuleItemView(newItemPresented: $viewModel.showingNewItemView, newTemplate: viewModel.showingTemplateView, userId: userId)
              }
+         }.onAppear {
+             NotificationCenter.default.addObserver(forName: NSNotification.Name("NotificationTapped"), object: nil, queue: .main) { _ in
+                 self.showSheet = true
+             }
+         }
+         .sheet(isPresented: $showSheet) {
+             TimeOutNotiView()
          }
      }
  }

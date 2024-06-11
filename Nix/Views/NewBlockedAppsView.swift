@@ -19,6 +19,7 @@ struct NewBlockedAppsView: View {
         
         do {
             let selection = try JSONDecoder().decode(FamilyActivitySelection.self, from: data)
+            print("got here saved selection")
             return selection
         } catch {
             print("Failed to decode FamilyActivitySelection: \(error)")
@@ -42,6 +43,7 @@ struct NewBlockedAppsView: View {
                        let jsonString = String(data: jsonData, encoding: .utf8) {
                         appGroup?.selectedData = jsonString
                         viewModel.selectedData = jsonString
+                        print(jsonString)
                     }
                     model.activitySelection = newValue
                 }

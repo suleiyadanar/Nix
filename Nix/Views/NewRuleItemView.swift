@@ -49,6 +49,23 @@ struct NewRuleItemView: View {
                         viewModel.selectedDays = Set(item?.selectedDays ?? [])
                         viewModel.selectionType = item?.selectionType ?? ""
                     }
+                Button(action: {
+                    viewModel.showingAppGroup.toggle()
+                }) {
+                    Text("Blocked Apps")
+                }
+                .sheet(isPresented: $viewModel.showingAppGroup) {
+                    BlockedAppsView(
+                        userId: userId,
+                        selectionType: $viewModel.selectionType,
+                        selectedData: $viewModel.selectedData,
+                        showingAppGroup: $viewModel.showingAppGroup,
+                        item: $item
+                    )
+                }
+                
+                Text(viewModel.selectionType)
+                Text(viewModel.selectedData)
                 
                 DatePicker("Start Time", selection: $viewModel.startTime, displayedComponents: .hourAndMinute)
                     .datePickerStyle(GraphicalDatePickerStyle())
@@ -85,23 +102,7 @@ struct NewRuleItemView: View {
                     .frame(maxWidth: .infinity)
                 }
                 
-                Button(action: {
-                    viewModel.showingAppGroup.toggle()
-                }) {
-                    Text("Blocked Apps")
-                }
-                .sheet(isPresented: $viewModel.showingAppGroup) {
-                    BlockedAppsView(
-                        userId: userId,
-                        selectionType: $viewModel.selectionType,
-                        selectedData: $viewModel.selectedData,
-                        showingAppGroup: $viewModel.showingAppGroup,
-                        item: $item
-                    )
-                }
-                
-                Text(viewModel.selectionType)
-                Text(viewModel.selectedData)
+               
                 
                 TLButton(text: "Save", background: .pink) {
                     var activityName = DeviceActivityName(rawValue: "\(viewModel.title)")

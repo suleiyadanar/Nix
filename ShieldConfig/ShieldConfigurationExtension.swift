@@ -8,6 +8,7 @@
 import ManagedSettings
 import ManagedSettingsUI
 import UIKit
+import SwiftUI
 
 // Override the functions below to customize the shields used in various situations.
 // The system provides a default appearance for any methods that your subclass doesn't override.
@@ -15,8 +16,15 @@ import UIKit
 class ShieldConfigurationExtension: ShieldConfigurationDataSource {
     override func configuration(shielding application: Application) -> ShieldConfiguration {
         // Customize the shield as needed for applications.
-        ShieldConfiguration(backgroundColor: UIColor.blue, icon: UIImage(named:"lizard-nix"), title:ShieldConfiguration.Label(text:"NIX", color: UIColor.purple))
+        ShieldConfiguration(
+            backgroundColor: UIColor.blue,
+            icon: UIImage(named:"lizard-nix"),
+            title:ShieldConfiguration.Label(text:"NIX", color: UIColor.purple),
+            primaryButtonLabel: ShieldConfiguration.Label(text:"OK", color:UIColor.green),
+            secondaryButtonLabel: ShieldConfiguration.Label(text:"Unblock Apps", color:UIColor.orange)
+            )
     }
+    
     
     override func configuration(shielding application: Application, in category: ActivityCategory) -> ShieldConfiguration {
         // Customize the shield as needed for applications shielded because of their category.

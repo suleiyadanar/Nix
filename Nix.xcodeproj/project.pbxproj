@@ -113,6 +113,8 @@
 		3FEFA7AF2BA61A740074F1EC /* DeviceActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3FEFA7A82BA61A740074F1EC /* DeviceActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3FEFA7C52BA7E6780074F1EC /* BlockedAppsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */; };
 		3FEFA7D82BA8A30C0074F1EC /* BlockedAppsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */; };
+		3FF3EA312C1792540074977C /* TimeOutNotiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3EA302C1792540074977C /* TimeOutNotiView.swift */; };
+		3FF3EA332C17D1690074977C /* TimeOutQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3EA322C17D1690074977C /* TimeOutQuestionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -283,6 +285,8 @@
 		3FEFA7AA2BA61A740074F1EC /* DeviceActivityExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityExtension.swift; sourceTree = "<group>"; };
 		3FEFA7AC2BA61A740074F1EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FEFA7BD2BA64A830074F1EC /* DeviceActivityExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeviceActivityExtension.entitlements; sourceTree = "<group>"; };
+		3FF3EA302C1792540074977C /* TimeOutNotiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutNotiView.swift; sourceTree = "<group>"; };
+		3FF3EA322C17D1690074977C /* TimeOutQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutQuestionView.swift; sourceTree = "<group>"; };
 		3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRuleItemView.swift; sourceTree = "<group>"; };
 		E12A997F22116869190E240E /* Pods-Nix.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nix.release.xcconfig"; path = "Target Support Files/Pods-Nix/Pods-Nix.release.xcconfig"; sourceTree = "<group>"; };
 		FE2BEDE851FEE31011E17D46 /* Pods-Nix.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nix.debug.xcconfig"; path = "Target Support Files/Pods-Nix/Pods-Nix.debug.xcconfig"; sourceTree = "<group>"; };
@@ -363,7 +367,6 @@
 			path = "Settings Views";
 			sourceTree = "<group>";
 		};
-
 		3BCBF7B42C0ADFFB00F7532B /* Onboarding Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,8 +391,8 @@
 				3BA6CA8F2C114CA10031B2E1 /* Onboarding10View.swift */,
 			);
 			path = "Onboarding Views";
-            sourceTree = "<group>";
-        };
+			sourceTree = "<group>";
+		};
 		3F47EBC22C0E4D010043507C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -515,6 +518,8 @@
 				3F7234C42B86CAF70095EA42 /* QuickStartBtnView.swift */,
 				3F7234C52B86CAF70095EA42 /* LoginSignUpHeaderView.swift */,
 				3F7234C62B86CAF70095EA42 /* RulesView.swift */,
+				3FF3EA302C1792540074977C /* TimeOutNotiView.swift */,
+				3FF3EA322C17D1690074977C /* TimeOutQuestionView.swift */,
 				3FCB35FB2B92783900FB6088 /* ProfileView.swift */,
 				3F7B97102B870DBD00F465D2 /* ViewControllerRepresentableView.swift */,
 				3F735A522B885BFB00A0F2F1 /* CalendarView.swift */,
@@ -885,9 +890,8 @@
 				3BCBF7BA2C0D5A8000F7532B /* Onboarding4View.swift in Sources */,
 				3F7234DB2B86CAF70095EA42 /* LoginSignUpHeaderView.swift in Sources */,
 				3F9EB4E22C10224F0019200C /* BlockedAppsView.swift in Sources */,
-
+				3FF3EA312C1792540074977C /* TimeOutNotiView.swift in Sources */,
 				3BA6CA8E2C112F8D0031B2E1 /* Onboarding9View.swift in Sources */,
-
 				3B3222202BB0C5400037FE2D /* LogOutView.swift in Sources */,
 				3F735A532B885BFB00A0F2F1 /* CalendarView.swift in Sources */,
 				3F7234DA2B86CAF70095EA42 /* QuickStartBtnView.swift in Sources */,
@@ -898,7 +902,7 @@
 				3BCBF7C22C0EC39400F7532B /* UserSettings.swift in Sources */,
 				3B3222102BB0C4D90037FE2D /* PrivacyView.swift in Sources */,
 				3F7234E12B86CAF70095EA42 /* HomepageView.swift in Sources */,
-
+				3FF3EA332C17D1690074977C /* TimeOutQuestionView.swift in Sources */,
 				3F9EB4EA2C10F3240019200C /* AppGroupModel.swift in Sources */,
 				3BCBF7BC2C0D743700F7532B /* Onboarding5View.swift in Sources */,
 				3F7234D42B86CAF70095EA42 /* RegisterViewViewModel.swift in Sources */,

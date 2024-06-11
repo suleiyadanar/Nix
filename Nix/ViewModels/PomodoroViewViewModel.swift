@@ -36,6 +36,11 @@ class PomodoroViewViewModel : NSObject,ObservableObject, UNUserNotificationCente
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.sound, .banner])
     }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+            // Post a notification to notify the app about the notification tap
+            NotificationCenter.default.post(name: NSNotification.Name("NotificationTapped"), object: nil)
+            completionHandler()
+        }
     func startTimer() {
         withAnimation(.easeInOut(duration: 0.25)){
             isStarted = true
