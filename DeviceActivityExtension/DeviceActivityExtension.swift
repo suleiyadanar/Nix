@@ -58,10 +58,29 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
 //            print("Activity interval will start in 5 minutes.")
 //        }
 //
-//    override func intervalWillEndWarning(for activity: DeviceActivityName) {
-//            // Handle the warning that the interval is about to end
-//            print("Activity interval will end in 5 minutes.")
-//        }
+    override func intervalWillEndWarning(for activity: DeviceActivityName) {
+            super.intervalWillEndWarning(for: activity)
+            // Unshield apps after one minute
+            let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+            
+            do {
+                // get selected app tokens from app groups
+                if let appData = userDefaults?.object(forKey: "applications") as? Data {
+                    let decodedApplicationTokens = try JSONDecoder().decode([ApplicationToken].self, from: appData)
+                    
+                    store.shield.applications = nil
+                    print("Unshielding apps for one minute.")
+                    
+                    // Reapply the shield after one minute
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
+                        self.store.shield.applications = Set(decodedApplicationTokens)
+                        print("Reapplied shield.")
+                    }
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+        }
     override func eventDidReachThreshold(_ event:DeviceActivityEvent.Name,activity:DeviceActivityName){
         super.eventDidReachThreshold(event, activity: activity)
     }

@@ -115,6 +115,7 @@
 		3FEFA7D82BA8A30C0074F1EC /* BlockedAppsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */; };
 		3FF3EA312C1792540074977C /* TimeOutNotiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3EA302C1792540074977C /* TimeOutNotiView.swift */; };
 		3FF3EA332C17D1690074977C /* TimeOutQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3EA322C17D1690074977C /* TimeOutQuestionView.swift */; };
+		3FF3EA352C18A9390074977C /* TimeOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3EA342C18A9390074977C /* TimeOutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,6 +288,7 @@
 		3FEFA7BD2BA64A830074F1EC /* DeviceActivityExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeviceActivityExtension.entitlements; sourceTree = "<group>"; };
 		3FF3EA302C1792540074977C /* TimeOutNotiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutNotiView.swift; sourceTree = "<group>"; };
 		3FF3EA322C17D1690074977C /* TimeOutQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutQuestionView.swift; sourceTree = "<group>"; };
+		3FF3EA342C18A9390074977C /* TimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutView.swift; sourceTree = "<group>"; };
 		3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRuleItemView.swift; sourceTree = "<group>"; };
 		E12A997F22116869190E240E /* Pods-Nix.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nix.release.xcconfig"; path = "Target Support Files/Pods-Nix/Pods-Nix.release.xcconfig"; sourceTree = "<group>"; };
 		FE2BEDE851FEE31011E17D46 /* Pods-Nix.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nix.debug.xcconfig"; path = "Target Support Files/Pods-Nix/Pods-Nix.debug.xcconfig"; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 				3F9EB4E12C10224F0019200C /* BlockedAppsView.swift */,
 				3F9EB4E32C1029AB0019200C /* NewBlockedAppsView.swift */,
 				3F7234C12B86CAF70095EA42 /* LoginView.swift */,
+				3FF3EA342C18A9390074977C /* TimeOutView.swift */,
 				3F7234C22B86CAF70095EA42 /* RuleItemView.swift */,
 				3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */,
 				3F86B2E12BA32DD200F39E9B /* EditRuleItemView.swift */,
@@ -873,6 +876,7 @@
 				3B32221C2BB0C5270037FE2D /* ReportAProblemView.swift in Sources */,
 				3F7234D22B86CAF70095EA42 /* MainViewViewModel.swift in Sources */,
 				3F7B97112B870DBD00F465D2 /* ViewControllerRepresentableView.swift in Sources */,
+				3FF3EA352C18A9390074977C /* TimeOutView.swift in Sources */,
 				3F9EB4E82C103CC00019200C /* BlockedAppsViewViewModel.swift in Sources */,
 				3F72349E2B86C8CF0095EA42 /* ContentView.swift in Sources */,
 				3F7234CD2B86CAF70095EA42 /* PomodoroViewViewModel.swift in Sources */,

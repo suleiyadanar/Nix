@@ -18,12 +18,21 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var title = ""
     @Published var startTime = Date()
     @Published var endTime = Date()
+    @Published var fromDate = Date()
+    @Published var toDate = Date()
+    
     
     @Published var selectedDays = Set<Int>()
     @Published var showAlert = false
     @Published var alertMessage = ""
     
     @Published var showingAppGroup = false
+    
+    @Published var mode: RuleMode = .regular
+    @Published var unlock: UnlockMethod = .math
+    @Published var delay: DelayTime = .none
+    @Published var timeOutLength: TimeoutLength = .one
+    @Published var timeOutAllowed: Int = Int.max
     
     var selectedApps = String()
     var selectedData = String()
@@ -43,6 +52,29 @@ class NewRuleItemViewViewModel : ObservableObject {
     }
     
     init(){}
+    enum RuleMode: String, Codable {
+        case regular = "Regular"
+        case intentional = "Intentional"
+        case strict = "Strict"
+    }
+    enum UnlockMethod: String, Codable {
+        case math = "Math Problems"
+        case entry = "Entry Prompt"
+    }
+    enum DelayTime: Int, Codable {
+        case none = 0
+        case fifteen = 15
+        case thirty = 30
+        case hour = 60
+        case three_hour = 180
+    }
+    enum TimeoutLength: Int, Codable {
+        case one = 1
+        case five = 5
+        case fifteen = 15
+        case thirty = 30
+        case hour = 60
+    }
     
     var canSave : Bool{
         let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
@@ -123,11 +155,18 @@ class NewRuleItemViewViewModel : ObservableObject {
                 .document(uId)
                 .collection("rules")
                 .document(id)
-                .updateData(["title":title, "startTime":startTime.timeIntervalSince1970, "endTime":endTime.timeIntervalSince1970,
+                .updateData(["title":title, "startTime":startTime.timeIntervalSince1970, "endTime":endTime.timeIntervalSince1970, "fromDate": fromDate.timeIntervalSince1970,
+                             "toDate": toDate.timeIntervalSince1970,
                              "selectedDays": Array(selectedDays).sorted(),
                     "selectedApps": selectedApps,
                     "selectedData": selectedData,
-                             "selectionType": selectionType
+                             "selectionType": selectionType,
+                             "mode": mode.rawValue,
+                             "unlock": unlock.rawValue,
+                             "delay": delay.rawValue,
+                             "timeOutLength": timeOutLength.rawValue,
+                             "timeOutAllowed": timeOutAllowed
+
                             ])
                             
         }else {
@@ -139,10 +178,17 @@ class NewRuleItemViewViewModel : ObservableObject {
                 title: title,
                 startTime: startTime.timeIntervalSince1970,
                 endTime: endTime.timeIntervalSince1970,
+                fromDate: fromDate.timeIntervalSince1970,
+                toDate: toDate.timeIntervalSince1970,
                 selectedDays: Array(selectedDays).sorted(),
                 selectedApps: selectedApps,
                 selectedData: selectedData,
-                selectionType: selectionType
+                selectionType: selectionType,
+                mode: mode.rawValue,
+                unlock: unlock.rawValue,
+                delay: delay.rawValue,
+                timeOutLength: timeOutLength.rawValue,
+                timeOutAllowed: timeOutAllowed
             )
 
             // Save model

@@ -1,4 +1,5 @@
 import SwiftUI
+import DeviceActivity
 
 struct TimeOutNotiView: View {
     @State private var answer: String = ""
@@ -125,6 +126,20 @@ struct TimeOutNotiView: View {
         if let userAnswer = Int(answer) {
             if userAnswer == correctAnswer {
                 isCorrect = true
+                let now = Date()
+                let start = Calendar.current.dateComponents([.hour, .minute, .second], from: now.addingTimeInterval(-10 * 60))
+                let end = Calendar.current.dateComponents([.hour, .minute, .second], from: now.addingTimeInterval(5 * 60))
+                let center = DeviceActivityCenter()
+                let activityName = DeviceActivityName(rawValue: "breakTime")
+                let schedule = DeviceActivitySchedule(intervalStart: start, intervalEnd: end, repeats: false, warningTime: DateComponents(minute: 14))
+                
+                do {
+                    try center.startMonitoring(activityName, during: schedule)
+                    print("break happening")
+                } catch let error {
+                    print("error \(error)")
+                }
+                
                 message = "Correct!"
             } else {
                 isCorrect = false
