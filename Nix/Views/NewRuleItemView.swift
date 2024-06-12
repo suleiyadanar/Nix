@@ -158,7 +158,7 @@ struct NewRuleItemView: View {
                     }
                     // HERE
                     TLButton(text: "Save", background: .pink) {
-                        var activityName = DeviceActivityName(rawValue: "\(viewModel.title)")
+                        var activityName = DeviceActivityName(rawValue: "\(viewModel.id)")
                         let calendar = Calendar.current
                         var intervalStart = calendar.dateComponents([.hour, .minute], from: self.viewModel.startTime)
                         var intervalEnd = calendar.dateComponents([.hour, .minute], from: self.viewModel.endTime)
@@ -177,7 +177,7 @@ struct NewRuleItemView: View {
                             }
                         } else {
                             for i in 0..<viewModel.selectedDays.count {
-                                activityName = DeviceActivityName(rawValue: "\(viewModel.title)" + String(i))
+                                activityName = DeviceActivityName(rawValue: "\(viewModel.id)" + String(i))
                                 intervalStart.weekday = Array(viewModel.selectedDays)[i] + 1
                                 intervalEnd.weekday = Array(viewModel.selectedDays)[i] + 1
                                 schedule = DeviceActivitySchedule(intervalStart: intervalStart, intervalEnd: intervalEnd, repeats: true)
