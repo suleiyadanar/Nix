@@ -1,5 +1,16 @@
 import SwiftUI
+import FirebaseAuth
 import DeviceActivity
+
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+// Assuming Firestore has been properly configured in your app
+let db = Firestore.firestore()
+
+// Define the function to fetch RuleItem by title
+// Define a function to fetch the delay of a RuleItem by title
+
 
 struct TimeOutNotiView: View {
     @State private var answer: String = ""
@@ -122,26 +133,83 @@ struct TimeOutNotiView: View {
         }
     }
     
+    func getTimeOutLengthWithTitle(uId: String, activityName: String, completion: @escaping (Result<Int, Error>) -> Void) {
+        let db = Firestore.firestore()
+        
+        db.collection("users")
+            .document(uId)
+            .collection("rules")
+            .whereField("title", isEqualTo: activityName)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                guard let documents = querySnapshot?.documents, !documents.isEmpty else {
+                    // Handle the case where there are no documents found
+                    let noDocumentsError = NSError(domain: "FirestoreError", code: 404, userInfo: [NSLocalizedDescriptionKey: "No documents found with the specified title."])
+                    completion(.failure(noDocumentsError))
+                    return
+                }
+                
+                for document in documents {
+                    if let timeOutLength = document.data()["timeOutLength"] as? Int {
+                        completion(.success(timeOutLength))
+                        return
+                    } else {
+                        let missingFieldError = NSError(domain: "FirestoreError", code: 400, userInfo: [NSLocalizedDescriptionKey: "timeOutLength field is missing or not an integer in document ID: \(document.documentID)"])
+                        completion(.failure(missingFieldError))
+                        return
+                    }
+                }
+            }
+    }
+    
     func checkAnswer() {
         if let userAnswer = Int(answer) {
             if userAnswer == correctAnswer {
                 isCorrect = true
-                let now = Date()
-                let start = Calendar.current.dateComponents([.hour, .minute, .second], from: now.addingTimeInterval(-10 * 60))
-                let end = Calendar.current.dateComponents([.hour, .minute, .second], from: now.addingTimeInterval(5 * 60))
-                let center = DeviceActivityCenter()
-                let activityName = DeviceActivityName(rawValue: "breakTime")
-                let schedule = DeviceActivitySchedule(intervalStart: start, intervalEnd: end, repeats: false, warningTime: DateComponents(minute: 14))
                 
-                do {
-                    try center.startMonitoring(activityName, during: schedule)
-                    print("break happening")
-                } catch let error {
-                    print("error \(error)")
+                let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+                
+                let ruleTitle = userDefaults?.object(forKey: "activeApp") as! String
+                
+                print("rule title")
+                guard let userId = Auth.auth().currentUser?.uid else { return }
+                
+                
+                getTimeOutLengthWithTitle(uId: userId, activityName: ruleTitle) { result in
+                    switch result {
+                    case .success(let timeOutLength):
+                        userDefaults?.removeObject(forKey: "timeout")
+                        let now = Date()
+                        let start = Calendar.current.dateComponents([.hour, .minute, .second], from: now)
+                        let end = Calendar.current.dateComponents([.hour, .minute, .second], from: now.advanced(by: 15*60))
+                        let center = DeviceActivityCenter()
+                        
+                        let activityName = DeviceActivityName(rawValue: "breakTime")
+                        let schedule = DeviceActivitySchedule(
+                            intervalStart: start,
+                            intervalEnd: end,
+                            repeats: false,
+                            warningTime: DateComponents(minute: 15 - timeOutLength)
+                        )
+                        
+                        do {
+                            try center.startMonitoring(activityName, during: schedule)
+                            print("Break happening")
+                        } catch let error {
+                            print("Error starting monitoring: \(error)")
+                        }
+                        
+                        message = "Correct!"
+                    case .failure(let error):
+                        print("Error getting timeOutLength: \(error.localizedDescription)\(ruleTitle)")
+                        message = "Error retrieving timeOutLength. Try again!\(error.localizedDescription)\(ruleTitle)"
+                    }
                 }
-                
-                message = "Correct!"
-            } else {
+            }else {
                 isCorrect = false
                 message = "Incorrect. Try again!"
             }
