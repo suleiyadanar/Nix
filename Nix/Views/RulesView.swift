@@ -206,7 +206,7 @@ struct RulesView: View {
              }
          }
          .sheet(isPresented: $showSheet) {
-             TimeOutNotiView()
+             TimeOutNotiView(isPresented: $showSheet)
          }
      }
  }

@@ -123,7 +123,7 @@ struct TimeOutView: View {
                 Text("Mode").font(.headline).padding()
                 HStack {
                     Button(action: { viewModel.unlock = .math }) {
-                        Text("Math Problems")
+                        Text("Math Problem")
                             .padding()
                             .background(viewModel.unlock == .math ? Color.blue : Color.gray)
                             .foregroundColor(.white)

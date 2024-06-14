@@ -42,6 +42,7 @@
 		3BCBF7BE2C0D74C700F7532B /* OptionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7BD2C0D74C700F7532B /* OptionButtonView.swift */; };
 		3BCBF7C02C0E71C700F7532B /* Onboarding3AView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7BF2C0E71C700F7532B /* Onboarding3AView.swift */; };
 		3BCBF7C22C0EC39400F7532B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7C12C0EC39400F7532B /* UserSettings.swift */; };
+		3F312BAE2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */; };
 		3F38E3872BA61154001E57CE /* NewRuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */; };
 		3F47EBC32C0E4D010043507C /* templates.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F47EBC12C0E4D010043507C /* templates.json */; };
 		3F72349E2B86C8CF0095EA42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72349D2B86C8CF0095EA42 /* ContentView.swift */; };
@@ -210,6 +211,7 @@
 		3BCBF7BF2C0E71C700F7532B /* Onboarding3AView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding3AView.swift; sourceTree = "<group>"; };
 		3BCBF7C12C0EC39400F7532B /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		3F262D6A2B995F4F0080214E /* Nix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nix.entitlements; sourceTree = "<group>"; };
+		3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutNotiViewViewModel.swift; sourceTree = "<group>"; };
 		3F47EBC12C0E4D010043507C /* templates.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = templates.json; sourceTree = "<group>"; };
 		3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsModel.swift; sourceTree = "<group>"; };
 		3F7234982B86C8CF0095EA42 /* Nix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nix.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -487,6 +489,7 @@
 			children = (
 				3F7234B62B86CAF70095EA42 /* PomodoroViewViewModel.swift */,
 				3F7234B72B86CAF70095EA42 /* SettingsViewViewModel.swift */,
+				3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */,
 				3F9EB4E72C103CC00019200C /* BlockedAppsViewViewModel.swift */,
 				3F7234B82B86CAF70095EA42 /* RulesViewViewModel.swift */,
 				3F7234B92B86CAF70095EA42 /* NewRuleItemViewViewModel.swift */,
@@ -918,6 +921,7 @@
 				3F9EB4E42C1029AC0019200C /* NewBlockedAppsView.swift in Sources */,
 				3F7234CF2B86CAF70095EA42 /* RulesViewViewModel.swift in Sources */,
 				3F86B2E22BA32DD200F39E9B /* EditRuleItemView.swift in Sources */,
+				3F312BAE2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift in Sources */,
 				3F7B97192B87116F00F465D2 /* DataExtension.swift in Sources */,
 				3F7B971B2B8791FC00F465D2 /* ViewController.swift in Sources */,
 				3F7B97172B87110700F465D2 /* CalendarModel.swift in Sources */,

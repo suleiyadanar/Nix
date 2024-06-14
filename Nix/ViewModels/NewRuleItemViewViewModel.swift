@@ -58,7 +58,7 @@ class NewRuleItemViewViewModel : ObservableObject {
         case strict = "Strict"
     }
     enum UnlockMethod: String, Codable {
-        case math = "Math Problems"
+        case math = "Math Problem"
         case entry = "Entry Prompt"
     }
     enum DelayTime: Int, Codable {
