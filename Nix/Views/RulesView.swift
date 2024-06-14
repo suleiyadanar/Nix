@@ -94,7 +94,7 @@ struct RulesView: View {
                          // ITERATE THROUGH THE RULE ITEMS FETCHED FROM THE DATABASE
                          
                          Text(String(items.count))
-                         List(items) { item in
+                         List(items.sorted(by: { $0.startTime < $1.startTime })) { item in
                              Button(action:{
                                  self.selectedItem = item
                                  viewModel.showingEditItemView = true
@@ -128,6 +128,11 @@ struct RulesView: View {
                              // SHOW DELETE BUTTON WHEN A RULE ITEM IS SWIPED
                              .swipeActions {
                                  Button("Delete"){
+                                     let center = DeviceActivityCenter()
+
+                                     let activityName = DeviceActivityName(rawValue: "\(item.title)")
+                                     center.stopMonitoring([activityName])
+                                     print("stop monitoring")
                                      viewModel.delete(id: item.id)
                                  }
                                  .tint(.red)
@@ -201,7 +206,7 @@ struct RulesView: View {
              }
          }
          .sheet(isPresented: $showSheet) {
-             TimeOutNotiView()
+             TimeOutNotiView(isPresented: $showSheet)
          }
      }
  }

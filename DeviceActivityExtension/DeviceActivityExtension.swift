@@ -9,17 +9,17 @@ import Foundation
 import DeviceActivity
 import ManagedSettings
 
-
 class MyDeviceActivityMonitor: DeviceActivityMonitor{
 
     let store = ManagedSettingsStore()
-  
+    // connect to the app groups
+
+    let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+
     override func intervalDidStart(for activity: DeviceActivityName) {
         
         super.intervalDidStart(for: activity)
         
-        // connect to the app groups
-        let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
         
         do {
             // get selected app tokens from app groups
@@ -27,7 +27,11 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
                 let decodedApplicationTokens = try JSONDecoder().decode([ApplicationToken].self, from: appData)
                 
                 //
-                store.shield.applications = decodedApplicationTokens.isEmpty ? nil : Set(decodedApplicationTokens)
+                if activity.rawValue == "breakTime" {
+                    store.shield.applications = nil
+                }else{
+                    store.shield.applications = decodedApplicationTokens.isEmpty ? nil : Set(decodedApplicationTokens)
+                }
                 
 //                print("\(decodedApplicationTokens)")
                 print("Got Here 1")
@@ -38,11 +42,21 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
                 let decodedWebsiteTokens = try JSONDecoder().decode([WebDomainToken].self, from: webData)
                 
                 //
-                store.shield.webDomains = decodedWebsiteTokens.isEmpty ? nil : Set(decodedWebsiteTokens)
+                if activity.rawValue == "breakTime" {
+                    store.shield.webDomains = nil
+                } else{
+                    store.shield.webDomains = decodedWebsiteTokens.isEmpty ? nil : Set(decodedWebsiteTokens)
+
+                }
                 
 //                print("\(decodedWebsiteTokens)")
                 print("Got Here 2")
             }
+            
+            if activity.rawValue != "breakTime" {
+                userDefaults?.set(activity.rawValue, forKey: "activeApp")
+            }
+            print("setting active app name")
         }catch {
             print("Error: \(error)")
         }
@@ -50,6 +64,19 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
     
     override func intervalDidEnd(for activity: DeviceActivityName) {
         super.intervalDidEnd(for: activity)
+//        if activity.rawValue == "breakTime" {
+//
+//            do {
+//                if let appData = userDefaults?.object(forKey: "applications") as? Data {
+//                    let decodedApplicationTokens = try JSONDecoder().decode([ApplicationToken].self, from: appData)
+//                    store.shield.applications = decodedApplicationTokens.isEmpty ? nil : Set(decodedApplicationTokens)
+//                }
+//            }catch {
+//                print("Error: \(error)")
+//            }
+//
+//
+//        }
         store.shield.applications = nil
     }
 
@@ -68,14 +95,18 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
                 if let appData = userDefaults?.object(forKey: "applications") as? Data {
                     let decodedApplicationTokens = try JSONDecoder().decode([ApplicationToken].self, from: appData)
                     
-                    store.shield.applications = nil
-                    print("Unshielding apps for one minute.")
+                    store.shield.applications = decodedApplicationTokens.isEmpty ? nil : Set(decodedApplicationTokens)
+//                    let timeout = userDefaults?.object(forKey: "timeout")as! Double
+//                    print("Unshielding apps for \(timeout) minute.")
                     
+                    
+//
                     // Reapply the shield after one minute
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
-                        self.store.shield.applications = Set(decodedApplicationTokens)
-                        print("Reapplied shield.")
-                    }
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + (timeout  * 60)) {
+//                        self.store.shield.applications = Set(decodedApplicationTokens)
+//                        print("Reapplied shield.")
+//                    }
+                   
                 }
             } catch {
                 print("Error: \(error)")
@@ -85,3 +116,7 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
         super.eventDidReachThreshold(event, activity: activity)
     }
 }
+
+
+
+

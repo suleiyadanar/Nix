@@ -42,6 +42,10 @@
 		3BCBF7BE2C0D74C700F7532B /* OptionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7BD2C0D74C700F7532B /* OptionButtonView.swift */; };
 		3BCBF7C02C0E71C700F7532B /* Onboarding3AView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7BF2C0E71C700F7532B /* Onboarding3AView.swift */; };
 		3BCBF7C22C0EC39400F7532B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7C12C0EC39400F7532B /* UserSettings.swift */; };
+		3F312BAE2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */; };
+		3F312BB02C1C12A8004798E7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3F312BAF2C1C12A8004798E7 /* FirebaseFirestore */; };
+		3F312BB22C1C12B7004798E7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3F312BB12C1C12B7004798E7 /* FirebaseAuth */; };
+		3F312BB42C1C12BD004798E7 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3F312BB32C1C12BD004798E7 /* FirebaseFirestoreSwift */; };
 		3F38E3872BA61154001E57CE /* NewRuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */; };
 		3F72349E2B86C8CF0095EA42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72349D2B86C8CF0095EA42 /* ContentView.swift */; };
 		3F7234A02B86C8D20095EA42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F72349F2B86C8D20095EA42 /* Assets.xcassets */; };
@@ -193,6 +197,8 @@
 		3BCBF7BF2C0E71C700F7532B /* Onboarding3AView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding3AView.swift; sourceTree = "<group>"; };
 		3BCBF7C12C0EC39400F7532B /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		3F262D6A2B995F4F0080214E /* Nix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nix.entitlements; sourceTree = "<group>"; };
+		3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutNotiViewViewModel.swift; sourceTree = "<group>"; };
+		3F47EBC12C0E4D010043507C /* templates.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = templates.json; sourceTree = "<group>"; };
 		3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsModel.swift; sourceTree = "<group>"; };
 		3F7234982B86C8CF0095EA42 /* Nix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F72349D2B86C8CF0095EA42 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -292,6 +298,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+
+		3FA437652C0B6E9F00520D13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FA4376A2C0B6E9F00520D13 /* ManagedSettings.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FA437772C0B729B00520D13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F312BB42C1C12BD004798E7 /* FirebaseFirestoreSwift in Frameworks */,
+				3FA4377B2C0B729B00520D13 /* ManagedSettings.framework in Frameworks */,
+				3FA4377D2C0B729B00520D13 /* ManagedSettingsUI.framework in Frameworks */,
+				3F312BB02C1C12A8004798E7 /* FirebaseFirestore in Frameworks */,
+				3F312BB22C1C12B7004798E7 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +474,7 @@
 			children = (
 				3F7234B62B86CAF70095EA42 /* PomodoroViewViewModel.swift */,
 				3F7234B72B86CAF70095EA42 /* SettingsViewViewModel.swift */,
+				3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */,
 				3F9EB4E72C103CC00019200C /* BlockedAppsViewViewModel.swift */,
 				3F7234B82B86CAF70095EA42 /* RulesViewViewModel.swift */,
 				3F7234B92B86CAF70095EA42 /* NewRuleItemViewViewModel.swift */,
@@ -578,6 +606,46 @@
 			productReference = 3F856E6B2B9D8EEE00E479EB /* ReportExtension Nix.appex */;
 			productType = "com.apple.product-type.extensionkit-extension";
 		};
+		3FA437672C0B6E9F00520D13 /* ShieldAction */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FA437752C0B6E9F00520D13 /* Build configuration list for PBXNativeTarget "ShieldAction" */;
+			buildPhases = (
+				3FA437642C0B6E9F00520D13 /* Sources */,
+				3FA437652C0B6E9F00520D13 /* Frameworks */,
+				3FA437662C0B6E9F00520D13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShieldAction;
+			productName = ShieldAction;
+			productReference = 3FA437682C0B6E9F00520D13 /* ShieldAction.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		3FA437792C0B729B00520D13 /* ShieldConfig */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FA437862C0B729B00520D13 /* Build configuration list for PBXNativeTarget "ShieldConfig" */;
+			buildPhases = (
+				3FA437762C0B729B00520D13 /* Sources */,
+				3FA437772C0B729B00520D13 /* Frameworks */,
+				3FA437782C0B729B00520D13 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShieldConfig;
+			packageProductDependencies = (
+				3F312BAF2C1C12A8004798E7 /* FirebaseFirestore */,
+				3F312BB12C1C12B7004798E7 /* FirebaseAuth */,
+				3F312BB32C1C12BD004798E7 /* FirebaseFirestoreSwift */,
+			);
+			productName = ShieldConfig;
+			productReference = 3FA4377A2C0B729B00520D13 /* ShieldConfig.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+
 		3FEFA7A72BA61A740074F1EC /* DeviceActivityExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3FEFA7B02BA61A740074F1EC /* Build configuration list for PBXNativeTarget "DeviceActivityExtension" */;
@@ -591,6 +659,8 @@
 			dependencies = (
 			);
 			name = DeviceActivityExtension;
+			packageProductDependencies = (
+			);
 			productName = DeviceActivityExtension;
 			productReference = 3FEFA7A82BA61A740074F1EC /* DeviceActivityExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -797,6 +867,7 @@
 				3F9EB4E42C1029AC0019200C /* NewBlockedAppsView.swift in Sources */,
 				3F7234CF2B86CAF70095EA42 /* RulesViewViewModel.swift in Sources */,
 				3F86B2E22BA32DD200F39E9B /* EditRuleItemView.swift in Sources */,
+				3F312BAE2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift in Sources */,
 				3F7B97192B87116F00F465D2 /* DataExtension.swift in Sources */,
 				3F7B971B2B8791FC00F465D2 /* ViewController.swift in Sources */,
 				3F7B97172B87110700F465D2 /* CalendarModel.swift in Sources */,
@@ -1218,6 +1289,21 @@
 			productName = FirebaseFirestore;
 		};
 		3B7F19502BAE2D8400926FE2 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+		3F312BAF2C1C12A8004798E7 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		3F312BB12C1C12B7004798E7 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		3F312BB32C1C12BD004798E7 /* FirebaseFirestoreSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;

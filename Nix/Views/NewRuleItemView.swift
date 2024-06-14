@@ -53,6 +53,7 @@ struct NewRuleItemView: View {
                             viewModel.selectionType = item?.selectionType ?? ""
                             viewModel.mode = item.flatMap { NewRuleItemViewViewModel.RuleMode(rawValue: $0.mode) } ?? .regular
                             viewModel.unlock = item.flatMap { NewRuleItemViewViewModel.UnlockMethod(rawValue: $0.unlock) } ?? .math
+                            viewModel.timeOutAllowed = item?.timeOutAllowed ?? Int.max
                             viewModel.delay = item.flatMap { NewRuleItemViewViewModel.DelayTime(rawValue: $0.delay) } ?? .none
                             viewModel.timeOutLength = item.flatMap { NewRuleItemViewViewModel.TimeoutLength(rawValue: $0.timeOutLength) } ?? .one
                         }
@@ -158,7 +159,7 @@ struct NewRuleItemView: View {
                     }
                     // HERE
                     TLButton(text: "Save", background: .pink) {
-                        var activityName = DeviceActivityName(rawValue: "\(viewModel.title)")
+                        var activityName = DeviceActivityName(rawValue: "\(viewModel.title)-\(viewModel.mode)")
                         let calendar = Calendar.current
                         var intervalStart = calendar.dateComponents([.hour, .minute], from: self.viewModel.startTime)
                         var intervalEnd = calendar.dateComponents([.hour, .minute], from: self.viewModel.endTime)
@@ -171,19 +172,24 @@ struct NewRuleItemView: View {
                         if viewModel.selectedDays.isEmpty {
                             do {
                                 try center.startMonitoring(activityName, during: schedule)
+                                print("evnts fetch", center.events(for:activityName))
+                                print("this is the activity running", center.activities)
+
                                 print("monitoring")
                             } catch let error {
                                 print("error \(error)")
                             }
                         } else {
                             for i in 0..<viewModel.selectedDays.count {
-                                activityName = DeviceActivityName(rawValue: "\(viewModel.title)" + String(i))
+                                activityName = DeviceActivityName(rawValue: "\(viewModel.title)-\(viewModel.mode)" + String(i))
                                 intervalStart.weekday = Array(viewModel.selectedDays)[i] + 1
                                 intervalEnd.weekday = Array(viewModel.selectedDays)[i] + 1
                                 schedule = DeviceActivitySchedule(intervalStart: intervalStart, intervalEnd: intervalEnd, repeats: true)
                             }
                             do {
                                 try center.startMonitoring(activityName, during: schedule)
+                                print("this is the activity running", center.activities)
+
                                 print("monitoring")
                             } catch let error {
                                 print("error \(error)")
