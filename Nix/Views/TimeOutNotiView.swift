@@ -1,9 +1,12 @@
 import SwiftUI
 import Foundation
 
+import SwiftUI
+import Foundation
+
 struct TimeOutNotiView: View {
     @StateObject private var viewModel = TimeOutNotiViewModel()
-    @Binding var isPresented: Bool  // New binding variable
+    @Binding var isPresented: Bool
 
     var body: some View {
         VStack {
@@ -45,41 +48,62 @@ struct TimeOutNotiView: View {
 
             Spacer()
 
-            Text(viewModel.problem)
-                .font(.system(size: 48, weight: .medium))
-                .padding(.bottom, 10)
-
-            TextField("", text: $viewModel.answer)
-                .multilineTextAlignment(.center)
-                .padding()
-                .background(Color.white)
-                .cornerRadius(5)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
+            if viewModel.message == "No more time outs available." {
+                Text(viewModel.message)
+                    .font(.system(size: 48, weight: .medium))
+                    .padding(.bottom, 10)
+                
+                Button(action: {}) {
+                    Text("Unlock")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(.white)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray)
+                        .cornerRadius(30)
+                }
                 .padding(.horizontal, 50)
+                .padding(.top, 10)
+                .disabled(true)
+            } else {
+                Text(viewModel.problem)
+                    .font(.system(size: 48, weight: .medium))
+                    .padding(.bottom, 10)
 
-            Button(action: {
-                viewModel.checkAnswer()
-            }) {
-                Text("Unlock")
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundColor(.white)
-                    .frame(minWidth: 0, maxWidth: .infinity)
+                TextField("", text: $viewModel.answer)
+                    .multilineTextAlignment(.center)
                     .padding()
-                    .background(viewModel.timerRunning ? Color.gray : Color.purple)
-                    .cornerRadius(30)
-            }
-            .padding(.horizontal, 50)
-            .padding(.top, 10)
-            .disabled(viewModel.timerRunning)
-            .onChange(of: viewModel.shouldDismiss) {
-                if viewModel.shouldDismiss {
-                            isPresented = false  // Dismiss the view
-                        }
+                    .background(Color.white)
+                    .cornerRadius(5)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .padding(.horizontal, 50)
+
+                Button(action: {
+                    viewModel.checkAnswer()
+                }) {
+                    Text("Unlock")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(.white)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .background(viewModel.timerRunning ? Color.gray : Color.purple)
+                        .cornerRadius(30)
+                }
+                .padding(.horizontal, 50)
+                .padding(.top, 10)
+                .disabled(viewModel.timerRunning)
+                .onChange(of: viewModel.shouldDismiss) { newValue in
+                    if newValue {
+                        isPresented = false
                     }
-            Text(viewModel.message)
+                }
+            }
+            if (viewModel.message != "No more time outs available."){
+                Text(viewModel.message)
+            }
 
             Spacer()
 

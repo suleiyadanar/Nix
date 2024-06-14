@@ -9,7 +9,6 @@ import Foundation
 import DeviceActivity
 import ManagedSettings
 
-
 class MyDeviceActivityMonitor: DeviceActivityMonitor{
 
     let store = ManagedSettingsStore()
@@ -66,7 +65,7 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
     override func intervalDidEnd(for activity: DeviceActivityName) {
         super.intervalDidEnd(for: activity)
 //        if activity.rawValue == "breakTime" {
-//            
+//
 //            do {
 //                if let appData = userDefaults?.object(forKey: "applications") as? Data {
 //                    let decodedApplicationTokens = try JSONDecoder().decode([ApplicationToken].self, from: appData)
@@ -75,7 +74,7 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
 //            }catch {
 //                print("Error: \(error)")
 //            }
-// 
+//
 //
 //        }
         store.shield.applications = nil
@@ -117,3 +116,7 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
         super.eventDidReachThreshold(event, activity: activity)
     }
 }
+
+
+
+

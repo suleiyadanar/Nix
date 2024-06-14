@@ -22,10 +22,30 @@ class TimeOutNotiViewModel: ObservableObject {
 
     init() {
         ruleTitle = userDefaults?.string(forKey: "activeApp") ?? ""
+        checkTimeOutAllowed()
         startTimer()
         generateProblem()
     }
-    
+
+    func checkTimeOutAllowed() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        getTimeOutAllowed(uId: userId) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let timeOutAllowed):
+                self.userDefaults?.set(timeOutAllowed, forKey: "timeOutAllowed")
+                if timeOutAllowed <= 0 {
+                    self.message = "No more time outs available."
+                    self.timerRunning = false
+                }
+            case .failure(let error):
+                self.message = "Error retrieving timeOutAllowed: \(error.localizedDescription)"
+                print("Error retrieving timeOutAllowed: \(error.localizedDescription)")
+            }
+        }
+    }
+
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self else { return }
@@ -135,16 +155,55 @@ class TimeOutNotiViewModel: ObservableObject {
     private func handleCorrectAnswer() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
 
-        getTimeOutLengthWithTitle(uId: userId, activityName: ruleTitle) { [weak self] result in
+        getTimeOutAllowed(uId: userId) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let timeOutLength):
-                self.scheduleBreak(timeOutLength: timeOutLength)
-                self.message = "Correct!"
-                self.shouldDismiss = true
+            case .success(let timeOutAllowed):
+                if timeOutAllowed == Int.max {
+                    // Skip decrement and proceed to schedule break
+                    self.getTimeOutLengthWithTitle(uId: userId, activityName: self.ruleTitle) { result in
+                        switch result {
+                        case .success(let timeOutLength):
+                            self.scheduleBreak(timeOutLength: timeOutLength)
+                            self.message = "Correct!"
+                            self.shouldDismiss = true
+                        case .failure(let error):
+                            self.message = "Error retrieving timeOutLength. Try again! \(error.localizedDescription)"
+                            print("Error getting timeOutLength: \(error.localizedDescription)")
+                        }
+                    }
+                } else {
+                    // Proceed with decrementing timeOutAllowed
+                    self.decrementTimeOutAllowed(uId: userId) { result in
+                        switch result {
+                        case .success(let newCount):
+                            // Save the updated timeOutAllowed to UserDefaults
+                            self.userDefaults?.set(newCount, forKey: "timeOutAllowed")
+                            
+                            if newCount >= 0 {
+                                self.getTimeOutLengthWithTitle(uId: userId, activityName: self.ruleTitle) { result in
+                                    switch result {
+                                    case .success(let timeOutLength):
+                                        self.scheduleBreak(timeOutLength: timeOutLength)
+                                        self.message = "Correct!"
+                                        self.shouldDismiss = true
+                                    case .failure(let error):
+                                        self.message = "Error retrieving timeOutLength. Try again! \(error.localizedDescription)"
+                                        print("Error getting timeOutLength: \(error.localizedDescription)")
+                                    }
+                                }
+                            } else {
+                                self.message = "No more time outs available."
+                            }
+                        case .failure(let error):
+                            self.message = "Error decrementing time out: \(error.localizedDescription)"
+                            print("Error decrementing time out: \(error.localizedDescription)")
+                        }
+                    }
+                }
             case .failure(let error):
-                self.message = "Error retrieving timeOutLength. Try again! \(error.localizedDescription)"
-                print("Error getting timeOutLength: \(error.localizedDescription)")
+                self.message = "Error retrieving timeOutAllowed: \(error.localizedDescription)"
+                print("Error retrieving timeOutAllowed: \(error.localizedDescription)")
             }
         }
     }
@@ -177,6 +236,43 @@ class TimeOutNotiViewModel: ObservableObject {
 
     func getUnlockWithTitle(uId: String, activityName: String, completion: @escaping (Result<String, Error>) -> Void) {
         fetchDocumentField(uId: uId, activityName: activityName, fieldName: "unlock", completion: completion)
+    }
+
+    func getTimeOutAllowed(uId: String, completion: @escaping (Result<Int, Error>) -> Void) {
+        fetchDocumentField(uId: uId, activityName: ruleTitle, fieldName: "timeOutAllowed", completion: completion)
+    }
+
+    func decrementTimeOutAllowed(uId: String, completion: @escaping (Result<Int, Error>) -> Void) {
+        let userDocument = db.collection("users").document(uId)
+        let rulesCollection = userDocument.collection("rules")
+
+        rulesCollection.whereField("title", isEqualTo: ruleTitle).getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let documents = querySnapshot?.documents, let document = documents.first else {
+                let noDocumentsError = NSError(domain: "FirestoreError", code: 404, userInfo: [NSLocalizedDescriptionKey: "No documents found with the specified title."])
+                completion(.failure(noDocumentsError))
+                return
+            }
+
+            var timeOutAllowed = document.data()["timeOutAllowed"] as? Int ?? 0
+
+            if timeOutAllowed >= 0 && timeOutAllowed != Int.max {
+                timeOutAllowed -= 1
+                document.reference.updateData(["timeOutAllowed": timeOutAllowed]) { error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(timeOutAllowed))
+                    }
+                }
+            } else {
+                completion(.success(timeOutAllowed))
+            }
+        }
     }
 
     private func fetchDocumentField<T>(uId: String, activityName: String, fieldName: String, completion: @escaping (Result<T, Error>) -> Void) {

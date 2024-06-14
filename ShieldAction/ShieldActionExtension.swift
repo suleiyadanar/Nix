@@ -58,4 +58,3 @@ class ShieldActionExtension: ShieldActionDelegate {
            }
        }
 }
-
