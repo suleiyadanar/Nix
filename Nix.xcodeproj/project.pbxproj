@@ -47,6 +47,7 @@
 		3F312BB22C1C12B7004798E7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3F312BB12C1C12B7004798E7 /* FirebaseAuth */; };
 		3F312BB42C1C12BD004798E7 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3F312BB32C1C12BD004798E7 /* FirebaseFirestoreSwift */; };
 		3F38E3872BA61154001E57CE /* NewRuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */; };
+		3F47EBC32C0E4D010043507C /* templates.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F47EBC12C0E4D010043507C /* templates.json */; };
 		3F72349E2B86C8CF0095EA42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72349D2B86C8CF0095EA42 /* ContentView.swift */; };
 		3F7234A02B86C8D20095EA42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F72349F2B86C8D20095EA42 /* Assets.xcassets */; };
 		3F7234A32B86C8D20095EA42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F7234A22B86C8D20095EA42 /* Preview Assets.xcassets */; };
@@ -129,6 +130,20 @@
 			remoteGlobalIDString = 3F856E6A2B9D8EEE00E479EB;
 			remoteInfo = "ReportExtension Nix";
 		};
+		3FA437702C0B6E9F00520D13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F7234902B86C8CF0095EA42 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3FA437672C0B6E9F00520D13;
+			remoteInfo = ShieldAction;
+		};
+		3FA437832C0B729B00520D13 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F7234902B86C8CF0095EA42 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3FA437792C0B729B00520D13;
+			remoteInfo = ShieldConfig;
+		};
 		3FEFA7AD2BA61A740074F1EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3F7234902B86C8CF0095EA42 /* Project object */;
@@ -146,6 +161,8 @@
 			dstSubfolderSpec = 13;
 			files = (
 				3FEFA7AF2BA61A740074F1EC /* DeviceActivityExtension.appex in Embed Foundation Extensions */,
+				3FA437852C0B729B00520D13 /* ShieldConfig.appex in Embed Foundation Extensions */,
+				3FA437722C0B6E9F00520D13 /* ShieldAction.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,7 +318,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-
 		3FA437652C0B6E9F00520D13 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -336,6 +352,8 @@
 			isa = PBXGroup;
 			children = (
 				25B5C470ABA7A74EDA27DAF3 /* Pods_Nix.framework */,
+				3FA437692C0B6E9F00520D13 /* ManagedSettings.framework */,
+				3FA4377C2C0B729B00520D13 /* ManagedSettingsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -385,14 +403,12 @@
 			path = "Onboarding Views";
 			sourceTree = "<group>";
 		};
-
 		3F47EBC22C0E4D010043507C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				3F47EBC12C0E4D010043507C /* templates.json */,
 			);
 			path = Resources;
-
 			sourceTree = "<group>";
 		};
 		3F72348F2B86C8CF0095EA42 = {
@@ -401,6 +417,8 @@
 				3F72349A2B86C8CF0095EA42 /* Nix */,
 				3F856E6C2B9D8EEE00E479EB /* ReportExtension Nix */,
 				3FEFA7A92BA61A740074F1EC /* DeviceActivityExtension */,
+				3FA4376B2C0B6E9F00520D13 /* ShieldAction */,
+				3FA4377E2C0B729B00520D13 /* ShieldConfig */,
 				3F7234992B86C8CF0095EA42 /* Products */,
 				EF20467D81C37E211C022C97 /* Pods */,
 				36059B5D3C4473F59CD89E6E /* Frameworks */,
@@ -413,6 +431,8 @@
 				3F7234982B86C8CF0095EA42 /* Nix.app */,
 				3F856E6B2B9D8EEE00E479EB /* ReportExtension Nix.appex */,
 				3FEFA7A82BA61A740074F1EC /* DeviceActivityExtension.appex */,
+				3FA437682C0B6E9F00520D13 /* ShieldAction.appex */,
+				3FA4377A2C0B729B00520D13 /* ShieldConfig.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -420,6 +440,7 @@
 		3F72349A2B86C8CF0095EA42 /* Nix */ = {
 			isa = PBXGroup;
 			children = (
+				3F47EBC22C0E4D010043507C /* Resources */,
 				3F7234A12B86C8D20095EA42 /* Preview Content */,
 				3F262D6A2B995F4F0080214E /* Nix.entitlements */,
 				3FB234262B8872E0007894D5 /* Info.plist */,
@@ -538,6 +559,26 @@
 			path = "ReportExtension Nix";
 			sourceTree = "<group>";
 		};
+		3FA4376B2C0B6E9F00520D13 /* ShieldAction */ = {
+			isa = PBXGroup;
+			children = (
+				3FA4376C2C0B6E9F00520D13 /* ShieldActionExtension.swift */,
+				3FA4376E2C0B6E9F00520D13 /* Info.plist */,
+				3FA4376F2C0B6E9F00520D13 /* ShieldAction.entitlements */,
+			);
+			path = ShieldAction;
+			sourceTree = "<group>";
+		};
+		3FA4377E2C0B729B00520D13 /* ShieldConfig */ = {
+			isa = PBXGroup;
+			children = (
+				3FA4377F2C0B729B00520D13 /* ShieldConfigurationExtension.swift */,
+				3FA437812C0B729B00520D13 /* Info.plist */,
+				3FA437822C0B729B00520D13 /* ShieldConfig.entitlements */,
+			);
+			path = ShieldConfig;
+			sourceTree = "<group>";
+		};
 		3FEFA7A92BA61A740074F1EC /* DeviceActivityExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -578,6 +619,8 @@
 			dependencies = (
 				3F856E762B9D8EEE00E479EB /* PBXTargetDependency */,
 				3FEFA7AE2BA61A740074F1EC /* PBXTargetDependency */,
+				3FA437712C0B6E9F00520D13 /* PBXTargetDependency */,
+				3FA437842C0B729B00520D13 /* PBXTargetDependency */,
 			);
 			name = Nix;
 			packageProductDependencies = (
@@ -645,7 +688,6 @@
 			productReference = 3FA4377A2C0B729B00520D13 /* ShieldConfig.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-
 		3FEFA7A72BA61A740074F1EC /* DeviceActivityExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3FEFA7B02BA61A740074F1EC /* Build configuration list for PBXNativeTarget "DeviceActivityExtension" */;
@@ -681,6 +723,12 @@
 					3F856E6A2B9D8EEE00E479EB = {
 						CreatedOnToolsVersion = 15.3;
 					};
+					3FA437672C0B6E9F00520D13 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					3FA437792C0B729B00520D13 = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					3FEFA7A72BA61A740074F1EC = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -705,6 +753,8 @@
 				3F7234972B86C8CF0095EA42 /* Nix */,
 				3F856E6A2B9D8EEE00E479EB /* ReportExtension Nix */,
 				3FEFA7A72BA61A740074F1EC /* DeviceActivityExtension */,
+				3FA437672C0B6E9F00520D13 /* ShieldAction */,
+				3FA437792C0B729B00520D13 /* ShieldConfig */,
 			);
 		};
 /* End PBXProject section */
@@ -719,6 +769,7 @@
 				3F7234A02B86C8D20095EA42 /* Assets.xcassets in Resources */,
 				3F7234AA2B86C93A0095EA42 /* GoogleService-Info.plist in Resources */,
 				3F72352B2B86D6350095EA42 /* client_619760553436-cvr4rum3g66l7knjji81n76n1rag8i0b.apps.googleusercontent.com.plist in Resources */,
+				3F47EBC32C0E4D010043507C /* templates.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,6 +777,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FA437662C0B6E9F00520D13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FA437892C0BB62500520D13 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FA437782C0B729B00520D13 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FA4378A2C0BB62500520D13 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -899,6 +966,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3FA437642C0B6E9F00520D13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FA4376D2C0B6E9F00520D13 /* ShieldActionExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FA437762C0B729B00520D13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FA437802C0B729B00520D13 /* ShieldConfigurationExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3FEFA7A42BA61A740074F1EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -915,6 +998,16 @@
 			isa = PBXTargetDependency;
 			target = 3F856E6A2B9D8EEE00E479EB /* ReportExtension Nix */;
 			targetProxy = 3F856E752B9D8EEE00E479EB /* PBXContainerItemProxy */;
+		};
+		3FA437712C0B6E9F00520D13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3FA437672C0B6E9F00520D13 /* ShieldAction */;
+			targetProxy = 3FA437702C0B6E9F00520D13 /* PBXContainerItemProxy */;
+		};
+		3FA437842C0B729B00520D13 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3FA437792C0B729B00520D13 /* ShieldConfig */;
+			targetProxy = 3FA437832C0B729B00520D13 /* PBXContainerItemProxy */;
 		};
 		3FEFA7AE2BA61A740074F1EC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1167,6 +1260,118 @@
 			};
 			name = Release;
 		};
+		3FA437732C0B6E9F00520D13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShieldAction/ShieldAction.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76KZ9G4542;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShieldAction/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ShieldAction;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = nix.Nix.ShieldAction;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3FA437742C0B6E9F00520D13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShieldAction/ShieldAction.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76KZ9G4542;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShieldAction/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ShieldAction;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = nix.Nix.ShieldAction;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3FA437872C0B729B00520D13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShieldConfig/ShieldConfig.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76KZ9G4542;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShieldConfig/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ShieldConfig;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = nix.Nix.ShieldConfig;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3FA437882C0B729B00520D13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShieldConfig/ShieldConfig.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 76KZ9G4542;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShieldConfig/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ShieldConfig;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = nix.Nix.ShieldConfig;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		3FEFA7B12BA61A740074F1EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1251,6 +1456,24 @@
 			buildConfigurations = (
 				3F856E792B9D8EEE00E479EB /* Debug */,
 				3F856E7A2B9D8EEE00E479EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3FA437752C0B6E9F00520D13 /* Build configuration list for PBXNativeTarget "ShieldAction" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FA437732C0B6E9F00520D13 /* Debug */,
+				3FA437742C0B6E9F00520D13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3FA437862C0B729B00520D13 /* Build configuration list for PBXNativeTarget "ShieldConfig" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FA437872C0B729B00520D13 /* Debug */,
+				3FA437882C0B729B00520D13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
