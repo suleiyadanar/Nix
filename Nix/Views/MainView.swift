@@ -38,7 +38,7 @@ struct MainView: View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
             
             TabView(selection: $selectedTab) {
-                HomepageView(userId: viewModel.currentUserId)
+                MainHomepageView(streakCount: 32, progress: 0.6, userId: viewModel.currentUserId)
                     .ignoresSafeArea()
                     .tag("house.fill")
                 RulesView(userId: viewModel.currentUserId)
@@ -59,7 +59,7 @@ struct MainView: View {
             alignment: .bottom // moves it to bottom of screen
             
         )
-        
+         
         .ignoresSafeArea()
     }
     
@@ -91,7 +91,7 @@ struct MainView: View {
                 
                 .padding(.horizontal, 20)
                 .padding(.vertical, 13)
-                 
+
             }
             
             

@@ -1,15 +1,27 @@
 {
   "images" : [
     {
+<<<<<<< HEAD:Nix/Other/Assets.xcassets/nix-icon 1.imageset/Contents.json
       "filename" : "Vector.png",
+=======
+      "filename" : "Chart (3) (2).png",
+>>>>>>> homepageview:Nix/Other/Assets.xcassets/pomodoro-fill.imageset/Contents.json
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+<<<<<<< HEAD:Nix/Other/Assets.xcassets/nix-icon 1.imageset/Contents.json
+=======
+      "filename" : "Chart (13) (1).png",
+>>>>>>> homepageview:Nix/Other/Assets.xcassets/pomodoro-fill.imageset/Contents.json
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+<<<<<<< HEAD:Nix/Other/Assets.xcassets/nix-icon 1.imageset/Contents.json
+=======
+      "filename" : "Chart (14) (1).png",
+>>>>>>> homepageview:Nix/Other/Assets.xcassets/pomodoro-fill.imageset/Contents.json
       "idiom" : "universal",
       "scale" : "3x"
     }
