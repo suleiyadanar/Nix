@@ -40,7 +40,7 @@ struct MainView: View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
             
             TabView(selection: $selectedTab) {
-                HomepageView(userId: viewModel.currentUserId)
+                MainHomepageView(streakCount: 32, progress: 0.6, userId: viewModel.currentUserId)
                     .ignoresSafeArea()
                     .tag("homepage")
                 RulesView(userId: viewModel.currentUserId)
@@ -82,7 +82,7 @@ struct MainView: View {
                         .foregroundColor(selectedTab == image ? .black : .gray)
                 }
                 .padding(.horizontal, 35)
-                .padding(.vertical, 25)
+                .padding(.vertical, 20)
             }
         }
         .padding(.vertical, 5)
