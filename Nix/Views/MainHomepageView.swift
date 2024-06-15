@@ -142,22 +142,24 @@ struct MainHomepageView: View {
                             HStack {
                                 Text("Distracting")
                                     .font(.footnote)
+                                    .fixedSize(horizontal: true, vertical: false)
                                 Spacer()
                             }
                             HStack {
                                 Text("Apps")
                                     .font(.footnote)
+                                    .fixedSize(horizontal: true, vertical: false)
                                 Spacer()
                             }
                         }
                     }
-                    .padding(.leading, 15)
+                    .padding(.leading, 17)
                     
                     Image("separating-line2")
                         .resizable()
                         .frame(width: 1, height: 40)
                         .padding(.leading, 8)
-                        .padding(.trailing, 8)
+                        .padding(.trailing, 22)
                     
                     HStack {
                         Image("new-freeze")
@@ -175,6 +177,7 @@ struct MainHomepageView: View {
                                 Spacer()
                             }
                         }
+                        .padding(.leading, 2)
                     }
                     Image("separating-line2")
                         .resizable()
@@ -198,6 +201,7 @@ struct MainHomepageView: View {
                             }
                         }
                     }
+                    .padding(.trailing, 7)
                 }
                 .offset(y:-70)
                 
