@@ -12,6 +12,8 @@ struct MainView: View {
     @StateObject var viewModel = MainViewViewModel()
     @EnvironmentObject var pomodoroModel: PomodoroViewViewModel
     var body: some View  {
+        accountView
+        /* <---- temporary comment out so that i can view homepage view
         if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
             //signed in
             accountView
@@ -23,13 +25,13 @@ struct MainView: View {
             }
             //            }
         }
-        
+        */
     }
     
-    var tabs = ["house.fill", "chart.bar.doc.horizontal.fill", "timer.circle.fill", "person.crop.circle.fill"]
+    var tabs = ["homepage", "rules", "pomodoro", "profile"]
     
 
-    @State var selectedTab = "house.fill"
+    @State var selectedTab = "homepage"
     @Namespace var namespace
     
     
@@ -40,17 +42,17 @@ struct MainView: View {
             TabView(selection: $selectedTab) {
                 MainHomepageView(streakCount: 32, progress: 0.6, userId: viewModel.currentUserId)
                     .ignoresSafeArea()
-                    .tag("house.fill")
+                    .tag("homepage")
                 RulesView(userId: viewModel.currentUserId)
                     .ignoresSafeArea()
-                    .tag("chart.bar.doc.horizontal.fill")
+                    .tag("rules")
                 PomodoroView(viewModel: pomodoroModel)
                     .environmentObject(pomodoroModel)
                     .ignoresSafeArea()
-                    .tag("timer.circle.fill")
+                    .tag("pomodoro")
                 ProfileView()
                     .ignoresSafeArea()
-                    .tag("person.crop.circle.fill")
+                    .tag("profile")
             }
         }
 
@@ -65,42 +67,28 @@ struct MainView: View {
     
     @ViewBuilder
     func CustomTabBar() -> some View {
-        HStack(spacing: 15) {
+        HStack {
             ForEach(tabs, id: \.self) { image in
                 Button {
-                    withAnimation(Animation.interactiveSpring(dampingFraction: 2)) {
+                    withAnimation(Animation.interactiveSpring(dampingFraction: 1)) {
                         selectedTab = image
                     }
                 } label: {
-                    VStack {
-                        Image(systemName: image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(selectedTab == image ? .purple : .gray)
-                      
-                        if (selectedTab == image) {
-                            Rectangle()
-                                .frame(width: 35, height: 3)
-                                .foregroundColor(.purple)
-                                .padding(.top, 2)
-                        }
-                    }
-                        
+                    // Display the filled image if selected, otherwise display the unfilled image
+                    Image(selectedTab == image ? "\(image)-fill" : image)
+                        .resizable()
+                        .scaledToFit() // Ensure the image maintains its aspect ratio
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(selectedTab == image ? .black : .gray)
                 }
-                
-                .padding(.horizontal, 20)
-                .padding(.vertical, 13)
-
+                .padding(.horizontal, 35)
+                .padding(.vertical, 20)
             }
-            
-            
         }
-        
-        .background(Color.lavender)
+        .padding(.vertical, 5)
+        .background(Color.babyBlue)
         .cornerRadius(35)
-        .padding(.bottom, 20)        
-        
+        .padding(.horizontal, 10)
     }
 }
 
