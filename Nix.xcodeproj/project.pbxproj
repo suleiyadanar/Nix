@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00DB29C7813228BBA1A80B4B /* Pods_Nix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B5C470ABA7A74EDA27DAF3 /* Pods_Nix.framework */; };
+		3B0DE7A82C1E26FF00C8137A /* MainRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */; };
 		3B2BB18F2C1D66DC00E08E77 /* MainHomepageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */; };
 		3B2BB1912C1D672200E08E77 /* ScreenTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */; };
 		3B3222082BB0C4990037FE2D /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3222072BB0C4990037FE2D /* EditProfileView.swift */; };
@@ -181,6 +182,7 @@
 
 /* Begin PBXFileReference section */
 		25B5C470ABA7A74EDA27DAF3 /* Pods_Nix.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nix.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRulesView.swift; sourceTree = "<group>"; };
 		3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainHomepageView.swift; sourceTree = "<group>"; };
 		3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTimeView.swift; sourceTree = "<group>"; };
 		3B3222072BB0C4990037FE2D /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
@@ -539,6 +541,7 @@
 				3F7234CB2B86CAF70095EA42 /* HomepageView.swift */,
 				3F856E832B9F6A7700E479EB /* TotalActivityTabView.swift */,
 				3F7234CC2B86CAF70095EA42 /* ResponsiveView.swift */,
+				3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -871,6 +874,7 @@
 				3F7234D62B86CAF70095EA42 /* SettingsView.swift in Sources */,
 				3BCBF7B82C0D4EC200F7532B /* Colors.swift in Sources */,
 				3BCBF7C02C0E71C700F7532B /* Onboarding3AView.swift in Sources */,
+				3B0DE7A82C1E26FF00C8137A /* MainRulesView.swift in Sources */,
 				3BCBF7A72C0A349700F7532B /* Onboarding1View.swift in Sources */,
 				3F7234D82B86CAF70095EA42 /* RuleItemView.swift in Sources */,
 				3BCBF7AF2C0A435100F7532B /* ButtonView.swift in Sources */,
