@@ -1,17 +1,29 @@
 {
   "images" : [
     {
+<<<<<<< Updated upstream
       "filename" : "fi-rs-hourglass.png",
+=======
+      "filename" : "fi-rs-hourglass (13) (1).png",
+>>>>>>> Stashed changes
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+<<<<<<< Updated upstream
       "filename" : "fi-rs-hourglass (1).png",
+=======
+      "filename" : "fi-rs-hourglass (14) (1).png",
+>>>>>>> Stashed changes
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+<<<<<<< Updated upstream
       "filename" : "fi-rs-hourglass (2).png",
+=======
+      "filename" : "fi-rs-hourglass (15) (1).png",
+>>>>>>> Stashed changes
       "idiom" : "universal",
       "scale" : "3x"
     }

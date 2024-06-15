@@ -61,7 +61,7 @@ struct MainView: View {
             alignment: .bottom // moves it to bottom of screen
             
         )
-        
+         
         .ignoresSafeArea()
     }
     
