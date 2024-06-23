@@ -21,7 +21,8 @@ class TimeOutNotiViewModel: ObservableObject {
     let ruleTitle: String
 
     init() {
-        ruleTitle = userDefaults?.string(forKey: "activeApp") ?? ""
+        let rawRuleTitle = userDefaults?.string(forKey: "activeApp") ?? ""
+        ruleTitle = rawRuleTitle.split(separator: "-").first.map(String.init) ?? rawRuleTitle
         checkTimeOutAllowed()
         startTimer()
         generateProblem()
@@ -40,7 +41,8 @@ class TimeOutNotiViewModel: ObservableObject {
                     self.timerRunning = false
                 }
             case .failure(let error):
-                self.message = "Error retrieving timeOutAllowed: \(error.localizedDescription)"
+                self.message = "Error retrieving timeOutAllowed: \(error.localizedDescription), \(self.ruleTitle)"
+                print(self.ruleTitle)
                 print("Error retrieving timeOutAllowed: \(error.localizedDescription)")
             }
         }
