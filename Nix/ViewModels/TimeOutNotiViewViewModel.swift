@@ -38,7 +38,16 @@ class TimeOutNotiViewViewModel: ObservableObject {
         }else{
            
                 print("no timer exists so fetching delay")
-            self.fetchDelay()
+            if timerCount != -1 {
+                self.fetchDelay()
+                
+            }else {
+                self.timerCount = 0
+                // Continue with other initialization
+                self.checkTimeOutAllowed()
+                //              self.startTimer()
+                self.generateProblem()
+            }
         }
       }
 
