@@ -65,19 +65,24 @@ struct NixApp: App {
             }
            
 //            var totalSeconds =  userDefaults?.integer(forKey: "totalSeconds")
-//            
+//
 //            if totalSeconds ?? 0 > 0 {
 //                if phase == .background {
 //                    lastActiveTimeStamp = Date()
+//                    userDefaults?.set(lastActiveTimeStamp, forKey: "lastActiveTimer")
+//
 //                    print("got here bg")
 //                }
 //                if phase == .active {
 //                    print("got here active")
+//                    totalSeconds =  userDefaults?.integer(forKey: "totalSeconds")
+//
 //                    let currentTimeStampDiff = Date().timeIntervalSince(lastActiveTimeStamp)
 //                    if totalSeconds ?? 0 - Int(currentTimeStampDiff) <= 0 {
 //                        userDefaults?.removeObject(forKey: "totalSeconds")
 //                    }else{
 //                        totalSeconds! -= Int(currentTimeStampDiff)
+//                        userDefaults?.set(totalSeconds, forKey: "totalSeconds")
 //                    }
 //                }
 //                

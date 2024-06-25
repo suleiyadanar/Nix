@@ -11,7 +11,30 @@ struct TimeOutNotiView: View {
     @State var lastActiveTimeStamp: Date = Date()
 
     @Binding var isPresented: Bool
-
+    
+    private func unlockText(for totalSeconds: Int) -> String {
+           guard totalSeconds > 0 else { return "Unlock" }
+           
+           let hours = totalSeconds / 3600
+           let minutes = (totalSeconds % 3600) / 60
+           let seconds = totalSeconds % 60
+           
+           var components: [String] = []
+           
+           if hours > 0 {
+               components.append("\(hours) hrs")
+           }
+           if minutes > 0 {
+               components.append("\(minutes) mins")
+           }
+           if seconds > 0 {
+               components.append("\(seconds) secs")
+           }
+           
+           let timeString = components.joined(separator: " ")
+           return "Unlock in \(timeString)"
+       }
+    
     var body: some View {
         
         VStack {
@@ -74,7 +97,6 @@ struct TimeOutNotiView: View {
                     .font(.system(size: 48, weight: .medium))
                     .padding(.bottom, 10)
              
-                Text(String(viewModel.timerCount))
                 TextField("", text: $viewModel.answer)
                     .multilineTextAlignment(.center)
                     .padding()
@@ -96,7 +118,8 @@ struct TimeOutNotiView: View {
                     
                 }) {
                     let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
-                    Text("Unlock in \(viewModel.timerCount)")
+                    Text(unlockText(for: viewModel.timerCount))
+
                         .font(.system(size: 18, weight: .medium))
                         .foregroundColor(.white)
                         .frame(minWidth: 0, maxWidth: .infinity)

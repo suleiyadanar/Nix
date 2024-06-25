@@ -24,6 +24,7 @@ class RulesViewViewModel : ObservableObject {
 
         userDefaults?.removeObject(forKey: "totalSeconds")
         userDefaults?.removeObject(forKey: "lastActiveTimer")
+        print("removing key for totalSeconds and lastActiveTimer")
         db.collection("users")
             .document(userId)
             .collection("rules")

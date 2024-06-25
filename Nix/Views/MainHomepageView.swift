@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MainHomepageView: View {
+    @State private var showSheet = false
+
     @StateObject var viewModel = HomepageViewViewModel()
     
     var streakCount: Int
@@ -209,6 +211,13 @@ struct MainHomepageView: View {
                     .offset(y:-60)
                 
             }
+        }.onAppear {
+            NotificationCenter.default.addObserver(forName: NSNotification.Name("NotificationTapped"), object: nil, queue: .main) { _ in
+                self.showSheet = true
+            }
+        }
+        .sheet(isPresented: $showSheet) {
+            TimeOutNotiView(isPresented: $showSheet)
         }
     }
 }
