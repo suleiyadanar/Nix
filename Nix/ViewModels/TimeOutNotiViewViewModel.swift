@@ -158,7 +158,7 @@ class TimeOutNotiViewViewModel: ObservableObject {
                     print("Unknown unblock type")
                 }
                 if self.isCorrect {
-                    if (self.totalTimeOut > 0){
+                    if (self.totalTimeOut-1 > 0){
                         if let totalSeconds = self.userDefaults?.integer(forKey: "totalSeconds"), totalSeconds > 0 {
                             print("timer exists so getting data")
                             self.timerCount = totalSeconds
@@ -261,7 +261,7 @@ class TimeOutNotiViewViewModel: ObservableObject {
                             // Save the updated timeOutAllowed to UserDefaults
                             self.userDefaults?.set(newCount, forKey: "timeOutAllowed")
                             self.totalTimeOut = newCount
-                            if newCount > 0 {
+                            if newCount >= 0 {
                                 self.getTimeOutLengthWithTitle(uId: userId, activityName: self.ruleTitle) { result in
                                     switch result {
                                     case .success(let timeOutLength):
