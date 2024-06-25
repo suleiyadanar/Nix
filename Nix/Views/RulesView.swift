@@ -31,9 +31,7 @@ func formatTime(_ timeInterval: TimeInterval) -> String {
 
 func loadJson(fileName: String) -> [RuleItem]? {
     let decoder = JSONDecoder()
-    print("bundle path", Bundle.main.bundlePath)
-    print("bundle url")
-    
+   
     // Step 1: Attempt to get the URL of the JSON file
     guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
         print("oof")
@@ -208,5 +206,6 @@ struct RulesView: View {
          .sheet(isPresented: $showSheet) {
              TimeOutNotiView(isPresented: $showSheet)
          }
+         
      }
  }

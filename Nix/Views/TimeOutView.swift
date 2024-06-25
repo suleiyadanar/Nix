@@ -42,7 +42,20 @@ struct TimeOutView: View {
                             .foregroundColor(.white)
                             .cornerRadius(50)
                     }
-                    
+                    Button(action: { viewModel.delay = .two }) {
+                        Text("2 mins")
+                            .padding()
+                            .background(viewModel.delay == .two ? Color.blue : Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(50)
+                    }
+                    Button(action: { viewModel.delay = .five }) {
+                        Text("5 mins")
+                            .padding()
+                            .background(viewModel.delay == .five ? Color.blue : Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(50)
+                    }
                     Button(action: { viewModel.delay = .fifteen }) {
                         Text("15 mins")
                             .padding()

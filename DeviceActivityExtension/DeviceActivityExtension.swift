@@ -64,6 +64,7 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
     
     override func intervalDidEnd(for activity: DeviceActivityName) {
         super.intervalDidEnd(for: activity)
+       
 //        if activity.rawValue == "breakTime" {
 //
 //            do {
