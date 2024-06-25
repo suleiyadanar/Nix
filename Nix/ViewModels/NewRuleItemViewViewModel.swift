@@ -63,6 +63,8 @@ class NewRuleItemViewViewModel : ObservableObject {
     }
     enum DelayTime: Int, Codable {
         case none = 0
+        case two = 2
+        case five = 5
         case fifteen = 15
         case thirty = 30
         case hour = 60

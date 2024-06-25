@@ -4,10 +4,13 @@ import DeviceActivity
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class TimeOutNotiViewModel: ObservableObject {
+class TimeOutNotiViewViewModel: ObservableObject {
+    @StateObject var timeOutModel = TimeOutViewModel()
+
     @Published var answer: String = ""
-    @Published var timerCount: Int = 10
-    @Published var timerRunning: Bool = true
+    @Published var timerCount: Int = -1
+    @Published var timerRunning: Bool = false
+    @Published var totalTimeOut: Int = 0
     @Published var problem: String = ""
     @Published var correctAnswer: Int = 0
     @Published var correctAnswerEntry: String = ""
@@ -18,42 +21,104 @@ class TimeOutNotiViewModel: ObservableObject {
     let db = Firestore.firestore()
     private var timer: Timer?
     let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
-    let ruleTitle: String
+    var ruleTitle: String
 
     init() {
-        ruleTitle = userDefaults?.string(forKey: "activeApp") ?? ""
-        checkTimeOutAllowed()
-        startTimer()
-        generateProblem()
-    }
+        self.ruleTitle = ""
+        
+        
+        // Fetch ruleTitle from UserDefaults
+        let rawRuleTitle = userDefaults?.string(forKey: "activeApp") ?? ""
+        self.ruleTitle = rawRuleTitle.split(separator: "-").first.map(String.init) ?? rawRuleTitle
+        
+        
+        if let totalSeconds = userDefaults?.integer(forKey: "totalSeconds"), totalSeconds > 0 {
+            print("timer exists so getting data")
+            timerCount = totalSeconds
+        }else{
+           
+                print("no timer exists so fetching delay")
+            if timerCount != -1 {
+                self.fetchDelay()
+                
+            }else {
+                self.timerCount = 0
+                // Continue with other initialization
+                self.checkTimeOutAllowed()
+                //              self.startTimer()
+                self.generateProblem()
+            }
+        }
+      }
 
-    func checkTimeOutAllowed() {
+    func fetchDelay(){
+        // Fetch delay and set timerCount
         guard let userId = Auth.auth().currentUser?.uid else { return }
 
+        getDelay(uId: userId) { [weak self] result in
+            
+            guard let self = self else { return }
+            switch result {
+            case .success(let delay):
+                print("success getting delay ")
+                userDefaults?.set(delay*60, forKey: "totalSeconds")
+                if timerCount >= 0 {
+                    print("success getting delay ")
+                    self.timerCount=delay*60
+                }
+            case .failure(let error):
+                print("Error fetching delay: \(error.localizedDescription)")
+                // Handle error if needed
+            }
+            
+            // Continue with other initialization
+            self.checkTimeOutAllowed()
+            //              self.startTimer()
+            self.generateProblem()
+        }
+    }
+    func checkTimeOutAllowed() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        print("checking time out allowed")
         getTimeOutAllowed(uId: userId) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let timeOutAllowed):
                 self.userDefaults?.set(timeOutAllowed, forKey: "timeOutAllowed")
+                self.totalTimeOut = timeOutAllowed
+                print("timeOutAllowed: \(timeOutAllowed)")
                 if timeOutAllowed <= 0 {
                     self.message = "No more time outs available."
                     self.timerRunning = false
                 }
             case .failure(let error):
-                self.message = "Error retrieving timeOutAllowed: \(error.localizedDescription)"
+                self.message = "Error retrieving timeOutAllowed: \(error.localizedDescription), \(self.ruleTitle)"
+                print(self.ruleTitle)
                 print("Error retrieving timeOutAllowed: \(error.localizedDescription)")
             }
         }
     }
 
     func startTimer() {
+        print("starting timer")
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self else { return }
-            if self.timerCount > 0 {
-                self.timerCount -= 1
+            
+            var totalSeconds =  userDefaults?.integer(forKey: "totalSeconds")
+            print("totalSeconds"+String(totalSeconds ?? -2))
+            timerCount = totalSeconds ?? 0
+            if totalSeconds ?? 0 > 0 {
+                self.timerRunning = true
+                print("-1")
+                totalSeconds! -= 1
+                timerCount -= 1
+                userDefaults?.set(totalSeconds, forKey: "totalSeconds")
             } else {
                 timer.invalidate()
-                self.timerRunning = false
+                userDefaults?.removeObject(forKey: "totalSeconds")
+                userDefaults?.removeObject(forKey: "lastActiveTimer")
+                print("timer is done so removing keys")
+                
             }
         }
     }
@@ -92,6 +157,22 @@ class TimeOutNotiViewModel: ObservableObject {
                 default:
                     print("Unknown unblock type")
                 }
+                if self.isCorrect {
+                    if (self.totalTimeOut > 0){
+                        if let totalSeconds = self.userDefaults?.integer(forKey: "totalSeconds"), totalSeconds > 0 {
+                            print("timer exists so getting data")
+                            self.timerCount = totalSeconds
+                        }else{
+                            print("no timer exists so fetching delay")
+                            self.fetchDelay()
+                        }
+                        self.startTimer()
+                    }else{
+                        print("self.message check not pass: \(self.message)")
+
+                    }
+
+                                }
             case .failure(let error):
                 print("Error fetching unblock: \(error.localizedDescription)")
             }
@@ -179,8 +260,8 @@ class TimeOutNotiViewModel: ObservableObject {
                         case .success(let newCount):
                             // Save the updated timeOutAllowed to UserDefaults
                             self.userDefaults?.set(newCount, forKey: "timeOutAllowed")
-                            
-                            if newCount >= 0 {
+                            self.totalTimeOut = newCount
+                            if newCount > 0 {
                                 self.getTimeOutLengthWithTitle(uId: userId, activityName: self.ruleTitle) { result in
                                     switch result {
                                     case .success(let timeOutLength):
@@ -241,6 +322,10 @@ class TimeOutNotiViewModel: ObservableObject {
     func getTimeOutAllowed(uId: String, completion: @escaping (Result<Int, Error>) -> Void) {
         fetchDocumentField(uId: uId, activityName: ruleTitle, fieldName: "timeOutAllowed", completion: completion)
     }
+    func getDelay(uId: String, completion: @escaping (Result<Int, Error>) -> Void) {
+        fetchDocumentField(uId: uId, activityName: ruleTitle, fieldName: "delay", completion: completion)
+    }
+    
 
     func decrementTimeOutAllowed(uId: String, completion: @escaping (Result<Int, Error>) -> Void) {
         let userDocument = db.collection("users").document(uId)
