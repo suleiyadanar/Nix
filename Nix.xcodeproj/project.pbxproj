@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00DB29C7813228BBA1A80B4B /* Pods_Nix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B5C470ABA7A74EDA27DAF3 /* Pods_Nix.framework */; };
+		26C7A493C1E500659D14F651 /* Pods_Nix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7226AE289E60FF81E85DAE1C /* Pods_Nix.framework */; };
 		3B0DE7A82C1E26FF00C8137A /* MainRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */; };
 		3B2BB18F2C1D66DC00E08E77 /* MainHomepageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */; };
 		3B2BB1912C1D672200E08E77 /* ScreenTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */; };
@@ -23,7 +23,6 @@
 		3B32221C2BB0C5270037FE2D /* ReportAProblemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B32221B2BB0C5270037FE2D /* ReportAProblemView.swift */; };
 		3B32221E2BB0C5340037FE2D /* AddAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B32221D2BB0C5340037FE2D /* AddAccountView.swift */; };
 		3B3222202BB0C5400037FE2D /* LogOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B32221F2BB0C5400037FE2D /* LogOutView.swift */; };
-		3B7F194D2BAE2D8400926FE2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3B7F194C2BAE2D8400926FE2 /* FirebaseAuth */; };
 		3B7F194F2BAE2D8400926FE2 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3B7F194E2BAE2D8400926FE2 /* FirebaseFirestore */; };
 		3B7F19512BAE2D8400926FE2 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B7F19502BAE2D8400926FE2 /* FirebaseFirestoreSwift */; };
 		3BA6CA862C0FC2DE0031B2E1 /* Onboarding6View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA6CA852C0FC2DE0031B2E1 /* Onboarding6View.swift */; };
@@ -32,6 +31,7 @@
 		3BA6CA8C2C110BCB0031B2E1 /* Onboarding8View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA6CA8B2C110BCB0031B2E1 /* Onboarding8View.swift */; };
 		3BA6CA8E2C112F8D0031B2E1 /* Onboarding9View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA6CA8D2C112F8D0031B2E1 /* Onboarding9View.swift */; };
 		3BA6CA902C114CA10031B2E1 /* Onboarding10View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA6CA8F2C114CA10031B2E1 /* Onboarding10View.swift */; };
+		3BB228692C2B6F6600B9A172 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB228682C2B6F6600B9A172 /* FirebaseAuth */; };
 		3BCBF7A72C0A349700F7532B /* Onboarding1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7A62C0A349700F7532B /* Onboarding1View.swift */; };
 		3BCBF7A92C0A41BA00F7532B /* Onboarding2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7A82C0A41BA00F7532B /* Onboarding2View.swift */; };
 		3BCBF7AD2C0A433D00F7532B /* ArrowButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7AC2C0A433D00F7532B /* ArrowButtonView.swift */; };
@@ -181,7 +181,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		25B5C470ABA7A74EDA27DAF3 /* Pods_Nix.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nix.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRulesView.swift; sourceTree = "<group>"; };
 		3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainHomepageView.swift; sourceTree = "<group>"; };
 		3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTimeView.swift; sourceTree = "<group>"; };
@@ -298,8 +297,9 @@
 		3FF3EA302C1792540074977C /* TimeOutNotiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutNotiView.swift; sourceTree = "<group>"; };
 		3FF3EA342C18A9390074977C /* TimeOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutView.swift; sourceTree = "<group>"; };
 		3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRuleItemView.swift; sourceTree = "<group>"; };
-		E12A997F22116869190E240E /* Pods-Nix.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nix.release.xcconfig"; path = "Target Support Files/Pods-Nix/Pods-Nix.release.xcconfig"; sourceTree = "<group>"; };
-		FE2BEDE851FEE31011E17D46 /* Pods-Nix.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nix.debug.xcconfig"; path = "Target Support Files/Pods-Nix/Pods-Nix.debug.xcconfig"; sourceTree = "<group>"; };
+		7226AE289E60FF81E85DAE1C /* Pods_Nix.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nix.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C496406F6BCD20A7A2DC9F6 /* Pods-Nix.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nix.debug.xcconfig"; path = "Target Support Files/Pods-Nix/Pods-Nix.debug.xcconfig"; sourceTree = "<group>"; };
+		FCD91B85EF268B0DD8091CFE /* Pods-Nix.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nix.release.xcconfig"; path = "Target Support Files/Pods-Nix/Pods-Nix.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,10 +307,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B7F194D2BAE2D8400926FE2 /* FirebaseAuth in Frameworks */,
 				3B7F194F2BAE2D8400926FE2 /* FirebaseFirestore in Frameworks */,
 				3B7F19512BAE2D8400926FE2 /* FirebaseFirestoreSwift in Frameworks */,
-				00DB29C7813228BBA1A80B4B /* Pods_Nix.framework in Frameworks */,
+				3BB228692C2B6F6600B9A172 /* FirebaseAuth in Frameworks */,
+				26C7A493C1E500659D14F651 /* Pods_Nix.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,9 +351,9 @@
 		36059B5D3C4473F59CD89E6E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				25B5C470ABA7A74EDA27DAF3 /* Pods_Nix.framework */,
 				3FA437692C0B6E9F00520D13 /* ManagedSettings.framework */,
 				3FA4377C2C0B729B00520D13 /* ManagedSettingsUI.framework */,
+				7226AE289E60FF81E85DAE1C /* Pods_Nix.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -595,8 +595,8 @@
 		EF20467D81C37E211C022C97 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FE2BEDE851FEE31011E17D46 /* Pods-Nix.debug.xcconfig */,
-				E12A997F22116869190E240E /* Pods-Nix.release.xcconfig */,
+				7C496406F6BCD20A7A2DC9F6 /* Pods-Nix.debug.xcconfig */,
+				FCD91B85EF268B0DD8091CFE /* Pods-Nix.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -608,14 +608,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F7234A62B86C8D20095EA42 /* Build configuration list for PBXNativeTarget "Nix" */;
 			buildPhases = (
-				C3E6C2FE384DCCAC05B1851C /* [CP] Check Pods Manifest.lock */,
+				FB203181EF53E88451EECE48 /* [CP] Check Pods Manifest.lock */,
 				3F7234942B86C8CF0095EA42 /* Sources */,
 				3F7234952B86C8CF0095EA42 /* Frameworks */,
 				3F7234962B86C8CF0095EA42 /* Resources */,
 				3F856E7B2B9D8EEE00E479EB /* Embed ExtensionKit Extensions */,
 				3F7C8EF22BA12EEA00148CEA /* Embed Foundation Extensions */,
-				4914CADFD75A78FD13C5631A /* [CP] Embed Pods Frameworks */,
-				32A37E538672B7599C94B0E9 /* [CP] Copy Pods Resources */,
+				4A87FDF15D3BBFCDD66D044D /* [CP] Embed Pods Frameworks */,
+				8BB88E2BE9AA1B3D59EBC0BB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -627,9 +627,9 @@
 			);
 			name = Nix;
 			packageProductDependencies = (
-				3B7F194C2BAE2D8400926FE2 /* FirebaseAuth */,
 				3B7F194E2BAE2D8400926FE2 /* FirebaseFirestore */,
 				3B7F19502BAE2D8400926FE2 /* FirebaseFirestoreSwift */,
+				3BB228682C2B6F6600B9A172 /* FirebaseAuth */,
 			);
 			productName = Nix;
 			productReference = 3F7234982B86C8CF0095EA42 /* Nix.app */;
@@ -682,8 +682,6 @@
 			dependencies = (
 			);
 			name = ShieldConfig;
-			packageProductDependencies = (
-			);
 			productName = ShieldConfig;
 			productReference = 3FA4377A2C0B729B00520D13 /* ShieldConfig.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -701,8 +699,6 @@
 			dependencies = (
 			);
 			name = DeviceActivityExtension;
-			packageProductDependencies = (
-			);
 			productName = DeviceActivityExtension;
 			productReference = 3FEFA7A82BA61A740074F1EC /* DeviceActivityExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -806,24 +802,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		32A37E538672B7599C94B0E9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Nix/Pods-Nix-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Nix/Pods-Nix-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Nix/Pods-Nix-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4914CADFD75A78FD13C5631A /* [CP] Embed Pods Frameworks */ = {
+		4A87FDF15D3BBFCDD66D044D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -840,7 +819,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Nix/Pods-Nix-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C3E6C2FE384DCCAC05B1851C /* [CP] Check Pods Manifest.lock */ = {
+		8BB88E2BE9AA1B3D59EBC0BB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Nix/Pods-Nix-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Nix/Pods-Nix-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Nix/Pods-Nix-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FB203181EF53E88451EECE48 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1141,7 +1137,7 @@
 		};
 		3F7234A72B86C8D20095EA42 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE2BEDE851FEE31011E17D46 /* Pods-Nix.debug.xcconfig */;
+			baseConfigurationReference = 7C496406F6BCD20A7A2DC9F6 /* Pods-Nix.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1175,7 +1171,7 @@
 		};
 		3F7234A82B86C8D20095EA42 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E12A997F22116869190E240E /* Pods-Nix.release.xcconfig */;
+			baseConfigurationReference = FCD91B85EF268B0DD8091CFE /* Pods-Nix.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1504,11 +1500,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3B7F194C2BAE2D8400926FE2 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
 		3B7F194E2BAE2D8400926FE2 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -1518,6 +1509,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		3BB228682C2B6F6600B9A172 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -13,9 +13,7 @@ import DeviceActivity
 
 private let thisWeek = DateInterval(start: Date(), end: Date())
 
-@main
-
-struct NixApp: App {
+@main struct NixApp: App {
     
     var userSettings = UserSettings()
     let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
