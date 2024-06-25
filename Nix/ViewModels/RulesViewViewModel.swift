@@ -20,7 +20,11 @@ class RulesViewViewModel : ObservableObject {
     
     func delete(id:String){
         let db = Firestore.firestore()
-        
+        let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+
+        userDefaults?.removeObject(forKey: "totalSeconds")
+        userDefaults?.removeObject(forKey: "lastActiveTimer")
+        print("removing key for totalSeconds and lastActiveTimer")
         db.collection("users")
             .document(userId)
             .collection("rules")

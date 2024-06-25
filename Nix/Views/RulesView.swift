@@ -31,9 +31,7 @@ func formatTime(_ timeInterval: TimeInterval) -> String {
 
 func loadJson(fileName: String) -> [RuleItem]? {
     let decoder = JSONDecoder()
-    print("bundle path", Bundle.main.bundlePath)
-    print("bundle url")
-    
+   
     // Step 1: Attempt to get the URL of the JSON file
     guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
         print("oof")
@@ -56,7 +54,6 @@ func loadJson(fileName: String) -> [RuleItem]? {
 }
 
 struct RulesView: View {
-    @State private var showSheet = false
 
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel : RulesViewViewModel
@@ -200,13 +197,7 @@ struct RulesView: View {
              .sheet(isPresented: $viewModel.showingNewItemView){
                  NewRuleItemView(newItemPresented: $viewModel.showingNewItemView, newTemplate: viewModel.showingTemplateView, userId: userId)
              }
-         }.onAppear {
-             NotificationCenter.default.addObserver(forName: NSNotification.Name("NotificationTapped"), object: nil, queue: .main) { _ in
-                 self.showSheet = true
-             }
          }
-         .sheet(isPresented: $showSheet) {
-             TimeOutNotiView(isPresented: $showSheet)
-         }
+         
      }
  }

@@ -29,5 +29,6 @@ class BlockedAppsViewViewModel : ObservableObject {
             .collection("appGroups")
             .document(id)
             .delete()
+        
     }
 }
