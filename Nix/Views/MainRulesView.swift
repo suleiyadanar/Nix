@@ -207,64 +207,85 @@ struct RuleRow: View {
 
 struct ScheduleItem: Identifiable {
     let id = UUID()
-    let time: String
+    let startTime: String
+    let endTime: String
     let title: String
     let details: String
     let color: Color
     let appsBlocked: Int
+
+    var duration: Double {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mma"
+        guard let start = dateFormatter.date(from: startTime),
+              let end = dateFormatter.date(from: endTime) else {
+            return 0
+        }
+        return end.timeIntervalSince(start) / 3600
+    }
+
+    var formattedTime: String {
+        return "\(startTime) - \(endTime)"
+    }
 }
 
 struct ScheduleRow: View {
     var item: ScheduleItem
     
     var body: some View {
-        HStack(spacing: 0) {
-            // Color tag on the left
-            RoundedRectangle(cornerRadius: 10)
-                .fill(item.color)
-                .frame(width: 10)
-                .offset(x: 5)
-                .zIndex(1)
-            
-            VStack(alignment: .leading) {
+        VStack (alignment: .leading){
+            ZStack {
+                
+                // Color tag on the left
+                HStack {
+                    UnevenRoundedRectangle(cornerRadii: .init(
+                        topLeading: 15.0,
+                        bottomLeading: 15.0,
+                        bottomTrailing: 0,
+                        topTrailing: 0),
+                                           style: .continuous)
+                    .fill(item.color)
+                    .frame(width: 13, height: item.duration * 63)
+                    Spacer()
+                }
+                
+                
                 VStack(alignment: .leading) {
                     HStack {
                         Text(item.title)
                             .padding(.bottom, 2)
                         Spacer()
                     }
-                    .padding(.leading, 5)
+                    .padding(.leading, 20)
                     
-                    Spacer(minLength: 15)
+                    Spacer()
+                    
                     HStack {
                         Image(systemName: "clock")
                             .font(.subheadline)
                             .foregroundColor(.gray)
-                        Text(item.time)
-                            .font(.subheadline)
+                        Text(item.formattedTime)
+                            .font(.system(size: 10))
                             .foregroundColor(.gray)
                         Spacer()
                         Text("\(item.appsBlocked) apps blocked")
                             .font(.caption)
                             .foregroundColor(.gray)
                     }
-                    .padding(.leading, 5)
+                    .padding(.leading, 20)
+                    .padding(.trailing, 15)
                     
                 }
-                .padding(7)
-                .background(Color.white)
-                .cornerRadius(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
+                
             }
-        }
-        .background {
-            RoundedRectangle(cornerRadius: 15)
-                .fill(Color.clear)
-                .padding(.horizontal, 15)
-                .padding(.bottom, 5)
+            .frame(height: item.duration * 63) // Control the height based on duration
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white)
+                    .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 5, y: 5)
+            )
+            .padding(.bottom, 5)
+
         }
     }
 }
@@ -273,26 +294,26 @@ struct TimeStampView: View {
     let hour: Int
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("\(hour % 12 == 0 ? 12 : hour % 12) \(hour < 12 ? "AM" : "PM")")
-                .font(.subheadline)
-                .foregroundColor(.black)
-                .frame(height: 40)
-        }
+        Text(String(format: "%02d", hour % 12 == 0 ? 12 : hour % 12) + " \(hour < 12 ? "AM" : "PM")")
+            .font(.subheadline)
+            .foregroundColor(.black)
+            .frame(width: 60, alignment: .leading)
     }
 }
 
 struct ScheduleTabView: View {
     let scheduleItems: [ScheduleItem] = [
-        ScheduleItem(time: "10:00am - 11:00am", title: "Morning study session", details: "10 apps blocked", color: .bubble, appsBlocked: 10),
-        ScheduleItem(time: "11:00am - 01:00pm", title: "Study for Calculus Test", details: "23 apps blocked", color: .lav, appsBlocked: 23),
-        ScheduleItem(time: "03:00pm - 04:00pm", title: "Academic Advisor Meeting", details: "Add", color: .bubble, appsBlocked: 0)
+        ScheduleItem(startTime: "10:00am", endTime: "11:00am", title: "Morning study session", details: "10 apps blocked", color: .bubble, appsBlocked: 10),
+        ScheduleItem(startTime: "11:00am", endTime: "01:00pm", title: "Study for Calculus Test", details: "23 apps blocked", color: .lav, appsBlocked: 23),
+        ScheduleItem(startTime: "02:00pm", endTime: "04:00pm", title: "Academic Advisor Meeting", details: "Add", color: .bubble, appsBlocked: 0),
+        ScheduleItem(startTime: "05:00pm", endTime: "06:00pm", title: "Academic Advisor Meeting", details: "Add", color: .bubble, appsBlocked: 0)
+
     ]
     
     var body: some View {
         HStack {
            Text("Today's Schedule")
-                .font(.system(size: 25))
+                .font(.system(size: 20))
            Spacer()
            HStack(spacing: 10) {
                Button(action: {
@@ -312,36 +333,45 @@ struct ScheduleTabView: View {
                }
            }
        }
-        .padding(.bottom, 5)
         
         ScrollView {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 40) {
-                    ForEach(10..<24) { hour in
-                        TimeStampView(hour: hour)
-                    }
-                }
-                .padding(.leading, 10)
-                
-                VStack(alignment: .leading, spacing: 16) {
-                    ForEach(scheduleItems) { item in
-                        ZStack {
-                            Image("scheduleline") // Replace with the name of your PNG in Assets
+            ZStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 48) {
+                    ForEach(10..<19) { hour in
+                        HStack {
+                            TimeStampView(hour: hour)
+                            Image("scheduleline")
                                 .resizable()
-                                .frame(height: 1)
-                                .padding(.trailing)
-                            ScheduleRow(item: item)
-                                .padding(.horizontal)
+                                .scaledToFit()
+                                .frame(maxWidth: 265)
+                            Spacer()
                         }
                     }
-                    
-                    // Spacer to push the last item down to make the list scrollable till 12 AM
-                    Spacer().frame(height: 600)
                 }
+                
+                ZStack (alignment: .top){
+                    ForEach(scheduleItems) { item in
+                        ScheduleRow(item: item)
+                            .padding(.horizontal)
+                            .offset(y: CGFloat((timeStringToInt(item.startTime) - 10) * 66)) // aligns it with correct start time
+                            .padding(11)
+                    }
+                }
+                .padding(.leading, 40)
+
             }
         }
     }
+
+    private func timeStringToInt(_ time: String) -> Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mma"
+        guard let date = dateFormatter.date(from: time) else { return 0 }
+        let calendar = Calendar.current
+        return calendar.component(.hour, from: date)
+    }
 }
+
 
 #Preview {
     MainRulesView(userId: "Grace")
