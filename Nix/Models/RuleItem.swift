@@ -25,4 +25,6 @@ struct RuleItem: Codable, Identifiable {
     var delay: Int
     var timeOutLength: Int
     var timeOutAllowed: Int
+    var intentionalMinutes : Int
+    var intentionalHours : Int
 }

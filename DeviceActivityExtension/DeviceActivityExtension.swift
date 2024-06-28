@@ -16,11 +16,23 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
 
     let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
 
+    
     override func intervalDidStart(for activity: DeviceActivityName) {
         
         super.intervalDidStart(for: activity)
+        if (activity.rawValue != "breakTime"){
+            userDefaults?.set(activity.rawValue, forKey: "activeSchedule")
+        }
+        let parts = activity.rawValue.split(separator: "-")
         
+        let mode = parts.count > 1 ? String(parts[1]) : activity.rawValue
+        let hour = parts.count > 2 ? String(parts[2]) : activity.rawValue
+        let minute = parts.count > 3 ? String(parts[3]) : activity.rawValue
         
+        if (mode != "breakTime") {
+            userDefaults?.set(mode, forKey: "mode")
+        }
+        print("mode: \(mode)")
         do {
             // get selected app tokens from app groups
             if let appData = userDefaults?.object(forKey: "applications") as? Data {
@@ -30,7 +42,16 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
                 if activity.rawValue == "breakTime" {
                     store.shield.applications = nil
                 }else{
-                    store.shield.applications = decodedApplicationTokens.isEmpty ? nil : Set(decodedApplicationTokens)
+                    if (mode == "intentional") {
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + ((Double(hour) ?? 0) * 3600) + ((Double(minute) ?? 0) * 60)) {
+                            print("delaying")
+                            self.store.shield.applications = decodedApplicationTokens.isEmpty ? nil : Set(decodedApplicationTokens)
+                        }
+                    }else{
+                        store.shield.applications = decodedApplicationTokens.isEmpty ? nil : Set(decodedApplicationTokens)
+                    }
+                   
                 }
                 
 //                print("\(decodedApplicationTokens)")
@@ -57,6 +78,11 @@ class MyDeviceActivityMonitor: DeviceActivityMonitor{
                 userDefaults?.set(activity.rawValue, forKey: "activeApp")
             }
             print("setting active app name")
+            
+            // getting mode
+            
+          
+            
         }catch {
             print("Error: \(error)")
         }

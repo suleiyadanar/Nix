@@ -48,6 +48,8 @@
 		3F312BAE2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */; };
 		3F38E3872BA61154001E57CE /* NewRuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */; };
 		3F47EBC32C0E4D010043507C /* templates.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F47EBC12C0E4D010043507C /* templates.json */; };
+		3F57AD432C2E3F700066A662 /* SingleAppReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F57AD422C2E3F700066A662 /* SingleAppReport.swift */; };
+		3F57AD452C2E40640066A662 /* SingleAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F57AD442C2E40640066A662 /* SingleAppView.swift */; };
 		3F72349E2B86C8CF0095EA42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72349D2B86C8CF0095EA42 /* ContentView.swift */; };
 		3F7234A02B86C8D20095EA42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F72349F2B86C8D20095EA42 /* Assets.xcassets */; };
 		3F7234A32B86C8D20095EA42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F7234A22B86C8D20095EA42 /* Preview Assets.xcassets */; };
@@ -218,6 +220,8 @@
 		3F262D6A2B995F4F0080214E /* Nix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nix.entitlements; sourceTree = "<group>"; };
 		3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutNotiViewViewModel.swift; sourceTree = "<group>"; };
 		3F47EBC12C0E4D010043507C /* templates.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = templates.json; sourceTree = "<group>"; };
+		3F57AD422C2E3F700066A662 /* SingleAppReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAppReport.swift; sourceTree = "<group>"; };
+		3F57AD442C2E40640066A662 /* SingleAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAppView.swift; sourceTree = "<group>"; };
 		3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsModel.swift; sourceTree = "<group>"; };
 		3F7234982B86C8CF0095EA42 /* Nix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F72349D2B86C8CF0095EA42 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -550,9 +554,11 @@
 				3F856E6D2B9D8EEE00E479EB /* ReportExtension_Nix.swift */,
 				3F856E6F2B9D8EEE00E479EB /* TotalScreenTimeReport.swift */,
 				3F856E7F2B9E2B1100E479EB /* TotalActivityReport.swift */,
+				3F57AD422C2E3F700066A662 /* SingleAppReport.swift */,
 				3F856E812B9E305D00E479EB /* TotalActivityView.swift */,
 				3F856E852B9F73FA00E479EB /* TotalActivityItemView.swift */,
 				3F856E712B9D8EEE00E479EB /* TotalScreenTimeView.swift */,
+				3F57AD442C2E40640066A662 /* SingleAppView.swift */,
 				3F856E732B9D8EEE00E479EB /* Info.plist */,
 				3F856E742B9D8EEE00E479EB /* ReportExtension_Nix.entitlements */,
 			);
@@ -955,6 +961,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F57AD452C2E40640066A662 /* SingleAppView.swift in Sources */,
 				3F856E822B9E305D00E479EB /* TotalActivityView.swift in Sources */,
 				3F856E722B9D8EEE00E479EB /* TotalScreenTimeView.swift in Sources */,
 				3F856E802B9E2B1100E479EB /* TotalActivityReport.swift in Sources */,
@@ -962,6 +969,7 @@
 				3F856E7E2B9D95DD00E479EB /* DeviceActivityModel.swift in Sources */,
 				3F856E862B9F73FA00E479EB /* TotalActivityItemView.swift in Sources */,
 				3F856E702B9D8EEE00E479EB /* TotalScreenTimeReport.swift in Sources */,
+				3F57AD432C2E3F700066A662 /* SingleAppReport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

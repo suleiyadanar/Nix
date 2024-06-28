@@ -22,6 +22,10 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var toDate = Date()
     
     
+    
+    @Published var intentionalHours: Int = 0
+    @Published var intentionalMinutes: Int = 0
+    
     @Published var selectedDays = Set<Int>()
     @Published var showAlert = false
     @Published var alertMessage = ""
@@ -167,8 +171,9 @@ class NewRuleItemViewViewModel : ObservableObject {
                              "unlock": unlock.rawValue,
                              "delay": delay.rawValue,
                              "timeOutLength": timeOutLength.rawValue,
-                             "timeOutAllowed": timeOutAllowed
-
+                             "timeOutAllowed": timeOutAllowed,
+                             "intentionalMinutes": intentionalMinutes,
+                             "intentionalHours": intentionalHours
                             ])
                             
         }else {
@@ -190,7 +195,9 @@ class NewRuleItemViewViewModel : ObservableObject {
                 unlock: unlock.rawValue,
                 delay: delay.rawValue,
                 timeOutLength: timeOutLength.rawValue,
-                timeOutAllowed: timeOutAllowed
+                timeOutAllowed: timeOutAllowed,
+                intentionalMinutes: intentionalMinutes,
+                intentionalHours: intentionalHours
             )
 
             // Save model
