@@ -205,6 +205,15 @@ struct RuleRow: View {
     }
 }
 
+
+
+
+
+
+
+
+
+
 struct ScheduleItem: Identifiable {
     let id = UUID()
     let startTime: String
@@ -333,10 +342,11 @@ struct ScheduleTabView: View {
                }
            }
        }
+        .padding(.bottom, 5)
         
         ScrollView {
             ZStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 48) {
+                VStack(alignment: .leading, spacing: 50) {
                     ForEach(10..<19) { hour in
                         HStack {
                             TimeStampView(hour: hour)
@@ -353,7 +363,7 @@ struct ScheduleTabView: View {
                     ForEach(scheduleItems) { item in
                         ScheduleRow(item: item)
                             .padding(.horizontal)
-                            .offset(y: CGFloat((timeStringToInt(item.startTime) - 10) * 66)) // aligns it with correct start time
+                            .offset(y: CGFloat((timeStringToInt(item.startTime) - 10)) * 68) // aligns it with correct start time
                             .padding(11)
                     }
                 }
