@@ -33,6 +33,7 @@ struct RuleRow: View {
                 VStack(alignment: .leading) {
                     HStack {
                         Text(title)
+                            .font(.system(size: 16))
                             .padding(.bottom, 2)
                         Spacer()
                         if !days.isEmpty {
@@ -56,7 +57,7 @@ struct RuleRow: View {
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         Text(time)
-                            .font(.subheadline)
+                            .font(.system(size: 12))
                             .foregroundColor(.gray)
                         Spacer()
                         Text("\(appsBlocked) apps blocked")
@@ -69,7 +70,7 @@ struct RuleRow: View {
                 .padding(7)
                 .background(Color.white)
                 .cornerRadius(10)
-                .padding(.leading, 20)
+                .padding(.leading, 17)
             }
         }
         .background(

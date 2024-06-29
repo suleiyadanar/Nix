@@ -15,6 +15,8 @@ struct ScheduleItem: Identifiable {
     let details: String
     let color: Color
     let appsBlocked: Int
+    let hasAlarm: Bool 
+    let isSuggested: Bool
 
     var duration: Double {
         let dateFormatter = DateFormatter()
