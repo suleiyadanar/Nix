@@ -43,7 +43,7 @@ struct MainView: View {
                 MainHomepageView(streakCount: 32, progress: 0.6, userId: viewModel.currentUserId)
                     .ignoresSafeArea()
                     .tag("homepage")
-                RulesView(userId: viewModel.currentUserId)
+                MainRulesView(userId: viewModel.currentUserId)
                     .ignoresSafeArea()
                     .tag("rules")
                 PomodoroView(viewModel: pomodoroModel)
