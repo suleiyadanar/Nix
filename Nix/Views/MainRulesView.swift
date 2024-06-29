@@ -143,7 +143,7 @@ struct RuleRow: View {
                     .background(Color.white)
                     .cornerRadius(10)
                     .padding(.leading, 20)
-                    .padding(.trailing, 5)
+                    .padding(.trailing, 2)
                 } else {
                     // Regular schedule layout
                     VStack(alignment: .leading) {
@@ -179,7 +179,7 @@ struct RuleRow: View {
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
-                        .padding(.leading, 5)
+                        .padding(.leading, 2)
 
                     }
                     .padding(7)
@@ -289,13 +289,14 @@ struct ScheduleRow: View {
                 }
                 
             }
-            .frame(height: item.duration * 63) // Control the height based on duration
+            .frame(width: 280, height: item.duration * 63) // Control the height based on duration
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.white)
                     .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 5, y: 5)
             )
             .padding(.bottom, 5)
+
 
         }
     }
@@ -360,6 +361,8 @@ struct ScheduleTabView: View {
                         }
                     }
                 }
+                .padding(.leading, 16)
+                .padding(.trailing, 12)
                 
                 ZStack (alignment: .top){
                     ForEach(scheduleItems) { item in
@@ -367,6 +370,7 @@ struct ScheduleTabView: View {
                             .padding(.horizontal)
                             .offset(y: CGFloat((timeStringToInt(item.startTime) - 10)) * 68) // aligns it with correct start time
                             .padding(11)
+                            .padding(.leading, 12)
                     }
                 }
                 .padding(.leading, 40)
