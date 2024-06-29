@@ -59,7 +59,7 @@ struct RulesTabView: View {
                 RuleRow(title: "Bedtime Yoga", time: "10:00pm - 11:00pm", days: "Everyday", color: Color.poppy, appsBlocked: 10, isSuggested: false)
                 
                 Text("Suggested")
-                    .font(.title)
+                    .font(.system(size: 20))
                     .padding(.leading)
                 
                 RuleRow(title: "Club Meeting", time: "7:00pm - 8:00pm", days: "", color: Color.sky, appsBlocked: 3, isSuggested: true)
@@ -79,21 +79,22 @@ struct RuleRow: View {
     var isSuggested: Bool
     
     var body: some View {
-        HStack(spacing: 0) {
-            // Color tag on the left
-            UnevenRoundedRectangle(cornerRadii: .init(
-                                   topLeading: 15.0,
-                                   bottomLeading: 15.0,
-                                   bottomTrailing: 0,
-                                   topTrailing: 0),
-                                   style: .continuous)
-                .fill(color)
-                .background(Color.clear)
-                .frame(width: 10)
-                .offset(x: 5)
-                .zIndex(1)
 
             VStack(alignment: .leading) {
+                ZStack {
+                // Color tag on the left
+                HStack {
+                    UnevenRoundedRectangle(cornerRadii: .init(
+                        topLeading: 15.0,
+                        bottomLeading: 15.0,
+                        bottomTrailing: 0,
+                        topTrailing: 0),
+                                           style: .continuous)
+                    .fill(color)
+                    .frame(width: 13)
+                    Spacer()
+                }
+                    
                 if isSuggested {
                     // Suggested item layout
                     VStack(alignment: .leading) {
@@ -119,7 +120,6 @@ struct RuleRow: View {
                                 }
                                 .padding(.leading, 5)
                                 .padding(.horizontal, 8)
-                                .padding(.vertical, 5)
                                 .background(Color.lemon)
                                 .cornerRadius(20)
                             }
@@ -137,12 +137,13 @@ struct RuleRow: View {
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
-                        .padding(.leading, 5)
 
                     }
                     .padding(7)
                     .background(Color.white)
                     .cornerRadius(10)
+                    .padding(.leading, 20)
+                    .padding(.trailing, 5)
                 } else {
                     // Regular schedule layout
                     VStack(alignment: .leading) {
@@ -164,7 +165,6 @@ struct RuleRow: View {
                                 }
                             }
                         }
-                        .padding(.leading, 5)
 
                         Spacer(minLength: 15)
                         HStack {
@@ -185,23 +185,25 @@ struct RuleRow: View {
                     .padding(7)
                     .background(Color.white)
                     .cornerRadius(10)
+                    .padding(.leading, 20)
+
                 }
+
             }
-        }
-        .background {
-            UnevenRoundedRectangle(cornerRadii: .init(
-                topLeading: 0,
-                bottomLeading: 0,
-                bottomTrailing: 15.0,
-                topTrailing: 15.0),
-                                   style: .continuous)
-            .cornerRadius(15)
-            .padding(.horizontal, 15)
-            .padding(.bottom, 5)
+
 
         }
-        .shadow(radius: 0.5)
-
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.white)
+                .shadow(color: Color.gray.opacity(0.15), radius: 7, x: 5, y: 5)
+        )
+        .padding(.bottom, 5)
+        .padding(.trailing, 5)
+        .padding(.leading, 7)
+        .safeAreaInset(edge: .trailing) { // Adjust content to ignore trailing safe area (scroll indicator)
+                    Color.clear.frame(width: 0)
+                }
     }
 }
 
