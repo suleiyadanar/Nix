@@ -10,21 +10,21 @@ import FamilyControls
 import ManagedSettings
 
 struct RuleItem: Codable, Identifiable {
-    let id: String
-    let title: String
-    let startTime: TimeInterval
-    let endTime: TimeInterval
-    let fromDate: TimeInterval
-    let toDate: TimeInterval
-    let selectedDays: [Int]
-    let selectedApps: String
-    var selectedData: String
-    var selectionType: String
-    var mode: String
-    var unlock: String
-    var delay: Int
-    var timeOutLength: Int
-    var timeOutAllowed: Int
-    var intentionalMinutes : Int
-    var intentionalHours : Int
+   var id: String
+   var title: String
+   var startTime: TimeInterval
+   var endTime: TimeInterval
+   var fromDate: TimeInterval
+   var toDate: TimeInterval
+   var selectedDays: [Int]
+   var selectedApps: String
+   var selectedData: String
+   var selectionType: String
+   var mode: String
+   var unlock: String
+   var delay: Int
+   var timeOutLength: Int
+   var timeOutAllowed: Int
+   var intentionalMinutes : Int
+   var intentionalHours : Int
 }

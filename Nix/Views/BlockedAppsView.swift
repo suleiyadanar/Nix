@@ -35,6 +35,7 @@ struct BlockedAppsView: View {
         
         do {
             let selection = try JSONDecoder().decode(FamilyActivitySelection.self, from: data)
+            print("selection found")
             return selection
         } catch {
             print("Failed to decode FamilyActivitySelection: \(error)")

@@ -20,9 +20,7 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var endTime = Date()
     @Published var fromDate = Date()
     @Published var toDate = Date()
-    
-    
-    
+
     @Published var intentionalHours: Int = 0
     @Published var intentionalMinutes: Int = 0
     
@@ -211,23 +209,6 @@ class NewRuleItemViewViewModel : ObservableObject {
                 
         }
         
-        func calculateNotiTime(startTime: Date) -> TimeInterval {
-            let currentTime = Date()
-            let notificationTime = startTime.timeIntervalSince(currentTime) - (5 * 60)
-            return max(notificationTime, 0) // Ensure notification is scheduled at least 5 minutes in the future
-        }
-
-        func addNotification() {
-            let content = UNMutableNotificationContent()
-            content.title = "Nix"
-            content.subtitle = "Pomodoro Complete"
-            content.sound = UNNotificationSound.default
-            
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: calculateNotiTime(startTime: startTime), repeats: false))
-            
-            UNUserNotificationCenter.current().add(request)
-            
-        }
     }
     
     
