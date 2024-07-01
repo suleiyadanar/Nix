@@ -6,9 +6,16 @@
 //
 
 import SwiftUI
+import DeviceActivity
 
 struct PomodoroView: View {
     @StateObject var viewModel = PomodoroViewViewModel()
+    var userId: String
+   
+    
+    
+    
+    
     
     var body: some View {
         VStack{
@@ -34,21 +41,25 @@ struct PomodoroView: View {
                     if !viewModel.isBreak {
                         if !viewModel.isStarted{
                             viewModel.startTimer()
+                           
                         }else{
-                            viewModel.pauseTimer()
+                            viewModel.stopTimer()
                             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                         }
                     } else {
                         if !viewModel.isStarted{
+                            
                             viewModel.startBreak()
+                            
                         }else{
-                            viewModel.pauseTimer()
+                            viewModel.stopTimer()
+                            
                             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                         }
                     }
                    
                 } label: {
-                    Image(systemName: !viewModel.isStarted || viewModel.isPaused ? "play.fill" : "pause.fill")
+                    Image(systemName: !viewModel.isStarted  ? "play.fill" : "stop.fill")
                         .font(.largeTitle.bold())
                         .foregroundColor(.white)
                         .frame(width: 80, height: 80)
@@ -58,7 +69,9 @@ struct PomodoroView: View {
                 }
                 
                 Button {
+                    
                     viewModel.changeState()
+                    
                     UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                 } label: {
                     Image(systemName: "forward.fill")
@@ -70,6 +83,20 @@ struct PomodoroView: View {
                         }.shadow(color: Color.purple, radius: 8, x:0, y:0)
                 }
                 
+            }
+            Button(action: {
+                viewModel.showingAppGroup.toggle()
+            }) {
+                Text("Blocked Apps")
+            }
+            .sheet(isPresented: $viewModel.showingAppGroup) {
+                BlockedAppsView(
+                    userId: userId,
+                    selectionType: $viewModel.selectionType,
+                    selectedData: $viewModel.selectedData,
+                    showingAppGroup: $viewModel.showingAppGroup,
+                    item: $viewModel.item
+                )
             }
             
             //            TotalActivityTabView()
@@ -93,21 +120,24 @@ struct PomodoroView: View {
             })
             .onReceive(Timer.publish(every:1, on:.current, in:.common).autoconnect()){
                 _ in
-                if viewModel.isStarted && viewModel.isPaused == false {
+                if viewModel.isStarted {
                     viewModel.updateTimer()
                 }
             }
-            .alert("Congrats", isPresented: $viewModel.isFinished){
-                Button("Start new", role: .cancel){
-                    viewModel.saveSettings()
-                    viewModel.addNewTimer = true
-                }
-                Button("Close", role: .destructive){
-                    viewModel.saveSettings()
-                }
-            }
+//            .alert("Congrats", isPresented: $viewModel.isFinished){
+//                Button("Start new", role: .cancel){
+//                    viewModel.saveSettings()
+//                    viewModel.addNewTimer = true
+//                }
+//                Button("Close", role: .destructive){
+//                    viewModel.saveSettings()
+//                }
+//            }
             
     }
+    
+    
+    
     @ViewBuilder
     func NewTimerView() -> some View {
         VStack(spacing: 15){
@@ -129,7 +159,7 @@ struct PomodoroView: View {
                             Capsule()
                                 .fill(.white.opacity(0.07))
                         }.contextMenu {
-                            ContextMenuOptions(maxValue: 60, hint: "min") { value in
+                            ContextMenuOptions(maxValue: 60, minValue: 15, hint: "min") { value in
                                 viewModel.staticMinutes = value
                             }
                         }
@@ -144,7 +174,7 @@ struct PomodoroView: View {
                                 .fill(.white.opacity(0.07))
                         }
                         .contextMenu {
-                            ContextMenuOptions(maxValue: 60, hint: "sec") { value in
+                            ContextMenuOptions(maxValue: 60, minValue: 0,hint: "sec") { value in
                                 viewModel.staticSeconds = value
                             }
                         }
@@ -161,7 +191,7 @@ struct PomodoroView: View {
                             Capsule()
                                 .fill(.white.opacity(0.07))
                         }.contextMenu {
-                            ContextMenuOptions(maxValue: 60, hint: "min") { value in
+                            ContextMenuOptions( maxValue: 60, minValue: 0,hint: "min") { value in
                                 viewModel.staticBreakMinutes = value
                             }
                         }
@@ -176,12 +206,14 @@ struct PomodoroView: View {
                                 .fill(.white.opacity(0.07))
                         }
                         .contextMenu {
-                            ContextMenuOptions(maxValue: 60, hint: "sec") { value in
+                            ContextMenuOptions(maxValue: 60, minValue: 0, hint: "sec") { value in
                                 viewModel.staticBreakSeconds = value
                             }
                         }
                 }
+                
             }
+            
             Button {
                 viewModel.saveSettings()
 
@@ -201,15 +233,15 @@ struct PomodoroView: View {
             .padding(.bottom, 100)
         }.padding()
             .frame(maxWidth: .infinity)
-            .background{
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(Color.blue)
-                        .ignoresSafeArea()
-            }
+//            .background{
+//                RoundedRectangle(cornerRadius: 10, style: .continuous)
+//                    .fill(Color.blue)
+//                        .ignoresSafeArea()
+//            }
     }
     @ViewBuilder
-        func ContextMenuOptions(maxValue: Int, hint: String, onClick: @escaping (Int) -> ()) -> some View {
-            ForEach(0...maxValue, id: \.self) { value in
+    func ContextMenuOptions(maxValue: Int, minValue: Int, hint: String, onClick: @escaping (Int) -> ()) -> some View {
+            ForEach(minValue...maxValue, id: \.self) { value in
                 Button("\(value) \(hint)") {
                     onClick(value)
                 }
