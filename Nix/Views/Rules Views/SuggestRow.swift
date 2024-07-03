@@ -16,18 +16,8 @@ struct SuggestRow: View {
     var body: some View {
         VStack(alignment: .leading) {
             ZStack {
-                // Color tag on the left
-                HStack {
-                    UnevenRoundedRectangle(cornerRadii: .init(
-                        topLeading: 15.0,
-                        bottomLeading: 15.0,
-                        bottomTrailing: 0,
-                        topTrailing: 0),
-                                           style: .continuous)
-                        .fill(color)
-                        .frame(width: 13)
-                    Spacer()
-                }
+                
+                
                 
                 VStack(alignment: .leading) {
                     HStack {
@@ -54,7 +44,7 @@ struct SuggestRow: View {
                             .cornerRadius(20)
                         }
                     }
-                    Spacer()
+                    Spacer(minLength: 15)
                     HStack {
                         Image(systemName: "clock")
                                 .font(.subheadline)
@@ -76,14 +66,10 @@ struct SuggestRow: View {
                 .padding(.trailing, 2)
             }
         }
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
-                .shadow(color: Color.gray.opacity(0.15), radius: 7, x: 5, y: 5)
-        )
+        
         .padding(.bottom, 5)
         .padding(.trailing, 5)
-        .padding(.leading, 7)
+//        .padding(.leading, 7)
         .safeAreaInset(edge: .trailing) { // Adjust content to ignore trailing safe area (scroll indicator)
                     Color.clear.frame(width: 0)
                 }

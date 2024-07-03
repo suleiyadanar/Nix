@@ -22,12 +22,16 @@ func convertToOriginalTokensArray(selectedApps: String) -> [ApplicationToken]? {
 // Model of the pre-made template item
 
 
-func formatTime(_ timeInterval: TimeInterval) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
-        return formatter.string(from: Date(timeIntervalSince1970: timeInterval))
-    }
 
+
+//func loadJsonFromBundle(fileName: String) -> [String: [RuleItem]] {
+//        guard let url = Bundle.main.url(forResource: fileName, withExtension: "json"),
+//              let data = try? Data(contentsOf: url),
+//              let jsonData = try? JSONDecoder().decode([String: [RuleItem]].self, from: data) else {
+//            fatalError("Failed to load JSON file.")
+//        }
+//        return jsonData
+//    }
 
 func loadJson(fileName: String) -> [RuleItem]? {
     let decoder = JSONDecoder()
@@ -60,6 +64,8 @@ struct RulesView: View {
     @State private var selectedItem: RuleItem?
     @State private var selectedTemplate: RuleItem?
     @State private var userId : String
+    @State private var selectedTabIndex = 0
+
     @FirestoreQuery var items: [RuleItem]
 
     
@@ -75,8 +81,12 @@ struct RulesView: View {
          self.userId = userId
      }
 
+    let tabs = ["Daily Routine", "Wellness", "Social", "Study/Focus"]
+    let jsonData = loadJsonFromBundle(fileName: "templates")
+    
+    
      var body: some View {
-
+         
          NavigationView {
              VStack(){
                      VStack(alignment:.leading){
@@ -153,7 +163,41 @@ struct RulesView: View {
 //                             Text(templates.items[index])
 //                         }
                          
-                         
+                         TabView(selection: $selectedTabIndex) {
+                                    ForEach(tabs.indices, id: \.self) { index in
+                                        let tab = tabs[index]
+                                        let templates = jsonData[tab] ?? []
+                                        
+                                        VStack(alignment: .leading) {
+                                            List(templates) { template in
+                                                Button(action:{
+                                                    self.selectedItem = template
+                                                    viewModel.showingTemplateView = true
+                                                    viewModel.showingEditItemView = true
+                                                }) {
+                                                    Text("ID: \(template.id)")
+                                                    Text("Title: \(template.title)")
+                                                    Text("Start Time: \(formatTime(template.startTime))")
+                                                    Text("End Time: \(formatTime(template.endTime))")
+                                                    Text("Selected Days: \(template.selectedDays)")
+                                                }
+                                            }
+                                            .sheet(isPresented: $viewModel.showingEditItemView) {
+                                                NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, newTemplate: viewModel.showingTemplateView, userId: userId, item: selectedItem)
+                                            }
+                                            .listStyle(PlainListStyle())
+                                        }
+                                        .padding()
+                                        .tag(index)
+                                        .tabItem {
+                                            Text(tab)
+                                        }
+                                    }
+                                }
+                                .onAppear {
+                                    // Load initial tab or perform any setup logic
+                                    selectedTabIndex = 0
+                                }
                          if let templates = loadJson(fileName: "templates") {
                                      VStack(alignment: .leading) {
 //
@@ -200,4 +244,18 @@ struct RulesView: View {
          }
          
      }
+   
  }
+
+struct Template: Identifiable, Codable {
+    let id: String
+    let title: String
+    let startTime: TimeInterval
+    let endTime: TimeInterval
+    let selectedDays: [Int]
+    // Add more properties as needed
+    
+    enum CodingKeys: String, CodingKey {
+        case id, title, startTime, endTime, selectedDays
+    }
+}

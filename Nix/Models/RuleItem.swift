@@ -10,13 +10,13 @@ import FamilyControls
 import ManagedSettings
 
 struct RuleItem: Codable, Identifiable {
-   var id: String
-   var title: String
-   var startTime: TimeInterval
-   var endTime: TimeInterval
-   var fromDate: TimeInterval
-   var toDate: TimeInterval
-   var selectedDays: [Int]
+   let id: String
+   let title: String
+   let startTime: TimeInterval
+   let endTime: TimeInterval
+   let fromDate: TimeInterval
+   let toDate: TimeInterval
+   let selectedDays: [Int]
    var selectedApps: String
    var selectedData: String
    var selectionType: String
