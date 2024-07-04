@@ -70,6 +70,7 @@ struct MainRulesView: View {
 }
 
 struct RulesTabView: View {
+    
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: RulesViewViewModel
     @State private var selectedItem: RuleItem?
@@ -79,11 +80,11 @@ struct RulesTabView: View {
     @State private var selectedSection = 0  // Track selected section
     @FirestoreQuery var items: [RuleItem]
     @State private var scrollViewOffset: CGFloat = 0  // Track the scroll offset
-
+    
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let categoryIcons = ["volleyball.fill", "football.fill", "cricket.ball.fill","tennisball.fill" ]
     let jsonData = loadJsonFromBundle(fileName: "templates")
-
+    
     init(userId: String) {
         self._items = FirestoreQuery(collectionPath: "users/\(userId)/rules")
         self._viewModel = StateObject(
@@ -91,12 +92,10 @@ struct RulesTabView: View {
         self.userId = userId
         self.selectedDays = ""
     }
-
+    
     var body: some View {
-        VStack(alignment: .trailing) {
-           
-
-            VStack(alignment: .leading) { // Add spacing between list items
+        ZStack(alignment: .bottomTrailing) {
+            VStack {
                 List(items.sorted(by: { $0.startTime < $1.startTime })) { item in
                     if item.title != "Pomodoro" {
                         HStack {
@@ -105,10 +104,10 @@ struct RulesTabView: View {
                                 bottomLeading: 15.0,
                                 bottomTrailing: 0,
                                 topTrailing: 0),
-                                                   style: .continuous)
+                                style: .continuous)
                             .fill(Color(item.color))
                             .frame(width: 13)
-                            
+
                             Button(action: {
                                 let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
                                 impactFeedback.impactOccurred()
@@ -116,7 +115,7 @@ struct RulesTabView: View {
                                 viewModel.showingEditItemView = true
                             }) {
                                 let tokensArray = convertToOriginalTokensArray(selectedApps: item.selectedApps) ?? []
-                                
+
                                 RuleRow(
                                     title: item.title,
                                     time: "\(Date(timeIntervalSince1970: item.startTime).formatted(.dateTime.hour().minute())) - \(Date(timeIntervalSince1970: item.endTime).formatted(.dateTime.hour().minute()))",
@@ -136,7 +135,6 @@ struct RulesTabView: View {
                                 )
                             }
                             .buttonStyle(PlainButtonStyle()) // Remove default button styling
-                            
                         }
                         .background {
                             UnevenRoundedRectangle(cornerRadii: .init(
@@ -144,7 +142,7 @@ struct RulesTabView: View {
                                 bottomLeading: 15.0,
                                 bottomTrailing: 0,
                                 topTrailing: 0),
-                                                   style: .continuous).fill(Color.white)
+                                style: .continuous).fill(Color.white)
                         }
                         .swipeActions(edge: .trailing) {
                             Button("Delete") {
@@ -166,107 +164,239 @@ struct RulesTabView: View {
                 }
                 .listStyle(PlainListStyle())
             }
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-            
-            Spacer(minLength: 15)
-            VStack(alignment: .leading) {
-               
-                Divider()
-                ScrollViewReader { scrollView in
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 20) {
-                            ForEach(0..<jsonData.keys.sorted().count, id: \.self) { index in
-                                Button(action: {
-                                    withAnimation {
-                                        self.selectedSection = index
-                                        scrollView.scrollTo(index, anchor: .center)
+
+            Button(action: {
+                viewModel.showingExploreRules = true
+            }) {
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                    Text("Explore")
+                }
+                .padding()
+                .background(UnevenRoundedRectangle(cornerRadii: .init(
+                    topLeading: 25.0,
+                    bottomLeading: 25.0,
+                    bottomTrailing: 0,
+                    topTrailing: 25.0),
+                    style: .continuous)
+                    .fill(Color.lemon)
+                )
+                .foregroundColor(.white)
+//                .cornerRadius(25)
+                .shadow(color: Color.gray.opacity(0.15), radius: 5, x: 5, y: 5)
+            }
+            .padding(.bottom, 5)
+            .sheet(isPresented: $viewModel.showingExploreRules) {
+                VStack {
+                    Divider()
+                    ScrollViewReader { scrollView in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 10) {
+                                ForEach(0..<jsonData.keys.sorted().count, id: \.self) { index in
+                                    Button(action: {
+                                        withAnimation {
+                                            self.selectedSection = index
+                                            scrollView.scrollTo(index, anchor: .center)
+                                        }
+                                    }) {
+                                        HStack {
+                                            Image(systemName: "\(categoryIcons[index])")
+                                                .foregroundColor(index == selectedSection ? .white : .black)
+                                            Text(jsonData.keys.sorted()[index])
+                                                .foregroundColor(index == selectedSection ? .white : .black)
+                                                .fontWeight(.bold)
+                                                .font(.subheadline)
+                                        }
+                                        .padding(.vertical, 10)
+                                        .padding(.horizontal, 20)
+                                        .background(index == selectedSection ? Color.lav : Color.white)
+                                        .clipShape(RoundedRectangle(cornerRadius: 35))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 35)
+                                                .stroke(index == selectedSection ? Color.mauve : Color.clear, lineWidth: index == selectedSection ? 2 : 1)
+                                        )
+                                        .animation(.easeInOut(duration: 0.1), value: selectedSection)
                                     }
-                                }) {
-                                    HStack{
-                                        Image(systemName: "\(categoryIcons[index])")
-                                            .foregroundColor(index == selectedSection ? .white : .black)
-                                        Text(jsonData.keys.sorted()[index])
-                                            .foregroundColor(index == selectedSection ? .white : .black)
-                                            .fontWeight(.bold)
-                                    }
-                                    .padding(.vertical, 10)
-                                    .padding(.horizontal, 20)
-                                    .background(index == selectedSection ? Color.lav : Color.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 35))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 35)
-                                            .stroke(index == selectedSection ? Color.mauve : Color.clear, lineWidth: index == selectedSection ? 2 : 1)
-                                    )
-                                    .animation(.easeInOut(duration: 0.1), value: selectedSection)
-                                    
+                                    .padding(.horizontal, 3)
+                                    .id(index)
                                 }
-                                .padding(.horizontal, 3)
-                                .id(index)
+                            }
+                            .padding(.top, 10)
+                            .padding(.bottom, 2)
+                        }
+                        .padding(.horizontal, 15)
+                        .onAppear {
+                            withAnimation {
+                                self.selectedSection = 0
+                                scrollView.scrollTo(0, anchor: .center)
                             }
                         }
-                        .padding(.vertical, 10)
-                    }.padding(.horizontal, 15)
-                    GeometryReader { geometry in
-                        TabView(selection: $selectedSection) {
-                            ForEach(jsonData.keys.sorted(), id: \.self) { category in
-                                VStack(alignment: .leading, spacing:0) {
-                                    if jsonData.keys.sorted().firstIndex(of: category) == selectedSection {
-                                        List {
-                                            LazyVGrid(columns: geometry.size.width < 600 ? [GridItem(.flexible())] : [GridItem(.flexible(), spacing: 15), GridItem(.flexible(), spacing: 15)], spacing: 15) {
-                                                ForEach(jsonData[category]!, id: \.id) { template in
-                                                    Button(action: {
-                                                        self.selectedItem = template
-                                                        viewModel.showingTemplateView = true
-                                                        viewModel.showingEditItemView = true
-                                                    }) {
-                                                        let tokensArray = convertToOriginalTokensArray(selectedApps: template.selectedApps) ?? []
-                                                        
-                                                        SuggestRow(
-                                                            title: template.title,
-                                                            time: "\(Date(timeIntervalSince1970: template.startTime).formatted(.dateTime.hour().minute())) - \(Date(timeIntervalSince1970: template.endTime).formatted(.dateTime.hour().minute()))",
-                                                            appsBlocked: tokensArray.count,
-                                                            color: Color.blue
+                        GeometryReader { geometry in
+                            TabView(selection: $selectedSection) {
+                                ForEach(jsonData.keys.sorted(), id: \.self) { category in
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        if jsonData.keys.sorted().firstIndex(of: category) == selectedSection {
+                                            List {
+                                                LazyVGrid(columns: [GridItem(.flexible(), spacing: geometry.size.width < 600 ? 7 : 15), GridItem(.flexible(), spacing: geometry.size.width < 600 ? 7 : 15)], spacing: geometry.size.width < 600 ? 7 : 15) {
+                                                    ForEach(jsonData[category]!, id: \.id) { template in
+                                                        Button(action: {
+                                                            self.selectedItem = template
+                                                            viewModel.showingTemplateView = true
+                                                            viewModel.showingEditItemView = true
+                                                        }) {
+                                                            let tokensArray = convertToOriginalTokensArray(selectedApps: template.selectedApps) ?? []
+
+                                                            SuggestRow(
+                                                                title: template.title,
+                                                                time: "\(Date(timeIntervalSince1970: template.startTime).formatted(.dateTime.hour().minute())) - \(Date(timeIntervalSince1970: template.endTime).formatted(.dateTime.hour().minute()))",
+                                                                appsBlocked: tokensArray.count,
+                                                                color: Color.blue
+                                                            )
+                                                        }
+                                                        .buttonStyle(PlainButtonStyle())
+                                                        .listRowInsets(EdgeInsets())
+                                                        .listRowBackground(Color.white)
+                                                        .sheet(isPresented: $viewModel.showingEditItemView) {
+                                                            NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item: selectedItem, color:selectedItem?.color ?? "swatch_lemon")
+                                                        }
+                                                        .background(
+                                                            RoundedRectangle(cornerRadius: 10)
+                                                                .fill(Color.white)
+                                                                .stroke(Color.lightGray, lineWidth: 1.5)
+                                                                .shadow(color: Color.gray.opacity(0.15), radius: 5, x: 0, y: 5)
                                                         )
+                                                        .listRowSeparator(.hidden)
+                                                        .listRowInsets(EdgeInsets())
                                                     }
-                                                    .buttonStyle(PlainButtonStyle())
-                                                    .listRowInsets(EdgeInsets())
-                                                    .listRowBackground(Color.white)
-                                                    .sheet(isPresented: $viewModel.showingEditItemView) {
-                                                        NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item: selectedItem, color:selectedItem?.color ?? "swatch_lemon")
-                                                    }
-                                                    .background(
-                                                        RoundedRectangle(cornerRadius: 10)
-                                                            .fill(Color.white)
-                                                            .stroke(Color.lightGray, lineWidth: 1.5)
-                                                            .shadow(color: Color.gray.opacity(0.15), radius: 5, x: 0, y: 5)
-                                                    )
-                                                    .listRowSeparator(.hidden)
-                                                    .listRowInsets(EdgeInsets())
                                                 }
                                             }
+                                            .listStyle(PlainListStyle())
                                         }
-                                        .listStyle(PlainListStyle())
                                     }
-                                }
-                                .tag(jsonData.keys.sorted().firstIndex(of: category) ?? 0)
-                                .onChange(of: selectedSection) {
-                                    // Scroll to the selected index in the horizontal scroll view
-                                    withAnimation {
-                                        scrollView.scrollTo(selectedSection, anchor: .center)
+                                    .tag(jsonData.keys.sorted().firstIndex(of: category) ?? 0)
+                                    .onChange(of: selectedSection) {
+                                        // Scroll to the selected index in the horizontal scroll view
+                                        withAnimation {
+                                            scrollView.scrollTo(selectedSection, anchor: .center)
+                                        }
                                     }
                                 }
                             }
+                            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                            .animation(.easeInOut(duration: 0.1), value: selectedSection)  // Smooth transition for TabView
                         }
-                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                        .animation(.easeInOut(duration: 0.1), value: selectedSection)  // Smooth transition for TabView
-                        
                     }
                 }
-            
-            }.frame(maxHeight:220)
+            }
         }
+
     }
 }
+//            }
+//            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+//            
+//            Spacer(minLength: 15)
+//            VStack(alignment: .leading) {
+//               
+//                Divider()
+//                ScrollViewReader { scrollView in
+//                    ScrollView(.horizontal, showsIndicators: false) {
+//                        HStack(spacing: 10) {
+//                            ForEach(0..<jsonData.keys.sorted().count, id: \.self) { index in
+//                                Button(action: {
+//                                    withAnimation {
+//                                        self.selectedSection = index
+//                                        scrollView.scrollTo(index, anchor: .center)
+//                                    }
+//                                }) {
+//                                    HStack{
+//                                        Image(systemName: "\(categoryIcons[index])")
+//                                            .foregroundColor(index == selectedSection ? .white : .black)
+//                                        Text(jsonData.keys.sorted()[index])
+//                                            .foregroundColor(index == selectedSection ? .white : .black)
+//                                            .fontWeight(.bold)
+//                                            .font(.subheadline)
+//                                        
+//                                    }
+//                                    .padding(.vertical, 10)
+//                                    .padding(.horizontal, 20)
+//                                    .background(index == selectedSection ? Color.lav : Color.white)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 35))
+//                                    .overlay(
+//                                        RoundedRectangle(cornerRadius: 35)
+//                                            .stroke(index == selectedSection ? Color.mauve : Color.clear, lineWidth: index == selectedSection ? 2 : 1)
+//                                    )
+//                                    .animation(.easeInOut(duration: 0.1), value: selectedSection)
+//                                    
+//                                }
+//                                .padding(.horizontal, 3)
+//                                .id(index)
+//                            }
+//                        }
+//                        .padding(.top, 10)
+//                        .padding(.bottom, 2)
+//                    }.padding(.horizontal, 15)
+//                    GeometryReader { geometry in
+//                        TabView(selection: $selectedSection) {
+//                            ForEach(jsonData.keys.sorted(), id: \.self) { category in
+//                                VStack(alignment: .leading, spacing:0) {
+//                                    if jsonData.keys.sorted().firstIndex(of: category) == selectedSection {
+//                                        List {
+//                                            LazyVGrid(columns: geometry.size.width < 600 ? [GridItem(.flexible())] : [GridItem(.flexible(), spacing: geometry.size.width < 600 ? 7 : 15), GridItem(.flexible(), spacing: geometry.size.width < 600 ? 7 : 15)], spacing: geometry.size.width < 600 ? 7 : 15) {
+//                                                ForEach(jsonData[category]!, id: \.id) { template in
+//                                                    Button(action: {
+//                                                        self.selectedItem = template
+//                                                        viewModel.showingTemplateView = true
+//                                                        viewModel.showingEditItemView = true
+//                                                    }) {
+//                                                        let tokensArray = convertToOriginalTokensArray(selectedApps: template.selectedApps) ?? []
+//                                                        
+//                                                        SuggestRow(
+//                                                            title: template.title,
+//                                                            time: "\(Date(timeIntervalSince1970: template.startTime).formatted(.dateTime.hour().minute())) - \(Date(timeIntervalSince1970: template.endTime).formatted(.dateTime.hour().minute()))",
+//                                                            appsBlocked: tokensArray.count,
+//                                                            color: Color.blue
+//                                                        )
+//                                                    }
+//                                                    .buttonStyle(PlainButtonStyle())
+//                                                    .listRowInsets(EdgeInsets())
+//                                                    .listRowBackground(Color.white)
+//                                                    .sheet(isPresented: $viewModel.showingEditItemView) {
+//                                                        NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item: selectedItem, color:selectedItem?.color ?? "swatch_lemon")
+//                                                    }
+//                                                    .background(
+//                                                        RoundedRectangle(cornerRadius: 10)
+//                                                            .fill(Color.white)
+//                                                            .stroke(Color.lightGray, lineWidth: 1.5)
+//                                                            .shadow(color: Color.gray.opacity(0.15), radius: 5, x: 0, y: 5)
+//                                                    )
+//                                                    .listRowSeparator(.hidden)
+//                                                    .listRowInsets(EdgeInsets())
+//                                                }
+//                                            }
+//                                        }
+//                                        .listStyle(PlainListStyle())
+//                                    }
+//                                }
+//                                .tag(jsonData.keys.sorted().firstIndex(of: category) ?? 0)
+//                                .onChange(of: selectedSection) {
+//                                    // Scroll to the selected index in the horizontal scroll view
+//                                    withAnimation {
+//                                        scrollView.scrollTo(selectedSection, anchor: .center)
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+//                        .animation(.easeInOut(duration: 0.1), value: selectedSection)  // Smooth transition for TabView
+//                        
+//                    }
+//                }
+//            
+//            }.frame(maxHeight:220)
+//        }
+//    }
+//}
 
 struct ScheduleTabView: View {
     let scheduleItems: [ScheduleItem] = [

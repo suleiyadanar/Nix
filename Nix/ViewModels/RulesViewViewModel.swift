@@ -12,6 +12,7 @@ class RulesViewViewModel : ObservableObject {
     @Published var showingNewItemView = false
     @Published var showingEditItemView = false
     @Published var showingTemplateView = false
+    @Published var showingExploreRules = false
     private let userId : String
     
     init(userId: String){

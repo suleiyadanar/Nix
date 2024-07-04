@@ -1,10 +1,3 @@
-//
-//  SuggestRow.swift
-//  Nix
-//
-//  Created by Grace Yang on 6/29/24.
-//
-
 import SwiftUI
 
 struct SuggestRow: View {
@@ -12,55 +5,53 @@ struct SuggestRow: View {
     var time: String
     var appsBlocked: Int
     var color: Color
+    
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
     var body: some View {
-      
+        VStack(alignment: .leading) {
+            HStack(alignment: .top) {
+                Text(title)
+                    .padding(.bottom, 2)
+                Spacer()
+                
+//                Button(action: {
+//                    // Add action
+//                }) {
+//                    Image(systemName: "plus")
+//                        .font(.headline)
+//                        .foregroundColor(.lemon)
+//                }
+            }
             
-                
-                
-                
-                VStack(alignment: .leading) {
-                    HStack(alignment: .top) {
-                        Text(title)
-                            .padding(.bottom, 2)
-                        Spacer()
-                        
-                        Button(action: {
-                            // Add action
-                        }) {
-                          
-                                Image(systemName: "plus")
-                                    .font(.headline)
-                                    .foregroundColor(.lemon)
-                            
-//
-                            
-                        }
-                    }
-                    Spacer(minLength: 35)
-                    HStack {
-                        Image(systemName: "clock")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        Text(time)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-
-                }
-                .frame(minHeight:90, maxHeight:90)
-                .padding(10)
-                .background(Color.white)
-                .cornerRadius(10)
-//        .padding(.trailing, 5)
-//        .padding(.leading, 7)
-        .safeAreaInset(edge: .trailing) { // Adjust content to ignore trailing safe area (scroll indicator)
-                    Color.clear.frame(width: 0)
-                }
+//            // Conditional Spacer based on device type
+//            if horizontalSizeClass == .compact { // Compact size class (e.g., phone)
+//                Spacer(minLength: 10)
+//            } else {
+                Spacer(minLength: 35)
+//            }
+            
+            VStack(alignment: .leading) {
+                Image(systemName: "clock")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                Text(time)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+        }
+        .frame(minHeight: 100, maxHeight: 100)
+        .padding(10)
+        .background(Color.white)
+        .cornerRadius(10)
+        .safeAreaInset(edge: .trailing) {
+            Color.clear.frame(width: 0)
+        }
     }
 }
 
-
-#Preview {
-    SuggestRow(title: "Club Meeting", time: "7:00pm - 8:00pm", appsBlocked: 3, color: Color.sky)
+struct SuggestRow_Previews: PreviewProvider {
+    static var previews: some View {
+        SuggestRow(title: "Club Meeting", time: "7:00pm - 8:00pm", appsBlocked: 3, color: .blue)
+    }
 }
