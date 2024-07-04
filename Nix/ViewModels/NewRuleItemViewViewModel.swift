@@ -20,7 +20,7 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var endTime = Date()
     @Published var fromDate = Date()
     @Published var toDate = Date()
-
+    
     @Published var intentionalHours: Int = 0
     @Published var intentionalMinutes: Int = 0
     
@@ -35,6 +35,8 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var delay: DelayTime = .none
     @Published var timeOutLength: TimeoutLength = .one
     @Published var timeOutAllowed: Int = Int.max
+    
+    @Published var color : String = ""
     
     var selectedApps = String()
     var selectedData = String()
@@ -151,8 +153,8 @@ class NewRuleItemViewViewModel : ObservableObject {
 
        
         let db = Firestore.firestore()
-        
-        if self.id != "" {
+        print("count id", self.id.count)
+        if self.id != "" && self.id.count > 1 {
             // Update model
             print("updating")
             db.collection("users")
@@ -171,7 +173,8 @@ class NewRuleItemViewViewModel : ObservableObject {
                              "timeOutLength": timeOutLength.rawValue,
                              "timeOutAllowed": timeOutAllowed,
                              "intentionalMinutes": intentionalMinutes,
-                             "intentionalHours": intentionalHours
+                             "intentionalHours": intentionalHours,
+                             "color": color
                             ])
                             
         }else {
@@ -195,7 +198,8 @@ class NewRuleItemViewViewModel : ObservableObject {
                 timeOutLength: timeOutLength.rawValue,
                 timeOutAllowed: timeOutAllowed,
                 intentionalMinutes: intentionalMinutes,
-                intentionalHours: intentionalHours
+                intentionalHours: intentionalHours,
+                color: color
             )
 
             // Save model

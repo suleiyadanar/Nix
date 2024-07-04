@@ -29,7 +29,8 @@ class PomodoroViewViewModel : NSObject,ObservableObject, UNUserNotificationCente
             timeOutLength: 0, // Example: 1 minute
             timeOutAllowed: 0, // Example: 3 timeouts allowed
             intentionalMinutes: 15, // Example: 15 minutes
-            intentionalHours: 1 // Example: 1 hour
+            intentionalHours: 1,
+            color: "swatch_lemon"// Example: 1 hour
     )
 
     @Published var showingAppGroup = false
