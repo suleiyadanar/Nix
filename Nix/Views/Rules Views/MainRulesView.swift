@@ -30,7 +30,7 @@ struct MainRulesView: View {
                 }
                 .padding(.bottom, 5)
                 .sheet(isPresented: $viewModel.showingNewItemView) {
-                    NewRuleItemView(newItemPresented: $viewModel.showingNewItemView, newTemplate: viewModel.showingTemplateView, userId: userId)
+                    NewRuleItemView(newItemPresented: $viewModel.showingNewItemView,  userId: userId)
                 }
             
             }.padding(.top, 40)
@@ -106,7 +106,7 @@ struct RulesTabView: View {
                                 bottomTrailing: 0,
                                 topTrailing: 0),
                                                    style: .continuous)
-                            .fill(Color.bubble)
+                            .fill(Color(item.color))
                             .frame(width: 13)
                             
                             Button(action: {
@@ -160,21 +160,18 @@ struct RulesTabView: View {
                         .listStyle(GroupedListStyle())
                     }
                 }
-                .shadow(color: Color.gray.opacity(0.15), radius: 7, x: 5, y: 5)
+                .shadow(color: Color.gray.opacity(0.15), radius: 6, x: 0, y: 5)
                 .sheet(isPresented: $viewModel.showingEditItemView) {
-                    NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, newTemplate: viewModel.showingTemplateView, userId: userId, item: selectedItem)
+                    NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item: selectedItem, color:selectedItem?.color ?? "swatch_lemon")
                 }
                 .listStyle(PlainListStyle())
             }
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-
+            
+            Spacer(minLength: 15)
             VStack(alignment: .leading) {
-                Text("Suggested")
-                    .font(.system(size: 25))
-                    .padding(.top, 15)
-                    .padding(.bottom, 5)
-                    .fontWeight(.semibold)
-
+               
+                Divider()
                 ScrollViewReader { scrollView in
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 20) {
@@ -192,84 +189,81 @@ struct RulesTabView: View {
                                             .foregroundColor(index == selectedSection ? .white : .black)
                                             .fontWeight(.bold)
                                     }
-                                            .padding(.vertical, 10)
-                                            .padding(.horizontal, 20)
-                                            .background(index == selectedSection ? Color.lav : Color.white)
-                                            .clipShape(RoundedRectangle(cornerRadius: 35))
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 35)
-                                                    .stroke(index == selectedSection ? Color.mauve : Color.clear, lineWidth: index == selectedSection ? 2 : 1)
-                                            )
-                                            .animation(.easeInOut(duration: 0.1), value: selectedSection)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 20)
+                                    .background(index == selectedSection ? Color.lav : Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 35))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 35)
+                                            .stroke(index == selectedSection ? Color.mauve : Color.clear, lineWidth: index == selectedSection ? 2 : 1)
+                                    )
+                                    .animation(.easeInOut(duration: 0.1), value: selectedSection)
                                     
                                 }
-                                .padding(.trailing, 10)
-                                .padding(.leading, 5)
+                                .padding(.horizontal, 3)
                                 .id(index)
                             }
                         }
                         .padding(.vertical, 10)
-                    }
-                
-
-                GeometryReader { geometry in
-                    TabView(selection: $selectedSection) {
-                        ForEach(jsonData.keys.sorted(), id: \.self) { category in
-                            VStack {
-                                if jsonData.keys.sorted().firstIndex(of: category) == selectedSection {
-                                    List {
-                                        ForEach(jsonData[category]!, id: \.id) { template in
-                                            HStack {
-
-                                                Button(action: {
-                                                    self.selectedItem = template
-                                                    viewModel.showingTemplateView = true
-                                                    viewModel.showingEditItemView = true
-                                                }) {
-                                                    let tokensArray = convertToOriginalTokensArray(selectedApps: template.selectedApps) ?? []
-                                                    
-                                                    SuggestRow(
-                                                        title: template.title,
-                                                        time: "\(Date(timeIntervalSince1970: template.startTime).formatted(.dateTime.hour().minute())) - \(Date(timeIntervalSince1970: template.endTime).formatted(.dateTime.hour().minute()))",
-                                                        appsBlocked: tokensArray.count,
-                                                        color: Color.blue
+                    }.padding(.horizontal, 15)
+                    GeometryReader { geometry in
+                        TabView(selection: $selectedSection) {
+                            ForEach(jsonData.keys.sorted(), id: \.self) { category in
+                                VStack(alignment: .leading, spacing:0) {
+                                    if jsonData.keys.sorted().firstIndex(of: category) == selectedSection {
+                                        List {
+                                            LazyVGrid(columns: geometry.size.width < 600 ? [GridItem(.flexible())] : [GridItem(.flexible(), spacing: 15), GridItem(.flexible(), spacing: 15)], spacing: 15) {
+                                                ForEach(jsonData[category]!, id: \.id) { template in
+                                                    Button(action: {
+                                                        self.selectedItem = template
+                                                        viewModel.showingTemplateView = true
+                                                        viewModel.showingEditItemView = true
+                                                    }) {
+                                                        let tokensArray = convertToOriginalTokensArray(selectedApps: template.selectedApps) ?? []
+                                                        
+                                                        SuggestRow(
+                                                            title: template.title,
+                                                            time: "\(Date(timeIntervalSince1970: template.startTime).formatted(.dateTime.hour().minute())) - \(Date(timeIntervalSince1970: template.endTime).formatted(.dateTime.hour().minute()))",
+                                                            appsBlocked: tokensArray.count,
+                                                            color: Color.blue
+                                                        )
+                                                    }
+                                                    .buttonStyle(PlainButtonStyle())
+                                                    .listRowInsets(EdgeInsets())
+                                                    .listRowBackground(Color.white)
+                                                    .sheet(isPresented: $viewModel.showingEditItemView) {
+                                                        NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item: selectedItem, color:selectedItem?.color ?? "swatch_lemon")
+                                                    }
+                                                    .background(
+                                                        RoundedRectangle(cornerRadius: 10)
+                                                            .fill(Color.white)
+                                                            .stroke(Color.lightGray, lineWidth: 1.5)
+                                                            .shadow(color: Color.gray.opacity(0.15), radius: 5, x: 0, y: 5)
                                                     )
-                                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                                }
-                                                .stroke(1)
-                                                .buttonStyle(PlainButtonStyle())
-                                                .listRowInsets(EdgeInsets())
-                                                .listRowBackground(Color.white)
-                                                .sheet(isPresented: $viewModel.showingEditItemView) {
-                                                    NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, newTemplate: viewModel.showingTemplateView, userId: userId, item: selectedItem)
+                                                    .listRowSeparator(.hidden)
+                                                    .listRowInsets(EdgeInsets())
                                                 }
                                             }
                                         }
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .fill(Color.white)
-                                        )
-                                        .listRowInsets(EdgeInsets())
                                         .listStyle(PlainListStyle())
                                     }
-                                    .listStyle(PlainListStyle())
-                                    .shadow(color: Color.gray.opacity(0.15), radius: 7, x: 5, y: 5)
                                 }
-                            }
-                            .tag(jsonData.keys.sorted().firstIndex(of: category) ?? 0)
-                            .onChange(of: selectedSection) { newValue in
-                                // Scroll to the selected index in the horizontal scroll view
-                                withAnimation {
-                                    scrollView.scrollTo(newValue, anchor: .center)
+                                .tag(jsonData.keys.sorted().firstIndex(of: category) ?? 0)
+                                .onChange(of: selectedSection) {
+                                    // Scroll to the selected index in the horizontal scroll view
+                                    withAnimation {
+                                        scrollView.scrollTo(selectedSection, anchor: .center)
+                                    }
                                 }
                             }
                         }
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                        .animation(.easeInOut(duration: 0.1), value: selectedSection)  // Smooth transition for TabView
+                        
                     }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                    .animation(.easeInOut(duration: 0.1), value: selectedSection)  // Smooth transition for TabView
                 }
-            }
-        }
+            
+            }.frame(maxHeight:220)
         }
     }
 }

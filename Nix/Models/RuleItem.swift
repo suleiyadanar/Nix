@@ -27,4 +27,5 @@ struct RuleItem: Codable, Identifiable {
    var timeOutAllowed: Int
    var intentionalMinutes : Int
    var intentionalHours : Int
+   var color: String
 }
