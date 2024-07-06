@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26C7A493C1E500659D14F651 /* Pods_Nix.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7226AE289E60FF81E85DAE1C /* Pods_Nix.framework */; };
+		3B0DB69A2C38943C00EFFBE4 /* MainPomodoroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0DB6992C38943C00EFFBE4 /* MainPomodoroView.swift */; };
 		3B0DE7A82C1E26FF00C8137A /* MainRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */; };
 		3B2BB18F2C1D66DC00E08E77 /* MainHomepageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */; };
 		3B2BB1912C1D672200E08E77 /* ScreenTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */; };
@@ -186,6 +187,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B0DB6992C38943C00EFFBE4 /* MainPomodoroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPomodoroView.swift; sourceTree = "<group>"; };
 		3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRulesView.swift; sourceTree = "<group>"; };
 		3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainHomepageView.swift; sourceTree = "<group>"; };
 		3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTimeView.swift; sourceTree = "<group>"; };
@@ -565,6 +567,7 @@
 				3F7234CB2B86CAF70095EA42 /* HomepageView.swift */,
 				3F856E832B9F6A7700E479EB /* TotalActivityTabView.swift */,
 				3F7234CC2B86CAF70095EA42 /* ResponsiveView.swift */,
+				3B0DB6992C38943C00EFFBE4 /* MainPomodoroView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -889,6 +892,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BA6CA882C0FFF870031B2E1 /* Onboarding6AView.swift in Sources */,
+				3B0DB69A2C38943C00EFFBE4 /* MainPomodoroView.swift in Sources */,
 				3BCBF7BE2C0D74C700F7532B /* OptionButtonView.swift in Sources */,
 				3F7234D62B86CAF70095EA42 /* SettingsView.swift in Sources */,
 				3BCBF7B82C0D4EC200F7532B /* Colors.swift in Sources */,
