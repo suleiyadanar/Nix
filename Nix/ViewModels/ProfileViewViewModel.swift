@@ -10,6 +10,7 @@ import FirebaseAuth
 import Foundation
 
 class ProfileViewViewModel: ObservableObject {
+    
     init() {}
     
     @Published var user: User? = nil
@@ -29,9 +30,16 @@ class ProfileViewViewModel: ObservableObject {
                 self?.user = User(
                     id: data["id"] as? String ?? "",
                     firstName: data["firstName"] as? String ?? "",
-                    lastName: data["lastName"] as? String ?? "",
+                    username: data["username"] as? String ?? "",
                     email: data["email"] as? String ?? "",
-                    joined: data["joined"] as? TimeInterval ?? 0
+                    joined: data["joined"] as? TimeInterval ?? 0,
+                    college: data["college"] as? String ?? "",
+                    year: data["year"] as? String ?? "",
+                    major: data["major"] as? String ?? "",
+                    opt: data["opt"] as? Bool ?? false,
+                    goals: data["goals"] as? Array<String> ?? [""],
+                    unProdST: data["unProdST"] as? String ?? "",
+                    maxUnProdST: data["maxUnProdST"] as? Int ?? 0
                 )
             }
         }

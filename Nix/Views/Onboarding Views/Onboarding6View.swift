@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FamilyControls
 
 struct Onboarding6View: View {
     @State private var weeks: Int = 8
@@ -88,6 +89,7 @@ struct Onboarding6View: View {
         }
         
         .navigationBarHidden(true)
+        
     }
 }
 

@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct Onboarding4View: View {
-    
     @State private var optionsChosen = Array(repeating: false, count: 6)
     @State private var otherOptionSelected = false
+    @EnvironmentObject var userSettings: UserSettings
 
     var body: some View {
         ZStack {
@@ -30,12 +30,15 @@ struct Onboarding4View: View {
                 }
                 
                 ForEach(0..<5) { index in
-                    OptionButtonView(isSelected: self.$optionsChosen[index], inputText: self.unProdSTOptions[index])
+                    OptionButtonView(isSelected: self.$optionsChosen[index], inputText: self.unProdSTOptions[index], onSelectionChange: { isSelected in
+                        self.optionChanged(index: index, isSelected: isSelected)
+                    })
                 }
 
-
                 if self.selectedOptionsCount() == 1 {
-                    NavigationLink(destination: Onboarding5View()) {
+                    NavigationLink(destination: Onboarding5View().onAppear {
+                        self.saveSelectedUnProdST()
+                    }) {
                         ArrowButtonView()
                             .padding(.trailing, 20)
                             .padding(.top, 40)
@@ -44,7 +47,6 @@ struct Onboarding4View: View {
                 Spacer()
             }
         }
-        
         .navigationBarHidden(true)
     }
 
@@ -62,8 +64,23 @@ struct Onboarding4View: View {
     private func selectedOptionsCount() -> Int {
         return optionsChosen.filter { $0 }.count + (otherOptionSelected ? 1 : 0)
     }
-}
 
+    private func optionChanged(index: Int, isSelected: Bool) {
+        if isSelected {
+            for i in 0..<optionsChosen.count {
+                if i != index {
+                    optionsChosen[i] = false
+                }
+            }
+        }
+    }
+
+    private func saveSelectedUnProdST() {
+        if let selectedIndex = optionsChosen.firstIndex(where: { $0 }) {
+            userSettings.unProdST = unProdSTOptions[selectedIndex]
+        }
+    }
+}
 
 #Preview {
     Onboarding4View()

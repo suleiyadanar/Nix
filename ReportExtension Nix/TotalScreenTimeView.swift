@@ -11,7 +11,9 @@ struct TotalScreenTimeView: View {
     let totalScreenTime: String
     
     var body: some View {
-        Text(totalScreenTime).frame(height: 100)
+        Text(totalScreenTime)
+            .foregroundColor(.babyBlue) // Change text color to blue
+                      .font(.largeTitle)
     }
 }
 

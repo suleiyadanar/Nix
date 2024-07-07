@@ -1,59 +1,76 @@
-//
-//  Onboarding7View.swift
-//  Nix
-//
-//  Created by Grace Yang on 6/5/24.
-//
-
 import SwiftUI
+import FamilyControls
 
 struct Onboarding7View: View {
+    let center = AuthorizationCenter.shared
+    @State private var authorizationError: Error?
+    @State private var isAuthorizationComplete = false
+    @State private var showAlert = false
+
     var body: some View {
         ZStack {
             OnboardingBackgroundView()
             VStack {
-                OnboardingProgressBarView(currentPage:6)
+                OnboardingProgressBarView(currentPage: 6)
                     .padding(.bottom, 25)
                 HStack {
-                    Text("One more step: Connect us to \nyour Screen Time!")
-                        .foregroundColor(Color.black)
-                        .font(.system(size: 25))
-                        .fontWeight(.bold)
+                    Text("One more step: Connect us to your Screen Time!")
+                        .foregroundColor(.black)
                         .font(.title2)
+                        .fontWeight(.bold)
                         .padding(.leading, 20)
                     Spacer()
                 }
-                HStack {
-                    Text("")
-                        .font(.system(size: 20))
-                        .foregroundColor(Color.sky)
-                        .fontWeight(.bold)
-                        .padding(.bottom, 20)
-                        .padding(.leading, 20)
-                    Spacer()
-                } .padding(.bottom, 60)
                 Spacer()
                 HStack {
                     Text("Your data is securely protected by Apple and only stays on your phone.")
                         .font(.system(size: 15))
-                        .foregroundColor(Color.babyBlue)
+                        .foregroundColor(.blue) // Use your custom color here
                         .padding(.bottom, 20)
                         .padding(.leading, 20)
                     Spacer()
                 }
-                NavigationLink(destination: Onboarding8View()) {
-                    ButtonView(text:"Connect")
+                NavigationLink(destination: Onboarding8View(), isActive: $isAuthorizationComplete) {
+                    ButtonView(text: "Connect")
+                        .onTapGesture {
+                            attemptAuthorization()
+                        }
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Authorization Error"),
+                        message: Text(authorizationError?.localizedDescription ?? "Nix requires access to Screen Time."),
+                        dismissButton: .default(Text("OK")) {
+                            showAlert = false // Dismiss the alert
+                        }
+                    )
                 }
             }
-        
-    }
+            .padding(.bottom, 60)
+        }
         .navigationBarHidden(true)
     }
 
+    private func attemptAuthorization() {
+        Task {
+            do {
+                // Reset error state before attempting authorization
+                authorizationError = nil
+                showAlert = false
+                try await center.requestAuthorization(for: .individual)
+                // If successful, navigate to next screen
+                isAuthorizationComplete = true
+            } catch {
+                authorizationError = error
+                showAlert = true // Show the alert on error
+            }
+        }
+    }
 }
 
-
-
-#Preview {
-    Onboarding7View()
+struct Onboarding7View_Previews: PreviewProvider {
+    static var previews: some View {
+        Onboarding7View()
+    }
 }
+

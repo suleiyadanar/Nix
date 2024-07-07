@@ -1,20 +1,16 @@
-//
-//  Onboarding5View.swift
-//  Nix
-//
-//  Created by Grace Yang on 6/2/24.
-//
-
 import SwiftUI
 
 struct Onboarding5View: View {
-    @State private var hours: Int = 6
-        @State private var minutes: Int = 30
+    @State private var hours: Int = 0
+    @State private var minutes: Int = 30
+    @State private var showHoursPopover = false
+    @State private var showMinutesPopover = false
+    @EnvironmentObject var userSettings: UserSettings
 
     var body: some View {
         ZStack {
             OnboardingBackgroundView()
-            VStack() {
+            VStack {
                 OnboardingProgressBarView(currentPage: 4)
                     .padding(.bottom, 25)
                 
@@ -38,79 +34,65 @@ struct Onboarding5View: View {
                 }
                 
                 VStack(spacing: 40) {
-                    VStack {
+                    HStack {
                         HStack {
-                            Button(action: {
-                                if hours > 0 {
-                                    hours -= 1
+                            Text("\(hours)")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.black)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 12)
+                                .background {
+                                    Capsule()
+                                        .fill(Color.lemon)
                                 }
-                            }) {
-                                Image(systemName: "minus.circle.fill")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(Color.lemon)
-                                    .padding(.trailing, 10)
-                            }
-                            Text("\(String(format: "%02d", hours))")
-                                .font(.largeTitle)
-                            Button(action: {
-                                if hours < 23 {
-                                    hours += 1
+                                .onLongPressGesture {
+                                    showHoursPopover.toggle()
                                 }
-                            }) {
-                                Image(systemName: "plus.circle.fill")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(Color.lemon)
-                                    .padding(.leading, 10)
-                                    .padding(.trailing, 10)
-                            }
+                                .popover(isPresented: $showHoursPopover) {
+                                    PopoverContentView(maxValue: 24, minValue: 0, step: 1) { value in
+                                        hours = value
+                                        showHoursPopover = false
+                                    }
+                                }
                             Text("hr")
                                 .font(.largeTitle)
-                              
                         }
                         .offset(x: -12)
-                        
                     }
                     
                     VStack {
                         HStack {
-                            Button(action: {
-                                if minutes > 0 {
-                                    minutes -= 1
+                            Text("\(minutes)")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.black)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 12)
+                                .background {
+                                    Capsule()
+                                        .fill(Color.lemon)
                                 }
-                            }) {
-                                Image(systemName: "minus.circle.fill")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(Color.lemon)
-                                    .padding(.trailing, 10)
-                            }
-                            Text("\(String(format: "%02d", minutes))")
-                                .font(.largeTitle)
-                            Button(action: {
-                                if minutes < 59 {
-                                    minutes += 1
+                                .onLongPressGesture {
+                                    showMinutesPopover.toggle()
                                 }
-                            }) {
-                                Image(systemName: "plus.circle.fill")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(Color.lemon)
-                                    .padding(.leading, 10)
-                                    .padding(.trailing, 10)
-                            }
+                                .popover(isPresented: $showMinutesPopover) {
+                                    PopoverContentView(maxValue: 60, minValue: 0, step: 5) { value in
+                                        minutes = value
+                                        showMinutesPopover = false
+                                    }
+                                }
                             Text("min")
                                 .font(.largeTitle)
                         }
-                       
                     }
                 }
                 .padding(.vertical, 20)
                 
-                NavigationLink (destination: Onboarding6View() ) {
+                NavigationLink(destination: Onboarding6View().onAppear {
+                    self.saveMaxUnProdST()
+                }) {
                     HStack {
-                        Spacer()
                         ArrowButtonView()
                             .padding(.trailing, 20)
                     }
@@ -118,11 +100,18 @@ struct Onboarding5View: View {
                 Spacer()
             }
         }
-        
         .navigationBarHidden(true)
+    }
+
+    private func saveMaxUnProdST() {
+        let totalMinutes = (hours * 60) + (minutes)
+        userSettings.maxUnProdST = totalMinutes
     }
 }
 
+
+
 #Preview {
     Onboarding5View()
+        .environmentObject(UserSettings())
 }
