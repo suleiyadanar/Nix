@@ -1,4 +1,5 @@
 import SwiftUI
+import DeviceActivity
 
 struct MainHomepageView: View {
     @State private var showSheet = false
@@ -8,6 +9,18 @@ struct MainHomepageView: View {
     var streakCount: Int
     var progress: Double
     var userId: String
+    
+    @State private var context: DeviceActivityReport.Context = .init(rawValue: "Total ScreenTime")
+    
+    @State private var filter = DeviceActivityFilter(
+        segment: .daily(
+        during: Calendar.current.dateInterval(
+        of: .day, for: .now
+            )!
+        ),
+        users: .all,
+        devices: .init([.iPhone, .iPad])
+    )
     
     var body: some View {
         NavigationStack {
@@ -43,7 +56,7 @@ struct MainHomepageView: View {
                 
                 HStack {
                     //Text("Good Afternoon, \(userId)!") <-- use later
-                    Text("Good Afternoon, Olive!")
+                    Text("\(viewModel.greeting), \(viewModel.user?.firstName ?? "User")!")
                         .font(.system(size: 29))
                         .padding(.leading, 20)
                         .fontWeight(.light)
@@ -59,31 +72,14 @@ struct MainHomepageView: View {
                             .padding(.leading, 15)
                             .padding(.top, 5)
                         Spacer()
+                        
                     }
                     HStack(alignment: .top) {
+                        
                         Spacer()
                         VStack(alignment: .leading) {
-                            HStack(alignment: .top) {
-                                Text("1")
-                                    .font(.system(size: 40))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.babyBlue)
-                                Text("hr")
-                                    .font(.system(size: 40))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.babyBlue)
-                            }
-                            HStack(alignment: .top) {
-                                Text("23")
-                                    .font(.system(size: 40))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.babyBlue)
-                                Text("mins")
-                                    .font(.system(size: 40))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.babyBlue)
-                            }
-                            
+                            DeviceActivityReport(context, filter:
+                                                    filter)
                             VStack {
                                 Text("Remaining")
                                     .font(.subheadline)
@@ -212,6 +208,7 @@ struct MainHomepageView: View {
                 
             }
         }.onAppear {
+            viewModel.fetchUser()
             NotificationCenter.default.addObserver(forName: NSNotification.Name("NotificationTapped"), object: nil, queue: .main) { _ in
                 self.showSheet = true
             }

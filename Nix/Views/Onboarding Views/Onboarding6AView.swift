@@ -1,16 +1,10 @@
-//
-//  Onboarding6AView.swift
-//  Nix
-//
-//  Created by Grace Yang on 6/4/24.
-//
-
 import SwiftUI
 
 struct Onboarding6AView: View {
     @Binding var weeks: Int
     @Environment(\.presentationMode) var presentationMode
-    
+    @State private var showWeeksPopover = false
+
     var body: some View {
         VStack(spacing: 20) {
             
@@ -24,29 +18,24 @@ struct Onboarding6AView: View {
             }
             
             HStack(spacing: 40) {
-                Button(action: {
-                    if weeks > 1 {
-                        weeks -= 1
-                    }
-                }) {
-                    Image(systemName: "minus.circle.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(.yellow)
-                }
                 Text("\(String(format: "%02d", weeks))")
                     .font(.largeTitle)
                     .foregroundStyle(.black)
-                Button(action: {
-                    if weeks < 52 {
-                        weeks += 1
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background {
+                        Capsule()
+                            .fill(Color.yellow)
                     }
-                }) {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(.yellow)
-                }
+                    .onLongPressGesture {
+                        showWeeksPopover.toggle()
+                    }
+                    .popover(isPresented: $showWeeksPopover) {
+                        PopoverContentView(maxValue: 52, minValue: 1, step: 1) { value in
+                            weeks = value
+                            showWeeksPopover = false
+                        }
+                    }
                 Text("weeks")
                     .font(.title2)
                     .bold()
@@ -71,6 +60,28 @@ struct Onboarding6AView: View {
     }
 }
 
+struct PopoverContentView: View {
+    let maxValue: Int
+    let minValue: Int
+    let step: Int
+    let onSelect: (Int) -> Void
+
+    var body: some View {
+        ScrollView {
+            VStack {
+                ForEach(Array(stride(from: minValue, through: maxValue, by: step)), id: \.self) { value in
+                    Button("\(value)") {
+                        onSelect(value)
+                    }
+                    .padding()
+                    .background(Capsule().fill(Color.yellow))
+                }
+            }
+            .padding()
+        }
+        .frame(height: 200) // Limit the height of the popover
+    }
+}
 
 struct Onboarding6AView_Previews: PreviewProvider {
     @State static var weeks: Int = 8

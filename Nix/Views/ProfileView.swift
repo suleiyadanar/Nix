@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
-    
+    @EnvironmentObject var userSettings: UserSettings
+
     @StateObject var viewModel = ProfileViewViewModel()
     @Environment(\.colorScheme) var colorScheme
     @State var settingsView: Bool = false
@@ -20,6 +21,10 @@ struct ProfileView: View {
                     profile(user: user)
                     
                 }else {
+                    Button("Log Out"){
+                        viewModel.logOut()
+
+                    }
                     Text("Loading Profile...")
                 }
                 
@@ -183,6 +188,7 @@ struct ProfileView: View {
                     }
                     
                     Button("Log Out"){
+                        userSettings.ready = false
                         viewModel.logOut()
 
                     }

@@ -11,5 +11,9 @@ import Combine
 class UserSettings: ObservableObject {
     @Published var name: String = ""
     @Published var goals: [String] = []
+    @Published var unProdST: String = ""
+    @Published var maxUnProdST: Int = 0
+    @Published var ready: Bool = false
 }
+
 

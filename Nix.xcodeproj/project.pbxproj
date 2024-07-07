@@ -49,10 +49,15 @@
 		3BCBF7BE2C0D74C700F7532B /* OptionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7BD2C0D74C700F7532B /* OptionButtonView.swift */; };
 		3BCBF7C02C0E71C700F7532B /* Onboarding3AView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7BF2C0E71C700F7532B /* Onboarding3AView.swift */; };
 		3BCBF7C22C0EC39400F7532B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7C12C0EC39400F7532B /* UserSettings.swift */; };
+		3F0151BD2C39D37A0031B2E0 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */; };
 		3F095B8B2C28F868002BC3EC /* TimeOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */; };
 		3F312BAE2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */; };
 		3F38E3872BA61154001E57CE /* NewRuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */; };
 		3F47EBC32C0E4D010043507C /* templates.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F47EBC12C0E4D010043507C /* templates.json */; };
+		3F48FDED2C377F8900A193C7 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7B72C0D4EC200F7532B /* Colors.swift */; };
+		3F48FDEE2C377F8A00A193C7 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7B72C0D4EC200F7532B /* Colors.swift */; };
+		3F48FDF12C38D26700A193C7 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 3F48FDF02C38D26700A193C7 /* SwiftCSV */; };
+		3F48FDF32C38D3AE00A193C7 /* world-universities.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F48FDF22C38D3AD00A193C7 /* world-universities.csv */; };
 		3F6AF18D2C3614B600CA9036 /* ColorSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6AF18C2C3614B600CA9036 /* ColorSwatchView.swift */; };
 		3F72349E2B86C8CF0095EA42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72349D2B86C8CF0095EA42 /* ContentView.swift */; };
 		3F7234A02B86C8D20095EA42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F72349F2B86C8D20095EA42 /* Assets.xcassets */; };
@@ -224,10 +229,12 @@
 		3BCBF7BD2C0D74C700F7532B /* OptionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButtonView.swift; sourceTree = "<group>"; };
 		3BCBF7BF2C0E71C700F7532B /* Onboarding3AView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding3AView.swift; sourceTree = "<group>"; };
 		3BCBF7C12C0EC39400F7532B /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
 		3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutViewModel.swift; sourceTree = "<group>"; };
 		3F262D6A2B995F4F0080214E /* Nix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nix.entitlements; sourceTree = "<group>"; };
 		3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutNotiViewViewModel.swift; sourceTree = "<group>"; };
 		3F47EBC12C0E4D010043507C /* templates.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = templates.json; sourceTree = "<group>"; };
+		3F48FDF22C38D3AD00A193C7 /* world-universities.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-universities.csv"; sourceTree = "<group>"; };
 		3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsModel.swift; sourceTree = "<group>"; };
 		3F6AF18C2C3614B600CA9036 /* ColorSwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSwatchView.swift; sourceTree = "<group>"; };
 		3F7234982B86C8CF0095EA42 /* Nix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nix.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -317,6 +324,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F48FDF12C38D26700A193C7 /* SwiftCSV in Frameworks */,
 				3B7F194F2BAE2D8400926FE2 /* FirebaseFirestore in Frameworks */,
 				3B7F19512BAE2D8400926FE2 /* FirebaseFirestoreSwift in Frameworks */,
 				3BB228692C2B6F6600B9A172 /* FirebaseAuth in Frameworks */,
@@ -421,6 +429,7 @@
 				3F7234C82B86CAF70095EA42 /* RegisterView.swift */,
 				3BCBF7C12C0EC39400F7532B /* UserSettings.swift */,
 				3BA6CA8F2C114CA10031B2E1 /* Onboarding10View.swift */,
+				3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */,
 			);
 			path = "Onboarding Views";
 			sourceTree = "<group>";
@@ -428,6 +437,7 @@
 		3F47EBC22C0E4D010043507C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3F48FDF22C38D3AD00A193C7 /* world-universities.csv */,
 				3F47EBC12C0E4D010043507C /* templates.json */,
 			);
 			path = Resources;
@@ -653,6 +663,7 @@
 				3B7F194E2BAE2D8400926FE2 /* FirebaseFirestore */,
 				3B7F19502BAE2D8400926FE2 /* FirebaseFirestoreSwift */,
 				3BB228682C2B6F6600B9A172 /* FirebaseAuth */,
+				3F48FDF02C38D26700A193C7 /* SwiftCSV */,
 			);
 			productName = Nix;
 			productReference = 3F7234982B86C8CF0095EA42 /* Nix.app */;
@@ -764,6 +775,7 @@
 			mainGroup = 3F72348F2B86C8CF0095EA42;
 			packageReferences = (
 				3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				3F48FDEF2C38D26700A193C7 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 			);
 			productRefGroup = 3F7234992B86C8CF0095EA42 /* Products */;
 			projectDirPath = "";
@@ -783,6 +795,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F48FDF32C38D3AE00A193C7 /* world-universities.csv in Resources */,
 				3F7234A32B86C8D20095EA42 /* Preview Assets.xcassets in Resources */,
 				3FB234252B8871FF007894D5 /* client_secret_619760553436-cr1od3vc3nm146b1ae2eq5bnf76iu2mm.apps.googleusercontent.com.json in Resources */,
 				3F7234A02B86C8D20095EA42 /* Assets.xcassets in Resources */,
@@ -890,6 +903,7 @@
 			files = (
 				3BA6CA882C0FFF870031B2E1 /* Onboarding6AView.swift in Sources */,
 				3BCBF7BE2C0D74C700F7532B /* OptionButtonView.swift in Sources */,
+				3F0151BD2C39D37A0031B2E0 /* CustomDatePickerView.swift in Sources */,
 				3F7234D62B86CAF70095EA42 /* SettingsView.swift in Sources */,
 				3BCBF7B82C0D4EC200F7532B /* Colors.swift in Sources */,
 				3BCBF7C02C0E71C700F7532B /* Onboarding3AView.swift in Sources */,
@@ -984,6 +998,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F856E822B9E305D00E479EB /* TotalActivityView.swift in Sources */,
+				3F48FDED2C377F8900A193C7 /* Colors.swift in Sources */,
 				3F856E722B9D8EEE00E479EB /* TotalScreenTimeView.swift in Sources */,
 				3F856E802B9E2B1100E479EB /* TotalActivityReport.swift in Sources */,
 				3F856E6E2B9D8EEE00E479EB /* ReportExtension_Nix.swift in Sources */,
@@ -1014,6 +1029,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FEFA7D82BA8A30C0074F1EC /* BlockedAppsModel.swift in Sources */,
+				3F48FDEE2C377F8A00A193C7 /* Colors.swift in Sources */,
 				3FEFA7AB2BA61A740074F1EC /* DeviceActivityExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1517,6 +1533,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3F48FDEF2C38D26700A193C7 /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftcsv/SwiftCSV.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.0;
+			};
+		};
 		3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1542,6 +1566,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3F7234E32B86CB480095EA42 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		3F48FDF02C38D26700A193C7 /* SwiftCSV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F48FDEF2C38D26700A193C7 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
+			productName = SwiftCSV;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

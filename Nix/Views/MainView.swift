@@ -9,23 +9,25 @@ import SwiftUI
 import DeviceActivity
 
 struct MainView: View {
+    @EnvironmentObject var userSettings: UserSettings
+
     @StateObject var viewModel = MainViewViewModel()
+    @StateObject var registerModel = RegisterViewViewModel()
     @EnvironmentObject var pomodoroModel: PomodoroViewViewModel
     var body: some View  {
-        accountView
-        /* <---- temporary comment out so that i can view homepage view
-        if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
+       
+        if userSettings.ready {
             //signed in
             accountView
         } else {
             //            ResponsiveView { properties in
             NavigationView{
                 Onboarding1View()
-                //LoginView().padding(0)
+//                LoginView().padding(0)
             }
             //            }
         }
-        */
+        
     }
     
     var tabs = ["homepage", "rules", "pomodoro", "profile"]
@@ -40,6 +42,7 @@ struct MainView: View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
             
             TabView(selection: $selectedTab) {
+              
                 MainHomepageView(streakCount: 32, progress: 0.6, userId: viewModel.currentUserId)
                     .ignoresSafeArea()
                     .tag("homepage")
@@ -52,9 +55,9 @@ struct MainView: View {
                     .ignoresSafeArea()
                     .tag("pomodoro")
                 
-                RulesView(userId: viewModel.currentUserId)
-                                    .ignoresSafeArea()
-                                    .tag("profile")
+//                RulesView(userId: viewModel.currentUserId)
+//                                    .ignoresSafeArea()
+//                                    .tag("profile")
                 ProfileView()
                     .ignoresSafeArea()
                     .tag("profile")

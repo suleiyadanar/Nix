@@ -7,7 +7,6 @@ struct Onboarding3View: View {
     @EnvironmentObject var userSettings: UserSettings
 
     var body: some View {
- 
         ZStack {
             OnboardingBackgroundView()
             VStack {
@@ -31,7 +30,9 @@ struct Onboarding3View: View {
                     Spacer()
                 }
                 ForEach(0..<6) { index in
-                    OptionButtonView(isSelected: self.$optionsChosen[index], inputText: self.screenTimeOptions[index])
+                    OptionButtonView(isSelected: self.$optionsChosen[index], inputText: self.screenTimeOptions[index], onSelectionChange: { isSelected in
+                        self.optionChanged(index: index, isSelected: isSelected)
+                    })
                 }
                 Image("dottedline")
                     .padding(.top, 20)
@@ -39,8 +40,10 @@ struct Onboarding3View: View {
                 NavigationLink(destination: Onboarding3AView()) {
                     OtherButtonView()
                 }
-                if self.selectedOptionsCount() == 3 {
-                    NavigationLink(destination: Onboarding4View()) {
+                if self.selectedOptionsCount() > 0 {
+                    NavigationLink(destination: Onboarding4View().onAppear {
+                        self.saveSelectedGoals()
+                    }) {
                         ArrowButtonView()
                             .padding(.trailing, 20)
                             .padding(.top, 40)
@@ -48,7 +51,6 @@ struct Onboarding3View: View {
                 }
                 Spacer()
             }
-            
         }
         .navigationBarHidden(true)
     }
@@ -68,12 +70,22 @@ struct Onboarding3View: View {
     private func selectedOptionsCount() -> Int {
         return optionsChosen.filter { $0 }.count + (otherOptionSelected ? 1 : 0)
     }
+
+    private func optionChanged(index: Int, isSelected: Bool) {
+        if isSelected && selectedOptionsCount() > 3 {
+            optionsChosen[index] = false
+        }
+    }
+
+    private func saveSelectedGoals() {
+        userSettings.goals = optionsChosen.enumerated().compactMap { index, isSelected in
+            isSelected ? screenTimeOptions[index] : nil
+        }
+    }
 }
 
 struct OtherButtonView: View {
-
     var body: some View {
-        
         ZStack {
             Rectangle()
                 .background(Color.babyBlue)
@@ -87,7 +99,10 @@ struct OtherButtonView: View {
                 Spacer()
             }
         }
-        
     }
 }
 
+#Preview {
+    Onboarding3View()
+        .environmentObject(UserSettings())
+}
