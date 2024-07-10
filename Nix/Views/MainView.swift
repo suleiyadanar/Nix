@@ -50,7 +50,7 @@ struct MainView: View {
                     .ignoresSafeArea()
                     .tag("rules")
                
-                PomodoroView(viewModel: pomodoroModel, userId: viewModel.currentUserId)
+                MainPomodoroView(viewModel: pomodoroModel, userId: viewModel.currentUserId)
                     .environmentObject(pomodoroModel)
                     .ignoresSafeArea()
                     .tag("pomodoro")
