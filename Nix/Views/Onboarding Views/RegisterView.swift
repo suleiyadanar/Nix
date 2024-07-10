@@ -3,6 +3,8 @@ import SwiftCSV
 
 
 struct RegisterView: View {
+    var props: Properties
+
     @EnvironmentObject var userSettings: UserSettings
 
     @StateObject var viewModel = RegisterViewViewModel()
@@ -223,10 +225,10 @@ struct RegisterView: View {
                                 viewModel.register()
                                 navigate = true // Activate navigation after registration
                             }) {
-                                ButtonView(text: "Create Account")
+                                ButtonView(props: props, text: "Create Account")
                             }
                             .background(
-                                NavigationLink(destination: Onboarding10View(), isActive: $navigate) {
+                                NavigationLink(destination: Onboarding10View(props:props), isActive: $navigate) {
                                     EmptyView()
                                 }
                                 .hidden() // Hide the actual NavigationLink view
@@ -238,7 +240,7 @@ struct RegisterView: View {
                             
                             HStack{
                                 Text("Already a member?")
-                                NavigationLink("Login", destination: LoginView())
+                                NavigationLink("Login", destination: LoginView(props:props))
                             }
                             
                         }.padding(.top, 10)

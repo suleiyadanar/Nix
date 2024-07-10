@@ -1,41 +1,50 @@
-//
-//  GetStartedButtonView.swift
-//  Nix
-//
-//  Created by Grace Yang on 5/31/24.
-//
-
 import SwiftUI
 
 struct ButtonView: View {
-    
+    var props: Properties
     let text: String
-    
+
+    @State private var rotation: Double = 0
+
     var body: some View {
         ZStack {
             // Shadow layer
-            RoundedRectangle(cornerRadius: 25)
+            RoundedRectangle(cornerRadius: 15)
                 .fill(Color.lemon)
-                .offset(x: 3, y: 5)
+                .offset(x: 5, y: 7)
             
-            // Button layer
-            RoundedRectangle(cornerRadius: 25)
+            // Button layer with rotating gradient border
+            RoundedRectangle(cornerRadius: 15)
                 .fill(Color.lav.opacity(0.9))
-                .strokeBorder(Color.mauve, lineWidth: 2)
-            
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(
+                            AngularGradient(
+                                gradient: Gradient(colors: [.mauve, .lav, .mauve]),
+                                center: .center,
+                                startAngle: .degrees(rotation),
+                                endAngle: .degrees(rotation + 360)
+                            ),
+                            lineWidth: 4
+                        )
+                )
+
             Text(text)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
                 .foregroundColor(.white)
                 .padding()
         }
-        .frame(width: 250, height: 60)
+        .frame(width: 300, height: 80)
         .padding(.horizontal, 40)
         .padding(.bottom, 20)
-    
+        .onAppear {
+            withAnimation(Animation.linear(duration: 4).repeatForever(autoreverses: false)) {
+                rotation = 360
+            }
+        }
     }
 }
 
-#Preview {
-    ButtonView(text: "")
-}
+//#Preview {
+//    ButtonView(text: "")
+//}

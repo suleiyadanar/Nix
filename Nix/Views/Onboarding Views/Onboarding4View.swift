@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct Onboarding4View: View {
+    var props: Properties
+
     @State private var optionsChosen = Array(repeating: false, count: 6)
     @State private var otherOptionSelected = false
     @EnvironmentObject var userSettings: UserSettings
@@ -36,7 +38,7 @@ struct Onboarding4View: View {
                 }
 
                 if self.selectedOptionsCount() == 1 {
-                    NavigationLink(destination: Onboarding5View().onAppear {
+                    NavigationLink(destination: Onboarding5View(props:props).onAppear {
                         self.saveSelectedUnProdST()
                     }) {
                         ArrowButtonView()
@@ -82,7 +84,7 @@ struct Onboarding4View: View {
     }
 }
 
-#Preview {
-    Onboarding4View()
-        .environmentObject(UserSettings())
-}
+//#Preview {
+//    Onboarding4View()
+//        .environmentObject(UserSettings())
+//}

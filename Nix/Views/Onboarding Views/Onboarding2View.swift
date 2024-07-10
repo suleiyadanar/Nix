@@ -2,37 +2,39 @@ import SwiftUI
 
 struct Onboarding2View: View {
     @EnvironmentObject var userSettings: UserSettings
+    var props: Properties
 
     var body: some View {
         ZStack {
             OnboardingBackgroundView()
+            
             VStack {
                 OnboardingProgressBarView(currentPage: 1)
                     .padding(.bottom, 25)
                 HStack {
-                    Text("What should we call you?")
+                    Text("Hi, what should we call you?")
                         .foregroundColor(Color.black)
-                        .font(.system(size: 25))
+                        .font(.custom("Nunito-Medium", size: props.customFontSize.mediumLarge))
                         .fontWeight(.bold)
-                        .font(.title2)
-                        .padding(.leading, 20)
+//                        .padding(.leading, 20)
+                    
                     Spacer()
                 }
                 HStack {
                     Text("Creating a personalized journey for you... ")
-                        .font(.system(size: 20))
+                        .font(.custom("Nunito-Medium", size: props.customFontSize.medium))
                         .foregroundColor(Color.sky)
                         .fontWeight(.bold)
                         .padding(.bottom, 20)
-                        .padding(.leading, 20)
+//                        .padding(.leading, 20)
                     Spacer()
                 }
-                NameRectangleView()
+                NameRectangleView(props:props)
                     .padding(.top, 15)
                 
                 HStack {
                     Spacer()
-                    NavigationLink(destination: Onboarding3View()) {
+                    NavigationLink(destination: Onboarding3View(props:props)) {
                         if (userSettings.name != ""){
                             ArrowButtonView()
                                 .padding(.trailing, 20)
@@ -43,7 +45,14 @@ struct Onboarding2View: View {
                     }
                 }
                 Spacer()
-            }
+            }.padding()
+                .frame(width: props.padding.widthRatio, height:props.padding.heightRatio)
+                .background{
+                    RoundedRectangle(cornerRadius: props.round.sheet)
+                        .fill(Color.white)
+                        .frame(width: props.padding.widthRatio, height:props.padding.heightRatio)
+                        
+                }
         }
         .navigationBarHidden(true)
     }
@@ -51,6 +60,7 @@ struct Onboarding2View: View {
 
 struct NameRectangleView: View {
     @EnvironmentObject var userSettings: UserSettings
+    var props: Properties
 
     var body: some View {
         ZStack {
@@ -63,6 +73,7 @@ struct NameRectangleView: View {
             }
             .overlay(
                 TextField("Your name...", text: $userSettings.name)
+                    .font(.custom("Nunito-Medium", size: props.customFontSize.medium))
                     .foregroundStyle(Color.black)
                     .padding(.leading, 15)
             )
@@ -71,7 +82,7 @@ struct NameRectangleView: View {
     }
 }
 
-#Preview {
-    Onboarding2View()
-        .environmentObject(UserSettings())
-}
+//#Preview {
+//    Onboarding2View()
+//        .environmentObject(UserSettings())
+//}

@@ -33,7 +33,7 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                 .environmentObject(pomodoroModel)
                 .environmentObject(userSettings)
                 .environmentObject(timeoutModel)
-                
+
 
         }.onChange(of: phase) {
             

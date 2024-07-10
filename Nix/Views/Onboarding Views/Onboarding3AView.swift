@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Onboarding3AView: View {
+    var props: Properties
+
     @State private var goalText: String = ""
     @EnvironmentObject var userSettings: UserSettings
     
@@ -77,7 +79,7 @@ struct Onboarding3AView: View {
                 }
                 Spacer()
                 if userSettings.goals.count == 3 {
-                    NavigationLink(destination: Onboarding4View()) {
+                    NavigationLink(destination: Onboarding4View(props:props)) {
                         Text("Done")
                             .padding()
                             .background(Color.blue)
@@ -93,6 +95,6 @@ struct Onboarding3AView: View {
     }
 }
 
-#Preview {
-    Onboarding3AView()
-}
+//#Preview {
+//    Onboarding3AView()
+//}

@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct Onboarding8View: View {
+    var props: Properties
+
     @State private var progress: Double = 0.0
     @State private var navigate: Bool = false
     
@@ -25,7 +27,7 @@ struct Onboarding8View: View {
                 Spacer()
             }
             .navigationDestination(isPresented: $navigate) {
-                Onboarding9View()
+                Onboarding9View(props:props)
             }
         }
         .onChange(of: progress) { oldProgress, newProgress in

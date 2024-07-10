@@ -2,6 +2,8 @@ import SwiftUI
 import FamilyControls
 
 struct Onboarding7View: View {
+    var props: Properties
+
     let center = AuthorizationCenter.shared
     @State private var authorizationError: Error?
     @State private var isAuthorizationComplete = false
@@ -30,8 +32,8 @@ struct Onboarding7View: View {
                         .padding(.leading, 20)
                     Spacer()
                 }
-                NavigationLink(destination: Onboarding8View(), isActive: $isAuthorizationComplete) {
-                    ButtonView(text: "Connect")
+                NavigationLink(destination: Onboarding8View(props:props), isActive: $isAuthorizationComplete) {
+                    ButtonView(props: props, text: "Connect")
                         .onTapGesture {
                             attemptAuthorization()
                         }
@@ -68,9 +70,9 @@ struct Onboarding7View: View {
     }
 }
 
-struct Onboarding7View_Previews: PreviewProvider {
-    static var previews: some View {
-        Onboarding7View()
-    }
-}
+//struct Onboarding7View_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Onboarding7View()
+//    }
+//}
 
