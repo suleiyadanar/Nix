@@ -1,48 +1,43 @@
 //
-//  TotalActivityView.swift
+//  PercentScreenTimeView.swift
 //  ReportExtension Nix
 //
-//  Created by Su Lei Yadanar on 3/10/24.
+//  Created by Su Lei Yadanar on 7/10/24.
 //
 
 import SwiftUI
 
-struct TotalScreenTimeView: View {
-    let totalScreenTime: String
-
+struct PercentScreenTimeView: View {
+    
+    let percentScreenTime: String
+    
     var body: some View {
         withAnimation(.easeInOut(duration: 0.5)){
             GeometryReader { geometry in
                 let widthToCalculate = min(geometry.size.width, geometry.size.height)
                 let fontSize = self.fontSize(for: widthToCalculate)
                 
-                Text(totalScreenTime)
+                Text(percentScreenTime)
                     .foregroundColor(.babyBlue)
                     .font(.custom("Nunito-Regular", size: fontSize))
-                    .padding(0)
             }
         }
     }
-
+    
     private func fontSize(for width: CGFloat) -> CGFloat {
         switch width {
         case ..<700:
-            return 40
+            return 23
         case 700..<1000:
-            return 90
+            return 26
         case 1000...:
-            return 130
+            return 32
         default:
-            return 35
+            return 23
         }
     }
 }
 
-
-
-// In order to support previews for your extension's custom views, make sure its source files are
-// members of your app's Xcode target as well as members of your extension's target. You can use
-// Xcode's File Inspector to modify a file's Target Membership.
-#Preview {
-    TotalScreenTimeView(totalScreenTime: "1h 23m")
-}
+//#Preview {
+//    PercentScreenTimeView()
+//}
