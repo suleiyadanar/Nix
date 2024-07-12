@@ -12,6 +12,14 @@ import SwiftUI
 struct ReportExtension_Nix: DeviceActivityReportExtension {
     var body: some DeviceActivityReportScene {
         // Create a report for each DeviceActivityReport.Context that your app supports.
+        ChartReportDay { reportData in
+            ChartReportDayView(reportData: reportData)
+        }
+        
+        ChartReportWeek { reportData in
+            ChartReportWeekView(weeklyReportData: reportData)
+        }
+        
         RemainingScreenTimeReport { remainingScreenTime in
             RemainingScreenTimeView(remainingScreenTime: remainingScreenTime)
         }
