@@ -43,12 +43,9 @@ struct ChartReportWeek: DeviceActivityReportScene {
         let activityDurations = await data.flatMap { $0.activitySegments }
             .map { $0.totalActivityDuration / 3600 }
             .reduce(into: [TimeInterval](), { $0.append($1) })
-//        
-//        let applications = await data.flatMap { $0.activitySegments }
-//            .flatMap { $0.categories }
-//            .flatMap { $0.applications }
-//            .reduce(into: Set<DeviceActivityData.ApplicationActivity>(), { $0.insert($1) })
-
+        
+        
+        
         return activityDurations
     }
 }
