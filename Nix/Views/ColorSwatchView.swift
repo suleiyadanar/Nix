@@ -22,7 +22,7 @@ struct ColorSwatchView: View {
             "swatch_lavender",
             "swatch_bubble",
             "swatch_mauve",
-            "swatch_forest",
+//            "swatch_forest",
         ]
 
         let columns = [
