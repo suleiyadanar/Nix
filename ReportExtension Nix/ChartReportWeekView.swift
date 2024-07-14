@@ -7,59 +7,65 @@ struct ChartReportWeekView: View {
     @State private var selectedDayST: String = ""
 
     var body: some View {
-        let completeData = prepareData(reportData: weeklyReportData)
-        ScrollViewReader { scrollView in
-            VStack(spacing: 10) {
-                Text(selectedDayST) // Show selected day's data as title text
-                    .font(.title) // Adjust font size as needed
-                HStack(spacing: 10) {
-                    YAxisView(maxValue: weeklyReportData.max() ?? 24)
-                        .frame(width: 50) // Adjust width as needed
-
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        ZStack(alignment: Alignment(horizontal: .leading, vertical: .bottom)) {
-                            TimeOfDayBackground()
-                            
-                            HStack(spacing: 10) {
-                                ForEach(Array(completeData.enumerated()), id: \.offset) { index, dayData in
-                                    VStack {
-                                        Spacer() // Ensure minimal vertical spacing
-                                        RoundedRectangle(cornerRadius: 0)
-                                            .fill(Color.blue)
-                                            .frame(width: barWidth(totalWidth: UIScreen.main.bounds.width, count: completeData.count), height: barHeight(for: dayData))
-                                            .onTapGesture {
-                                                selectedDayST = "\(dayOfWeek(index)): \(convertToHoursAndMinutes(from: dayData))" // Update selected day text
-                                                currentDayIndex = index // Update selected day index
-                                            }
-                                        Text(dayOfWeek(index))
-                                            .font(.custom("Nunito-Medium", size: 15))
-                                            .padding(.top, 2) // Adjust vertical positioning
+        VStack(alignment: .leading){
+            Text(selectedDayST) // Show selected day's data as title text
+                .font(.title) // Adjust font size as needed
+            let completeData = prepareData(reportData: weeklyReportData)
+            ScrollViewReader { scrollView in
+                VStack(spacing: 10) {
+                    
+                    HStack(spacing: 10) {
+                        YAxisView(maxValue: weeklyReportData.max() ?? 24)
+                            .frame(width: 50) // Adjust width as needed
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            ZStack(alignment: Alignment(horizontal: .leading, vertical: .bottom)) {
+                                //                            TimeOfDayBackground()
+                                
+                                HStack(spacing: 10) {
+                                    ForEach(Array(completeData.enumerated()), id: \.offset) { index, dayData in
+                                        VStack {
+                                            Spacer() // Ensure minimal vertical spacing
+                                            RoundedRectangle(cornerRadius: 15)
+                                                .stroke(Color.sky, lineWidth:2)
+                                                .fill(Color.babyBlue)
+                                                .frame(width: barWidth(totalWidth: UIScreen.main.bounds.width, count: completeData.count), height: barHeight(for: dayData))
+                                                .onTapGesture {
+                                                    selectedDayST = "\(dayOfWeek(index))\n\(convertToHoursAndMinutes(from: dayData))"
+                                                    // Update selected day text
+                                                    currentDayIndex = index // Update selected day index
+                                                }
+                                            Text(dayOfWeek(index))
+                                                .font(.custom("Nunito-Medium", size: 15))
+                                                .padding(.top, 2) // Adjust vertical positioning
+                                        }
+                                        .id(index) // Ensure each view has a unique identifier for ScrollViewReader
                                     }
-                                    .id(index) // Ensure each view has a unique identifier for ScrollViewReader
+                                }
+                                .padding(.leading, 50) // Adjust as needed for Y-axis labels
+                            }
+                            .onAppear {
+                                selectedDayST = "Today\n\(convertToHoursAndMinutes(from: weeklyReportData[6]))"
+                                // Set the currentDayIndex
+                                currentDayIndex = weeklyReportData.count + 1
+                                
+                                // Automatically scroll to the current day index
+                                if let currentDayIndex = currentDayIndex {
+                                    scrollToCurrentDayIndex(scrollView: scrollView, index: currentDayIndex)
                                 }
                             }
-                            .padding(.leading, 50) // Adjust as needed for Y-axis labels
-                        }
-                        .onAppear {
-                            // Set the currentDayIndex
-                            currentDayIndex = weeklyReportData.count + 1
-
-                            // Automatically scroll to the current day index
-                            if let currentDayIndex = currentDayIndex {
-                                scrollToCurrentDayIndex(scrollView: scrollView, index: currentDayIndex)
+                            .onChange(of: currentDayIndex) { newIndex in
+                                // Re-scroll to the updated current day index
+                                if let newIndex = newIndex {
+                                    scrollToCurrentDayIndex(scrollView: scrollView, index: newIndex)
+                                }
                             }
+                            .padding(.bottom, 20) // Adjust bottom padding to ensure x-axis labels are fully visible
                         }
-                        .onChange(of: currentDayIndex) { newIndex in
-                            // Re-scroll to the updated current day index
-                            if let newIndex = newIndex {
-                                scrollToCurrentDayIndex(scrollView: scrollView, index: newIndex)
-                            }
-                        }
-                        .padding(.bottom, 20) // Adjust bottom padding to ensure x-axis labels are fully visible
+                        .frame(height: UIScreen.main.bounds.height / 4) // Adjust height as needed
                     }
                     .frame(height: UIScreen.main.bounds.height / 4) // Adjust height as needed
                 }
-                .frame(height: UIScreen.main.bounds.height / 4) // Adjust height as needed
             }
         }
     }
@@ -139,26 +145,26 @@ struct ChartReportWeekView: View {
         .padding(.trailing, 5) // Adjust for Y-axis labels alignment
     }
 
-    @ViewBuilder
-    private func TimeOfDayBackground() -> some View {
-        GeometryReader { geometry in
-            let width = geometry.size.width
-            HStack(spacing: 0) {
-                Color.blue.opacity(0.2)
-                    .frame(width: width / 7) // Adjust for 7 days
-                Color.blue.opacity(0.4)
-                    .frame(width: width / 7)
-                Color.blue.opacity(0.6)
-                    .frame(width: width / 7)
-                Color.blue.opacity(0.8)
-                    .frame(width: width / 7)
-                Color.blue.opacity(0.6)
-                    .frame(width: width / 7)
-                Color.blue.opacity(0.4)
-                    .frame(width: width / 7)
-                Color.blue.opacity(0.2)
-                    .frame(width: width / 7)
-            }
-        }
-    }
+//    @ViewBuilder
+//    private func TimeOfDayBackground() -> some View {
+//        GeometryReader { geometry in
+//            let width = geometry.size.width
+//            HStack(spacing: 0) {
+//                Color.blue.opacity(0.2)
+//                    .frame(width: width / 7) // Adjust for 7 days
+//                Color.blue.opacity(0.4)
+//                    .frame(width: width / 7)
+//                Color.blue.opacity(0.6)
+//                    .frame(width: width / 7)
+//                Color.blue.opacity(0.8)
+//                    .frame(width: width / 7)
+//                Color.blue.opacity(0.6)
+//                    .frame(width: width / 7)
+//                Color.blue.opacity(0.4)
+//                    .frame(width: width / 7)
+//                Color.blue.opacity(0.2)
+//                    .frame(width: width / 7)
+//            }
+//        }
+//    }
 }

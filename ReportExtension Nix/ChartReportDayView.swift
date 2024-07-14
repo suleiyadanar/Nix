@@ -4,52 +4,65 @@ import Charts // Assuming Charts is a custom or third-party library
 struct ChartReportDayView: View {
     let reportData: [TimeInterval]
     @State private var currentTimeIndex: Int? = nil
+    @State private var selectedHourST: String = ""
+
 
     var body: some View {
-        let completeData = prepareData(reportData: reportData)
-        
-        ScrollViewReader { scrollView in
-            HStack(spacing: 10) {
-                YAxisView(maxValue: 60)
-                    .frame(height: UIScreen.main.bounds.height / 4)
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    ZStack {
-                        TimeOfDayBackground()
-                            .frame(height: UIScreen.main.bounds.height / 4)
-                        
-                        HStack(spacing: 10) {
-                            ForEach(Array(completeData.enumerated()), id: \.offset) { index, dataPoint in
-                                VStack {
-                                    Spacer(minLength: 0)
-                                    RoundedRectangle(cornerRadius: 0)
-                                        .fill(Color.blue)
-                                        .frame(width: barWidth(totalWidth: UIScreen.main.bounds.width, count: completeData.count), height: barHeight(for: dataPoint))
-                                    Text("\(formatHour(index)):00 \(formatAMPM(index))")
-                                        .font(.custom("Nunito-Medium", size: 15))
-                                        .padding(.top, 2)
+        VStack(alignment: .leading){
+            Text(selectedHourST) // Show selected day's data as title text
+                .font(.title)
+            let completeData = prepareData(reportData: reportData)
+            
+            ScrollViewReader { scrollView in
+                HStack(spacing: 10) {
+                    YAxisView(maxValue: 60)
+                        .frame(height: UIScreen.main.bounds.height / 4)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        ZStack {
+                            TimeOfDayBackground()
+                                .frame(height: UIScreen.main.bounds.height / 4)
+                            
+                            HStack(spacing: 10) {
+                                ForEach(Array(completeData.enumerated()), id: \.offset) { index, dataPoint in
+                                    VStack {
+                                        Spacer(minLength: 0)
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .fill(Color.babyBlue)
+                                            .stroke(Color.sky, lineWidth:2)
+                                            .frame(width: 50, height: barHeight(for: dataPoint))
+                                            .onTapGesture {
+                                                selectedHourST = "\(convertToHoursAndMinutes(from: dataPoint))"
+                                                // Update selected day text
+                                                currentTimeIndex = index // Update selected day index
+                                            }
+                                        Text("\(formatHour(index)):00 \(formatAMPM(index))")
+                                            .font(.custom("Nunito-Medium", size: 15))
+                                            .padding(.top, 2)
+                                    }
+                                    .id(index)
                                 }
-                                .id(index)
+                            }
+                        }
+                        .onAppear {
+                            // Set currentTimeIndex to the current hour
+                            selectedHourST = "\(convertToHoursAndMinutes(from: reportData.last ?? reportData[0]))"
+                            let currentHour = Calendar.current.component(.hour, from: Date())
+                            currentTimeIndex = currentHour
+                            
+                            // Automatically scroll to the current time index
+                            if let currentTimeIndex = currentTimeIndex, currentTimeIndex >= 0 {
+                                scrollToCurrentTimeIndex(scrollView: scrollView, index: currentTimeIndex)
+                            }
+                        }                    .onChange(of: currentTimeIndex) { newIndex in
+                            // Re-scroll to the updated current time index
+                            if let newIndex = newIndex {
+                                scrollToCurrentTimeIndex(scrollView: scrollView, index: newIndex)
                             }
                         }
                     }
-                    .onAppear {
-                                            // Set currentTimeIndex to the current hour
-                                            let currentHour = Calendar.current.component(.hour, from: Date())
-                                            currentTimeIndex = currentHour
-
-                                            // Automatically scroll to the current time index
-                                            if let currentTimeIndex = currentTimeIndex, currentTimeIndex >= 0 {
-                                                scrollToCurrentTimeIndex(scrollView: scrollView, index: currentTimeIndex)
-                                            }
-                                        }                    .onChange(of: currentTimeIndex) { newIndex in
-                        // Re-scroll to the updated current time index
-                        if let newIndex = newIndex {
-                            scrollToCurrentTimeIndex(scrollView: scrollView, index: newIndex)
-                        }
-                    }
+                    .frame(height: UIScreen.main.bounds.height / 4)
                 }
-                .frame(height: UIScreen.main.bounds.height / 4)
             }
         }
     }
@@ -79,6 +92,17 @@ struct ChartReportDayView: View {
         let maxValue = 60.0 // Get maximum value from reportData or default to 60
         let normalizedValue = CGFloat(value / maxValue)
         return normalizedValue * UIScreen.main.bounds.height / 4
+    }
+    
+    
+    func convertToHoursAndMinutes(from value: Double) -> String {
+        let hours = Int(value) // Get the integer part as hours
+        let decimalPart = value - Double(hours) // Get the decimal part
+        
+        // Convert decimal part to minutes
+        let minutes = Int(decimalPart * 60)
+        
+        return "\(hours) min \(minutes) sec"
     }
 
     private func formatHour(_ hourIndex: Int) -> Int {

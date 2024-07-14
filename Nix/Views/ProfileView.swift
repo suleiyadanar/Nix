@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    var props: Properties
+
     @EnvironmentObject var userSettings: UserSettings
 
     @StateObject var viewModel = ProfileViewViewModel()
@@ -211,6 +213,6 @@ struct ProfileView: View {
 }
 
 
-#Preview {
-    ProfileView()
-}
+//#Preview {
+//    ProfileView()
+//}

@@ -22,18 +22,19 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
         FirebaseApp.configure()
     }
     let center = AuthorizationCenter.shared
+    
     @StateObject var pomodoroModel: PomodoroViewViewModel = .init()
     @StateObject var timeoutModel: TimeOutViewModel = .init()
     @Environment(\.scenePhase) var phase
     @State var lastActiveTimeStamp: Date = Date()
     var body: some Scene {
         WindowGroup {
-
-            MainView()
-                .environmentObject(pomodoroModel)
-                .environmentObject(userSettings)
-                .environmentObject(timeoutModel)
-
+            ResponsiveView() { properties in
+                MainView(props: properties)
+                    .environmentObject(pomodoroModel)
+                    .environmentObject(userSettings)
+                    .environmentObject(timeoutModel)
+            }
 
         }.onChange(of: phase) {
             

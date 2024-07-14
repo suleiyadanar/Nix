@@ -11,7 +11,8 @@ import FirebaseFirestore
 import DeviceActivity
 
 struct MainRulesView: View {
-    
+    var props: Properties
+
     @State private var selectedTab = 0
     var userId : String
     @StateObject var viewModel: RulesViewViewModel

@@ -10,12 +10,13 @@ import DeviceActivity
 
 struct MainView: View {
     @EnvironmentObject var userSettings: UserSettings
+    var props: Properties
 
     @StateObject var viewModel = MainViewViewModel()
     @StateObject var registerModel = RegisterViewViewModel()
     @EnvironmentObject var pomodoroModel: PomodoroViewViewModel
     var body: some View  {
-//       accountView
+       accountView
         if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
             //signed in
             accountView
@@ -43,14 +44,14 @@ struct MainView: View {
             
             TabView(selection: $selectedTab) {
               
-                MainHomepageView(streakCount: 32, progress: 0.6, userId: viewModel.currentUserId)
+                MainHomepageView(props:props,streakCount: 32, progress: 0.6, userId: viewModel.currentUserId)
                     .ignoresSafeArea()
                     .tag("homepage")
-                MainRulesView(userId: viewModel.currentUserId, viewModel: RulesViewViewModel(userId: viewModel.currentUserId))
+                MainRulesView(props:props, userId: viewModel.currentUserId, viewModel: RulesViewViewModel(userId: viewModel.currentUserId))
                     .ignoresSafeArea()
                     .tag("rules")
                
-                MainPomodoroView(viewModel: pomodoroModel, userId: viewModel.currentUserId)
+                MainPomodoroView(props:props, viewModel: pomodoroModel, userId: viewModel.currentUserId)
                     .environmentObject(pomodoroModel)
                     .ignoresSafeArea()
                     .tag("pomodoro")
@@ -58,7 +59,7 @@ struct MainView: View {
 //                RulesView(userId: viewModel.currentUserId)
 //                                    .ignoresSafeArea()
 //                                    .tag("profile")
-                ProfileView()
+                ProfileView(props:props)
                     .ignoresSafeArea()
                     .tag("profile")
             }
