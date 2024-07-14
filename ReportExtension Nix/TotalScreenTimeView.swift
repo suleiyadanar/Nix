@@ -26,12 +26,12 @@ struct TotalScreenTimeView: View {
 
     private func fontSize(for width: CGFloat) -> CGFloat {
         switch width {
-        case ..<700:
-            return 40
-        case 700..<1000:
-            return 90
-        case 1000...:
-            return 130
+        case ..<100: // Smaller iPhone sizes
+            return 35
+        case 100..<250: // Smaller iPhone sizes
+            return 60
+        case 250..<405: // Smaller iPhone sizes
+            return 75
         default:
             return 35
         }

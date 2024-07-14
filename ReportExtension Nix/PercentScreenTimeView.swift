@@ -19,7 +19,7 @@ struct PercentScreenTimeView: View {
                 
                 Text(percentScreenTime)
                     .foregroundColor(.babyBlue)
-                    .font(.custom("Nunito-Regular", size: fontSize))
+                    .font(.custom("Nunito-SemiBold", size: fontSize))
             }
         }
     }
@@ -31,7 +31,7 @@ struct PercentScreenTimeView: View {
         case 700..<1000:
             return 26
         case 1000...:
-            return 32
+            return 35
         default:
             return 23
         }

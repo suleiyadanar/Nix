@@ -18,22 +18,24 @@ struct RemainingScreenTimeView: View {
             
             GeometryReader { geometry in
                 let widthToCalculate = min(geometry.size.width, geometry.size.height)
-                let fontSize = self.fontSize(for: widthToCalculate)
+                let fontSizeMessage = self.fontSizeMessage(for: widthToCalculate)
+                let fontSizeTime = self.fontSizeTime(for: widthToCalculate)
+
                 withAnimation(.easeInOut(duration: 1.5)){
                 VStack(alignment:.leading,spacing:0) {
                     Text(header)
                         .foregroundColor(header == "Exceeding" ? .red : .babyBlue)
-                        .font(.custom("Nunito-Medium", size: fontSize))
+                        .font(.custom("Nunito-Medium", size: fontSizeMessage))
                     
                     Text(timeString)
                         .foregroundColor(.babyBlue)
-                        .font(.custom("Nunito-Medium", size: fontSize))
+                        .font(.custom("Nunito-SemiBold", size: fontSizeTime))
                 }
             }
         }
     }
     
-    private func fontSize(for width: CGFloat) -> CGFloat {
+    private func fontSizeMessage(for width: CGFloat) -> CGFloat {
         switch width {
         case ..<700:
             return 18
@@ -43,6 +45,18 @@ struct RemainingScreenTimeView: View {
             return 28
         default:
             return 20
+        }
+    }
+    private func fontSizeTime(for width: CGFloat) -> CGFloat {
+        switch width {
+        case ..<700:
+            return 23
+        case 700..<1000:
+            return 26
+        case 1000...:
+            return 35
+        default:
+            return 23
         }
     }
 }
