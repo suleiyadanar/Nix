@@ -56,7 +56,7 @@ struct Onboarding10View: View {
                     .padding(.bottom, 15)
                     .offset(y:-10)
                 
-                NavigationLink(destination: MainView()) {
+                NavigationLink(destination: MainView(props:props)) {
                                     Button(action: {
                                         userSettings.ready = true
                                     }) {

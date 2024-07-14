@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainPomodoroView: View {
+    var props: Properties
+
     @StateObject var viewModel = PomodoroViewViewModel()
     var userId: String
    

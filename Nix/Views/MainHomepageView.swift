@@ -2,6 +2,8 @@ import SwiftUI
 import DeviceActivity
 
 struct MainHomepageView: View {
+    var props: Properties
+
     @State private var showSheet = false
 
     @StateObject var viewModel = HomepageViewViewModel()
@@ -22,6 +24,29 @@ struct MainHomepageView: View {
         devices: .init([.iPhone, .iPad])
     )
     
+    @State private var contextRemaining: DeviceActivityReport.Context = .init(rawValue: "Remaining ScreenTime")
+    
+    @State private var filterRemaining = DeviceActivityFilter(
+        segment: .daily(
+        during: Calendar.current.dateInterval(
+        of: .day, for: .now
+            )!
+        ),
+        users: .all,
+        devices: .init([.iPhone, .iPad])
+    )
+    @State private var contextPercentage: DeviceActivityReport.Context = .init(rawValue: "Percent ScreenTime")
+    
+    @State private var filterPercentage = DeviceActivityFilter(
+        segment: .daily(
+        during: Calendar.current.dateInterval(
+        of: .day, for: .now
+            )!
+        ),
+        users: .all,
+        devices: .init([.iPhone, .iPad])
+    )
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -80,15 +105,10 @@ struct MainHomepageView: View {
                         VStack(alignment: .leading) {
                             DeviceActivityReport(context, filter:
                                                     filter)
-                            VStack {
-                                Text("Remaining")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                                Text("32 mins")
-                                    .font(.subheadline)
-                                    .foregroundColor(.blue)
-                                    .offset(x: -8)
-                            }
+                            .frame(width: props.width * 0.3, height: props.height * 0.1)
+                            DeviceActivityReport(contextRemaining, filter:
+                                                    filterRemaining)
+                            .frame(width: props.width * 0.3, height: props.height * 0.1)
                             
                         }
                         .offset(y: -5)
@@ -98,10 +118,9 @@ struct MainHomepageView: View {
                             .padding(.trailing, 20)
 
                         VStack(alignment: .trailing) {
-                            Text("\(Int(progress * 100))%")
-                                .font(.system(size: 23))
-                                .fontWeight(.regular)
-                                .foregroundColor(.babyBlue)
+                            DeviceActivityReport(contextPercentage, filter:
+                                                    filterPercentage)
+                            .frame(width: props.width * 0.2, height: props.height * 0.05)
                             Text("Screen Time Used")
                                 .font(.system(size: 15))
                                 .fontWeight(.regular)
@@ -252,11 +271,11 @@ struct MoreButton: View {
     }
 }
 
-struct MainHomepageView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainHomepageView(streakCount: 5, progress: 0.75, userId: "Grace")
-    }
-}
+//struct MainHomepageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainHomepageView(streakCount: 5, progress: 0.75, userId: "Grace")
+//    }
+//}
 
 struct QuickFreezeButton: View {
     var body: some View {
