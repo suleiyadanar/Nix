@@ -20,12 +20,20 @@ struct TotalActivityView: View {
     
     var body: some View {
         ScrollView{
-            VStack (alignment: .leading) {
-                ForEach(sortedTotalActivity.indices, id: \.self) { index in
-                    TotalActivityItemView(totalActivity: sortedTotalActivity[index])
+                
+                VStack (alignment: .leading) {
+                    ForEach(sortedTotalActivity.indices, id: \.self) { index in
+                        TotalActivityItemView(totalActivity: sortedTotalActivity[index])
+                            
+                                                       .padding()
+                                                       .background(RoundedRectangle(cornerRadius: 15)
+                                                                       .stroke(Color.babyBlue, lineWidth: 1))
+                    }
                 }
-            }
-        }.frame(maxWidth:.infinity)
+            
+        }.padding()
+        .frame(maxWidth:.infinity)
+        .scrollIndicators(.hidden)
     }
 }
 

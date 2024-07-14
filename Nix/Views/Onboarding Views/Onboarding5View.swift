@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct Onboarding5View: View {
+    var props: Properties
+
     @State private var hours: Int = 0
     @State private var minutes: Int = 30
     @State private var showHoursPopover = false
@@ -89,7 +91,7 @@ struct Onboarding5View: View {
                 }
                 .padding(.vertical, 20)
                 
-                NavigationLink(destination: Onboarding6View().onAppear {
+                NavigationLink(destination: Onboarding6View(props:props).onAppear {
                     self.saveMaxUnProdST()
                 }) {
                     HStack {
@@ -111,7 +113,7 @@ struct Onboarding5View: View {
 
 
 
-#Preview {
-    Onboarding5View()
-        .environmentObject(UserSettings())
-}
+//#Preview {
+//    Onboarding5View()
+//        .environmentObject(UserSettings())
+//}

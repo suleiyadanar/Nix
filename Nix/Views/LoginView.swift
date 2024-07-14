@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LoginView: View {
+    var props: Properties
+
     @StateObject var viewModel = LoginViewViewModel()
 //    let layoutProperties: LayoutProperties
 
@@ -40,7 +42,7 @@ struct LoginView: View {
                 }
                 HStack{
                     Text("Don't have an account?")
-                    NavigationLink("Sign up", destination: RegisterView())
+                    NavigationLink("Sign up", destination: RegisterView(props:props))
                 }
                 
             }.padding(.top, 50)
@@ -53,7 +55,7 @@ struct LoginView: View {
     }
 }
 
-#Preview {
-//    LoginView(layoutProperties: getPreviewLayoutProperties(height: 852, width: 393))
-    LoginView()
-}
+//#Preview {
+////    LoginView(layoutProperties: getPreviewLayoutProperties(height: 852, width: 393))
+//    LoginView()
+//}

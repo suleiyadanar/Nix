@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Onboarding10View: View {
+    var props: Properties
+
     @EnvironmentObject var userSettings: UserSettings
 
     @StateObject var viewModel = RegisterViewViewModel()
@@ -58,7 +60,7 @@ struct Onboarding10View: View {
                                     Button(action: {
                                         userSettings.ready = true
                                     }) {
-                                        ButtonView(text: "Let's do it")
+                                        ButtonView(props: props, text: "Let's do it")
                                     }
                                 }
                 .offset(y:-10)
@@ -68,8 +70,4 @@ struct Onboarding10View: View {
         }
         .navigationBarHidden(true)
     }
-}
-
-#Preview {
-    Onboarding10View()
 }

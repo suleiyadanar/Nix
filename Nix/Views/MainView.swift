@@ -15,18 +15,18 @@ struct MainView: View {
     @StateObject var registerModel = RegisterViewViewModel()
     @EnvironmentObject var pomodoroModel: PomodoroViewViewModel
     var body: some View  {
-       accountView
-//        if userSettings.ready {
-//            //signed in
-//            accountView
-//        } else {
-//            //            ResponsiveView { properties in
-//            NavigationView{
-//                Onboarding1View()
-////                LoginView().padding(0)
-//            }
-//            //            }
-//        }
+//       accountView
+        if userSettings.ready {
+            //signed in
+            accountView
+        } else {
+            ResponsiveView { props in
+            NavigationStack{
+                Onboarding1View(props:props)
+//                LoginView().padding(0)
+            }
+                        }
+        }
         
     }
     

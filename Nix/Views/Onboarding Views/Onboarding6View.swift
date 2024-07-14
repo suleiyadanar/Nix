@@ -9,6 +9,8 @@ import SwiftUI
 import FamilyControls
 
 struct Onboarding6View: View {
+    var props: Properties
+
     @State private var weeks: Int = 8
     @State private var showChangeDuration: Bool = false
     @State private var navigationButtonID = UUID()
@@ -75,7 +77,7 @@ struct Onboarding6View: View {
                 
                 Spacer()
                 
-                NavigationLink (destination: Onboarding7View() ) {
+                NavigationLink (destination: Onboarding7View(props:props) ) {
                     HStack {
                         Spacer()
                         ArrowButtonView()
@@ -93,6 +95,6 @@ struct Onboarding6View: View {
     }
 }
 
-#Preview {
-    Onboarding6View()
-}
+//#Preview {
+//    Onboarding6View()
+//}

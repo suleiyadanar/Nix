@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct Onboarding3View: View {
+    var props: Properties
+
     @State private var optionsChosen = Array(repeating: false, count: 7)
     @State private var otherOptionSelected = false
     @State private var goalText = ""
@@ -37,11 +39,11 @@ struct Onboarding3View: View {
                 Image("dottedline")
                     .padding(.top, 20)
                     .padding(.bottom, 20)
-                NavigationLink(destination: Onboarding3AView()) {
+                NavigationLink(destination: Onboarding3AView(props:props)) {
                     OtherButtonView()
                 }
                 if self.selectedOptionsCount() > 0 {
-                    NavigationLink(destination: Onboarding4View().onAppear {
+                    NavigationLink(destination: Onboarding4View(props:props).onAppear {
                         self.saveSelectedGoals()
                     }) {
                         ArrowButtonView()
@@ -102,7 +104,7 @@ struct OtherButtonView: View {
     }
 }
 
-#Preview {
-    Onboarding3View()
-        .environmentObject(UserSettings())
-}
+//#Preview {
+//    Onboarding3View()
+//        .environmentObject(UserSettings())
+//}

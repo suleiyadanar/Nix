@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Onboarding9View: View {
+    var props: Properties
+
     var body: some View {
         ZStack {
             LinearGradient(colors: [.babyBlue, .lightYellow], startPoint: .top, endPoint: .bottom)
@@ -36,7 +38,7 @@ struct Onboarding9View: View {
                 }
                 Spacer()
                 
-                NavigationLink (destination: RegisterView() ) { // temp arrow button to next page
+                NavigationLink (destination: RegisterView(props:props) ) { // temp arrow button to next page
                     HStack {
                         Spacer()
                         Text("temp arrow button lolz")
@@ -54,6 +56,6 @@ struct Onboarding9View: View {
 
 
 
-#Preview {
-    Onboarding9View()
-}
+//#Preview {
+//    Onboarding9View()
+//}
