@@ -6,13 +6,14 @@ import FamilyControls
 struct NewRuleItemView: View {
     @ObservedObject var viewModel = NewRuleItemViewViewModel()
     @State private var showingTimeOutSettings = false  // Track whether time out settings sheet is presented
-
+    
     @State private var pickerIsPresented = false
     @ObservedObject var model = BlockedAppsModel()
     @Binding var newItemPresented: Bool
-    @State var newTemplate: Bool
     @State var userId: String
     @State var item: RuleItem?
+    @State var color: String = "swatch_lemon"
+
     @State private var errorMessage: String = ""
     
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -44,10 +45,12 @@ struct NewRuleItemView: View {
                 Text(String(newItemPresented))
                 Text(item?.id ?? "None")
                 VStack {
+                    
                     TextField("Title", text: $viewModel.title)
                         .textFieldStyle(DefaultTextFieldStyle())
                         .onAppear {
-                            viewModel.id = newTemplate ? "" : (item?.id ?? "")
+                           
+                            viewModel.id = item?.id ?? ""
                             viewModel.title = item?.title ?? ""
                             viewModel.selectedDays = Set(item?.selectedDays ?? [])
                             viewModel.selectionType = item?.selectionType ?? ""
@@ -56,6 +59,9 @@ struct NewRuleItemView: View {
                             viewModel.timeOutAllowed = item?.timeOutAllowed ?? Int.max
                             viewModel.delay = item.flatMap { NewRuleItemViewViewModel.DelayTime(rawValue: $0.delay) } ?? .none
                             viewModel.timeOutLength = item.flatMap { NewRuleItemViewViewModel.TimeoutLength(rawValue: $0.timeOutLength) } ?? .one
+                            viewModel.intentionalHours = item?.intentionalHours ?? 0
+                            viewModel.intentionalMinutes = item?.intentionalMinutes ?? 0
+                            viewModel.color = item?.color ?? color
                         }
                     Button(action: {
                         viewModel.showingAppGroup.toggle()
@@ -74,7 +80,7 @@ struct NewRuleItemView: View {
                     
                     Text(viewModel.selectionType)
                     Text(viewModel.selectedData)
-                    
+                    ColorSwatchView(selection: $color)
                     DatePicker("Start Time", selection: $viewModel.startTime, displayedComponents: .hourAndMinute)
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .frame(height: 50)
@@ -121,20 +127,57 @@ struct NewRuleItemView: View {
                         }
                     }
                     .padding(.vertical)
-                    
-                    Button(action: {
-                                    showingTimeOutSettings = true  // Show time out settings sheet when button is tapped
-                                }) {
-                                    Text("Time Out Settings")
+                    if (viewModel.mode == .regular){
+                        Button(action: {
+                                        showingTimeOutSettings = true  // Show time out settings sheet when button is tapped
+                                    }) {
+                                        Text("Time Out Settings")
+                                    }
+                                    .sheet(isPresented: $showingTimeOutSettings) {
+                                        NavigationView {
+                                                            TimeOutView(viewModel: viewModel)
+                                                                .navigationTitle("Time Out Settings")
+                                                                .navigationBarItems(trailing: Button("Done") {
+                                                                    showingTimeOutSettings = false  // Dismiss the sheet when done
+                                                                })
+                                                        }                                }
+                    }else if (viewModel.mode == .intentional){
+                        HStack(){
+                            Text("Hours")
+                            Text("\(viewModel.intentionalHours) hr")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.black.opacity(0.3))
+                                .padding(.horizontal, 20)
+                                .padding(.vertical,12)
+                                .background{
+                                    Capsule()
+                                        .fill(.white.opacity(0.07))
+                                }.contextMenu {
+                                    ContextMenuOptions(maxValue: 23, hint: "hr") { value in
+                                        viewModel.intentionalHours = value
+                                    }
                                 }
-                                .sheet(isPresented: $showingTimeOutSettings) {
-                                    NavigationView {
-                                                        TimeOutView(viewModel: viewModel)
-                                                            .navigationTitle("Time Out Settings")
-                                                            .navigationBarItems(trailing: Button("Done") {
-                                                                showingTimeOutSettings = false  // Dismiss the sheet when done
-                                                            })
-                                                    }                                }
+                            Text("Min")
+                            Text("\(viewModel.intentionalMinutes) min")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.black.opacity(0.3))
+                                .padding(.horizontal, 20)
+                                .padding(.vertical,12)
+                                .background{
+                                    Capsule()
+                                        .fill(.white.opacity(0.07))
+                                }
+                                .contextMenu {
+                                    ContextMenuOptions(maxValue: 60, hint: "min") { value in
+                                        viewModel.intentionalMinutes = value
+                                    }
+                                }
+                        }
+                        
+                    }
+                  
                     
                     
                     ScrollView {
@@ -159,11 +202,10 @@ struct NewRuleItemView: View {
                     }
                     // HERE
                     TLButton(text: "Save", background: .pink) {
-                        var activityName = DeviceActivityName(rawValue: "\(viewModel.title)-\(viewModel.mode)")
+                        var activityName = DeviceActivityName(rawValue: "\(viewModel.title)-\(viewModel.mode)-\(viewModel.intentionalHours)-\(viewModel.intentionalMinutes)")
                         let calendar = Calendar.current
                         var intervalStart = calendar.dateComponents([.hour, .minute], from: self.viewModel.startTime)
                         var intervalEnd = calendar.dateComponents([.hour, .minute], from: self.viewModel.endTime)
-                        
                         print("interval start", intervalStart)
                         print("interval end", intervalEnd)
                         let center = DeviceActivityCenter()
@@ -181,7 +223,7 @@ struct NewRuleItemView: View {
                             }
                         } else {
                             for i in 0..<viewModel.selectedDays.count {
-                                activityName = DeviceActivityName(rawValue: "\(viewModel.title)-\(viewModel.mode)" + String(i))
+                                activityName = DeviceActivityName(rawValue: "\(viewModel.title)-\(viewModel.mode)-\(viewModel.intentionalHours)-\(viewModel.intentionalMinutes)" + String(i))
                                 intervalStart.weekday = Array(viewModel.selectedDays)[i] + 1
                                 intervalEnd.weekday = Array(viewModel.selectedDays)[i] + 1
                                 schedule = DeviceActivitySchedule(intervalStart: intervalStart, intervalEnd: intervalEnd, repeats: true)
@@ -197,6 +239,7 @@ struct NewRuleItemView: View {
                         }
                         
                         if viewModel.canSave {
+                            viewModel.color = color
                             viewModel.save()
                             newItemPresented = false
                         } else {
@@ -213,3 +256,13 @@ struct NewRuleItemView: View {
         }
     }
 }
+
+@ViewBuilder
+    func ContextMenuOptions(maxValue: Int, hint: String, onClick: @escaping (Int) -> ()) -> some View {
+        ForEach(0...maxValue, id: \.self) { value in
+            Button("\(value) \(hint)") {
+                onClick(value)
+            }
+        }
+    }
+

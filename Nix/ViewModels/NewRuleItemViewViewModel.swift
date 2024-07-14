@@ -21,6 +21,8 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var fromDate = Date()
     @Published var toDate = Date()
     
+    @Published var intentionalHours: Int = 0
+    @Published var intentionalMinutes: Int = 0
     
     @Published var selectedDays = Set<Int>()
     @Published var showAlert = false
@@ -33,6 +35,8 @@ class NewRuleItemViewViewModel : ObservableObject {
     @Published var delay: DelayTime = .none
     @Published var timeOutLength: TimeoutLength = .one
     @Published var timeOutAllowed: Int = Int.max
+    
+    @Published var color : String = ""
     
     var selectedApps = String()
     var selectedData = String()
@@ -149,8 +153,8 @@ class NewRuleItemViewViewModel : ObservableObject {
 
        
         let db = Firestore.firestore()
-        
-        if self.id != "" {
+        print("count id", self.id.count)
+        if self.id != "" && self.id.count > 1 {
             // Update model
             print("updating")
             db.collection("users")
@@ -167,8 +171,10 @@ class NewRuleItemViewViewModel : ObservableObject {
                              "unlock": unlock.rawValue,
                              "delay": delay.rawValue,
                              "timeOutLength": timeOutLength.rawValue,
-                             "timeOutAllowed": timeOutAllowed
-
+                             "timeOutAllowed": timeOutAllowed,
+                             "intentionalMinutes": intentionalMinutes,
+                             "intentionalHours": intentionalHours,
+                             "color": color
                             ])
                             
         }else {
@@ -190,7 +196,10 @@ class NewRuleItemViewViewModel : ObservableObject {
                 unlock: unlock.rawValue,
                 delay: delay.rawValue,
                 timeOutLength: timeOutLength.rawValue,
-                timeOutAllowed: timeOutAllowed
+                timeOutAllowed: timeOutAllowed,
+                intentionalMinutes: intentionalMinutes,
+                intentionalHours: intentionalHours,
+                color: color
             )
 
             // Save model
@@ -204,23 +213,6 @@ class NewRuleItemViewViewModel : ObservableObject {
                 
         }
         
-        func calculateNotiTime(startTime: Date) -> TimeInterval {
-            let currentTime = Date()
-            let notificationTime = startTime.timeIntervalSince(currentTime) - (5 * 60)
-            return max(notificationTime, 0) // Ensure notification is scheduled at least 5 minutes in the future
-        }
-
-        func addNotification() {
-            let content = UNMutableNotificationContent()
-            content.title = "Nix"
-            content.subtitle = "Pomodoro Complete"
-            content.sound = UNNotificationSound.default
-            
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: calculateNotiTime(startTime: startTime), repeats: false))
-            
-            UNUserNotificationCenter.current().add(request)
-            
-        }
     }
     
     

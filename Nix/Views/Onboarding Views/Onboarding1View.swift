@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct Onboarding1View: View {
+   
     var body: some View {
-
             ZStack {
                 LinearGradient(colors: [.babyBlue, .lightYellow], startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea(.all)
@@ -79,6 +79,6 @@ public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognize
     }
 }
 
-#Preview {
-    Onboarding1View()
-}
+//#Preview {
+//    Onboarding1View()
+//}

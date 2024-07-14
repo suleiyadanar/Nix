@@ -33,15 +33,7 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                 .environmentObject(pomodoroModel)
                 .environmentObject(userSettings)
                 .environmentObject(timeoutModel)
-                .onAppear {
-                    Task {
-                        do {
-                            try await center.requestAuthorization(for: .individual)
-                        } catch {
-                            print("Error")
-                        }
-                    }
-                }
+                
 
         }.onChange(of: phase) {
             
@@ -58,7 +50,6 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                     }else{
                         pomodoroModel.totalSeconds -= Int(currentTimeStampDiff)
                     }
-                  
                 }
             }
            

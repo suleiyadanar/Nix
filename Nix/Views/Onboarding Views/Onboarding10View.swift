@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Onboarding10View: View {
+    @EnvironmentObject var userSettings: UserSettings
+
     @StateObject var viewModel = RegisterViewViewModel()
     var body: some View {
         ZStack {
@@ -53,8 +55,12 @@ struct Onboarding10View: View {
                     .offset(y:-10)
                 
                 NavigationLink(destination: MainView()) {
-                    ButtonView(text: "Let's do it")
-                }
+                                    Button(action: {
+                                        userSettings.ready = true
+                                    }) {
+                                        ButtonView(text: "Let's do it")
+                                    }
+                                }
                 .offset(y:-10)
 
             }

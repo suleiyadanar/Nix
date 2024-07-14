@@ -7,6 +7,8 @@
 
 import ManagedSettings
 import ManagedSettingsUI
+import DeviceActivity
+
 import UIKit
 import SwiftUI
 
@@ -14,15 +16,31 @@ import SwiftUI
 // The system provides a default appearance for any methods that your subclass doesn't override.
 // Make sure that your class name matches the NSExtensionPrincipalClass in your Info.plist.
 class ShieldConfigurationExtension: ShieldConfigurationDataSource {
+    let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
+
     override func configuration(shielding application: Application) -> ShieldConfiguration {
+
         // Customize the shield as needed for applications.
-        ShieldConfiguration(
+        let mode = userDefaults?.string(forKey: "mode")
+        print("\(mode)")
+        if (mode == "intentional"){
+            print("got here")
+            return ShieldConfiguration(
+                backgroundColor: UIColor.blue,
+                icon: UIImage(named:"lizard-nix"),
+                title:ShieldConfiguration.Label(text:"NIX", color: UIColor.purple),
+                primaryButtonLabel: ShieldConfiguration.Label(text:"OK", color:UIColor.green),
+                secondaryButtonLabel: ShieldConfiguration.Label(text:"Keep Using", color:UIColor.orange)
+                )
+        }
+        return ShieldConfiguration(
             backgroundColor: UIColor.blue,
             icon: UIImage(named:"lizard-nix"),
             title:ShieldConfiguration.Label(text:"NIX", color: UIColor.purple),
             primaryButtonLabel: ShieldConfiguration.Label(text:"OK", color:UIColor.green),
             secondaryButtonLabel: ShieldConfiguration.Label(text:"Unblock Apps", color:UIColor.orange)
             )
+        
     }
     
     
