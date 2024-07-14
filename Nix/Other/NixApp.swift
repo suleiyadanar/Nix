@@ -9,19 +9,23 @@ import SwiftUI
 import FirebaseCore
 import FamilyControls
 import DeviceActivity
-
+import FirebaseFirestore
+import FirebaseAuth
 
 private let thisWeek = DateInterval(start: Date(), end: Date())
 
 @main struct NixApp: App {
-    
+    @State var user: User? = nil
+
     var userSettings = UserSettings()
     let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
-
+    
     init() {
         FirebaseApp.configure()
     }
     let center = AuthorizationCenter.shared
+    
+    
     
     @StateObject var pomodoroModel: PomodoroViewViewModel = .init()
     @StateObject var timeoutModel: TimeOutViewModel = .init()
@@ -34,6 +38,19 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                     .environmentObject(pomodoroModel)
                     .environmentObject(userSettings)
                     .environmentObject(timeoutModel)
+                    .onAppear(){
+                        fetchUser { user in
+                            if let user = user {
+                                // Use the fetched user object
+                                userDefaults?.set(user.maxUnProdST, forKey:"maxUnProdST")
+                                print("Fetched user: \(user.firstName)")
+                            } else {
+                                // Handle error or no user scenario
+                                print("Failed to fetch user.")
+                            }
+                        }
+                        
+                    }
             }
 
         }.onChange(of: phase) {
@@ -109,6 +126,39 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                 // text input boxes bc it keeps changing when its light/dark mode and becoming invisible in dark mode
                 
 
+        }
+    }
+    func fetchUser(completion: @escaping (User?) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            completion(nil)
+            return
+        }
+        
+        let db = Firestore.firestore()
+        
+        db.collection("users").document(userId).getDocument { snapshot, error in
+            guard let data = snapshot?.data(), error == nil else {
+                completion(nil)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                let user = User(
+                    id: data["id"] as? String ?? "",
+                    firstName: data["firstName"] as? String ?? "",
+                    username: data["username"] as? String ?? "",
+                    email: data["email"] as? String ?? "",
+                    joined: data["joined"] as? TimeInterval ?? 0,
+                    college: data["college"] as? String ?? "",
+                    year: data["year"] as? String ?? "",
+                    major: data["major"] as? String ?? "",
+                    opt: data["opt"] as? Bool ?? false,
+                    goals: data["goals"] as? [String] ?? [],
+                    unProdST: data["unProdST"] as? String ?? "",
+                    maxUnProdST: data["maxUnProdST"] as? Int ?? 0
+                )
+                completion(user)
+            }
         }
     }
 }
