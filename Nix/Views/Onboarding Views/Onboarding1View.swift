@@ -77,6 +77,10 @@ struct Onboarding1View: View {
                 Spacer()
                 NavigationLink(destination: Onboarding2View(props: props)) {
                     ButtonView(props: props, text: "GET STARTED")
+                    HStack{
+                        Text("Already a member?")
+                        NavigationLink("Login", destination: LoginView(props:props))
+                    }
                 }
                 Spacer()
             }

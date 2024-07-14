@@ -16,7 +16,7 @@ struct MainView: View {
     @EnvironmentObject var pomodoroModel: PomodoroViewViewModel
     var body: some View  {
 //       accountView
-        if userSettings.ready {
+        if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
             //signed in
             accountView
         } else {

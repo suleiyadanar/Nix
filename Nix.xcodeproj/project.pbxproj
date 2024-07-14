@@ -64,6 +64,11 @@
 		3F2C29C52C3C8D14000B1962 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29C02C3C8D13000B1962 /* Montserrat-Bold.ttf */; };
 		3F312BAE2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */; };
 		3F38E3872BA61154001E57CE /* NewRuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */; };
+		3F44B0342C44249A00319EA3 /* ChartReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F44B02F2C44249A00319EA3 /* ChartReport.swift */; };
+		3F44B0352C44249A00319EA3 /* ChartReportDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F44B0302C44249A00319EA3 /* ChartReportDayView.swift */; };
+		3F44B0362C44249A00319EA3 /* ChartReportWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F44B0312C44249A00319EA3 /* ChartReportWeekView.swift */; };
+		3F44B0372C44249A00319EA3 /* PercentScreenTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F44B0322C44249A00319EA3 /* PercentScreenTimeView.swift */; };
+		3F44B0382C44249A00319EA3 /* RemainingScreenTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F44B0332C44249A00319EA3 /* RemainingScreenTimeView.swift */; };
 		3F47EBC32C0E4D010043507C /* templates.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F47EBC12C0E4D010043507C /* templates.json */; };
 		3F48FDED2C377F8900A193C7 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7B72C0D4EC200F7532B /* Colors.swift */; };
 		3F48FDEE2C377F8A00A193C7 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7B72C0D4EC200F7532B /* Colors.swift */; };
@@ -255,6 +260,11 @@
 		3F2C29BF2C3C8D13000B1962 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Medium.ttf"; sourceTree = "<group>"; };
 		3F2C29C02C3C8D13000B1962 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutNotiViewViewModel.swift; sourceTree = "<group>"; };
+		3F44B02F2C44249A00319EA3 /* ChartReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartReport.swift; sourceTree = "<group>"; };
+		3F44B0302C44249A00319EA3 /* ChartReportDayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartReportDayView.swift; sourceTree = "<group>"; };
+		3F44B0312C44249A00319EA3 /* ChartReportWeekView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartReportWeekView.swift; sourceTree = "<group>"; };
+		3F44B0322C44249A00319EA3 /* PercentScreenTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PercentScreenTimeView.swift; sourceTree = "<group>"; };
+		3F44B0332C44249A00319EA3 /* RemainingScreenTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemainingScreenTimeView.swift; sourceTree = "<group>"; };
 		3F47EBC12C0E4D010043507C /* templates.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = templates.json; sourceTree = "<group>"; };
 		3F48FDF22C38D3AD00A193C7 /* world-universities.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-universities.csv"; sourceTree = "<group>"; };
 		3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsModel.swift; sourceTree = "<group>"; };
@@ -634,6 +644,11 @@
 				3F856E7C2B9D941600E479EB /* DeviceActivityModel.swift */,
 				3F856E6D2B9D8EEE00E479EB /* ReportExtension_Nix.swift */,
 				3F856E6F2B9D8EEE00E479EB /* TotalScreenTimeReport.swift */,
+				3F44B02F2C44249A00319EA3 /* ChartReport.swift */,
+				3F44B0302C44249A00319EA3 /* ChartReportDayView.swift */,
+				3F44B0312C44249A00319EA3 /* ChartReportWeekView.swift */,
+				3F44B0322C44249A00319EA3 /* PercentScreenTimeView.swift */,
+				3F44B0332C44249A00319EA3 /* RemainingScreenTimeView.swift */,
 				3F856E7F2B9E2B1100E479EB /* TotalActivityReport.swift */,
 				3F856E812B9E305D00E479EB /* TotalActivityView.swift */,
 				3F856E852B9F73FA00E479EB /* TotalActivityItemView.swift */,
@@ -1057,13 +1072,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F44B0352C44249A00319EA3 /* ChartReportDayView.swift in Sources */,
 				3F856E822B9E305D00E479EB /* TotalActivityView.swift in Sources */,
 				3F48FDED2C377F8900A193C7 /* Colors.swift in Sources */,
 				3F856E722B9D8EEE00E479EB /* TotalScreenTimeView.swift in Sources */,
+				3F44B0342C44249A00319EA3 /* ChartReport.swift in Sources */,
 				3F856E802B9E2B1100E479EB /* TotalActivityReport.swift in Sources */,
 				3F856E6E2B9D8EEE00E479EB /* ReportExtension_Nix.swift in Sources */,
 				3F856E7E2B9D95DD00E479EB /* DeviceActivityModel.swift in Sources */,
 				3F856E862B9F73FA00E479EB /* TotalActivityItemView.swift in Sources */,
+				3F44B0372C44249A00319EA3 /* PercentScreenTimeView.swift in Sources */,
+				3F44B0382C44249A00319EA3 /* RemainingScreenTimeView.swift in Sources */,
+				3F44B0362C44249A00319EA3 /* ChartReportWeekView.swift in Sources */,
 				3F856E702B9D8EEE00E479EB /* TotalScreenTimeReport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
