@@ -435,6 +435,9 @@
 				3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */,
 				3B9E90B02C2FD11C00C202EF /* ScheduleItem.swift */,
 				3B9E90B22C2FD13800C202EF /* ScheduleRow.swift */,
+				3F7234C22B86CAF70095EA42 /* RuleItemView.swift */,
+				3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */,
+				3F86B2E12BA32DD200F39E9B /* EditRuleItemView.swift */,
 			);
 			path = "Rules Views";
 			sourceTree = "<group>";
@@ -617,9 +620,6 @@
 				3F9EB4E32C1029AB0019200C /* NewBlockedAppsView.swift */,
 				3F7234C12B86CAF70095EA42 /* LoginView.swift */,
 				3FF3EA342C18A9390074977C /* TimeOutView.swift */,
-				3F7234C22B86CAF70095EA42 /* RuleItemView.swift */,
-				3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */,
-				3F86B2E12BA32DD200F39E9B /* EditRuleItemView.swift */,
 				3F7234C32B86CAF70095EA42 /* PomodoroView.swift */,
 				3F91F2E22BA6180200DE07BC /* TLButton.swift */,
 				3F7234C42B86CAF70095EA42 /* QuickStartBtnView.swift */,
