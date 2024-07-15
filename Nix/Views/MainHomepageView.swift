@@ -12,6 +12,8 @@ struct MainHomepageView: View {
     var progress: Double
     var userId: String
     
+    @Binding var showTabBar: Bool
+    
     @State private var context: DeviceActivityReport.Context = .init(rawValue: "Total ScreenTime")
     
     @State private var filter = DeviceActivityFilter(
@@ -46,6 +48,7 @@ struct MainHomepageView: View {
         users: .all,
         devices: .init([.iPhone, .iPad])
     )
+    
 
     var body: some View {
         NavigationStack {
@@ -70,10 +73,23 @@ struct MainHomepageView: View {
                     }
                     .padding(.leading, 5)
                     Spacer()
+                    NavigationLink(destination: JourneyMapView()
+                       
+                        .toolbarBackground(.hidden, for: .navigationBar)
+                        .onAppear{
+                            showTabBar = false
+                          
+
+                        }.onDisappear{
+                            showTabBar = true
+                        }
                     
-                    Image("map")
-                        .resizable()
-                        .frame(width: 24, height: 24)
+                    ) {
+                        Image("map")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                        
                 }
                 .padding(.top, 70)
                 .padding(.leading, 15)

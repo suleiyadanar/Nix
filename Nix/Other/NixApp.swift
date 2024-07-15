@@ -25,7 +25,7 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
     }
     let center = AuthorizationCenter.shared
     
-    
+
     
     @StateObject var pomodoroModel: PomodoroViewViewModel = .init()
     @StateObject var timeoutModel: TimeOutViewModel = .init()
