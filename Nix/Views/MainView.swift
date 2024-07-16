@@ -66,6 +66,7 @@ struct MainView: View {
                 
                 // Custom Tab Bar
             }   .ignoresSafeArea()
+            .padding(.bottom, 65)
             .overlay(
                 
                 CustomTabBar()

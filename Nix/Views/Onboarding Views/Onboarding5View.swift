@@ -5,6 +5,10 @@ struct Onboarding5View: View {
 
     @State private var hours: Int = 0
     @State private var minutes: Int = 30
+    
+    @State private var weeks : Int = 0
+    @State private var days : Int = 0
+    
     @State private var showHoursPopover = false
     @State private var showMinutesPopover = false
     @EnvironmentObject var userSettings: UserSettings
@@ -55,6 +59,9 @@ struct Onboarding5View: View {
                                     PopoverContentView(maxValue: 24, minValue: 0, step: 1) { value in
                                         hours = value
                                         showHoursPopover = false
+                                        
+                                    }.onDisappear{
+                                        calculateDays()
                                     }
                                 }
                             Text("hr")
@@ -82,17 +89,28 @@ struct Onboarding5View: View {
                                     PopoverContentView(maxValue: 60, minValue: 0, step: 5) { value in
                                         minutes = value
                                         showMinutesPopover = false
+                                        calculateDays()
+                                        print("calculate days", days)
                                     }
+                                    .onDisappear{
+                                        calculateDays()
+                                        print("calculate weeks", weeks)
+                                    }
+                                    
                                 }
                             Text("min")
                                 .font(.largeTitle)
                         }
                     }
                 }
+                .onAppear{
+                    calculateDays()
+                }
                 .padding(.vertical, 20)
                 
-                NavigationLink(destination: Onboarding6View(props:props).onAppear {
+                NavigationLink(destination: Onboarding6View(weeks: weeks, days: days, props:props).onAppear {
                     self.saveMaxUnProdST()
+                    
                 }) {
                     HStack {
                         ArrowButtonView()
@@ -108,6 +126,35 @@ struct Onboarding5View: View {
     private func saveMaxUnProdST() {
         let totalMinutes = (hours * 60) + (minutes)
         userSettings.maxUnProdST = totalMinutes
+    }
+    
+    private func calculateDays() {
+        let currentST = userSettings.unProdST
+        var currentHour = 0
+        let components = currentST.split(separator: " ")
+        
+        // Extra the user's current ST
+        if components.count > 0 {
+            // Further split the numeric part by the hyphen to get the individual digits
+            let rangeComponents = components[0].split(separator: "-")
+            if rangeComponents.count == 2 {
+                // Extract the second digit
+                currentHour = Int(rangeComponents[1]) ?? 0
+                print("Second digit: \(currentHour)")
+                
+            }
+        }
+        // Total Screen Time to be reduced
+        let totalMinutes = (hours * 60) + (minutes)
+        let toReduce = (currentHour * 60) - totalMinutes
+        if toReduce <= 0 {
+            weeks = 0
+            days = 0
+        }else{
+            let totalDays = (toReduce / 30) * 3
+            weeks = Int(totalDays/7)
+            days = totalDays - (weeks * 7)
+        }
     }
 }
 

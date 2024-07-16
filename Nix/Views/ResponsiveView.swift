@@ -16,6 +16,7 @@ struct ResponsiveView<Content:View>: View {
         GeometryReader{geo in
             let height = geo.size.height
             let width = geo.size.width
+            let onboarding = Onboarding(height:height, width: width)
             let dimensValues = CustomDimensValues(height:height, width:width)
             let customFontSize = CustomFontSize(height:height, width:width)
             let padding = Padding(height: height, width: width)
@@ -38,12 +39,14 @@ struct ResponsiveView<Content:View>: View {
                 isSplit: isSplit(),
                 isMaxSplit: isMaxSplit,
                 isAdoptable: isAdoptable,
-                size: size
+                size: size,
+                onBoarding: onboarding
             )
             
             content(properties)
                 .frame(width: size.width, height: size.height)
         }
+        
     }
     func isSplit() -> Bool {
         guard let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene else {return false}
@@ -98,6 +101,7 @@ struct Roundness {
         }
         
     }
+    
 }
 
 struct CustomFontSize {
@@ -142,6 +146,41 @@ struct CustomFontSize {
     }
 }
 
+struct Onboarding {
+    let cornerRadius: CGFloat
+    let textBoxWidth: CGFloat
+    let textBoxHeight: CGFloat
+    init(height:CGFloat, width:CGFloat){
+        let widthToCalculate = height<width ? height : width
+        switch widthToCalculate{
+        case _ where widthToCalculate < 375: // Smaller iPhone sizes
+            cornerRadius = 5
+            textBoxWidth = 330
+            textBoxHeight = 40
+        case _ where widthToCalculate >= 375 && widthToCalculate < 414: // Standard iPhone sizes
+            cornerRadius = 6
+            textBoxWidth = 340
+            textBoxHeight = 50
+        case _ where widthToCalculate >= 414 && widthToCalculate < 768: // Larger iPhones and small iPads
+            cornerRadius = 9
+            textBoxWidth = 340
+            textBoxHeight = 60
+        case _ where widthToCalculate >= 768 && widthToCalculate < 1024: // iPad and small iPad Pro
+            cornerRadius = 11
+            textBoxWidth = 380
+            textBoxHeight = 80
+        case _ where widthToCalculate >= 1024: // Larger iPads and iPad Pro
+            cornerRadius = 13
+            textBoxWidth = 400
+            textBoxHeight = 85
+        default:
+            cornerRadius = 5
+            textBoxWidth = 350
+            textBoxHeight = 50
+        }
+    }
+    
+}
 struct CustomDimensValues {
     let small:CGFloat
     let smallMedium:CGFloat
@@ -211,6 +250,7 @@ struct Properties {
     var isMaxSplit: Bool
     var isAdoptable: Bool
     var size: CGSize
+    var onBoarding: Onboarding
 }
 
 //func getPreviewLayoutProperties(height: CGFloat, width: CGFloat) -> LayoutProperties{

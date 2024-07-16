@@ -74,7 +74,7 @@ struct MainHomepageView: View {
                     .padding(.leading, 5)
                     Spacer()
                     NavigationLink(destination: JourneyMapView()
-                       
+                        .toolbarBackground(Color.clear, for: .navigationBar)
                         .toolbarBackground(.hidden, for: .navigationBar)
                         .onAppear{
                             showTabBar = false

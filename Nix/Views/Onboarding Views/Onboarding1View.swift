@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct Onboarding1View: View {
     var props: Properties
     @State private var animateGradient: Bool = false
@@ -13,86 +12,84 @@ struct Onboarding1View: View {
     private let typingSpeed: TimeInterval = 0.1
 
     var body: some View {
-        ZStack {
-            LinearGradient(colors: [.babyBlue, .lightYellow], startPoint: .topLeading, endPoint: .bottomTrailing)
-                .edgesIgnoringSafeArea(.all)
-                .hueRotation(.degrees(animateGradient ? 35 : 0))
-                .onAppear {
-                    withAnimation(Animation.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
-                        animateGradient.toggle()
+        NavigationStack {
+            ZStack {
+                LinearGradient(colors: [.babyBlue, .lightYellow], startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .edgesIgnoringSafeArea(.all)
+                    .hueRotation(.degrees(animateGradient ? 35 : 0))
+                    .onAppear {
+                        withAnimation(Animation.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
+                            animateGradient.toggle()
+                        }
                     }
+
+                VStack {
+                    Image("vector")
+                        .padding(.top, 50)
+                    Image("vector")
+                        .padding(.top, 20)
+                    Image("vector")
+                        .padding(.top, 20)
+                    Image("vector")
+                        .padding(.top, 20)
+                    Spacer()
                 }
 
-            VStack {
-                Image("vector")
-                    .padding(.top, 50)
-                Image("vector")
-                    .padding(.top, 20)
-                Image("vector")
-                    .padding(.top, 20)
-                Image("vector")
-                    .padding(.top, 20)
-                Spacer()
+                VStack {
+                    Text(" ───── Welcome to Nix  ───── ")
+                        .font(.custom("Montserrat-Regular", size: props.customFontSize.medium))
+                        .foregroundColor(.white)
+                        .shadow(color: .blue, radius: 0.2)
+                        .padding(.top, 80)
+                    Spacer()
+                    VStack(spacing: 0) {
+                        Text("Elevating Your")
+                            .font(.custom("Montserrat-Regular", size: props.customFontSize.extraLarge))
+                            .foregroundStyle(.white)
+                            .lineSpacing(6)
+                            .padding(.horizontal)
+
+                        Text(currentText)
+                            .font(.custom("Nunito-Medium", size: props.customFontSize.large))
+                            .foregroundColor(Color.white.opacity(textOpacity))
+                            .frame(maxWidth: .infinity, minHeight: 100)
+                            .padding(.horizontal)
+
+                    }
+                    .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+                    .onAppear {
+                        animateText()
+                    }
+                    Spacer()
+                    Image("chick")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 260, height: 260)
+                        .offset(y: -30)
+
+                    Text("☆ We're rooting for you! ☆")
+                        .font(.custom("Montserrat-Regular", size: props.customFontSize.medium))
+                        .foregroundColor(.mauve)
+
+                    Spacer()
+                    VStack {
+                        NavigationLink(destination: Onboarding2View(props: props).navigationBarHidden(true).navigationBarBackButtonHidden(true)) {
+                            ButtonView(props: props, text: "GET STARTED")
+                        }
+                        HStack {
+                            Text("Already a member?")
+                            NavigationLink("Login", destination: LoginView(props: props))
+                        }
+                    }
+                    Spacer()
+
+                }
+                .ignoresSafeArea()
+                .navigationBarHidden(true)
             }
-
-            VStack {
-                Text(" ───── Welcome to Nix  ───── ")
-                    .font(.custom("Montserrat-Regular", size: props.customFontSize.medium))
-                    .foregroundColor(.white)
-                    .shadow(color: .blue, radius: 0.2)
-                    .padding(.top, 80)
-                Spacer()
-                VStack(spacing: 0) {
-                    Text("Elevating Your")
-                        .font(.custom("Montserrat-Regular", size: props.customFontSize.extraLarge))
-                        .foregroundStyle(.white)
-//                        .shadow(color: .sky, radius: 3, x: -5, y: 0)
-                        .lineSpacing(6)
-                        .padding(.horizontal)
-
-
-                    Text(currentText)
-                        .font(.custom("Nunito-Medium", size: props.customFontSize.large))
-                        .foregroundColor(Color.white.opacity(textOpacity))
-                        .frame(maxWidth: .infinity, minHeight: 100)
-                        .padding(.horizontal)
-
-                }
-                .frame(width: UIScreen.main.bounds.width, alignment: .leading)
-                .onAppear {
-                    animateText()
-                }
-                Spacer()
-                Image("chick")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 260, height: 260)
-                    .offset(y: -30)
-
-                Text("☆ We're rooting for you! ☆")
-                    .font(.custom("Montserrat-Regular", size: props.customFontSize.medium))
-                    .foregroundColor(.mauve)
-                    
-
-                Spacer()
-                VStack{
-                    NavigationLink(destination: Onboarding2View(props: props)) {
-                        ButtonView(props: props, text: "GET STARTED")
-                        
-                    }
-                    HStack{
-                        Text("Already a member?")
-                        NavigationLink("Login", destination: LoginView(props:props))
-                    }
-                }
-                Spacer()
-                    
+            .onAppear {
+                animate(0)
             }
-            .ignoresSafeArea()
-            .navigationBarHidden(true)
-        }
-        .onAppear {
-            animate(0)
         }
     }
 

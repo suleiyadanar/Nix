@@ -16,7 +16,7 @@ struct Onboarding9View: View {
                 .edgesIgnoringSafeArea(.all)
             VStack {
                 HStack {
-                    Text("Your  Journey \nBegins  Here!")
+                    Text("Your Journey \nBegins  Here!")
                         .font(.largeTitle)
                         .font(.system(size: 45))
                         .fontWeight(.bold)
@@ -24,7 +24,7 @@ struct Onboarding9View: View {
                         .padding(.top, 55)
                         .padding(.leading, 35)
                         .overlay(
-                            Text("Your  Journey \nBegins  Here!")
+                            Text("Your Journey \nBegins  Here!")
                                 .font(.largeTitle)
                                 .font(.system(size: 45))
                                 .fontWeight(.bold)
@@ -36,6 +36,7 @@ struct Onboarding9View: View {
                             )
                     Spacer()
                 }
+                JourneyMapView().cornerRadius(25)
                 Spacer()
                 
                 NavigationLink (destination: RegisterView(props:props) ) { // temp arrow button to next page
