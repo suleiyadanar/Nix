@@ -402,76 +402,84 @@ struct RulesTabView: View {
 
 struct ScheduleTabView: View {
     let scheduleItems: [ScheduleItem] = [
-        ScheduleItem(startTime: "10:00am", endTime: "11:00am", title: "Morning study session", details: "10 apps blocked", color: .bubble, appsBlocked: 10, hasAlarm: false, isSuggested: false),
+        ScheduleItem(startTime: "1:00am", endTime: "11:00am", title: "Morning study session", details: "10 apps blocked", color: .bubble, appsBlocked: 10, hasAlarm: false, isSuggested: false),
         ScheduleItem(startTime: "11:00am", endTime: "01:00pm", title: "Study for Calculus Test", details: "23 apps blocked", color: .lav, appsBlocked: 23, hasAlarm: true, isSuggested: false),
         ScheduleItem(startTime: "03:00pm", endTime: "04:00pm", title: "Academic Advisor Meeting", details: "Add", color: .bubble, appsBlocked: 0, hasAlarm: false, isSuggested: true)
     ]
-    @State private var selectedDate = Date()
+    
     @State private var currentWeekOffset = 0
-    @State private var isDatePickerVisible = false
-
+    @State private var initialScrollDone = false
+    
     var body: some View {
         VStack {
             HStack {
-                VStack{
+                VStack {
                     Text("Today's Schedule")
                         .font(.system(size: 20))
                     Spacer()
-                    WeeklySnapScrollView( currentWeekOffset: $currentWeekOffset)
+                    WeeklySnapScrollView(currentWeekOffset: $currentWeekOffset)
                 }
             }
             .padding(.bottom, 5)
             
-            ScrollView {
-                ZStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 50) {
-                        ForEach(10..<19) { hour in
-                            HStack {
-                                TimeStampView(hour: hour)
-                                Image("scheduleline")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(maxWidth: 265)
-                                Spacer()
+            ScrollViewReader { scrollViewProxy in
+                ScrollView {
+                    ZStack(alignment: .top) {
+                        VStack(alignment: .leading, spacing: 50) {
+                            ForEach(0..<24) { hour in
+                                HStack {
+                                    TimeStampView(hour: hour)
+                                    Image("scheduleline")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(maxWidth: 265)
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 16)
+                                .id(hour) // Add an ID to each hour for scrolling
                             }
                         }
-                    }
-                    .padding(.leading, 16)
-                    .padding(.trailing, 12)
-                    
-                    ZStack(alignment: .top) {
-                        ForEach(scheduleItems) { item in
-                            ScheduleRow(item: item)
-                                .padding(.horizontal)
-                                .offset(y: CGFloat((timeStringToInt(item.startTime) - 10)) * 68) // aligns it with correct start time
-                                .padding(11)
-                                .padding(.leading, 12)
-                        }
+                        .padding(.leading, 16)
                         
-                        // blue line indicator
-                        let currentTimeY = CGFloat((timeStringToInt(currentTimeString()) - 10)) * 68 + currentMinuteOffset()
-                        ZStack(alignment: .leading) {
-                            Rectangle()
-                                .fill(Color.sky)
-                                .frame(width: 260, height: 1.5)
-                            Circle()
-                                .fill(Color.blue)
-                                .frame(width: 8, height: 8)
-                                .offset(x: -4) // Move the circle to the left to center it on the line
+                        ZStack(alignment: .top) {
+                            ForEach(scheduleItems) { item in
+                                ScheduleRow(item: item)
+                                    .padding(.horizontal)
+                                    .offset(y: CGFloat(timeStringToInt(item.startTime)) * 68)
+                                    .padding(11)
+                                    .padding(.leading, 12)
+                            }
+                            
+                            // Blue line indicator
+                            let currentTimeY = CGFloat(timeStringToInt(currentTimeString())) * 68 + currentMinuteOffset()
+                            ZStack(alignment: .leading) {
+                                Rectangle()
+                                    .fill(Color.sky)
+                                    .frame(width: 260, height: 1.5)
+                                Circle()
+                                    .fill(Color.blue)
+                                    .frame(width: 8, height: 8)
+                                    .offset(x: -4) // Center the circle on the line
+                            }
+                            .offset(y: currentTimeY)
+                            .padding(.leading, 35)
                         }
-                        .offset(y: currentTimeY)
-                        .padding(.leading, 35)
-
+                        .padding(.leading, 40)
                     }
-                    .padding(.leading, 40)
+                    .background(
+                        GeometryReader { geometry in
+                            Color.clear.onAppear {
+                                if !initialScrollDone {
+                                    let currentHour = timeStringToInt(currentTimeString())
+                                    scrollViewProxy.scrollTo(currentHour, anchor: .center)
+                                    initialScrollDone = true
+                                }
+                            }
+                        }
+                    )
                 }
             }
         }
-    }
-    func selectedMonthDateText(for date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM d, yyyy"
-        return dateFormatter.string(from: date)
     }
     
     private func timeStringToInt(_ time: String) -> Int {
