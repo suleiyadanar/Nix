@@ -73,7 +73,7 @@ struct MainHomepageView: View {
                     }
                     .padding(.leading, 5)
                     Spacer()
-                    NavigationLink(destination: JourneyMapView()
+                    NavigationLink(destination: JourneyMapView(days:3, unlockedDays: 1)
                         .toolbarBackground(Color.clear, for: .navigationBar)
                         .toolbarBackground(.hidden, for: .navigationBar)
                         .onAppear{

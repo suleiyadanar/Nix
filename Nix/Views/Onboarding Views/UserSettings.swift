@@ -13,6 +13,7 @@ class UserSettings: ObservableObject {
     @Published var goals: [String] = []
     @Published var unProdST: String = ""
     @Published var maxUnProdST: Int = 0
+    @Published var totalDays: Int = 0
     @Published var ready: Bool = false
 }
 

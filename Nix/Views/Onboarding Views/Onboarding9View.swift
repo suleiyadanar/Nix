@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Onboarding9View: View {
     var props: Properties
+    @EnvironmentObject var userSettings: UserSettings
 
     var body: some View {
         ZStack {
@@ -36,13 +37,18 @@ struct Onboarding9View: View {
                             )
                     Spacer()
                 }
-                JourneyMapView().cornerRadius(25)
+                JourneyMapView(days: userSettings.totalDays, unlockedDays: 1)
+                    .cornerRadius(25)
+                    .onAppear{
+                        print("printing days:\(userSettings.totalDays)")
+                    }
+                    
+                              
                 Spacer()
                 
                 NavigationLink (destination: RegisterView(props:props) ) { // temp arrow button to next page
                     HStack {
                         Spacer()
-                        Text("temp arrow button lolz")
                         ArrowButtonView()
                             .padding(.trailing, 35)
                             .padding(.bottom, 40)

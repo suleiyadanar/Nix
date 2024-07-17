@@ -11,8 +11,8 @@ import Foundation
 
 struct Onboarding6View: View {
     var props: Properties
-    var userSettings = UserSettings()
-    
+    @EnvironmentObject var userSettings: UserSettings
+
     @State private var weeks : Int
     @State private var days : Int
     @State private var showChangeDuration: Bool
@@ -110,6 +110,8 @@ struct Onboarding6View: View {
                         Spacer()
                         ArrowButtonView()
                             .padding(.trailing, 20)
+                    }.onAppear{
+                        userSettings.totalDays = days + weeks * 7
                     }
                 }
                 Spacer()

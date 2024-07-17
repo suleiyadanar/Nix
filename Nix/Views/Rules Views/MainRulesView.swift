@@ -68,6 +68,7 @@ struct MainRulesView: View {
         .padding(.bottom, 60)
         
     }
+    
 }
 
 struct RulesTabView: View {
@@ -405,29 +406,18 @@ struct ScheduleTabView: View {
         ScheduleItem(startTime: "11:00am", endTime: "01:00pm", title: "Study for Calculus Test", details: "23 apps blocked", color: .lav, appsBlocked: 23, hasAlarm: true, isSuggested: false),
         ScheduleItem(startTime: "03:00pm", endTime: "04:00pm", title: "Academic Advisor Meeting", details: "Add", color: .bubble, appsBlocked: 0, hasAlarm: false, isSuggested: true)
     ]
-    
+    @State private var selectedDate = Date()
+    @State private var currentWeekOffset = 0
+    @State private var isDatePickerVisible = false
+
     var body: some View {
         VStack {
             HStack {
-                Text("Today's Schedule")
-                    .font(.system(size: 20))
-                Spacer()
-                HStack(spacing: 10) {
-                    Button(action: {
-                        // Action for the previous day
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.black)
-                    }
-                    Text("June 5")  // Replace this with dynamic date if needed
-                        .font(.subheadline)
-                        .foregroundColor(.black)
-                    Button(action: {
-                        // Action for the next day
-                    }) {
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.black)
-                    }
+                VStack{
+                    Text("Today's Schedule")
+                        .font(.system(size: 20))
+                    Spacer()
+                    WeeklySnapScrollView( currentWeekOffset: $currentWeekOffset)
                 }
             }
             .padding(.bottom, 5)
@@ -477,6 +467,11 @@ struct ScheduleTabView: View {
                 }
             }
         }
+    }
+    func selectedMonthDateText(for date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM d, yyyy"
+        return dateFormatter.string(from: date)
     }
     
     private func timeStringToInt(_ time: String) -> Int {
@@ -529,3 +524,205 @@ func formatTime(_ timeInterval: TimeInterval) -> String {
 //#Preview {
 ////    MainRulesView(userId: "Grace", viewModel: RulesViewViewModel(userId: userId))
 //}
+struct WeeklySnapScrollView: View {
+    @State private var isShowingDatePicker = false
+    @State private var selectedDate: Date = Date()
+    @Binding var currentWeekOffset: Int
+
+    var body: some View {
+        HStack {
+            VStack (alignment: .leading) {
+                selectedMonthYearText(for: selectedDate)
+                    .font(.subheadline)
+                    .foregroundColor(.black)
+                
+                TabView(selection: $currentWeekOffset) {
+                    ForEach(-52...52, id: \.self) { offset in
+                        let weekStartDate = Calendar.current.date(byAdding: .weekOfYear, value: offset, to: startOfCurrentWeek)!
+                        WeeklyView(selectedDate: $selectedDate, weekStartDate: weekStartDate)
+                            .tag(offset)
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle())
+                .onChange(of: currentWeekOffset) { newValue in
+                    var newDate = Calendar.current.date(byAdding: .weekOfYear, value: newValue, to: startOfCurrentWeek) ?? Date()
+                    if Calendar.current.component(.weekday, from: newDate) == 1 {
+                        newDate = Calendar.current.date(byAdding: .day, value: 1, to: newDate) ?? newDate
+                    }
+//                    selectedDate = newDate
+                }
+            }
+            
+            HStack(spacing: 10) {
+//                Button(action: {
+//                    currentWeekOffset -= 1
+//                }) {
+//                    Image(systemName: "chevron.left")
+//                        .foregroundColor(.black)
+//                }
+                
+                Button(action: {
+                    isShowingDatePicker.toggle()
+                }) {
+                    Image(systemName: "calendar")
+                        .foregroundColor(.black)
+                }
+                .sheet(isPresented: $isShowingDatePicker) {
+                    CalendarPicker(selectedDate: $selectedDate, currentWeekOffset: $currentWeekOffset)
+                }
+                
+//                Text("\(selectedMonthDateText(for: selectedDate))")
+//                    .font(.subheadline)
+//                    .foregroundColor(.black)
+                
+//                Button(action: {
+//                    currentWeekOffset += 1
+//                }) {
+//                    Image(systemName: "chevron.right")
+//                        .foregroundColor(.black)
+//                }
+            }
+            .padding()
+        }
+    }
+
+    var startOfCurrentWeek: Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date())
+        return calendar.date(from: components) ?? Date()
+    }
+    
+    func selectedMonthDateText(for date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM d"
+        return dateFormatter.string(from: date)
+    }
+    
+    func selectedMonthYearText(for date: Date) -> some View {
+        let month = Text(date, formatter: monthFormatter)
+            .font(.subheadline)
+            .bold()
+            .foregroundColor(.black)
+        let year = Text(date, formatter: yearFormatter)
+            .font(.subheadline)
+            .foregroundColor(.black)
+        
+        return Text("\(month) \(year)")
+    }
+
+    private let monthFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM"
+        return formatter
+    }()
+
+    private let yearFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        return formatter
+    }()
+}
+
+
+struct WeeklyView: View {
+    @Binding var selectedDate: Date
+    let weekStartDate: Date
+
+    var body: some View {
+        let days = daysInWeek(for: weekStartDate)
+
+        HStack(spacing: 10) {
+            ForEach(days, id: \.self) { date in
+                VStack {
+                    Text(dayOfWeek(for: date))
+                        .font(.caption)
+                    Text("\(dayOfMonth(for: date))")
+                        .font(.headline)
+                }
+                .padding()
+                .background(
+                    Group {
+                        if isSameDay(date1: date, date2: selectedDate) {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(Color.black)
+                        } else if isToday(date: date) {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(selectedDate == date ? Color.black : Color.babyBlue)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.mauve, style: StrokeStyle(lineWidth: 3, dash: [5]))
+                                )
+                        } else {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(Color.clear)
+                        }
+                    }
+                )
+                .foregroundColor(
+                    isSameDay(date1: date, date2: selectedDate) ? Color.white : Color.black
+                )
+                .cornerRadius(10)
+                .onTapGesture {
+                    selectedDate = date
+                }
+            }
+        }
+        .padding(.horizontal)
+    }
+
+    func daysInWeek(for startDate: Date) -> [Date] {
+        var days: [Date] = []
+        let calendar = Calendar.current
+        let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: startDate)?.start ?? startDate
+
+        for i in 0..<7 {
+            if let day = calendar.date(byAdding: .day, value: i, to: startOfWeek) {
+                days.append(day)
+            }
+        }
+        return days
+    }
+
+    func dayOfWeek(for date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE"
+        return dateFormatter.string(from: date)
+    }
+
+    func dayOfMonth(for date: Date) -> Int {
+        let calendar = Calendar.current
+        return calendar.component(.day, from: date)
+    }
+
+    func isSameDay(date1: Date, date2: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(date1, inSameDayAs: date2)
+    }
+
+    func isToday(date: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDateInToday(date)
+    }
+}
+
+
+struct CalendarPicker: View {
+    @Binding var selectedDate: Date
+    @Binding var currentWeekOffset: Int
+
+    var body: some View {
+        VStack {
+            DatePicker("", selection: $selectedDate, displayedComponents: .date)
+                .datePickerStyle(GraphicalDatePickerStyle())
+                .padding()
+                .onChange(of: selectedDate) { _ in
+                    let calendar = Calendar.current
+                    let currentDate = calendar.startOfDay(for: Date())
+                    let selectedStartOfWeek = calendar.dateInterval(of: .weekOfYear, for: selectedDate)?.start ?? selectedDate
+                    let currentStartOfWeek = calendar.dateInterval(of: .weekOfYear, for: currentDate)?.start ?? currentDate
+                    let weeksOffset = calendar.dateComponents([.weekOfYear], from: currentStartOfWeek, to: selectedStartOfWeek).weekOfYear ?? 0
+                    currentWeekOffset = weeksOffset
+                }
+        }
+    }
+}
