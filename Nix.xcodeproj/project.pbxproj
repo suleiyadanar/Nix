@@ -13,6 +13,7 @@
 		3B15E3BA2C46B40B000134DD /* RuleSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B15E3B92C46B40B000134DD /* RuleSettingsView.swift */; };
 		3B15E3BC2C49A01F000134DD /* MainBlockedAppsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B15E3BB2C49A01F000134DD /* MainBlockedAppsView.swift */; };
 		3B15E3BE2C49A36F000134DD /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B15E3BD2C49A36F000134DD /* SaveButtonView.swift */; };
+		3B15E3C02C49B786000134DD /* TimeOutSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B15E3BF2C49B786000134DD /* TimeOutSettingsView.swift */; };
 		3B2BB18F2C1D66DC00E08E77 /* MainHomepageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */; };
 		3B2BB1912C1D672200E08E77 /* ScreenTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */; };
 		3B3222082BB0C4990037FE2D /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3222072BB0C4990037FE2D /* EditProfileView.swift */; };
@@ -215,6 +216,7 @@
 		3B15E3B92C46B40B000134DD /* RuleSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleSettingsView.swift; sourceTree = "<group>"; };
 		3B15E3BB2C49A01F000134DD /* MainBlockedAppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBlockedAppsView.swift; sourceTree = "<group>"; };
 		3B15E3BD2C49A36F000134DD /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
+		3B15E3BF2C49B786000134DD /* TimeOutSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutSettingsView.swift; sourceTree = "<group>"; };
 		3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainHomepageView.swift; sourceTree = "<group>"; };
 		3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTimeView.swift; sourceTree = "<group>"; };
 		3B3222072BB0C4990037FE2D /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				3B15E3B92C46B40B000134DD /* RuleSettingsView.swift */,
 				3B15E3BB2C49A01F000134DD /* MainBlockedAppsView.swift */,
 				3B15E3BD2C49A36F000134DD /* SaveButtonView.swift */,
+				3B15E3BF2C49B786000134DD /* TimeOutSettingsView.swift */,
 			);
 			path = "Rules Views";
 			sourceTree = "<group>";
@@ -1019,6 +1022,7 @@
 				3F7234CD2B86CAF70095EA42 /* PomodoroViewViewModel.swift in Sources */,
 				3BCBF7A92C0A41BA00F7532B /* Onboarding2View.swift in Sources */,
 				3B32221A2BB0C51A0037FE2D /* DataSaverView.swift in Sources */,
+				3B15E3C02C49B786000134DD /* TimeOutSettingsView.swift in Sources */,
 				3B3222082BB0C4990037FE2D /* EditProfileView.swift in Sources */,
 				3B32220E2BB0C4CE0037FE2D /* NotificationsView.swift in Sources */,
 				3F7234DE2B86CAF70095EA42 /* RegisterView.swift in Sources */,
