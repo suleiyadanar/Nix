@@ -28,31 +28,33 @@ struct RuleSettingsView: View {
             }
             .padding(.top, 10)
             
-            HStack {
-                VStack (spacing: 5){
-                    HStack {
-                        Text("Blocked Apps")
-                            .font(.system(size:15))
-                            .fontWeight(.semibold)
-                        Spacer()
+            NavigationLink(destination: MainBlockedAppsView()) {
+                HStack {
+                    VStack (spacing: 5){
+                        HStack {
+                            Text("Blocked Apps")
+                                .font(.system(size:15))
+                                .fontWeight(.semibold)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("Distracting Apps")
+                                .font(.system(size: 15))
+                            Text("10 apps blocked")
+                                .font(.system(size: 12))
+                            Spacer()
+                            
+                        }
                     }
-                    HStack {
-                        Text("Distracting Apps")
-                            .font(.system(size: 15))
-                        Text("10 apps blocked")
-                            .font(.system(size: 12))
-                        Spacer()
-                        
+                    Button(action: {}) {
+                        Image("pencil-icon")
                     }
                 }
-                Button(action: {}) {
-                    Image("pencil-icon")
-                }
+                .padding(13)
+                .background(Color.mango)
+                .cornerRadius(8)
+                .padding(.bottom, 5)
             }
-            .padding(13)
-            .background(Color.mango)
-            .cornerRadius(8)
-            .padding(.bottom, 5)
             
             
             HStack {
@@ -196,6 +198,7 @@ struct RuleSettingsView: View {
                             .foregroundColor(.white)
                     }
                     Text("hr")
+                        .fontWeight(.medium)
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(Color.lemon)
@@ -204,6 +207,7 @@ struct RuleSettingsView: View {
                             .foregroundColor(.white)
                     }
                     Text("min")
+                        .fontWeight(.medium)
                 }
             }
             
@@ -226,12 +230,7 @@ struct RuleSettingsView: View {
             HStack {
                 Spacer()
                 Button(action: {}) {
-                    Text("SAVE")
-                        .padding(12)
-                        .frame(width: 80)
-                        .background(Color.purple)
-                        .cornerRadius(8)
-                        .foregroundColor(.white)
+                    SaveButtonView()
                 }
                 Spacer()
             }

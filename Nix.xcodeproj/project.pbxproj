@@ -11,6 +11,8 @@
 		3B0DB69A2C38943C00EFFBE4 /* MainPomodoroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0DB6992C38943C00EFFBE4 /* MainPomodoroView.swift */; };
 		3B0DE7A82C1E26FF00C8137A /* MainRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */; };
 		3B15E3BA2C46B40B000134DD /* RuleSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B15E3B92C46B40B000134DD /* RuleSettingsView.swift */; };
+		3B15E3BC2C49A01F000134DD /* MainBlockedAppsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B15E3BB2C49A01F000134DD /* MainBlockedAppsView.swift */; };
+		3B15E3BE2C49A36F000134DD /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B15E3BD2C49A36F000134DD /* SaveButtonView.swift */; };
 		3B2BB18F2C1D66DC00E08E77 /* MainHomepageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */; };
 		3B2BB1912C1D672200E08E77 /* ScreenTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */; };
 		3B3222082BB0C4990037FE2D /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3222072BB0C4990037FE2D /* EditProfileView.swift */; };
@@ -211,6 +213,8 @@
 		3B0DB6992C38943C00EFFBE4 /* MainPomodoroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPomodoroView.swift; sourceTree = "<group>"; };
 		3B0DE7A72C1E26FE00C8137A /* MainRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRulesView.swift; sourceTree = "<group>"; };
 		3B15E3B92C46B40B000134DD /* RuleSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleSettingsView.swift; sourceTree = "<group>"; };
+		3B15E3BB2C49A01F000134DD /* MainBlockedAppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBlockedAppsView.swift; sourceTree = "<group>"; };
+		3B15E3BD2C49A36F000134DD /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
 		3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainHomepageView.swift; sourceTree = "<group>"; };
 		3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTimeView.swift; sourceTree = "<group>"; };
 		3B3222072BB0C4990037FE2D /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
@@ -441,6 +445,8 @@
 				3FF59BC82B8F99A400428DBB /* NewRuleItemView.swift */,
 				3F86B2E12BA32DD200F39E9B /* EditRuleItemView.swift */,
 				3B15E3B92C46B40B000134DD /* RuleSettingsView.swift */,
+				3B15E3BB2C49A01F000134DD /* MainBlockedAppsView.swift */,
+				3B15E3BD2C49A36F000134DD /* SaveButtonView.swift */,
 			);
 			path = "Rules Views";
 			sourceTree = "<group>";
@@ -1021,6 +1027,7 @@
 				3BCBF7B62C0AE7FE00F7532B /* Onboarding3View.swift in Sources */,
 				3F7234B22B86CAD80095EA42 /* RuleItem.swift in Sources */,
 				3BCBF7AD2C0A433D00F7532B /* ArrowButtonView.swift in Sources */,
+				3B15E3BE2C49A36F000134DD /* SaveButtonView.swift in Sources */,
 				3FB2342A2B889A82007894D5 /* GoogleCalendarViewViewModel.swift in Sources */,
 				3F7234E22B86CAF70095EA42 /* ResponsiveView.swift in Sources */,
 				3BCBF7BA2C0D5A8000F7532B /* Onboarding4View.swift in Sources */,
@@ -1050,6 +1057,7 @@
 				3F9EB4E42C1029AC0019200C /* NewBlockedAppsView.swift in Sources */,
 				3F7234CF2B86CAF70095EA42 /* RulesViewViewModel.swift in Sources */,
 				3F86B2E22BA32DD200F39E9B /* EditRuleItemView.swift in Sources */,
+				3B15E3BC2C49A01F000134DD /* MainBlockedAppsView.swift in Sources */,
 				3F312BAE2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift in Sources */,
 				3F7B97192B87116F00F465D2 /* DataExtension.swift in Sources */,
 				3B9E90B32C2FD13800C202EF /* ScheduleRow.swift in Sources */,
