@@ -17,7 +17,8 @@ struct ProfileView: View {
     @State var settingsView: Bool = false
     
     var body: some View {
-        NavigationView {
+        CalendarView()
+        NavigationStack {
             VStack {
                 if let user = viewModel.user {
                     profile(user: user)

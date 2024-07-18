@@ -401,15 +401,11 @@ struct RulesTabView: View {
 //}
 
 struct ScheduleTabView: View {
-    let scheduleItems: [ScheduleItem] = [
-        ScheduleItem(startTime: "1:00am", endTime: "11:00am", title: "Morning study session", details: "10 apps blocked", color: .bubble, appsBlocked: 10, hasAlarm: false, isSuggested: false),
-        ScheduleItem(startTime: "11:00am", endTime: "01:00pm", title: "Study for Calculus Test", details: "23 apps blocked", color: .lav, appsBlocked: 23, hasAlarm: true, isSuggested: false),
-        ScheduleItem(startTime: "03:00pm", endTime: "04:00pm", title: "Academic Advisor Meeting", details: "Add", color: .bubble, appsBlocked: 0, hasAlarm: false, isSuggested: true)
-    ]
-    
     @State private var currentWeekOffset = 0
     @State private var initialScrollDone = false
-    
+    @State private var selectedDate: Date = Date()
+    @State private var scheduleItems: [ScheduleItem] = []
+
     var body: some View {
         VStack {
             HStack {
@@ -417,11 +413,31 @@ struct ScheduleTabView: View {
                     Text("Today's Schedule")
                         .font(.system(size: 20))
                     Spacer()
-                    WeeklySnapScrollView(currentWeekOffset: $currentWeekOffset)
+                    WeeklySnapScrollView(selectedDate: $selectedDate, currentWeekOffset: $currentWeekOffset)
                 }
             }
             .padding(.bottom, 5)
-            
+
+            VStack {
+                Text("Selected Date: \(formattedDate(selectedDate))")
+                    .font(.headline)
+                Text("This is the area")
+                    .font(.subheadline)
+            }
+            .onAppear {
+                scheduleItems = generateScheduleItems(selectedDate: selectedDate)
+            }
+            .onChange(of: selectedDate) { newDate in
+                           scheduleItems = generateScheduleItems(selectedDate: newDate)
+                           if !isDateInCurrentWeek(date: newDate) {
+                               print("not date in current week")
+                               print(newDate)
+                               currentWeekOffset = calculateWeekOffset(from: newDate)
+                               print(calculateWeekOffset(from: newDate))
+                           }
+                       }
+            .padding()
+
             ScrollViewReader { scrollViewProxy in
                 ScrollView {
                     ZStack(alignment: .top) {
@@ -439,8 +455,10 @@ struct ScheduleTabView: View {
                                 .id(hour) // Add an ID to each hour for scrolling
                             }
                         }
+                        // need this background for swipe to work
+                        .background(Color.white)
                         .padding(.leading, 16)
-                        
+
                         ZStack(alignment: .top) {
                             ForEach(scheduleItems) { item in
                                 ScheduleRow(item: item)
@@ -449,7 +467,7 @@ struct ScheduleTabView: View {
                                     .padding(11)
                                     .padding(.leading, 12)
                             }
-                            
+
                             // Blue line indicator
                             let currentTimeY = CGFloat(timeStringToInt(currentTimeString())) * 68 + currentMinuteOffset()
                             ZStack(alignment: .leading) {
@@ -477,11 +495,144 @@ struct ScheduleTabView: View {
                             }
                         }
                     )
+                    .gesture(
+                        DragGesture()
+                            .onEnded { value in
+                                if value.translation.width < -50 {
+                                    // Swiped left
+                                    selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? selectedDate
+                                } else if value.translation.width > 50 {
+                                    // Swiped right
+                                    selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? selectedDate
+                                }
+                            }
+                    )
                 }
             }
         }
     }
     
+    private func isDateInCurrentWeek(date: Date) -> Bool {
+           let calendar = Calendar.current
+           let startOfWeek = calendar.date(byAdding: .day, value: currentWeekOffset * 7, to: startOfCurrentWeek())!
+           let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek)!
+           return calendar.isDate(date, inSameDayAs: startOfWeek) || calendar.isDate(date, inSameDayAs: endOfWeek) || (date > startOfWeek && date < endOfWeek)
+       }
+
+    private func calculateWeekOffset(from date: Date) -> Int {
+        let calendar = Calendar.current
+        
+        // Get the current date and adjust to the start of the week
+        let currentDate = Date()
+        let startOfCurrentWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: currentDate)) ?? currentDate
+        
+        let startOfNewDateWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)) ?? date
+        
+        // Calculate the number of weeks between startOfCurrentWeek and the given date
+        
+        let weeksBetween = calendar.dateComponents([.weekOfYear], from: startOfCurrentWeek, to: startOfNewDateWeek).weekOfYear ?? 0
+//
+//        print("Start of current week:", startOfCurrentWeek)
+//        print("To date:", date)
+//        print("Weeks between:", weeksBetween)
+
+        return weeksBetween
+    }
+
+       private func startOfCurrentWeek() -> Date {
+           let calendar = Calendar.current
+           let now = Date()
+           let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
+           return calendar.date(from: components)!
+       }
+    func generateScheduleItems(selectedDate: Date) -> [ScheduleItem] {
+        var scheduleItems: [ScheduleItem] = []
+        let center = DeviceActivityCenter()
+        let activities = center.activities
+        let calendar = Calendar.current
+
+        print("Selected Date:", selectedDate)
+
+        for activity in activities {
+            if let schedule = center.schedule(for: activity) {
+                let intervalStart = schedule.intervalStart
+                let intervalEnd = schedule.intervalEnd
+
+                print("Activity:", activity.rawValue)
+                print("Interval Start:", intervalStart)
+                print("Interval End:", intervalEnd)
+
+                // Create date components from selectedDate
+                let selectedDateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+
+                // Combine selectedDate's components with intervalStart's time components
+                var combinedComponents = DateComponents()
+                combinedComponents.year = selectedDateComponents.year
+                combinedComponents.month = selectedDateComponents.month
+                combinedComponents.day = selectedDateComponents.day
+                combinedComponents.hour = intervalStart.hour
+                combinedComponents.minute = intervalStart.minute
+
+                // Create a date from combined components
+                if let scheduledDate = calendar.date(from: combinedComponents) {
+                    print("Scheduled Date:", scheduledDate)
+
+                    // Compare if the scheduled date is on the same day as selectedDate
+                    if calendar.isDate(selectedDate, inSameDayAs: scheduledDate) {
+                        print("Match found for selectedDate:", selectedDate)
+
+                        // Perform your logic here if the dates match
+                        if let startTime = formatTime(from: intervalStart),
+                           let endTime = formatTime(from: intervalEnd) {
+
+                            let scheduleItem = ScheduleItem(
+                                startTime: startTime,
+                                endTime: endTime,
+                                title: activity.rawValue,
+                                details: "", // Add your details if needed
+                                color: Color.blue, // Replace with your desired color
+                                appsBlocked: 3, // Adjust based on your requirements
+                                hasAlarm: false, // Adjust based on your requirements
+                                isSuggested: true // Adjust based on your requirements
+                            )
+
+                            // Add the scheduleItem to the array
+                            scheduleItems.append(scheduleItem)
+                        }
+                    }
+                }
+            }
+        }
+
+        print("Final Schedule Items:", scheduleItems)
+
+        return scheduleItems
+    }
+
+    func formatTime(from components: DateComponents) -> String? {
+        // Create a DateFormatter to format the time
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+
+        // Create a base date (e.g., today's date) to combine with components
+        let baseDate = Date()
+
+        // Convert DateComponents to Date
+        if let date = Calendar.current.date(from: components) {
+            // Format the Date to string
+            let dateString = dateFormatter.string(from: date)
+            return dateString
+        } else {
+            return nil
+        }
+    }
+
+    private func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: date)
+    }
+
     private func timeStringToInt(_ time: String) -> Int {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mma"
@@ -489,13 +640,13 @@ struct ScheduleTabView: View {
         let calendar = Calendar.current
         return calendar.component(.hour, from: date)
     }
-    
+
     private func currentTimeString() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mma"
         return dateFormatter.string(from: Date())
     }
-    
+
     private func currentMinuteOffset() -> CGFloat {
         let calendar = Calendar.current
         let minutes = calendar.component(.minute, from: Date())
@@ -534,15 +685,15 @@ func formatTime(_ timeInterval: TimeInterval) -> String {
 //}
 struct WeeklySnapScrollView: View {
     @State private var isShowingDatePicker = false
-    @State private var selectedDate: Date = Date()
+    @Binding var selectedDate: Date // Binding for selected date
     @Binding var currentWeekOffset: Int
 
     var body: some View {
         HStack {
             VStack (alignment: .leading) {
-                selectedMonthYearText(for: selectedDate)
-                    .font(.subheadline)
-                    .foregroundColor(.black)
+                selectedMonthYearText(for: weekStartDate(for: currentWeekOffset))
+                                    .font(.subheadline)
+                                    .foregroundColor(.black)
                 
                 TabView(selection: $currentWeekOffset) {
                     ForEach(-52...52, id: \.self) { offset in
@@ -557,6 +708,9 @@ struct WeeklySnapScrollView: View {
                     if Calendar.current.component(.weekday, from: newDate) == 1 {
                         newDate = Calendar.current.date(byAdding: .day, value: 1, to: newDate) ?? newDate
                     }
+                    if !isDateInCurrentWeek(date: newDate) {
+                                   currentWeekOffset = calculateWeekOffset(from: newDate)
+                               }
 //                    selectedDate = newDate
                 }
             }
@@ -593,7 +747,26 @@ struct WeeklySnapScrollView: View {
             .padding()
         }
     }
+    private func isDateInCurrentWeek(date: Date) -> Bool {
+           let calendar = Calendar.current
+           let startOfWeek = calendar.date(byAdding: .weekOfYear, value: currentWeekOffset, to: startOfCurrWeek())!
+           let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek)!
+        print(calendar.isDate(date, inSameDayAs: startOfWeek) || calendar.isDate(date, inSameDayAs: endOfWeek) || (date > startOfWeek && date < endOfWeek))
+           return calendar.isDate(date, inSameDayAs: startOfWeek) || calendar.isDate(date, inSameDayAs: endOfWeek) || (date > startOfWeek && date < endOfWeek)
+       }
 
+       private func calculateWeekOffset(from date: Date) -> Int {
+           let calendar = Calendar.current
+           let startOfCurrentWeek = self.startOfCurrWeek()
+           let weeksBetween = calendar.dateComponents([.weekOfYear], from: startOfCurrentWeek, to: date).weekOfYear ?? 0
+           return weeksBetween
+       }
+    private func startOfCurrWeek() -> Date {
+            let calendar = Calendar.current
+            let now = Date()
+            let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
+            return calendar.date(from: components)!
+        }
     var startOfCurrentWeek: Date {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date())
@@ -605,7 +778,9 @@ struct WeeklySnapScrollView: View {
         dateFormatter.dateFormat = "MMMM d"
         return dateFormatter.string(from: date)
     }
-    
+    func weekStartDate(for offset: Int) -> Date {
+        return Calendar.current.date(byAdding: .weekOfYear, value: offset, to: startOfCurrentWeek) ?? Date()
+    }
     func selectedMonthYearText(for date: Date) -> some View {
         let month = Text(date, formatter: monthFormatter)
             .font(.subheadline)
