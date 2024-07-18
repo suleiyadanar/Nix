@@ -58,6 +58,12 @@ struct MainBlockedAppsView: View {
             
             Spacer()
             
+            Button(action: {
+                isPresented = false
+            }) {
+                SaveButtonView()
+            }
+            
         }
         .padding(15)
         .padding(.horizontal, 10)
@@ -78,11 +84,11 @@ struct AppGroupsView: View {
                 }
                 .padding(10)
                 .foregroundStyle(Color.mauve)
+                .font(.system(size: 15))
                 .fontWeight(.semibold)
                 .background(Color.lemon)
-                .cornerRadius(25)
+                .cornerRadius(20)
             }
-            .padding(.bottom, 10)
         }
         
         VStack(spacing: 10) {
@@ -96,7 +102,7 @@ struct AppGroupsView: View {
                     Text("5 apps blocked")
                         .foregroundStyle(Color.black)
                 }
-                .padding()
+                .padding(12)
                 .background(Color.lemon)
                 .cornerRadius(15)
             }
@@ -111,7 +117,7 @@ struct AppGroupsView: View {
                     Text("12 apps blocked")
                         .foregroundStyle(Color.black)
                 }
-                .padding()
+                .padding(12)
                 .background(Color.gray.opacity(0.3))
                 .cornerRadius(15)
             }
