@@ -19,11 +19,12 @@ struct TimeOutSettingsView: View {
                         .resizable()
                         .frame(width: 24, height: 24)
                 }
+                            
+                Text("Time Out")
+                    .font(.system(size: 27))
+                    .padding(.leading, 15)
                 
                 Spacer()
-                
-                Text("Time Out")
-                    .font(.system(size: 30))
     
             }
             .padding(10)
@@ -60,8 +61,8 @@ struct TimeOutSettingsView: View {
                     TimeOutButton(title: "1 hour", selected: $selectedDelay)
                 }
             }
-            .padding(.vertical, 10)
-            .offset(y: -5)
+            .padding(.bottom, 10)
+
             
             Text("Length of Time Outs")
                 .font(.headline)
@@ -73,8 +74,9 @@ struct TimeOutSettingsView: View {
                 TimeOutButton(title: "30 mins", selected: $selectedLength)
                 TimeOutButton(title: "1 hour", selected: $selectedLength)
             }
-            .padding(.vertical, 10)
-            .offset(y: -5)
+            .padding(.bottom, 10)
+
+
             
             Text("Unlock Method")
                 .font(.headline)
@@ -83,7 +85,8 @@ struct TimeOutSettingsView: View {
                 UnlockMethodButton(title: "Math Problems", selected: $selectedMethod)
                 UnlockMethodButton(title: "Entry Prompt", selected: $selectedMethod)
             }
-            .padding(.vertical, 10)
+            .padding(.bottom, 10)
+
             
             Spacer()
             
@@ -111,7 +114,7 @@ struct TimeOutButton: View {
         ZStack {
             Rectangle()
                 .fill(selected == title ? Color.lemon : Color.gray.opacity(0.4))
-                .frame(width: 60, height: 30)
+                .frame(width: 62, height: 30)
                 .cornerRadius(15)
             
             Button(action: {
@@ -119,8 +122,8 @@ struct TimeOutButton: View {
             }) {
                 Text(title)
                     .foregroundColor(selected == title ? .black : .white)
-                    .font(.system(size:14))
-                    .padding(.horizontal, 5) // Adjusted padding to ensure text fits
+                    .font(.system(size: 14))
+                    .padding(.horizontal, 3) // Adjusted padding to ensure text fits
                     .frame(maxWidth: 60, maxHeight: 30)
                     .background(Color.clear)
                     .cornerRadius(15)
