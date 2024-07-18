@@ -8,10 +8,15 @@
 import SwiftUI
 
 struct RuleSettingsView: View {
-    @State private var startIsAM = true
-    @State private var endIsAM = true
-    @State private var selectedMode: String? = nil
+    
+    @State private var startIsAM = true // start time (AM or PM)
+    @State private var endIsAM = true   // end time (AM or PM)
+    
+    @State private var selectedMode: String? = nil // focus mode
+    
     @State private var isAllDay = false
+    @State private var showMainBlockedAppsView = false
+
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -28,36 +33,35 @@ struct RuleSettingsView: View {
             }
             .padding(.top, 15)
             
-            NavigationLink(destination: MainBlockedAppsView()) {
-                HStack {
-                    VStack (spacing: 5){
-                        HStack {
-                            Text("Blocked Apps")
-                                .font(.system(size:15))
-                                .fontWeight(.semibold)
-                                .foregroundStyle(Color.black)
-                            Spacer()
-                        }
-                        HStack {
-                            Text("Distracting Apps")
-                                .font(.system(size: 15))
-                                .foregroundStyle(Color.black)
-                            Text("10 apps blocked")
-                                .font(.system(size: 12))
-                                .foregroundStyle(Color.black)
-                            Spacer()
-                            
-                        }
+            HStack {
+                VStack (spacing: 5){
+                    HStack {
+                        Text("Blocked Apps")
+                            .font(.system(size:15))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(Color.black)
+                        Spacer()
                     }
-                    Button(action: {}) {
-                        Image("pencil-icon")
+                    HStack {
+                        Text("Distracting Apps")
+                            .font(.system(size: 15))
+                            .foregroundStyle(Color.black)
+                        Text("10 apps blocked")
+                            .font(.system(size: 12))
+                            .foregroundStyle(Color.black)
+                        Spacer()
+                        
                     }
                 }
-                .padding(13)
-                .background(Color.mango)
-                .cornerRadius(8)
-                .padding(.bottom, 5)
+                Button(action: {}) {
+                    Image("pencil-icon")
+                }
             }
+            .padding(13)
+            .background(Color.mango)
+            .cornerRadius(8)
+            .padding(.bottom, 5)
+            
             
             
             HStack {
@@ -188,32 +192,61 @@ struct RuleSettingsView: View {
                 }
             }
             
-            HStack {
-                Text("Remind Me Every:")
-                    .font(.headline)
-                Spacer()
+            if selectedMode == "Intentional" {
                 HStack {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.lemon)
-                            .frame(width: 40, height: 30)
-                        Text("0")
-                            .foregroundColor(.white)
+                    Text("Remind Me Every:")
+                        .font(.headline)
+                    Spacer()
+                    HStack {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.lemon)
+                                .frame(width: 40, height: 30)
+                            Text("0")
+                                .foregroundColor(.white)
+                        }
+                        Text("hr")
+                            .fontWeight(.medium)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.lemon)
+                                .frame(width: 40, height: 30)
+                            Text("20")
+                                .foregroundColor(.white)
+                        }
+                        Text("min")
+                            .fontWeight(.medium)
                     }
-                    Text("hr")
-                        .fontWeight(.medium)
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.lemon)
-                            .frame(width: 40, height: 30)
-                        Text("20")
-                            .foregroundColor(.white)
-                    }
-                    Text("min")
-                        .fontWeight(.medium)
                 }
+                .padding(.vertical, 11)
+                
+            } else if selectedMode == "Regular" {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.sky)
+                        .frame(width: 360, height: 40)
+                    HStack {
+                        Text("Time Out Settings")
+                            .font(.system(size: 15))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(Color.black)
+                            .padding(5)
+                            .background(Color.clear)
+                            .cornerRadius(8)
+                        Spacer()
+                        Button(action: {
+                            showMainBlockedAppsView = true
+                        }) {
+                            Image("pencil-icon")
+                        }
+                    }
+                    .padding(10)
+                }
+                .padding(.vertical, 2)
+                
+            } else {
+                Spacer(minLength: 30)
             }
-            .padding(.vertical, 5)
             
             
             HStack(spacing: 10) {
@@ -242,6 +275,10 @@ struct RuleSettingsView: View {
         }
         .padding(.horizontal, 25)
         .presentationDetents([.height(510)]) // height of bottom sheet
+        
+        .fullScreenCover(isPresented: $showMainBlockedAppsView) {
+            MainBlockedAppsView(isPresented: $showMainBlockedAppsView)
+        }
     }
 }
 
