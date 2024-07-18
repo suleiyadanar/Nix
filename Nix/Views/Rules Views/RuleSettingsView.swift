@@ -26,7 +26,7 @@ struct RuleSettingsView: View {
                         .foregroundColor(.gray)
                 }
             }
-            .padding(.top, 10)
+            .padding(.top, 15)
             
             NavigationLink(destination: MainBlockedAppsView()) {
                 HStack {
@@ -35,13 +35,16 @@ struct RuleSettingsView: View {
                             Text("Blocked Apps")
                                 .font(.system(size:15))
                                 .fontWeight(.semibold)
+                                .foregroundStyle(Color.black)
                             Spacer()
                         }
                         HStack {
                             Text("Distracting Apps")
                                 .font(.system(size: 15))
+                                .foregroundStyle(Color.black)
                             Text("10 apps blocked")
                                 .font(.system(size: 12))
+                                .foregroundStyle(Color.black)
                             Spacer()
                             
                         }
@@ -210,6 +213,7 @@ struct RuleSettingsView: View {
                         .fontWeight(.medium)
                 }
             }
+            .padding(.vertical, 5)
             
             
             HStack(spacing: 10) {
@@ -236,8 +240,8 @@ struct RuleSettingsView: View {
             }
             
         }
-        .padding(20)
-        .presentationDetents([.height(500)]) // height of bottom sheet
+        .padding(.horizontal, 25)
+        .presentationDetents([.height(510)]) // height of bottom sheet
     }
 }
 
