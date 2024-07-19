@@ -33,14 +33,14 @@ class ViewController: UIViewController{
         super.viewDidLoad()
         
         print("ViewController loaded with startDateTime: \(startDateTime), endDateTime: \(endDateTime)")
-
+        
         GIDSignIn.sharedInstance().clientID = "619760553436-cvr4rum3g66l7knjji81n76n1rag8i0b.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().scopes = scopes
         GIDSignIn.sharedInstance()?.presentingViewController = self
-       
+        
         print("got here")
-
+        
         if GIDSignIn.sharedInstance().hasPreviousSignIn(){
             GIDSignIn.sharedInstance().restorePreviousSignIn()
             print("has previous sign in detected")
@@ -65,85 +65,14 @@ class ViewController: UIViewController{
                 print("signed in but can't get info")
                 GIDSignIn.sharedInstance().signOut()
                 setupUI()
-
+                
             }
-         }else {
+        }else {
             // User is not signed in, so set up the UI
             setupUI()
         }
+    }
         
-//
-//        if GIDSignIn.sharedInstance().currentUser == nil {
-//                    // User is not signed in, so set up the UI
-//                    setupUI()
-//         
-//
-//        }else{
-//            print("user found \(GIDSignIn.sharedInstance().currentUser.description)")
-//            let button = UIButton(type: .system)
-//            button.translatesAutoresizingMaskIntoConstraints = false
-//            button.setImage(UIImage(named: "google_calendar"), for: .normal)
-//            button.addTarget(self, action: #selector(signOut), for: .touchUpInside)
-//            self.view.addSubview(button)
-//            getEvents(for:"primary")
-//        }
-        
-        
-//
-//        let connectText = UILabel()
-//        connectText.frame = CGRect(x: 100, y: 0, width: 200, height: 20)
-//        connectText.text = "Connect to your Calendar"
-//        
-//        let button = UIButton(frame: CGRect(x: 90, y: 30, width: 220, height: 50))
-//            button.setImage(UIImage(named: "google_calendar"), for:.normal)
-//     
-//          button.addTarget(self, action: #selector(googleSignInBtnPressed), for: .touchUpInside)
-//
-//        self.view.addSubview(connectText)
-//        self.view.addSubview(button)
-    }
-    func test() {
-        print("view controller test")
-    }
-    private func setupUI() {
-        print("supposed to set up")
-            let connectText = UILabel()
-            connectText.translatesAutoresizingMaskIntoConstraints = false
-            connectText.text = "Connect to your Calendar"
-            self.view.addSubview(connectText)
-            
-            let button = UIButton(type: .system)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.setImage(UIImage(named: "google_calendar"), for: .normal)
-            button.addTarget(self, action: #selector(googleSignInBtnPressed), for: .touchUpInside)
-            self.view.addSubview(button)
-            
-            // Auto Layout constraints
-            NSLayoutConstraint.activate([
-                connectText.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-                connectText.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
-                
-                button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-                button.topAnchor.constraint(equalTo: connectText.bottomAnchor, constant: 20),
-                button.widthAnchor.constraint(equalToConstant: 220),
-                button.heightAnchor.constraint(equalToConstant: 50)
-            ])
-        }
-    
-    
-    @IBAction func googleSignInBtnPressed(_ sender: UIButton) {
-        GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance().signIn()
-
-    }
-    
-    @IBAction func signOut(sender: Any) {
-      GIDSignIn.sharedInstance().signOut()
-      print("signed out")
-    }
-    
-    /// Creates calendar service with current authentication
     fileprivate lazy var calendarService: GTLRCalendarService? = {
         let service = GTLRCalendarService()
         // Have the service object set tickets to fetch consecutive pages
@@ -163,6 +92,50 @@ class ViewController: UIViewController{
         return service
     }()
     
+    func test() {
+        print("view controller test")
+    }
+    private func setupUI() {
+        print("supposed to set up")
+            let connectText = UILabel()
+            connectText.translatesAutoresizingMaskIntoConstraints = false
+            connectText.text = "Connect to your Calendar"
+            self.view.addSubview(connectText)
+            
+        let button = UIButton(frame: CGRect(x: 90, y: 30, width: 220, height: 50))
+                   button.setImage(UIImage(named: "google_calendar"), for:.normal)
+            
+                 button.addTarget(self, action: #selector(googleSignInBtnPressed), for: .touchUpInside)
+            self.view.addSubview(button)
+            
+            // Auto Layout constraints
+            NSLayoutConstraint.activate([
+                connectText.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                connectText.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+                
+                button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                button.topAnchor.constraint(equalTo: connectText.bottomAnchor, constant: 20),
+                button.widthAnchor.constraint(equalToConstant: 220),
+                button.heightAnchor.constraint(equalToConstant: 50)
+            ])
+        }
+    
+    
+    @IBAction func googleSignInBtnPressed(_ sender: UIButton) {
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().signIn()
+        print("signed in")
+    }
+    
+    @IBAction func signOut(sender: Any) {
+      GIDSignIn.sharedInstance().signOut()
+      print("signed out")
+    }
+    
+    /// Creates calendar service with current authentication
+    
+    
     // Extract Time
     func getTime (gtlTime: Date?) -> [Any] {
         let dateFormatter = DateFormatter()
@@ -178,11 +151,10 @@ class ViewController: UIViewController{
 
    
     func getCalendarTimeZone(calendarId: String, completion: @escaping (String?) -> Void) {
-        guard let service = self.calendarService else {
-            completion(nil)
-            return
-        }
-
+        print("got here ")
+       
+        
+        print("got here two")
         let calendarQuery = GTLRCalendarQuery_CalendarsGet.query(withCalendarId: "primary")
         service.executeQuery(calendarQuery) { (ticket, response, error) in
             guard error == nil, let calendar = response as? GTLRCalendar_Calendar else {
@@ -192,12 +164,15 @@ class ViewController: UIViewController{
             }
 
             let timeZone = calendar.timeZone
+            print(timeZone)
             completion(timeZone)
         }
     }
 
-    // you will probably want to add a completion handler here
     func getEvents(for calendarId: String) {
+//        guard let service = self.calendarService else {
+//            return
+//        }
         getCalendarTimeZone(calendarId: calendarId) { timeZoneIdentifier in
                 guard let timeZoneIdentifier = timeZoneIdentifier,
                       let timeZone = TimeZone(identifier: timeZoneIdentifier) else {

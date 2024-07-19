@@ -10,7 +10,7 @@ import SwiftUI
 struct ViewControllerRepresentableView: UIViewControllerRepresentable {
     let identifier: Binding<[CalendarEvent]>
     let startDateTime: Date
-    let endDateTime: Date
+    let endDateTime:  Date
 
     class Coordinator: ViewControllerDelegate {
         let identifierBinding: Binding<[CalendarEvent]>
@@ -22,7 +22,6 @@ struct ViewControllerRepresentableView: UIViewControllerRepresentable {
         func clasificationOccured(_ viewController: ViewController, identifier: [CalendarEvent]) {
             identifierBinding.wrappedValue = identifier
         }
-        
     }
 
     func makeUIViewController(context: Context) -> ViewController {
@@ -36,9 +35,8 @@ struct ViewControllerRepresentableView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: ViewController, context: Context) {
         uiViewController.startDateTime = startDateTime
         uiViewController.endDateTime = endDateTime
-        print("Updating ViewController with startDateTime: \(startDateTime), endDateTime: \(endDateTime)")
         uiViewController.getEvents(for: "primary")
-
+        print("Updating ViewController with startDateTime: \(startDateTime), endDateTime: \(endDateTime)")
     }
 
     func makeCoordinator() -> Coordinator {

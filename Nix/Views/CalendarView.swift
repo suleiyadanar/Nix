@@ -10,9 +10,8 @@ import SwiftUI
 struct CalendarView: View {
     @State private var isPresented = false
     @State private var clasificationIdentifier: [CalendarEvent] = []
-    @State private var startDate: Date = Date()
+    @State var startDate: Date = Date()
     @State private var endDate: Date = Date()
-    @State private var refreshTrigger: Bool = false // Add a refresh trigger state
     
     let hourHeight = 50.0
     let today = Date()
@@ -21,10 +20,10 @@ struct CalendarView: View {
         VStack {
             DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
                 .onChange(of: startDate) { newDate in
+                    clasificationIdentifier = []
                     updateDates(for: newDate)
-                    refreshTrigger.toggle() // Toggle refresh trigger to force a reload
-                }
-               
+            }
+            
             // Display Start and End Date/Time
             Text("Start Date: \(startDate.formatted())")
             Text("End Date: \(endDate.formatted())")
@@ -96,8 +95,4 @@ struct CalendarView: View {
             .offset(y: -8)
         }
     }
-}
-
-#Preview {
-    CalendarView()
 }
