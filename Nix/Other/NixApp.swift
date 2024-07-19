@@ -22,10 +22,11 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
     
     init() {
         FirebaseApp.configure()
+//        applicationSignificantTimeChange(UIApplication.shared)
     }
     let center = AuthorizationCenter.shared
     
-    
+
     
     @StateObject var pomodoroModel: PomodoroViewViewModel = .init()
     @StateObject var timeoutModel: TimeOutViewModel = .init()
@@ -43,6 +44,20 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                             if let user = user {
                                 // Use the fetched user object
                                 userDefaults?.set(user.maxUnProdST, forKey:"maxUnProdST")
+                                
+                                // Days since joined
+                                let joinedDate = Date(timeIntervalSince1970: user.joined)
+                                let currentDate = Date()
+
+                                // Calculate the time difference in seconds
+                                let timeDifference = currentDate.timeIntervalSince(joinedDate)
+
+                                // Convert seconds to days
+                                let daysSinceJoined = Int(timeDifference / (60 * 60 * 24))
+                                
+                                
+                                userDefaults?.set(daysSinceJoined, forKey:"userDays")
+                                print(daysSinceJoined)
                                 print("Fetched user: \(user.firstName)")
                             } else {
                                 // Handle error or no user scenario
@@ -161,4 +176,57 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
             }
         }
     }
+       
+    
+//    THIS IS FOR UPDATING DATA AT MIDNIGHT!!!
+//    TODO: at midnight check if the user exceed the time limit or not
+//        logic: 
+//    (1)in the device report extension set the user default value and set it to exceed: true
+//    (2)in the main view appear at midnight make changes to the db 
+        
+    
+//    func applicationSignificantTimeChange(_ application: UIApplication) {
+//        // Get the current date
+//        let currentDate = Date()
+//        
+//        // Create a calendar object using the ISO 8601 calendar system
+//        let calendar = Calendar(identifier: .iso8601)
+//        
+//        // Get the day of the year for the current date
+//        let dayOfYear = calendar.ordinality(of: .day, in: .year, for: currentDate)
+//        
+//        // Print the day of the year
+//        print("Day of the year:", dayOfYear ?? "Unknown")
+//        
+//        // Check if it's midnight
+//        if calendar.isDateInToday(currentDate) {
+//            // Perform your function at midnight
+//            updateMaxUnProdSTIfNeeded()
+//        }
+//        
+//        // Optionally, perform other tasks or updates in response to the significant time change
+//        // For example, update UI elements or trigger specific functionality
+//    }
+//
+//    func updateMaxUnProdSTIfNeeded() {
+//        let newValue = 100 // Example new value to update
+//        
+//        guard let userId = Auth.auth().currentUser?.uid else {
+//            return
+//        }
+//        
+//        let db = Firestore.firestore()
+//        let userRef = db.collection("users").document(userId)
+//        
+//        // Perform the update
+//        userRef.updateData([
+//            "maxUnProdST": newValue // Replace with your updated value
+//        ]) { error in
+//            if let error = error {
+//                print("Error updating maxUnProdST: \(error.localizedDescription)")
+//            } else {
+//                print("maxUnProdST updated successfully.")
+//            }
+//        }
+//    }
 }

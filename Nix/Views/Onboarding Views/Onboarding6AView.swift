@@ -2,8 +2,11 @@ import SwiftUI
 
 struct Onboarding6AView: View {
     @Binding var weeks: Int
+    @Binding var days: Int
+
     @Environment(\.presentationMode) var presentationMode
     @State private var showWeeksPopover = false
+    @State private var showDaysPopover = false
 
     var body: some View {
         VStack(spacing: 20) {
@@ -31,12 +34,37 @@ struct Onboarding6AView: View {
                         showWeeksPopover.toggle()
                     }
                     .popover(isPresented: $showWeeksPopover) {
-                        PopoverContentView(maxValue: 52, minValue: 1, step: 1) { value in
+                        PopoverContentView(maxValue: 12, minValue: 0, step: 1) { value in
                             weeks = value
                             showWeeksPopover = false
                         }
                     }
                 Text("weeks")
+                    .font(.title2)
+                    .bold()
+                    .foregroundStyle(.black)
+            }
+            
+            HStack(spacing: 40) {
+                Text("\(String(format: "%02d", days))")
+                    .font(.largeTitle)
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background {
+                        Capsule()
+                            .fill(Color.yellow)
+                    }
+                    .onLongPressGesture {
+                        showDaysPopover.toggle()
+                    }
+                    .popover(isPresented: $showDaysPopover) {
+                        PopoverContentView(maxValue: 15, minValue: 3, step: 3) { value in
+                            days = value
+                            showDaysPopover = false
+                        }
+                    }
+                Text("days")
                     .font(.title2)
                     .bold()
                     .foregroundStyle(.black)
@@ -83,10 +111,11 @@ struct PopoverContentView: View {
     }
 }
 
-struct Onboarding6AView_Previews: PreviewProvider {
-    @State static var weeks: Int = 8
-
-    static var previews: some View {
-        Onboarding6AView(weeks: $weeks)
-    }
-}
+//struct Onboarding6AView_Previews: PreviewProvider {
+//    @State static var weeks: Int = 8
+//    @State static var days: Int = 1
+//
+//    static var previews: some View {
+//        Onboarding6AView(weeks: $weeks, days: $days)
+//    }
+//}

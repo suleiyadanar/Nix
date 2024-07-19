@@ -12,6 +12,7 @@ struct Onboarding3View: View {
         ZStack {
             OnboardingBackgroundView()
             VStack {
+                VStack(spacing:20) {
                 OnboardingProgressBarView(currentPage: 2)
                     .padding(.bottom, 25)
                 HStack {
@@ -20,11 +21,13 @@ struct Onboarding3View: View {
                         .font(.system(size: 25))
                         .fontWeight(.bold)
                         .padding(.leading, 20)
+                        .font(.custom("Nunito-Medium", size: props.customFontSize.mediumLarge))
                     Spacer()
                 }
                 HStack {
                     Text("Choose up to three goals or write your own! You can update them later in the settings.")
                         .foregroundColor(Color.sky)
+                        .font(.custom("Nunito-Medium", size: props.customFontSize.medium))
                         .font(.system(size: 15))
                         .fontWeight(.bold)
                         .padding(.bottom, 20)
@@ -53,7 +56,21 @@ struct Onboarding3View: View {
                 }
                 Spacer()
             }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: props.round.sheet)
+                        .fill(Color.white)
+                    
+                )
+                .padding(.horizontal) // Add padding here if needed
+                
+                Spacer()
+            }
+            .padding(.top, 40) // Adjust as needed
         }
+        .ignoresSafeArea(.keyboard) // Ensures the keyboard floats over the view
+
         .navigationBarHidden(true)
     }
 

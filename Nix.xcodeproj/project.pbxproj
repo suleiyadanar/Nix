@@ -55,6 +55,7 @@
 		3BCBF7C02C0E71C700F7532B /* Onboarding3AView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7BF2C0E71C700F7532B /* Onboarding3AView.swift */; };
 		3BCBF7C22C0EC39400F7532B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7C12C0EC39400F7532B /* UserSettings.swift */; };
 		3F0151BD2C39D37A0031B2E0 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */; };
+		3F02597B2C4578AE004EFD17 /* JourneyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */; };
 		3F095B8B2C28F868002BC3EC /* TimeOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */; };
 		3F2C29AC2C3B7FDD000B1962 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29962C3B7FDD000B1962 /* Nunito-ExtraBold.ttf */; };
 		3F2C29B12C3B7FDD000B1962 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C299B2C3B7FDD000B1962 /* Nunito-Light.ttf */; };
@@ -256,6 +257,7 @@
 		3BCBF7C12C0EC39400F7532B /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
 		3F0259792C448016004EFD17 /* ReportExtension NixDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ReportExtension NixDebug.entitlements"; sourceTree = "<group>"; };
+		3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyMapView.swift; sourceTree = "<group>"; };
 		3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutViewModel.swift; sourceTree = "<group>"; };
 		3F262D6A2B995F4F0080214E /* Nix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nix.entitlements; sourceTree = "<group>"; };
 		3F2C29962C3B7FDD000B1962 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -628,6 +630,7 @@
 				3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */,
 				3F6AF18C2C3614B600CA9036 /* ColorSwatchView.swift */,
 				3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */,
+				3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */,
 				3F7234C02B86CAF70095EA42 /* SettingsView.swift */,
 				3F9EB4E12C10224F0019200C /* BlockedAppsView.swift */,
 				3F9EB4E32C1029AB0019200C /* NewBlockedAppsView.swift */,
@@ -1012,6 +1015,7 @@
 				3B3222182BB0C5090037FE2D /* FreeUpSpaceView.swift in Sources */,
 				3F38E3872BA61154001E57CE /* NewRuleItemView.swift in Sources */,
 				3FCB35FC2B92783900FB6088 /* ProfileView.swift in Sources */,
+				3F02597B2C4578AE004EFD17 /* JourneyMapView.swift in Sources */,
 				3F9EB4E62C102A4F0019200C /* NewBlockedAppsViewViewModel.swift in Sources */,
 				3F91F2E32BA6180200DE07BC /* TLButton.swift in Sources */,
 				3B32221C2BB0C5270037FE2D /* ReportAProblemView.swift in Sources */,

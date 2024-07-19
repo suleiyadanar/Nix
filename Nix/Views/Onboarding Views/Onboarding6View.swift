@@ -7,14 +7,27 @@
 
 import SwiftUI
 import FamilyControls
+import Foundation
 
 struct Onboarding6View: View {
     var props: Properties
+    @EnvironmentObject var userSettings: UserSettings
 
-    @State private var weeks: Int = 8
-    @State private var showChangeDuration: Bool = false
-    @State private var navigationButtonID = UUID()
+    @State private var weeks : Int
+    @State private var days : Int
+    @State private var showChangeDuration: Bool
+    @State private var navigationButtonID : UUID
 
+    init(weeks: Int, days:Int, props: Properties){
+        self.weeks = weeks
+        self.days = days
+        self.showChangeDuration = false
+        self.navigationButtonID = UUID()
+        self.props = props
+        print(weeks)
+        print(days)
+    }
+    
     var body: some View {
         ZStack {
             OnboardingBackgroundView()
@@ -51,16 +64,31 @@ struct Onboarding6View: View {
                         .padding(.leading, 10)
                     Spacer()
                 }
-                
-                Text("\(weeks)")
-                    .font(.system(size: 85))
-                    .fontWeight(.bold)
-                    .foregroundColor(Color.lav)
-                
-                Text("weeks")
-                    .font(.title3)
-                    .bold()
-                    .padding(.bottom, 7)
+                VStack{
+                    HStack{
+                        Text("\(weeks)")
+                            .font(.system(size: 85))
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.lav)
+                        
+                        Text("weeks")
+                            .font(.title3)
+                            .bold()
+                            
+                    }
+                    HStack{
+                        Text("\(days)")
+                            .font(.system(size: 85))
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.lav)
+                        
+                        Text("days")
+                            .font(.title3)
+                            .bold()
+                          
+                    }
+                }
+             
                 
                 Button(action: {
                     showChangeDuration.toggle()
@@ -69,7 +97,7 @@ struct Onboarding6View: View {
                         .foregroundColor(Color.babyBlue)
                 }
                 .sheet(isPresented: $showChangeDuration) {
-                    Onboarding6AView(weeks: $weeks)
+                    Onboarding6AView(weeks: $weeks, days: $days)
                         .presentationDetents([.height(UIScreen.main.bounds.height * 0.7)])
                     
                     
@@ -82,6 +110,8 @@ struct Onboarding6View: View {
                         Spacer()
                         ArrowButtonView()
                             .padding(.trailing, 20)
+                    }.onAppear{
+                        userSettings.totalDays = days + weeks * 7
                     }
                 }
                 Spacer()
@@ -91,8 +121,9 @@ struct Onboarding6View: View {
         }
         
         .navigationBarHidden(true)
-        
     }
+    
+   
 }
 
 //#Preview {

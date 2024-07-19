@@ -3,57 +3,54 @@ import SwiftUI
 struct Onboarding2View: View {
     @EnvironmentObject var userSettings: UserSettings
     var props: Properties
-
+    
     var body: some View {
         ZStack {
             OnboardingBackgroundView()
             
-            VStack {
-                OnboardingProgressBarView(currentPage: 1)
-                    .padding(.bottom, 25)
-                HStack {
+            VStack(spacing: 0) {
+                VStack(spacing: 20) {
+                    OnboardingProgressBarView(currentPage: 1)
+                        .padding(.bottom, 25)
+                    
                     Text("Hi, what should we call you?")
-                        .foregroundColor(Color.black)
+                        .foregroundColor(.black)
                         .font(.custom("Nunito-Medium", size: props.customFontSize.mediumLarge))
                         .fontWeight(.bold)
-//                        .padding(.leading, 20)
                     
-                    Spacer()
-                }
-                HStack {
-                    Text("Creating a personalized journey for you... ")
+                    Text("Creating a personalized journey for you...")
                         .font(.custom("Nunito-Medium", size: props.customFontSize.medium))
-                        .foregroundColor(Color.sky)
+                        .foregroundColor(.blue)
                         .fontWeight(.bold)
                         .padding(.bottom, 20)
-//                        .padding(.leading, 20)
+                    
+                    NameRectangleView(props: props)
+                        .padding(.top, 15)
+                        .frame(maxWidth: .infinity)
+                    
                     Spacer()
-                }
-                NameRectangleView(props:props)
-                    .padding(.top, 15)
-                
-                HStack {
-                    Spacer()
-                    NavigationLink(destination: Onboarding3View(props:props)) {
-                        if (userSettings.name != ""){
+                    
+                    NavigationLink(destination: Onboarding3View(props: props)) {
+                        if !userSettings.name.isEmpty {
                             ArrowButtonView()
-                                .padding(.trailing, 20)
                                 .padding(.top, 40)
-                               
+                                .padding(.bottom, 20) // Adjust as needed
                         }
-                     
                     }
                 }
-                Spacer()
-            }.padding()
-                .frame(width: props.padding.widthRatio, height:props.padding.heightRatio)
-                .background{
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(
                     RoundedRectangle(cornerRadius: props.round.sheet)
                         .fill(Color.white)
-                        .frame(width: props.padding.widthRatio, height:props.padding.heightRatio)
-                        
-                }
+                )
+                .padding(.horizontal) // Add padding here if needed
+                
+                Spacer()
+            }
+            .padding(.top, 40) // Adjust as needed
         }
+        .ignoresSafeArea(.keyboard) // Ensures the keyboard floats over the view
         .navigationBarHidden(true)
     }
 }
@@ -61,28 +58,28 @@ struct Onboarding2View: View {
 struct NameRectangleView: View {
     @EnvironmentObject var userSettings: UserSettings
     var props: Properties
-
+    
     var body: some View {
         ZStack {
-            HStack {
-                RoundedRectangle(cornerRadius: 5)
-                    .foregroundStyle(.black)
-                    .frame(width: 360, height: 50)
-                    .opacity(0.06)
-                Spacer()
-            }
-            .overlay(
-                TextField("Your name...", text: $userSettings.name)
-                    .font(.custom("Nunito-Medium", size: props.customFontSize.medium))
-                    .foregroundStyle(Color.black)
-                    .padding(.leading, 15)
-            )
-            .padding(.leading, 20)
+            RoundedRectangle(cornerRadius: props.round.item)
+                .foregroundColor(Color.black.opacity(0.06))
+                .frame(width: props.onBoarding.textBoxWidth, height: props.onBoarding.textBoxHeight)
+            
+            TextField("Your name...", text: $userSettings.name)
+                .font(.custom("Nunito-Medium", size: props.customFontSize.medium))
+                .foregroundColor(.black)
+                .padding(.leading, 15)
+                .frame(maxWidth: .infinity)
         }
     }
 }
+extension UINavigationController: UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
 
-//#Preview {
-//    Onboarding2View()
-//        .environmentObject(UserSettings())
-//}
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
+    }
+}
