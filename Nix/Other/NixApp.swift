@@ -182,8 +182,7 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
 //    TODO: at midnight check if the user exceed the time limit or not
 //        logic: 
 //    (1)in the device report extension set the user default value and set it to exceed: true
-//    (2)in the main view appear at midnight make changes to the db
-    
+//    (2)in the main view appear at midnight make changes to the db 
         
     
 //    func applicationSignificantTimeChange(_ application: UIApplication) {

@@ -18,31 +18,109 @@ protocol ViewControllerDelegate: AnyObject {
 class ViewController: UIViewController{
     
     private let scopes = [kGTLRAuthScopeCalendar]
-    private let service = GTLRCalendarService()
+    let service = GTLRCalendarService()
     
     weak var delegate: ViewControllerDelegate?
 
+    var startDateTime: Date?
+    var endDateTime: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         GIDSignIn.sharedInstance().clientID = "619760553436-cvr4rum3g66l7knjji81n76n1rag8i0b.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().scopes = scopes
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        
-        let connectText = UILabel()
-        connectText.frame = CGRect(x: 100, y: 0, width: 200, height: 20)
-        connectText.text = "Connect to your Calendar"
-        
-        let button = UIButton(frame: CGRect(x: 90, y: 30, width: 220, height: 50))
-            button.setImage(UIImage(named: "google_calendar"), for:.normal)
-     
-          button.addTarget(self, action: #selector(googleSignInBtnPressed), for: .touchUpInside)
+       
+        print("got here")
 
-        self.view.addSubview(connectText)
-        self.view.addSubview(button)
+        if GIDSignIn.sharedInstance().hasPreviousSignIn(){
+            GIDSignIn.sharedInstance().restorePreviousSignIn()
+            print("has previous sign in detected")
+            print(GIDSignIn.sharedInstance().currentUser)
+            if let currentUser = GIDSignIn.sharedInstance().currentUser {
+                // User is signed in, get their information
+                print("user signed in info get")
+                if let profile = currentUser.profile {
+                    let userName = profile.name
+                    print("User's name is \(userName)")
+                } else {
+                    print("User's profile is not available")
+                }
+                
+                let button = UIButton(type: .system)
+                button.translatesAutoresizingMaskIntoConstraints = false
+                button.setImage(UIImage(named: "google_calendar"), for: .normal)
+                button.addTarget(self, action: #selector(signOut), for: .touchUpInside)
+                self.view.addSubview(button)
+                getEvents(for:"primary")
+            }else{
+                print("signed in but can't get info")
+                GIDSignIn.sharedInstance().signOut()
+                setupUI()
+
+            }
+         }else {
+            // User is not signed in, so set up the UI
+            setupUI()
+        }
+//
+//        if GIDSignIn.sharedInstance().currentUser == nil {
+//                    // User is not signed in, so set up the UI
+//                    setupUI()
+//         
+//
+//        }else{
+//            print("user found \(GIDSignIn.sharedInstance().currentUser.description)")
+//            let button = UIButton(type: .system)
+//            button.translatesAutoresizingMaskIntoConstraints = false
+//            button.setImage(UIImage(named: "google_calendar"), for: .normal)
+//            button.addTarget(self, action: #selector(signOut), for: .touchUpInside)
+//            self.view.addSubview(button)
+//            getEvents(for:"primary")
+//        }
+        
+        
+//
+//        let connectText = UILabel()
+//        connectText.frame = CGRect(x: 100, y: 0, width: 200, height: 20)
+//        connectText.text = "Connect to your Calendar"
+//        
+//        let button = UIButton(frame: CGRect(x: 90, y: 30, width: 220, height: 50))
+//            button.setImage(UIImage(named: "google_calendar"), for:.normal)
+//     
+//          button.addTarget(self, action: #selector(googleSignInBtnPressed), for: .touchUpInside)
+//
+//        self.view.addSubview(connectText)
+//        self.view.addSubview(button)
     }
+   
+    private func setupUI() {
+        print("supposed to set up")
+            let connectText = UILabel()
+            connectText.translatesAutoresizingMaskIntoConstraints = false
+            connectText.text = "Connect to your Calendar"
+            self.view.addSubview(connectText)
+            
+            let button = UIButton(type: .system)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.setImage(UIImage(named: "google_calendar"), for: .normal)
+            button.addTarget(self, action: #selector(googleSignInBtnPressed), for: .touchUpInside)
+            self.view.addSubview(button)
+            
+            // Auto Layout constraints
+            NSLayoutConstraint.activate([
+                connectText.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                connectText.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+                
+                button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                button.topAnchor.constraint(equalTo: connectText.bottomAnchor, constant: 20),
+                button.widthAnchor.constraint(equalToConstant: 220),
+                button.heightAnchor.constraint(equalToConstant: 50)
+            ])
+        }
     
     
     @IBAction func googleSignInBtnPressed(_ sender: UIButton) {
@@ -50,6 +128,11 @@ class ViewController: UIViewController{
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance().signIn()
 
+    }
+    
+    @IBAction func signOut(sender: Any) {
+      GIDSignIn.sharedInstance().signOut()
+      print("signed out")
     }
     
     /// Creates calendar service with current authentication
@@ -85,55 +168,84 @@ class ViewController: UIViewController{
         return [timeString as String?,ampmString as String?,gtlTime ?? Date()]
     }
 
-    // you will probably want to add a completion handler here
-    func getEvents(for calendarId: String) {
+   
+    func getCalendarTimeZone(calendarId: String, completion: @escaping (String?) -> Void) {
         guard let service = self.calendarService else {
+            completion(nil)
             return
         }
 
-        // You can pass start and end dates with function parameters
-        let startDateTime = GTLRDateTime(date: Calendar.current.startOfDay(for: Date()))
-        let endDateTime = GTLRDateTime(date: Date().addingTimeInterval(60*60*24))
-
-        let eventsListQuery = GTLRCalendarQuery_EventsList.query(withCalendarId: calendarId)
-        eventsListQuery.timeMin = startDateTime
-        eventsListQuery.timeMax = endDateTime
-
-        _ = service.executeQuery(eventsListQuery, completionHandler: { (ticket, result, error) in
-            guard error == nil, let items = (result as? GTLRCalendar_Events)?.items else {
+        let calendarQuery = GTLRCalendarQuery_CalendarsGet.query(withCalendarId: "primary")
+        service.executeQuery(calendarQuery) { (ticket, response, error) in
+            guard error == nil, let calendar = response as? GTLRCalendar_Calendar else {
+                print("Error fetching calendar metadata: \(error?.localizedDescription ?? "Unknown error")")
+                completion(nil)
                 return
             }
-            if items.count > 0 {
-                var itemsList = [CalendarEvent]()
-                for item in items {
-                    let start = self.getTime(gtlTime: item.start?.dateTime?.date)
-                    let end = self.getTime(gtlTime: item.end?.dateTime?.date)
-                   
-                    itemsList.append(
-                        CalendarEvent(
-                            summary:item.summary ?? "",
-                            start: item.start?.dateTime?.date,
-                            startTime:(start[0] as! String),
-                            startTimeOfDay: (start[1] as! String),
-                            end: item.end?.dateTime?.date,
-                            endTime: (end[0] as! String),
-                            endTimeOfDay: (end[1] as! String)))
-                }
-//                print(itemsList)
-                self.delegate?.clasificationOccured(self, identifier: itemsList)
-            }
-                // Do stuff with your events
-            else {
-                // No events
-                print("no events")
-//                let noEvent = UILabel()
-//                noEvent.text = "No eventsr"
-//                self.view.addSubview(noEvent)
 
-            }
-        })
+            let timeZone = calendar.timeZone
+            completion(timeZone)
+        }
     }
-    
+
+    // you will probably want to add a completion handler here
+    func getEvents(for calendarId: String) {
+        getCalendarTimeZone(calendarId: calendarId) { timeZoneIdentifier in
+                guard let timeZoneIdentifier = timeZoneIdentifier,
+                      let timeZone = TimeZone(identifier: timeZoneIdentifier) else {
+                    print("Failed to fetch or parse calendar time zone.")
+                    return
+                }
+
+            let offsetMinutes = timeZone.secondsFromGMT(for: self.startDateTime ?? Date()) / 60
+
+            let startDateTimeGTLR = GTLRDateTime(date: self.startDateTime ?? Date(), offsetMinutes: offsetMinutes)
+            let endDateTimeGTLR = GTLRDateTime(date: self.endDateTime ?? Date(), offsetMinutes: offsetMinutes)
+
+            print("start time input", self.startDateTime)
+            print("end time input", self.endDateTime)
+                print("start time gtlr", startDateTimeGTLR)
+                print("end time gtlr", endDateTimeGTLR)
+
+                let eventsListQuery = GTLRCalendarQuery_EventsList.query(withCalendarId: calendarId)
+            
+                eventsListQuery.timeMin = startDateTimeGTLR
+                eventsListQuery.timeMax = endDateTimeGTLR
+
+                // Execute the query to get events
+            _ = self.service.executeQuery(eventsListQuery, completionHandler: { (ticket, result, error) in
+                   guard error == nil, let items = (result as? GTLRCalendar_Events)?.items else {
+                       print(error)
+                       return
+                   }
+
+                   print("got here to items")
+                   print(items)
+                   if items.count > 0 {
+                       var itemsList = [CalendarEvent]()
+                       for item in items {
+                           let start = self.getTime(gtlTime: item.start?.dateTime?.date)
+                           let end = self.getTime(gtlTime: item.end?.dateTime?.date)
+
+                           itemsList.append(
+                               CalendarEvent(
+                                   summary: item.summary ?? "",
+                                   start: item.start?.dateTime?.date,
+                                   startTime: (start[0] as! String),
+                                   startTimeOfDay: (start[1] as! String),
+                                   end: item.end?.dateTime?.date,
+                                   endTime: (end[0] as! String),
+                                   endTimeOfDay: (end[1] as! String)
+                               )
+                           )
+                       }
+                       self.delegate?.clasificationOccured(self, identifier: itemsList)
+                   } else {
+                       print("no events")
+                   }
+               })
+            }
+    }
     // Create an event to the Google Calendar's user
     func addEventoToGoogleCalendar(summary : String, description :String, startTime : String, endTime : String) {
         let calendarEvent = GTLRCalendar_Event()
@@ -192,6 +304,7 @@ extension ViewController: GIDSignInDelegate {
             showAlert(title: "Authentication Error", message: error.localizedDescription)
             self.service.authorizer = nil
         } else {
+            
             self.service.authorizer = user.authentication.fetcherAuthorizer()
             getEvents(for:"primary")
 //            addEventoToGoogleCalendar(summary: "summary9", description: "description", startTime: "25/02/2020 09:00", endTime: "25/02/2020 10:00")

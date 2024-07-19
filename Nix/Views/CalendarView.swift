@@ -10,16 +10,30 @@ import SwiftUI
 struct CalendarView: View {
     @State var isPresented = false
     @State var clasificationIdentifier : [CalendarEvent]  = [CalendarEvent]()
-    
+    @State private var startDate: Date = Date()
+    @State private var endDate: Date = Date()
     let hourHeight = 50.0
     let today = Date()
   
     
         var body: some View {
+            
+                  
             VStack {
+                DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+                               .onChange(of: startDate) { newDate in
+                                   updateDates(for: newDate)
+                               }
+                           
+                           // Display Start and End Date/Time
+                           Text("Start Date: \(startDate.formatted())")
+                           Text("End Date: \(endDate.formatted())")
                 if clasificationIdentifier.count == 0 {
-                    ViewControllerRepresentableView(identifier: $clasificationIdentifier)
-                        .ignoresSafeArea()
+                    ViewControllerRepresentableView(
+                                   identifier: $clasificationIdentifier,
+                                   startDateTime: startDate,
+                                   endDateTime: endDate
+                               )
                 }else{
                     VStack(alignment: .leading) {
                         // Date headline
@@ -42,7 +56,28 @@ struct CalendarView: View {
                     }
             }
             }
+            .onAppear {
+                       updateDates(for: startDate)
+                   }
+            
         }
+    
+    func updateDates(for newDate: Date) {
+        let timeZone = TimeZone.current
+        let startOfDay = Calendar.current.startOfDay(for: newDate)
+        
+        // Convert to current time zone
+        let startDateComponents = Calendar.current.dateComponents(in: timeZone, from: startOfDay)
+        startDate = Calendar.current.date(from: startDateComponents) ?? newDate
+        
+        // Set end of the day
+        var endDateComponents = startDateComponents
+        endDateComponents.hour = 23
+        endDateComponents.minute = 59
+        endDateComponents.second = 59
+        endDate = Calendar.current.date(from: endDateComponents) ?? newDate
+    }
+    
     func eventCell(_ event: CalendarEvent) -> some View {
         return  AnyView (
             HStack(alignment: .top, spacing: 15){
