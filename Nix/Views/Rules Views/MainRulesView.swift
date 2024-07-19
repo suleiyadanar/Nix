@@ -31,7 +31,8 @@ struct MainRulesView: View {
                 }
                 .padding(.bottom, 5)
                 .sheet(isPresented: $viewModel.showingNewItemView) {
-                    NewRuleItemView(newItemPresented: $viewModel.showingNewItemView,  userId: userId)
+                    RuleSettingsView()
+                    //NewRuleItemView(newItemPresented: $viewModel.showingNewItemView,  userId: userId)
                 }
             
             }.padding(.top, 40)
