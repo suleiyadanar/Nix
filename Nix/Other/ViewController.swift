@@ -23,12 +23,17 @@ class ViewController: UIViewController{
     weak var delegate: ViewControllerDelegate?
 
     var startDateTime: Date?
+        
     var endDateTime: Date?
+        
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        print("ViewController loaded with startDateTime: \(startDateTime), endDateTime: \(endDateTime)")
+
         GIDSignIn.sharedInstance().clientID = "619760553436-cvr4rum3g66l7knjji81n76n1rag8i0b.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().scopes = scopes
@@ -66,6 +71,7 @@ class ViewController: UIViewController{
             // User is not signed in, so set up the UI
             setupUI()
         }
+        
 //
 //        if GIDSignIn.sharedInstance().currentUser == nil {
 //                    // User is not signed in, so set up the UI
@@ -96,7 +102,9 @@ class ViewController: UIViewController{
 //        self.view.addSubview(connectText)
 //        self.view.addSubview(button)
     }
-   
+    func test() {
+        print("view controller test")
+    }
     private func setupUI() {
         print("supposed to set up")
             let connectText = UILabel()

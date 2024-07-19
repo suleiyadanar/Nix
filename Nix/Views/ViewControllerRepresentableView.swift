@@ -36,6 +36,9 @@ struct ViewControllerRepresentableView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: ViewController, context: Context) {
         uiViewController.startDateTime = startDateTime
         uiViewController.endDateTime = endDateTime
+        print("Updating ViewController with startDateTime: \(startDateTime), endDateTime: \(endDateTime)")
+        uiViewController.getEvents(for: "primary")
+
     }
 
     func makeCoordinator() -> Coordinator {
