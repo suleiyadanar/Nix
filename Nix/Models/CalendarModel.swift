@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CalendarEvent {
+struct CalendarEvent: Equatable {
     let id = UUID()
     let summary: String?
     let start: Date?

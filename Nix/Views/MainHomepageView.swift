@@ -162,8 +162,14 @@ struct MainHomepageView: View {
                         .padding(.top, 10)
                 }
                 
-                Image("lizard-nix")
+                Image("mascot-fox")
+                    .resizable()
                     .offset(y: -55)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width:props.isIPad ? 300 : 150)
+                    .padding()
+                    .background(Color.clear)
+                   
                 
                 // row of distracting apps icon, new freeze icon, and intentional mode icon
                 HStack {
