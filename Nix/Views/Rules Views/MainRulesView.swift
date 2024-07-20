@@ -405,113 +405,163 @@ struct ScheduleTabView: View {
     @State private var currentWeekOffset = 0
     @State private var initialScrollDone = false
     @State private var selectedDate: Date = Date()
+    @State private var endDate: Date = Date()
     @State private var scheduleItems: [ScheduleItem] = []
+    @State private var clasificationIdentifier: [CalendarEvent] = []
 
     var body: some View {
-        VStack {
-            HStack {
-                VStack {
-                    Text("Today's Schedule")
-                        .font(.system(size: 20))
-                    Spacer()
-                    WeeklySnapScrollView(selectedDate: $selectedDate, currentWeekOffset: $currentWeekOffset)
+            VStack(spacing: 0) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack {
+                            Text("Today's Schedule")
+                                .font(.system(size: 20))
+                            Spacer()
+                            if clasificationIdentifier.isEmpty {
+                                ViewControllerRepresentableView(
+                                    identifier: $clasificationIdentifier,
+                                    startDateTime: selectedDate,
+                                    endDateTime: endDate
+                                ).background(Color.green)
+                                    .frame(width: 220, height:50)
+                            }
+                        }.frame(height:50)
+                        WeeklySnapScrollView(selectedDate: $selectedDate, currentWeekOffset: $currentWeekOffset)
+                            .padding(0)
+                    }
+                    .padding(0)
                 }
-            }
-            .padding(.bottom, 5)
+                .padding(0)
 
-            VStack {
-                Text("Selected Date: \(formattedDate(selectedDate))")
-                    .font(.headline)
-                Text("This is the area")
-                    .font(.subheadline)
+                ScrollViewReader { scrollViewProxy in
+                    ScrollView {
+                        ZStack(alignment: .top) {
+                            VStack(alignment: .leading, spacing: 50) {
+                                ForEach(0..<24) { hour in
+                                    HStack {
+                                        TimeStampView(hour: hour)
+                                        Image("scheduleline")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(maxWidth: 265)
+                                        Spacer()
+                                    }
+                                    .padding(.horizontal, 16)
+                                    .id(hour) // Add an ID to each hour for scrolling
+                                }
+                            }
+                            .background(Color.white)
+                            .padding(.leading, 16)
+
+                            ZStack(alignment: .top) {
+                                ForEach(scheduleItems) { item in
+                                    ScheduleRow(item: item)
+                                        .padding(.horizontal)
+                                        .offset(y: CGFloat(timeStringToInt(item.startTime)) * 68)
+                                        .padding(11)
+                                        .padding(.leading, 12)
+                                }
+
+                                // Blue line indicator
+                                let currentTimeY = CGFloat(timeStringToInt(currentTimeString())) * 68 + currentMinuteOffset()
+                                ZStack(alignment: .leading) {
+                                    Rectangle()
+                                        .fill(Color.sky)
+                                        .frame(width: 260, height: 1.5)
+                                    Circle()
+                                        .fill(Color.blue)
+                                        .frame(width: 8, height: 8)
+                                        .offset(x: -4) // Center the circle on the line
+                                }
+                                .offset(y: currentTimeY)
+                                .padding(.leading, 35)
+                            }
+                            .padding(.leading, 40)
+                        }
+                        .background(
+                            GeometryReader { geometry in
+                                Color.clear.onAppear {
+                                    if !initialScrollDone {
+                                        let currentHour = timeStringToInt(currentTimeString())
+                                        scrollViewProxy.scrollTo(currentHour, anchor: .center)
+                                        initialScrollDone = true
+                                    }
+                                }
+                            }
+                        )
+                        .gesture(
+                            DragGesture()
+                                .onEnded { value in
+                                    if value.translation.width < -50 {
+                                        // Swiped left
+                                        selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? selectedDate
+                                    } else if value.translation.width > 50 {
+                                        // Swiped right
+                                        selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? selectedDate
+                                    }
+                                }
+                        )
+                    }
+                    .padding(0) // Ensure no extra padding here
+                }
+                .onAppear {
+                    scheduleItems = generateScheduleItems(selectedDate: selectedDate)
+                    updateDates(for: selectedDate)
+                    var calendarItems = generateScheduleItemsFromGCalendar()
+                    print("onAppear: \(calendarItems) ")
+                    scheduleItems.append(contentsOf: calendarItems)
+
+                }
+                .onChange(of: clasificationIdentifier){
+                    scheduleItems = generateScheduleItems(selectedDate: selectedDate)
+                   
+                    print("clasifictionIdenfier changed")
+                    var calendarItems = generateScheduleItemsFromGCalendar()
+                    scheduleItems.append(contentsOf: calendarItems)
+                    print("onChange \(scheduleItems) ")
+
+                }
+                .onChange(of: selectedDate) { newDate in
+                    scheduleItems = generateScheduleItems(selectedDate: newDate)
+                    updateDates(for: selectedDate)
+
+                    var calendarItems = generateScheduleItemsFromGCalendar()
+                    scheduleItems.append(contentsOf: calendarItems)
+                    print("onChange \(calendarItems) ")
+                    print(scheduleItems)
+                    clasificationIdentifier = []
+                    if !isDateInCurrentWeek(date: newDate) {
+                        print("not date in current week")
+                        print(newDate)
+                        currentWeekOffset = calculateWeekOffset(from: newDate)
+                        print(calculateWeekOffset(from: newDate))
+                    }
+                }
+               
+                
+                .padding(0) // Ensure no extra padding here
             }
             .onAppear {
-                scheduleItems = generateScheduleItems(selectedDate: selectedDate)
+                updateDates(for: selectedDate)
             }
-            .onChange(of: selectedDate) { newDate in
-                           scheduleItems = generateScheduleItems(selectedDate: newDate)
-                           if !isDateInCurrentWeek(date: newDate) {
-                               print("not date in current week")
-                               print(newDate)
-                               currentWeekOffset = calculateWeekOffset(from: newDate)
-                               print(calculateWeekOffset(from: newDate))
-                           }
-                       }
-            .padding()
-
-            ScrollViewReader { scrollViewProxy in
-                ScrollView {
-                    ZStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: 50) {
-                            ForEach(0..<24) { hour in
-                                HStack {
-                                    TimeStampView(hour: hour)
-                                    Image("scheduleline")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(maxWidth: 265)
-                                    Spacer()
-                                }
-                                .padding(.horizontal, 16)
-                                .id(hour) // Add an ID to each hour for scrolling
-                            }
-                        }
-                        // need this background for swipe to work
-                        .background(Color.white)
-                        .padding(.leading, 16)
-
-                        ZStack(alignment: .top) {
-                            ForEach(scheduleItems) { item in
-                                ScheduleRow(item: item)
-                                    .padding(.horizontal)
-                                    .offset(y: CGFloat(timeStringToInt(item.startTime)) * 68)
-                                    .padding(11)
-                                    .padding(.leading, 12)
-                            }
-
-                            // Blue line indicator
-                            let currentTimeY = CGFloat(timeStringToInt(currentTimeString())) * 68 + currentMinuteOffset()
-                            ZStack(alignment: .leading) {
-                                Rectangle()
-                                    .fill(Color.sky)
-                                    .frame(width: 260, height: 1.5)
-                                Circle()
-                                    .fill(Color.blue)
-                                    .frame(width: 8, height: 8)
-                                    .offset(x: -4) // Center the circle on the line
-                            }
-                            .offset(y: currentTimeY)
-                            .padding(.leading, 35)
-                        }
-                        .padding(.leading, 40)
-                    }
-                    .background(
-                        GeometryReader { geometry in
-                            Color.clear.onAppear {
-                                if !initialScrollDone {
-                                    let currentHour = timeStringToInt(currentTimeString())
-                                    scrollViewProxy.scrollTo(currentHour, anchor: .center)
-                                    initialScrollDone = true
-                                }
-                            }
-                        }
-                    )
-                    .gesture(
-                        DragGesture()
-                            .onEnded { value in
-                                if value.translation.width < -50 {
-                                    // Swiped left
-                                    selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? selectedDate
-                                } else if value.translation.width > 50 {
-                                    // Swiped right
-                                    selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? selectedDate
-                                }
-                            }
-                    )
-                }
-            }
+            .padding(0) // Ensure no extra padding here
         }
+    func updateDates(for newDate: Date) {
+        let timeZone = TimeZone.current
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: newDate)
+        
+        let startDateComponents = calendar.dateComponents(in: timeZone, from: startOfDay)
+        selectedDate = calendar.date(from: startDateComponents) ?? newDate
+        
+        var endDateComponents = startDateComponents
+        endDateComponents.hour = 23
+        endDateComponents.minute = 59
+        endDateComponents.second = 59
+        endDate = calendar.date(from: endDateComponents) ?? newDate
     }
+    
+    
     
     private func isDateInCurrentWeek(date: Date) -> Bool {
            let calendar = Calendar.current
@@ -546,6 +596,44 @@ struct ScheduleTabView: View {
            let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
            return calendar.date(from: components)!
        }
+    
+    func generateScheduleItemsFromGCalendar() -> [ScheduleItem] {
+        var scheduleItems: [ScheduleItem] = []
+        let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "hh:mm a"
+        let calendar = Calendar.current
+        print("call GCalendar function")
+
+        if !clasificationIdentifier.isEmpty {
+            print("GCalendar not empty")
+
+                for index in clasificationIdentifier.indices {
+                    let product = clasificationIdentifier[index]
+                    let startTime = product.start != nil ? dateFormatter.string(from: product.start!) : "No Start Time"
+                    let endTime = product.end != nil ? dateFormatter.string(from: product.end!) : "No End Time"
+                    
+                    let selectedDateComponents = calendar.dateComponents([.year, .month, .day], from: selectedDate)
+                    
+                    
+                    print("start time for here", startTime)
+                    print("end time for here", endTime)
+
+                    let scheduleItem = ScheduleItem(
+                        startTime: startTime,
+                        endTime: endTime,
+                        title: product.summary ?? "No Title",
+                        details: "", // Add your details if needed
+                        color: Color.lav, // Replace with your desired color
+                        appsBlocked: 3, // Adjust based on your requirements
+                        hasAlarm: false, // Adjust based on your requirements
+                        isSuggested: true // Adjust based on your requirements
+                    )
+                    scheduleItems.append(scheduleItem)
+                }
+            }
+        return scheduleItems
+    }
+    
     func generateScheduleItems(selectedDate: Date) -> [ScheduleItem] {
         var scheduleItems: [ScheduleItem] = []
         let center = DeviceActivityCenter()
@@ -594,7 +682,7 @@ struct ScheduleTabView: View {
                                 color: Color.blue, // Replace with your desired color
                                 appsBlocked: 3, // Adjust based on your requirements
                                 hasAlarm: false, // Adjust based on your requirements
-                                isSuggested: true // Adjust based on your requirements
+                                isSuggested: false // Adjust based on your requirements
                             )
 
                             // Add the scheduleItem to the array
@@ -691,7 +779,7 @@ struct WeeklySnapScrollView: View {
 
     var body: some View {
         HStack {
-            VStack (alignment: .leading) {
+            VStack (alignment: .leading, spacing:0) {
                 selectedMonthYearText(for: weekStartDate(for: currentWeekOffset))
                                     .font(.subheadline)
                                     .foregroundColor(.black)
@@ -703,7 +791,9 @@ struct WeeklySnapScrollView: View {
                             .tag(offset)
                     }
                 }
-                .tabViewStyle(PageTabViewStyle())
+                .frame(height: 100)
+                .padding(0)
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .onChange(of: currentWeekOffset) { newValue in
                     var newDate = Calendar.current.date(byAdding: .weekOfYear, value: newValue, to: startOfCurrentWeek) ?? Date()
                     if Calendar.current.component(.weekday, from: newDate) == 1 {
@@ -715,8 +805,7 @@ struct WeeklySnapScrollView: View {
 //                    selectedDate = newDate
                 }
             }
-            
-            HStack(spacing: 10) {
+            HStack() {
 //                Button(action: {
 //                    currentWeekOffset -= 1
 //                }) {
@@ -745,7 +834,7 @@ struct WeeklySnapScrollView: View {
 //                        .foregroundColor(.black)
 //                }
             }
-            .padding()
+            .padding(0)
         }
     }
     private func isDateInCurrentWeek(date: Date) -> Bool {
@@ -895,10 +984,9 @@ struct CalendarPicker: View {
     @Binding var currentWeekOffset: Int
 
     var body: some View {
-        VStack {
+        VStack(alignment: .trailing) {
             DatePicker("", selection: $selectedDate, displayedComponents: .date)
                 .datePickerStyle(GraphicalDatePickerStyle())
-                .padding()
                 .onChange(of: selectedDate) { _ in
                     let calendar = Calendar.current
                     let currentDate = calendar.startOfDay(for: Date())

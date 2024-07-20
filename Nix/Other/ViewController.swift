@@ -27,8 +27,6 @@ class ViewController: UIViewController{
     var endDateTime: Date?
         
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,18 +52,18 @@ class ViewController: UIViewController{
                 } else {
                     print("User's profile is not available")
                 }
-                
                 let button = UIButton(type: .system)
-                button.translatesAutoresizingMaskIntoConstraints = false
-                button.setImage(UIImage(named: "google_calendar"), for: .normal)
-                button.addTarget(self, action: #selector(signOut), for: .touchUpInside)
+
+              button.setImage(UIImage(named: "google_calendar"), for:.normal)
+         
+              button.addTarget(self, action: #selector(signOut), for: .touchUpInside)
                 self.view.addSubview(button)
+               
                 getEvents(for:"primary")
             }else{
                 print("signed in but can't get info")
                 GIDSignIn.sharedInstance().signOut()
                 setupUI()
-                
             }
         }else {
             // User is not signed in, so set up the UI
@@ -97,27 +95,14 @@ class ViewController: UIViewController{
     }
     private func setupUI() {
         print("supposed to set up")
-            let connectText = UILabel()
-            connectText.translatesAutoresizingMaskIntoConstraints = false
-            connectText.text = "Connect to your Calendar"
-            self.view.addSubview(connectText)
             
-        let button = UIButton(frame: CGRect(x: 90, y: 30, width: 220, height: 50))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 220, height: 50))
                    button.setImage(UIImage(named: "google_calendar"), for:.normal)
             
                  button.addTarget(self, action: #selector(googleSignInBtnPressed), for: .touchUpInside)
             self.view.addSubview(button)
             
-            // Auto Layout constraints
-            NSLayoutConstraint.activate([
-                connectText.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-                connectText.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
-                
-                button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-                button.topAnchor.constraint(equalTo: connectText.bottomAnchor, constant: 20),
-                button.widthAnchor.constraint(equalToConstant: 220),
-                button.heightAnchor.constraint(equalToConstant: 50)
-            ])
+        
         }
     
     
