@@ -15,6 +15,7 @@ protocol ViewControllerDelegate: AnyObject {
     func clasificationOccured(_ viewController: ViewController, identifier: [CalendarEvent])
 }
 
+
 class ViewController: UIViewController{
     
     private let scopes = [kGTLRAuthScopeCalendar]
@@ -26,10 +27,11 @@ class ViewController: UIViewController{
         
     var endDateTime: Date?
         
+    private var calendarG : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        updateAppearance()
         print("ViewController loaded with startDateTime: \(startDateTime), endDateTime: \(endDateTime)")
         
         GIDSignIn.sharedInstance().clientID = "619760553436-cvr4rum3g66l7knjji81n76n1rag8i0b.apps.googleusercontent.com"
@@ -54,7 +56,7 @@ class ViewController: UIViewController{
                 }
                 let button = UIButton(type: .system)
 
-              button.setImage(UIImage(named: "google_calendar"), for:.normal)
+              button.setImage(UIImage(named: calendarG), for:.normal)
          
               button.addTarget(self, action: #selector(signOut), for: .touchUpInside)
                 self.view.addSubview(button)
@@ -96,8 +98,8 @@ class ViewController: UIViewController{
     private func setupUI() {
         print("supposed to set up")
             
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 220, height: 50))
-                   button.setImage(UIImage(named: "google_calendar"), for:.normal)
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+                   button.setImage(UIImage(named: calendarG), for:.normal)
             
                  button.addTarget(self, action: #selector(googleSignInBtnPressed), for: .touchUpInside)
             self.view.addSubview(button)
@@ -119,7 +121,15 @@ class ViewController: UIViewController{
     }
     
     /// Creates calendar service with current authentication
-    
+    private func updateAppearance() {
+            if traitCollection.userInterfaceStyle == .dark {
+                // Configure your view for dark mode
+                calendarG = "google_rd_dark"
+            } else {
+                // Configure your view for light mode
+                calendarG = "google_rd_light"
+            }
+        }
     
     // Extract Time
     func getTime (gtlTime: Date?) -> [Any] {
@@ -134,7 +144,7 @@ class ViewController: UIViewController{
         return [timeString as String?,ampmString as String?,gtlTime ?? Date()]
     }
 
-   
+ 
     func getCalendarTimeZone(calendarId: String, completion: @escaping (String?) -> Void) {
         print("got here ")
        
