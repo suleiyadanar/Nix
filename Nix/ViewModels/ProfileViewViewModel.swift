@@ -8,6 +8,8 @@
 import FirebaseFirestore
 import FirebaseAuth
 import Foundation
+import GoogleSignIn
+
 
 class ProfileViewViewModel: ObservableObject {
     
@@ -49,6 +51,7 @@ class ProfileViewViewModel: ObservableObject {
     func logOut(){
         do {
             try Auth.auth().signOut()
+            GIDSignIn.sharedInstance().signOut()
         } catch {
             print(error)
         }

@@ -80,6 +80,7 @@
 		3F48FDF12C38D26700A193C7 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 3F48FDF02C38D26700A193C7 /* SwiftCSV */; };
 		3F48FDF32C38D3AE00A193C7 /* world-universities.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F48FDF22C38D3AD00A193C7 /* world-universities.csv */; };
 		3F6AF18D2C3614B600CA9036 /* ColorSwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6AF18C2C3614B600CA9036 /* ColorSwatchView.swift */; };
+		3F6F42572C4C0DC700AF6506 /* AppleCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F42562C4C0DC700AF6506 /* AppleCalendarViewModel.swift */; };
 		3F72349E2B86C8CF0095EA42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72349D2B86C8CF0095EA42 /* ContentView.swift */; };
 		3F7234A02B86C8D20095EA42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F72349F2B86C8D20095EA42 /* Assets.xcassets */; };
 		3F7234A32B86C8D20095EA42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F7234A22B86C8D20095EA42 /* Preview Assets.xcassets */; };
@@ -280,6 +281,7 @@
 		3F48FDF22C38D3AD00A193C7 /* world-universities.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "world-universities.csv"; sourceTree = "<group>"; };
 		3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsModel.swift; sourceTree = "<group>"; };
 		3F6AF18C2C3614B600CA9036 /* ColorSwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSwatchView.swift; sourceTree = "<group>"; };
+		3F6F42562C4C0DC700AF6506 /* AppleCalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleCalendarViewModel.swift; sourceTree = "<group>"; };
 		3F7234982B86C8CF0095EA42 /* Nix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F72349D2B86C8CF0095EA42 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3F72349F2B86C8D20095EA42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -606,6 +608,7 @@
 				3F312BAD2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift */,
 				3F9EB4E72C103CC00019200C /* BlockedAppsViewViewModel.swift */,
 				3F7234B82B86CAF70095EA42 /* RulesViewViewModel.swift */,
+				3F6F42562C4C0DC700AF6506 /* AppleCalendarViewModel.swift */,
 				3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */,
 				3F7234B92B86CAF70095EA42 /* NewRuleItemViewViewModel.swift */,
 				3FB234292B889A82007894D5 /* GoogleCalendarViewViewModel.swift */,
@@ -1007,6 +1010,7 @@
 				3BCBF7AF2C0A435100F7532B /* ButtonView.swift in Sources */,
 				3B3222142BB0C4F40037FE2D /* HelpAndSupportView.swift in Sources */,
 				3F7234D02B86CAF70095EA42 /* NewRuleItemViewViewModel.swift in Sources */,
+				3F6F42572C4C0DC700AF6506 /* AppleCalendarViewModel.swift in Sources */,
 				3FCB35FE2B92795A00FB6088 /* ProfileViewViewModel.swift in Sources */,
 				3F86B2E62BA3468600F39E9B /* EditRuleItemViewViewModel.swift in Sources */,
 				3F7234D52B86CAF70095EA42 /* LoginViewViewModel.swift in Sources */,
@@ -1297,7 +1301,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Nix/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Connect to your calendar to fetch your events.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1332,7 +1338,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Nix/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Connect to your calendar to fetch your events.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

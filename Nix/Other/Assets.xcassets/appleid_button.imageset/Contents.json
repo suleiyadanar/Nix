@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ios_neutral_rd_ctn@1x.png",
+      "filename" : "appleid_button@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ios_neutral_rd_ctn@2x.png",
+      "filename" : "appleid_button@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ios_neutral_rd_ctn@3x.png",
+      "filename" : "appleid_button@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

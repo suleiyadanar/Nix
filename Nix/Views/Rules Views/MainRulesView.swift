@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 import FirebaseFirestore
 import DeviceActivity
+import EventKit
 
 struct MainRulesView: View {
     var props: Properties
@@ -295,119 +296,20 @@ struct RulesTabView: View {
 
     }
 }
-//            }
-//            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-//            
-//            Spacer(minLength: 15)
-//            VStack(alignment: .leading) {
-//               
-//                Divider()
-//                ScrollViewReader { scrollView in
-//                    ScrollView(.horizontal, showsIndicators: false) {
-//                        HStack(spacing: 10) {
-//                            ForEach(0..<jsonData.keys.sorted().count, id: \.self) { index in
-//                                Button(action: {
-//                                    withAnimation {
-//                                        self.selectedSection = index
-//                                        scrollView.scrollTo(index, anchor: .center)
-//                                    }
-//                                }) {
-//                                    HStack{
-//                                        Image(systemName: "\(categoryIcons[index])")
-//                                            .foregroundColor(index == selectedSection ? .white : .black)
-//                                        Text(jsonData.keys.sorted()[index])
-//                                            .foregroundColor(index == selectedSection ? .white : .black)
-//                                            .fontWeight(.bold)
-//                                            .font(.subheadline)
-//                                        
-//                                    }
-//                                    .padding(.vertical, 10)
-//                                    .padding(.horizontal, 20)
-//                                    .background(index == selectedSection ? Color.lav : Color.white)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 35))
-//                                    .overlay(
-//                                        RoundedRectangle(cornerRadius: 35)
-//                                            .stroke(index == selectedSection ? Color.mauve : Color.clear, lineWidth: index == selectedSection ? 2 : 1)
-//                                    )
-//                                    .animation(.easeInOut(duration: 0.1), value: selectedSection)
-//                                    
-//                                }
-//                                .padding(.horizontal, 3)
-//                                .id(index)
-//                            }
-//                        }
-//                        .padding(.top, 10)
-//                        .padding(.bottom, 2)
-//                    }.padding(.horizontal, 15)
-//                    GeometryReader { geometry in
-//                        TabView(selection: $selectedSection) {
-//                            ForEach(jsonData.keys.sorted(), id: \.self) { category in
-//                                VStack(alignment: .leading, spacing:0) {
-//                                    if jsonData.keys.sorted().firstIndex(of: category) == selectedSection {
-//                                        List {
-//                                            LazyVGrid(columns: geometry.size.width < 600 ? [GridItem(.flexible())] : [GridItem(.flexible(), spacing: geometry.size.width < 600 ? 7 : 15), GridItem(.flexible(), spacing: geometry.size.width < 600 ? 7 : 15)], spacing: geometry.size.width < 600 ? 7 : 15) {
-//                                                ForEach(jsonData[category]!, id: \.id) { template in
-//                                                    Button(action: {
-//                                                        self.selectedItem = template
-//                                                        viewModel.showingTemplateView = true
-//                                                        viewModel.showingEditItemView = true
-//                                                    }) {
-//                                                        let tokensArray = convertToOriginalTokensArray(selectedApps: template.selectedApps) ?? []
-//                                                        
-//                                                        SuggestRow(
-//                                                            title: template.title,
-//                                                            time: "\(Date(timeIntervalSince1970: template.startTime).formatted(.dateTime.hour().minute())) - \(Date(timeIntervalSince1970: template.endTime).formatted(.dateTime.hour().minute()))",
-//                                                            appsBlocked: tokensArray.count,
-//                                                            color: Color.blue
-//                                                        )
-//                                                    }
-//                                                    .buttonStyle(PlainButtonStyle())
-//                                                    .listRowInsets(EdgeInsets())
-//                                                    .listRowBackground(Color.white)
-//                                                    .sheet(isPresented: $viewModel.showingEditItemView) {
-//                                                        NewRuleItemView(newItemPresented: $viewModel.showingEditItemView, userId: userId, item: selectedItem, color:selectedItem?.color ?? "swatch_lemon")
-//                                                    }
-//                                                    .background(
-//                                                        RoundedRectangle(cornerRadius: 10)
-//                                                            .fill(Color.white)
-//                                                            .stroke(Color.lightGray, lineWidth: 1.5)
-//                                                            .shadow(color: Color.gray.opacity(0.15), radius: 5, x: 0, y: 5)
-//                                                    )
-//                                                    .listRowSeparator(.hidden)
-//                                                    .listRowInsets(EdgeInsets())
-//                                                }
-//                                            }
-//                                        }
-//                                        .listStyle(PlainListStyle())
-//                                    }
-//                                }
-//                                .tag(jsonData.keys.sorted().firstIndex(of: category) ?? 0)
-//                                .onChange(of: selectedSection) {
-//                                    // Scroll to the selected index in the horizontal scroll view
-//                                    withAnimation {
-//                                        scrollView.scrollTo(selectedSection, anchor: .center)
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-//                        .animation(.easeInOut(duration: 0.1), value: selectedSection)  // Smooth transition for TabView
-//                        
-//                    }
-//                }
-//            
-//            }.frame(maxHeight:220)
-//        }
-//    }
-//}
 
 struct ScheduleTabView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @StateObject private var viewModel = AppleCalendarViewModel()
     @State private var currentWeekOffset = 0
     @State private var initialScrollDone = false
     @State private var selectedDate: Date = Date()
     @State private var endDate: Date = Date()
     @State private var scheduleItems: [ScheduleItem] = []
     @State private var clasificationIdentifier: [CalendarEvent] = []
+    @State private var accessRequested = false
+    
+    @State private var isAuthorizationComplete = false
+    @State private var showAlert = false
 
     var body: some View {
             VStack(spacing: 0) {
@@ -417,14 +319,27 @@ struct ScheduleTabView: View {
                             Text("Today's Schedule")
                                 .font(.system(size: 20))
                             Spacer()
-                            if clasificationIdentifier.isEmpty {
-                                ViewControllerRepresentableView(
-                                    identifier: $clasificationIdentifier,
-                                    startDateTime: selectedDate,
-                                    endDateTime: endDate
-                                ).background(Color.green)
-                                    .frame(width: 220, height:50)
-                            }
+                            HStack{
+                               
+                                if clasificationIdentifier.isEmpty {
+                                    ViewControllerRepresentableView(
+                                        identifier: $clasificationIdentifier,
+                                        startDateTime: selectedDate,
+                                        endDateTime: endDate
+                                    )
+                                    .frame(width: 50, height:50)
+                                }
+                                if !viewModel.isCalendarSynced{
+                                                                Button(action: {
+                                                                    attemptAuthorization()
+
+                                                                }) {
+                                                                    Image(colorScheme == .dark ? "appleid_button" : "appleid_button_white")
+                                                                        .resizable()
+                                                                        .frame(width: 45, height: 45)
+                                                                }
+                                                            }
+                                                        }
                         }.frame(height:50)
                         WeeklySnapScrollView(selectedDate: $selectedDate, currentWeekOffset: $currentWeekOffset)
                             .padding(0)
@@ -509,12 +424,31 @@ struct ScheduleTabView: View {
                     updateDates(for: selectedDate)
                     var calendarItems = generateScheduleItemsFromGCalendar()
                     print("onAppear: \(calendarItems) ")
+                    
                     scheduleItems.append(contentsOf: calendarItems)
-
+                    checkAuthorization()
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Authorization Error"),
+                        message: Text(viewModel.authorizationError?.localizedDescription ?? "Nix requires access to the calendar."),
+                        primaryButton: .default(Text("Open Settings")) {
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(url)
+                            }
+                        },
+                        secondaryButton: .cancel(Text("OK"))
+                    )
                 }
                 .onChange(of: clasificationIdentifier){
                     scheduleItems = generateScheduleItems(selectedDate: selectedDate)
-                   
+                    
+                    // here add
+                    Task{
+                        let calendarA = await viewModel.getAllEventsForToday()
+                        scheduleItems.append(contentsOf:calendarA)
+                    }
+                    
                     print("clasifictionIdenfier changed")
                     var calendarItems = generateScheduleItemsFromGCalendar()
                     scheduleItems.append(contentsOf: calendarItems)
@@ -524,7 +458,13 @@ struct ScheduleTabView: View {
                 .onChange(of: selectedDate) { newDate in
                     scheduleItems = generateScheduleItems(selectedDate: newDate)
                     updateDates(for: selectedDate)
-
+                    viewModel.startDate = selectedDate
+                    viewModel.endDate = endDate
+                    Task{
+                        let calendarA = await viewModel.getAllEventsForToday()
+                        scheduleItems.append(contentsOf:calendarA)
+                    }
+                    
                     var calendarItems = generateScheduleItemsFromGCalendar()
                     scheduleItems.append(contentsOf: calendarItems)
                     print("onChange \(calendarItems) ")
@@ -546,6 +486,11 @@ struct ScheduleTabView: View {
             }
             .padding(0) // Ensure no extra padding here
         }
+    
+    func fetchAppleCalendarEvents() async -> [ScheduleItem] {
+            return await viewModel.getAllEventsForToday()
+    }
+    
     func updateDates(for newDate: Date) {
         let timeZone = TimeZone.current
         let calendar = Calendar.current
@@ -561,7 +506,61 @@ struct ScheduleTabView: View {
         endDate = calendar.date(from: endDateComponents) ?? newDate
     }
     
+    private func checkAuthorization() {
+        Task {
+            let status = EKEventStore.authorizationStatus(for: .event)
+            if status != .authorized {
+                viewModel.isCalendarSynced = false
+            }else{
+                viewModel.isCalendarSynced = true
+               
+                updateDates(for: selectedDate)
+                viewModel.startDate = selectedDate
+                viewModel.endDate = endDate
+                
+                let calendarSchedule = try await viewModel.getAllEventsForToday()
+                print("apple calendar schedule", calendarSchedule)
+                
+            }
+        }
+    }
     
+    private func attemptAuthorization() {
+        Task {
+            // Check current authorization status
+            let status = EKEventStore.authorizationStatus(for: .event)
+            
+            switch status {
+            case .notDetermined:
+                do {
+                    // Reset error state before attempting authorization
+                    viewModel.authorizationError = "" as! any Error
+                    showAlert = false
+                    try await viewModel.requestAccessToCalendar()
+                    // If successful, update the state
+                    isAuthorizationComplete = true
+                } catch {
+                    viewModel.authorizationError = error
+                    showAlert = true // Show the alert on error
+                }
+            case .restricted, .denied:
+                // Show an alert informing the user to manually enable access in settings
+                viewModel.authorizationError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Calendar access was previously denied. Please go to Settings to enable access."])
+                showAlert = true
+            case .authorized:
+                // If access is already authorized, you can handle it accordingly
+                isAuthorizationComplete = true
+                updateDates(for: selectedDate)
+                viewModel.startDate = selectedDate
+                viewModel.endDate = endDate
+                
+            @unknown default:
+                // Handle any future cases
+                viewModel.authorizationError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "An unknown error occurred."])
+                showAlert = true
+            }
+        }
+    }
     
     private func isDateInCurrentWeek(date: Date) -> Bool {
            let calendar = Calendar.current

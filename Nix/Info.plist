@@ -13,6 +13,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Connect to your calendar to create, delete, edit, and fetch your events.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-ExtraBold.ttf</string>
