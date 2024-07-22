@@ -68,7 +68,7 @@ struct Onboarding1View: View {
                         .offset(y: -30)
 
                     Text("☆ We're rooting for you! ☆")
-                        .font(.custom("Montserrat-Regular", size: props.customFontSize.medium))
+                        .font(.custom("Nunito-Regular", size: props.customFontSize.medium))
                         .foregroundColor(.mauve)
 
                     Spacer()
@@ -78,7 +78,11 @@ struct Onboarding1View: View {
                         }
                         HStack {
                             Text("Already a member?")
+                                .font(.custom("Nunito-Regular", size: props.customFontSize.smallMedium))
+                                .foregroundColor(Color.black)
                             NavigationLink("Login", destination: LoginView(props: props))
+                                .font(.custom("Nunito-Regular", size: props.customFontSize.smallMedium))
+                                
                         }
                     }
                     Spacer()
@@ -154,3 +158,16 @@ let message: [Info] = [
     Info(text: "Personal Growth", circleColor: .purple),
     Info(text: "Career Development", circleColor: .orange)
 ]
+
+extension UINavigationController: UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
+    }
+}
+
+

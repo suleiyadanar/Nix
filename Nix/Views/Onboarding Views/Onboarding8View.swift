@@ -2,9 +2,11 @@ import SwiftUI
 
 struct Onboarding8View: View {
     var props: Properties
+    @Binding var showCurrView: Bool // Use a Binding to manage the view transition state
 
     @State private var progress: Double = 0.0
     @State private var navigate: Bool = false
+    
     
     var body: some View {
         NavigationStack {

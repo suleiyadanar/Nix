@@ -37,7 +37,7 @@ struct Onboarding9View: View {
                             )
                     Spacer()
                 }
-                JourneyMapView(days: userSettings.totalDays, unlockedDays: 1)
+                JourneyMapView(days:10, unlockedDays: 1)
                     .cornerRadius(25)
                     .onAppear{
                         print("printing days:\(userSettings.totalDays)")
