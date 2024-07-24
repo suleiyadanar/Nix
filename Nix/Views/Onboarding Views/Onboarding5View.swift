@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct Onboarding5View: View {
+    @Environment(\.colorScheme) var colorScheme
     var props: Properties
     @Binding var showCurrView: Bool // Use a Binding to manage the view transition state
 
@@ -22,119 +23,124 @@ struct Onboarding5View: View {
             if showView6 {
                 Onboarding6View(weeks: weeks, days: days, props: props, showCurrView: $showView6)
             }else{
-                VStack(spacing:0){
-                    VStack(spacing:20) {
-                        OnboardingProgressBarView(currentPage: 4)
-                            .padding(.bottom, 25)
-                        
-                        HStack {
+                VStack(alignment: .center, spacing:0){
+                    OnboardingProgressBarView(currentPage: 4)
+                        .padding(.bottom, 25)
+                    VStack(alignment: .leading, spacing:20) {
                             Text("Maximum limit for unproductive Screen Time?")
-                                .foregroundColor(Color.black)
-                                .font(.system(size: 25))
-                                .fontWeight(.bold)
-                                .padding(.leading, 20)
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            Text("Unproductive Screen Time = ST spent other than for school, work, self care, etc.")
-                                .foregroundColor(Color.sky)
-                                .font(.system(size: 15))
-                                .fontWeight(.bold)
-                                .padding(.bottom, 20)
-                                .padding(.leading, 20)
-                            Spacer()
-                        }
-                        Spacer()
-                        VStack(spacing: 40) {
-                            HStack {
-                                HStack {
-                                    Text("\(hours)")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.black)
-                                        .padding(.horizontal, 20)
-                                        .padding(.vertical, 12)
-                                        .background {
-                                            Capsule()
-                                                .fill(Color.lemon)
+                                .foregroundColor(.black)
+                                .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
+                                .padding(.leading, props.isIPad ? 100 : 20)
+                                .padding(.trailing, props.isIPad ? 100 : 10)
+
+                            Text("Unproductive Screen Time =\nST spent other than for school, work, self care, etc.")
+                                .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                .foregroundColor(.sky)
+                                .padding(.bottom, props.isIPad ? 20 : 30)
+                        .padding(.leading, props.isIPad ? 100 : 20)
+                        .padding(.trailing, props.isIPad ? 100 : 10)
+                    
+                        VStack(alignment: .leading, spacing: 40) {
+                                        HStack {
+                                            Spacer()
+                                            Text("\(hours)")
+                                                .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                                                .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
+                                                .frame(width: 50) // Fixed width for the capsule
+
+                                                .padding(.horizontal, 20)
+                                                .padding(.vertical, 12)
+                                                .background {
+                                                    Capsule()
+                                                        .fill(Color.lemon)
+                                                }
+                                                .onLongPressGesture {
+                                                    showHoursPopover.toggle()
+                                                }
+                                                .popover(isPresented: $showHoursPopover) {
+                                                    PopoverContentView(maxValue: 24, minValue: 0, step: 1) { value in
+                                                        hours = value
+                                                        showHoursPopover = false
+                                                    }
+                                                    .onDisappear {
+                                                        calculateDays()
+                                                    }
+                                                }
+                                            Text("hr")
+                                                .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                                                .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
+                                                .frame(width: 70, alignment: .leading)
+
+                                            Spacer()
+
                                         }
-                                        .onLongPressGesture {
-                                            showHoursPopover.toggle()
+                                        HStack {
+                                            Spacer()
+
+                                            Text("\(minutes)")
+                                                .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                                                .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
+                                                .frame(width: 50) // Fixed width for the capsule
+
+                                                .padding(.horizontal, 20)
+                                                .padding(.vertical, 12)
+                                                .background {
+                                                    Capsule()
+                                                        .fill(Color.lemon)
+                                                }
+                                                .onLongPressGesture {
+                                                    showMinutesPopover.toggle()
+                                                }
+                                                .popover(isPresented: $showMinutesPopover) {
+                                                    PopoverContentView(maxValue: 60, minValue: 0, step: 5) { value in
+                                                        minutes = value
+                                                        showMinutesPopover = false
+                                                        calculateDays()
+                                                    }
+                                                    .onDisappear {
+                                                        calculateDays()
+                                                    }
+                                                }
+                                            Text("min")
+                                                .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                                                .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
+                                                .frame(width: 70, alignment: .leading)
+
+                                            Spacer()
+
                                         }
-                                        .popover(isPresented: $showHoursPopover) {
-                                            PopoverContentView(maxValue: 24, minValue: 0, step: 1) { value in
-                                                hours = value
-                                                showHoursPopover = false
-                                                
-                                            }.onDisappear{
-                                                calculateDays()
-                                            }
-                                        }
-                                    Text("hr")
-                                        .font(.largeTitle)
-                                }
-                                .offset(x: -12)
-                            }
-                            
-                            VStack {
-                                HStack {
-                                    Text("\(minutes)")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.black)
-                                        .padding(.horizontal, 20)
-                                        .padding(.vertical, 12)
-                                        .background {
-                                            Capsule()
-                                                .fill(Color.lemon)
-                                        }
-                                        .onLongPressGesture {
-                                            showMinutesPopover.toggle()
-                                        }
-                                        .popover(isPresented: $showMinutesPopover) {
-                                            PopoverContentView(maxValue: 60, minValue: 0, step: 5) { value in
-                                                minutes = value
-                                                showMinutesPopover = false
-                                                calculateDays()
-                                                print("calculate days", days)
-                                            }
-                                            .onDisappear{
-                                                calculateDays()
-                                                print("calculate weeks", weeks)
-                                            }
-                                            
-                                        }
-                                    Text("min")
-                                        .font(.largeTitle)
-                                }
-                            }
-                        }
+                                    }
                         .onAppear{
                             calculateDays()
                         }
-                        .padding(.vertical, 20)
                         Spacer()
                         
-                        Button(action: {
-                            showView6 = true
-                        }) {
-                            HStack {
-                                ArrowButtonView()
-                                    .padding(.top, 40)
-                                    .padding(.bottom, 20)
+                        HStack {
+                            Spacer()
+
+                            Button(action: {
+                                showView6 = true
+                            }) {
+                                HStack {
+                                    ArrowButtonView()
+                                        .padding(.top, 40)
+                                        .padding(.bottom, 20)
+                                }
+                            }.onAppear {
+                                self.saveMaxUnProdST()
                             }
-                        }.onAppear {
-                            self.saveMaxUnProdST()
+                            Spacer()
+
                         }
-                    }.padding()
-                        .frame(height:1000)
-                        .background(
-                            RoundedRectangle(cornerRadius: props.round.sheet)
-                                .fill(Color.white)
-                        )
-                        .padding(.horizontal) // Add padding here if needed
-                }.frame(height:1000)
+                        
+                    }
+                }
+                .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
+                .background(
+                    RoundedRectangle(cornerRadius: props.round.sheet)
+                        .fill(Color.white)
+                )
+                .rotatingBorder()
                 
             }
             
@@ -144,7 +150,7 @@ struct Onboarding5View: View {
 
     }
         .scrollDisabled(true)
-                
+        .contentShape(Rectangle())
         .gesture(
             DragGesture()
                 .onEnded { value in

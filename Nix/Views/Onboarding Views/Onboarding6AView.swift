@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct Onboarding6AView: View {
+    var props: Properties
+
     @Binding var weeks: Int
     @Binding var days: Int
+    @Environment(\.colorScheme) var colorScheme
 
     @Environment(\.presentationMode) var presentationMode
     @State private var showWeeksPopover = false
@@ -12,9 +15,9 @@ struct Onboarding6AView: View {
         VStack(spacing: 20) {
             
             HStack {
-                Text("The suggested time frame is 8 weeks, but we trust your judgment. You can always change it back in the settings.")
-                    .font(.subheadline)
-                    .foregroundColor(.blue)
+                Text("The suggested time frame is 8 weeks, but we trust your judgement. You can always change it back in the settings.")
+                    .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                    .foregroundColor(.sky)
                     .padding(.leading, 15)
                     .padding(.top, 20)
                 Spacer()
@@ -22,10 +25,12 @@ struct Onboarding6AView: View {
             
             HStack(spacing: 40) {
                 Text("\(String(format: "%02d", weeks))")
-                    .font(.largeTitle)
-                    .foregroundStyle(.black)
+                    .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                    .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
+                    .frame(width: 100) // Fixed width for the capsule
+
                     .background {
                         Capsule()
                             .fill(Color.yellow)
@@ -40,17 +45,19 @@ struct Onboarding6AView: View {
                         }
                     }
                 Text("weeks")
-                    .font(.title2)
-                    .bold()
-                    .foregroundStyle(.black)
+                    .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                    .font(.custom("Montserrat-Bold", size: props.customFontSize.medium))
+                    .frame(width: 80, alignment: .leading)
             }
             
             HStack(spacing: 40) {
                 Text("\(String(format: "%02d", days))")
-                    .font(.largeTitle)
-                    .foregroundStyle(.black)
+                    .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                    .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
+                    .frame(width: 100) // Fixed width for the capsule
+
                     .background {
                         Capsule()
                             .fill(Color.yellow)
@@ -65,9 +72,9 @@ struct Onboarding6AView: View {
                         }
                     }
                 Text("days")
-                    .font(.title2)
-                    .bold()
-                    .foregroundStyle(.black)
+                    .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                    .font(.custom("Montserrat-Bold", size: props.customFontSize.medium))
+                    .frame(width: 80, alignment: .leading)
             }
             
             Spacer()

@@ -18,52 +18,58 @@ struct Onboarding7View: View {
                 if showView8 {
                     Onboarding8View(props: props, showCurrView: $showView8)
                 }else{
-                    VStack(spacing:0) {
-
-                        VStack(spacing:20){
+                    VStack(alignment: .center, spacing:0){
                         OnboardingProgressBarView(currentPage: 6)
                             .padding(.bottom, 25)
+                        VStack(alignment: .leading, spacing:20){
+                        
                         HStack {
                             Text("One more step: Connect us to your Screen Time!")
                                 .foregroundColor(.black)
-                                .font(.title2)
-                                .fontWeight(.bold)
+                                .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                 .padding(.leading, 20)
                             Spacer()
                         }
                         Spacer()
                         HStack {
+                            Spacer()
                             Text("Your data is securely protected by Apple and only stays on your phone.")
-                                .font(.system(size: 15))
-                                .foregroundColor(.blue) // Use your custom color here
+                                .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                .foregroundColor(.sky)
                                 .padding(.bottom, 20)
                                 .padding(.leading, 20)
+                                .frame(maxWidth: .infinity, alignment: .center)
+
                             Spacer()
                         }
-                        NavigationLink(destination: Onboarding8View(props:props, showCurrView: $showView8), isActive: $isAuthorizationComplete) {
-                            ButtonView(props: props, text: "Connect")
-                                .onTapGesture {
-                                    attemptAuthorization()
+                            HStack{
+                                Spacer()
+                                NavigationLink(destination: Onboarding8View(props:props, showCurrView: $showView8), isActive: $isAuthorizationComplete) {
+                                    ButtonView(props: props, text: "Connect")
+                                        .onTapGesture {
+                                            attemptAuthorization()
+                                        }
                                 }
-                        }
-                        .alert(isPresented: $showAlert) {
-                            Alert(
-                                title: Text("Authorization Error"),
-                                message: Text(authorizationError?.localizedDescription ?? "Nix requires access to Screen Time."),
-                                dismissButton: .default(Text("OK")) {
-                                    showAlert = false // Dismiss the alert
+                                .alert(isPresented: $showAlert) {
+                                    Alert(
+                                        title: Text("Authorization Error"),
+                                        message: Text(authorizationError?.localizedDescription ?? "Nix requires access to Screen Time."),
+                                        dismissButton: .default(Text("OK")) {
+                                            showAlert = false // Dismiss the alert
+                                        }
+                                    )
                                 }
-                            )
-                        }
-                    }.padding()
-                            .frame(height:1000)
-                            .background(
-                                RoundedRectangle(cornerRadius: props.round.sheet)
-                                    .fill(Color.white)
-                            )
-                            .padding(.horizontal) // Add padding here if needed
+                                Spacer()
+
+                            }
+                    }
                        
-                }.frame(height:1000)
+                } .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
+                        .background(
+                            RoundedRectangle(cornerRadius: props.round.sheet)
+                                .fill(Color.white)
+                        )
+                        .rotatingBorder()
             }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.gray.opacity(0.2)) // Optional: add a background to distinguish the frame

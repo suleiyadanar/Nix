@@ -25,6 +25,7 @@ struct MainView: View {
             ResponsiveView { props in
             NavigationStack{
                 Onboarding1View(props:props)
+                    .environmentObject(userSettings)
 //                LoginView().padding(0)
             }
                         }

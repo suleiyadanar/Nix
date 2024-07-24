@@ -14,85 +14,95 @@ struct Onboarding3View: View {
 
     var body: some View {
         ScrollView {
-            VStack {
+            VStack(spacing: 20) {
                 if showView4 {
                     Onboarding4View(props: props, showCurrView: $showView4)
                 } else if showView3A {
                     Onboarding3AView(props: props, showCurrView: $showView3A)
                 } else {
-                    VStack(spacing: 0) {
-                        VStack(spacing: 20) {
-                            OnboardingProgressBarView(currentPage: 2)
-                                .padding(.bottom, 25)
-                            HStack {
+                    VStack(alignment: .center, spacing: 0) {
+                        OnboardingProgressBarView(currentPage: 2)
+                            .padding(.bottom, 25)
+                        VStack(alignment: .leading, spacing: 20) {
                                 Text("\(userSettings.name), what are your goals?")
-                                    .foregroundColor(Color.black)
-                                    .font(.system(size: 25))
+                                    .foregroundColor(.black)
+                                    .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                     .fontWeight(.bold)
-                                    .padding(.leading, 20)
-                                    .font(.custom("Nunito-Medium", size: props.customFontSize.mediumLarge))
+                                    .padding(.leading, props.isIPad ? 100 : 20)
+                                    .padding(.trailing, props.isIPad ? 100 : 10)
+                                
+                                
+                                Text("Choose up to three goals or write your own! You can update them later in the settings.")
+                                    .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                    .foregroundColor(.sky)
+                                    .padding(.bottom, props.isIPad ? 20 : 20)
+                            .padding(.leading, props.isIPad ? 100 : 20)
+                            .padding(.trailing, props.isIPad ? 100 : 10)
+                           
+                           
+                                        ForEach(0..<numberOfRows(), id: \.self) { row in
+                                            HStack(spacing: 16) {
+                                                Spacer()
+                                                ForEach(0..<2, id: \.self) { column in
+                                                    let index = row * 2 + column
+                                                    if index < screenTimeOptions.count {
+                                                        OptionButtonView(
+                                                            props:props,
+                                                            isSelected: self.$optionsChosen[index],
+                                                            inputText: self.screenTimeOptions[index],
+                                                            onSelectionChange: { isSelected in
+                                                                self.optionChanged(index: index, isSelected: isSelected)
+                                                            }, fontSize: props.customFontSize.smallMedium
+                                                        )
+                                                    }
+                                                }
+                                                Spacer()
+                                            }
+                                        }.frame(height:70)
+                                    
+
+//                            Image("dottedline")
+//                                .padding(.top, props.isIPad ? 20 : 10)
+//                                .padding(.bottom, props.isIPad ? 20 : 10)
+                            HStack{
+                                Spacer()
+                                Button(action: {
+                                    showView3A = true
+                                }) {
+                                    OtherButtonView(props:props)
+                                }
+                                .frame(height: 45)
                                 Spacer()
                             }
-                            HStack {
-                                Text("Choose up to three goals or write your own! You can update them later in the settings.")
-                                    .foregroundColor(Color.sky)
-                                    .font(.custom("Nunito-Medium", size: props.customFontSize.medium))
-                                    .font(.system(size: 15))
-                                    .fontWeight(.bold)
-                                    .padding(.bottom, 20)
-                                    .padding(.leading, 20)
-                            }
                             Spacer()
-                            VStack(spacing: 16) {
-                                ForEach(0..<7) { index in
-                                    OptionButtonView(
-                                        isSelected: self.$optionsChosen[index],
-                                        inputText: self.screenTimeOptions[index],
-                                        onSelectionChange: { isSelected in
-                                            self.optionChanged(index: index, isSelected: isSelected)
-                                        }
-                                    )
-                                }
-                            }
-                            .frame(height: 400)
-                            Image("dottedline")
-                                .padding(.top, 20)
-                                .padding(.bottom, 20)
-
-                            Button(action: {
-                                showView3A = true
-                            }) {
-                                OtherButtonView()
-                            }
-                            .frame(height: 45)
-
-                            Spacer()
-
-                            if self.selectedOptionsCount() > 0 {
-                                Button(action: {
-                                    showView4 = true
-                                }) {
-                                    ArrowButtonView()
-                                }
-                                .padding(.top, 40)
-                                .padding(.bottom, 20)
-                            } else {
-                                Rectangle()
-                                    .foregroundColor(Color.clear)
-                                    .frame(height: 35) // Adjust height as needed
+                            HStack{
+                                Spacer()
+                                if self.selectedOptionsCount() > 0 {
+                                    Button(action: {
+                                        showView4 = true
+                                    }) {
+                                        ArrowButtonView()
+                                    }
                                     .padding(.top, 40)
                                     .padding(.bottom, 20)
+                                } else {
+                                    Rectangle()
+                                        .foregroundColor(Color.clear)
+                                        .frame(height: 35) // Adjust height as needed
+                                        .padding(.top, 40)
+                                        .padding(.bottom, 20)
+
+                                }
+                                Spacer()
                             }
                         }
-                        .padding()
-                        .frame(height: 1000)
-                        .background(
-                            RoundedRectangle(cornerRadius: props.round.sheet)
-                                .fill(Color.white)
-                        )
-                        .padding(.horizontal)
                     }
-                    .frame(height: 1000)
+                    .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
+                    .background(
+                        RoundedRectangle(cornerRadius: props.round.sheet)
+                            .fill(Color.white)
+                    )
+                    .rotatingBorder()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -100,6 +110,7 @@ struct Onboarding3View: View {
             Spacer(minLength: 20)
         }
         .scrollDisabled(true)
+        .contentShape(Rectangle())
         .gesture(
             DragGesture()
                 .onEnded { value in
@@ -109,16 +120,19 @@ struct Onboarding3View: View {
                 }
         )
     }
-
+    private func numberOfRows() -> Int {
+           return (screenTimeOptions.count + 1) / 2
+       }
+       
+     
     private var screenTimeOptions: [String] {
         return [
-            "Improve grades",
-            "Spend more time socializing",
-            "Club activities",
-            "Improve sleep quality",
-            "More time for self-care",
-            "Career growth",
-            "Increased mindfulness"
+            "Improve Grades",
+            "Social Time",
+            "Club Activities",
+            "Sleep Quality",
+            "Self-care",
+            "Career Growth",
         ]
     }
 
@@ -140,6 +154,8 @@ struct Onboarding3View: View {
 }
 
 struct OtherButtonView: View {
+    var props: Properties
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -149,8 +165,8 @@ struct OtherButtonView: View {
             VStack {
                 Spacer()
                 Text("Write my own!")
-                    .padding(.leading, 15)
                     .foregroundColor(.white)
+                    .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                 Spacer()
             }
         }

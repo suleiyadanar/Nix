@@ -17,4 +17,3 @@ class UserSettings: ObservableObject {
     @Published var ready: Bool = false
 }
 
-

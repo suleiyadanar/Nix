@@ -6,7 +6,7 @@ struct Onboarding2View: View {
     var body: some View {
         ZStack {
             OnboardingBackgroundView()
-            EmbeddedNavigationView(props:props)
+            EmbeddedNavigationView(props: props)
         }
         .navigationBarHidden(true)
     }
@@ -14,109 +14,115 @@ struct Onboarding2View: View {
 
 struct NameRectangleView: View {
     @EnvironmentObject var userSettings: UserSettings
+
     var props: Properties
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: props.round.item)
+            let rectangleWidth = CGFloat(props.width) * 0.8
+            let rectangleHeight = props.isIPad ? CGFloat(60) : CGFloat(50)
+            let cornerRadius = CGFloat(props.round.item)
+            let fontSize = CGFloat(props.customFontSize.medium)
+            
+            RoundedRectangle(cornerRadius: cornerRadius)
                 .foregroundColor(Color.black.opacity(0.06))
-                .frame(width: 300, height: 100)
+                .frame(width: rectangleWidth, height: rectangleHeight)
             
             TextField("Your name...", text: $userSettings.name)
-                .font(.custom("Nunito-Medium", size: props.customFontSize.medium))
-                .foregroundColor(.black)
-                .padding(.leading, 15)
-                .frame(width: 300, height: 100)
+                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                            .foregroundColor(.black)
+                            .padding(.leading, 15)
+                            .frame(width: rectangleWidth, height: rectangleHeight)
+                            .onChange(of: userSettings.name) { newValue in
+                                userSettings.name = newValue.filter { $0.isLetter }
+            }
         }
     }
 }
-
 
 struct EmbeddedNavigationView: View {
     var props: Properties
     @EnvironmentObject var userSettings: UserSettings
-
+    
     @State private var showView3 = false
-
+    
     var body: some View {
-     
-
         ScrollView {
-            Spacer(minLength:20)
-            VStack {
+            Spacer(minLength: 20)
+            VStack(spacing: 20) {
                 if showView3 {
                     Onboarding3View(props: props, showCurrView: $showView3)
                 } else {
-                    VStack(spacing: 0) {
-                        VStack(spacing: 20) {
-                            OnboardingProgressBarView(currentPage: 1)
-                                .padding(.bottom, 25)
+                    VStack(alignment:.center, spacing: 0) {
+                        OnboardingProgressBarView(currentPage: 1)
+                            .padding(.bottom, 25)
+                        VStack(alignment: .leading, spacing: 20) {
+                        
                             
                             Text("Hi, what should we call you?")
                                 .foregroundColor(.black)
-                                .font(.custom("Nunito-Medium", size: props.customFontSize.mediumLarge))
+                                .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                 .fontWeight(.bold)
+                                .padding(.leading, props.isIPad ? 100 : 30)
+                                .padding(.trailing, props.isIPad ? 100 : 5)
                             
                             Text("Creating a personalized journey for you...")
-                                .font(.custom("Nunito-Medium", size: props.customFontSize.medium))
-                                .foregroundColor(.blue)
-                                .fontWeight(.bold)
+                                .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                .foregroundColor(.sky)
                                 .padding(.bottom, 20)
-                            
-//                            Spacer() // Pushes content towards the center
+                                .padding(.leading, props.isIPad ? 100 : 30)
+                                .padding(.trailing, props.isIPad ? 100 : 5)
                             
                             NameRectangleView(props: props)
                                 .padding(.top, 15)
+                                .padding(.leading, props.isIPad ? 100 : 30)
+                                .padding(.trailing, props.isIPad ? 100 : 30)
                             
-                            Spacer() // Pushes content towards the center
+                            Spacer()
                             
-                            Button(action: {
-                                showView3 = true
-                            }) {
-                                if !userSettings.name.isEmpty {
-                                    ArrowButtonView()
-                                        .padding(.top, 40)
-                                        .padding(.bottom, 20) // Adjust as needed
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    showView3 = true
+                                }) {
+                                    if !userSettings.name.isEmpty {
+                                        ArrowButtonView()
+                                            .padding(.top, 40)
+                                            .padding(.bottom, 20)
+                                            .padding(.leading,20)
+
+                                    }
                                 }
+                                Spacer()
                             }
                         }
-                        .padding()
-                        .frame(height:1000)
-                        .background(
-                            RoundedRectangle(cornerRadius: props.round.sheet)
-                                .fill(Color.white)
-                        )
-                        .padding(.horizontal)
+                        
+                        
                     }
-                    .frame(height: 1000) // Set a fixed height for the embedded view
+                    .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
+                    .background(
+                        RoundedRectangle(cornerRadius: props.round.sheet)
+                            .fill(Color.white)
+                    )
+                    .rotatingBorder()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.gray.opacity(0.2)) // Optional: add a background to distinguish the frame
+            .background(Color.gray.opacity(0.2))
             Spacer(minLength: 20)
-        }.scrollDisabled(true)
-
-    }
-}
-
-
-struct DetailView: View {
-    var body: some View {
-        VStack {
-            Text("This is the detail view")
-            Button(action: {
-                // Action to go back if needed
-            }) {
-                Text("Go Back")
-            }
-            .padding()
+        }
+        .scrollDisabled(true)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            hideKeyboard()
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+
+
