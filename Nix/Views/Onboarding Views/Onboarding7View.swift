@@ -4,6 +4,7 @@ import FamilyControls
 struct Onboarding7View: View {
     var props: Properties
     @Binding var showCurrView: Bool // Use a Binding to manage the view transition state
+    @Environment(\.colorScheme) var colorScheme
 
     let center = AuthorizationCenter.shared
     @State private var authorizationError: Error?
@@ -25,7 +26,7 @@ struct Onboarding7View: View {
                         
                         HStack {
                             Text("One more step: Connect us to your Screen Time!")
-                                .foregroundColor(.black)
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                 .padding(.leading, 20)
                             Spacer()
@@ -67,12 +68,12 @@ struct Onboarding7View: View {
                 } .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
                         .background(
                             RoundedRectangle(cornerRadius: props.round.sheet)
-                                .fill(Color.white)
+                                .fill(colorScheme == .dark ? Color.black : Color.white)
                         )
                         .rotatingBorder()
             }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.gray.opacity(0.2)) // Optional: add a background to distinguish the frame
+          
                 Spacer(minLength: 20)
     }
         .scrollDisabled(true)

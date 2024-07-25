@@ -14,6 +14,7 @@ struct Onboarding2View: View {
 
 struct NameRectangleView: View {
     @EnvironmentObject var userSettings: UserSettings
+    @Environment(\.colorScheme) var colorScheme
 
     var props: Properties
     
@@ -25,16 +26,17 @@ struct NameRectangleView: View {
             let fontSize = CGFloat(props.customFontSize.medium)
             
             RoundedRectangle(cornerRadius: cornerRadius)
-                .foregroundColor(Color.black.opacity(0.06))
+                .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.2) :  Color.black.opacity(0.06))
                 .frame(width: rectangleWidth, height: rectangleHeight)
             
             TextField("Your name...", text: $userSettings.name)
                             .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
-                            .foregroundColor(.black)
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                             .padding(.leading, 15)
                             .frame(width: rectangleWidth, height: rectangleHeight)
                             .onChange(of: userSettings.name) { newValue in
                                 userSettings.name = newValue.filter { $0.isLetter }
+                                
             }
         }
     }
@@ -43,7 +45,8 @@ struct NameRectangleView: View {
 struct EmbeddedNavigationView: View {
     var props: Properties
     @EnvironmentObject var userSettings: UserSettings
-    
+    @Environment(\.colorScheme) var colorScheme
+
     @State private var showView3 = false
     
     var body: some View {
@@ -60,7 +63,7 @@ struct EmbeddedNavigationView: View {
                         
                             
                             Text("Hi, what should we call you?")
-                                .foregroundColor(.black)
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                 .fontWeight(.bold)
                                 .padding(.leading, props.isIPad ? 100 : 30)
@@ -102,13 +105,12 @@ struct EmbeddedNavigationView: View {
                     .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
                     .background(
                         RoundedRectangle(cornerRadius: props.round.sheet)
-                            .fill(Color.white)
+                            .fill(colorScheme == .dark ? Color.black : Color.white)
                     )
                     .rotatingBorder()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.gray.opacity(0.2))
             Spacer(minLength: 20)
         }
         .scrollDisabled(true)

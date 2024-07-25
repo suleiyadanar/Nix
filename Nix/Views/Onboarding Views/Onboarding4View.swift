@@ -3,6 +3,7 @@ import SwiftUI
 struct Onboarding4View: View {
     var props: Properties
     @Binding var showCurrView: Bool // Use a Binding to manage the view transition state
+    @Environment(\.colorScheme) var colorScheme
 
     @State private var optionsChosen = Array(repeating: false, count: 6)
     @State private var otherOptionSelected = false
@@ -21,7 +22,7 @@ struct Onboarding4View: View {
                             .padding(.bottom, 25)
                         VStack(alignment: .leading, spacing: 20) {
                             Text("What's your current daily average \nunproductive screen time?")
-                                .foregroundColor(Color.black)
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                 .padding(.leading, 20)
                             
@@ -82,13 +83,12 @@ struct Onboarding4View: View {
                     .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
                     .background(
                         RoundedRectangle(cornerRadius: props.round.sheet)
-                            .fill(Color.white)
+                            .fill(colorScheme == .dark ? Color.black : Color.white)
                     )
                     .rotatingBorder()
                 }
             }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.gray.opacity(0.2)) // Optional: add a background to distinguish the frame
                 Spacer(minLength: 20)
             }
             .scrollDisabled(true)

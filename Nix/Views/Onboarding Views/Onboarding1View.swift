@@ -4,6 +4,8 @@ import SwiftUI
 
 struct Onboarding1View: View {
     var props: Properties
+    @Environment(\.colorScheme) var colorScheme
+
     @State private var animateGradient: Bool = false
     @State private var info: [Info] = message
     @State private var activeIndex: Int = 0

@@ -90,7 +90,7 @@ struct Onboarding6AView: View {
         }
         .padding()
         .navigationBarHidden(true)
-        .background(Color.white)
+        .background(colorScheme == .dark ? Color.black : Color.white)
         .edgesIgnoringSafeArea(.all)
     }
 }

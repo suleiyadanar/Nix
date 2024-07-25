@@ -19,7 +19,7 @@ struct OptionButtonView: View {
         }) {
             ZStack {
                 Rectangle()
-                    .fill(isSelected ? Color.lemon : Color.lightGray)
+                    .fill(isSelected ? Color.sky : Color.lightGray)
                     .frame(width: 140, height: props.isIPad ? 100 : 80) // Ensure size consistency
                     .cornerRadius(10)
                 VStack(alignment: .center) {
@@ -27,7 +27,7 @@ struct OptionButtonView: View {
                     Text(inputText)
                         .padding(.horizontal, 15)
                         .font(.custom("Montserrat-Regular", size: fontSize))
-                        .foregroundColor(.black)
+                        .foregroundColor(isSelected ? Color.white : Color.black)
                         .multilineTextAlignment(.center)
                     Spacer()
                 }

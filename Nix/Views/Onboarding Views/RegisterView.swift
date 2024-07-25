@@ -4,6 +4,7 @@ import SwiftCSV
 
 struct RegisterView: View {
     var props: Properties
+    @Environment(\.colorScheme) var colorScheme
 
     @EnvironmentObject var userSettings: UserSettings
 
@@ -40,146 +41,181 @@ struct RegisterView: View {
 
                             HStack {
                                 Text("Creating your account for you...")
-                                    .font(.system(size: 30))
-                                    .bold()
-                                    .padding(.leading, 15)
+                                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                    .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
+                                    .padding(.leading, props.isIPad ? 100 : 20)
+                                    .padding(.trailing, props.isIPad ? 100 : 20)
                                 Spacer()
-                                if let errorMessage = viewModel.errorMessage {
-                                    Text(errorMessage)
+                                Text(viewModel.errorMessage)
                                         .foregroundColor(.red)
                                         .padding(.top, 8)
-                                }
+                                
                             }
-                            Spacer()
 
                             // Login Form
                             VStack {
                                 VStack {
                                     HStack {
-                                        Text("Username*")
-                                            .foregroundColor(Color.blue)
-                                            .font(.system(size: 15))
-                                            .bold()
-                                            .padding(.leading, 20)
+                                        Text("Username")
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                            .foregroundColor(.sky)
+                                            .padding(.leading, props.isIPad ? 100 : 20)
+                                            .padding(.trailing, props.isIPad ? 100 : 20)
                                         Spacer()
                                     }
-                                    
+                                    let rectangleWidth = CGFloat(props.width) * 0.8
+                                    let rectangleHeight = props.isIPad ? CGFloat(60) : CGFloat(50)
+                                    let cornerRadius = CGFloat(props.round.item)
+                                    let fontSize = CGFloat(props.customFontSize.medium)
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: cornerRadius)
+                                            .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.2) :  Color.black.opacity(0.06))
+                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                        
                                     TextField("Username", text: $viewModel.username)
-                                        .padding(.horizontal,20)
-                                        .frame(width: 250, height: 40)
-                                        .background(Color.black.opacity(0.05))
-                                        .cornerRadius(10)
-                                        .padding(.bottom, 10)
-                                    
-                                    HStack {
-                                        Text("Password*")
-                                            .foregroundColor(Color.blue)
-                                            .font(.system(size: 15))
-                                            .bold()
-                                            .padding(.leading, 20)
-                                        Spacer()
-                                    }
-                                    SecureField("Strong Password", text: $viewModel.password)
-                                        .padding(.horizontal,20)
-                                        .frame(width: 250, height: 40)
-                                        .background(Color.black.opacity(0.05))
-                                        .cornerRadius(10)
-                                        .padding(.bottom, 10)
-                                    
-                                    HStack {
-                                        Text("Educational Email Address*")
-                                            .foregroundColor(Color.blue)
-                                            .font(.system(size: 15))
-                                            .bold()
-                                            .padding(.leading, 20)
-                                        Spacer()
-                                    }
-                                    TextField("jane@college.edu", text: $viewModel.email)
-                                        .padding(.horizontal,20)
-                                        .frame(width: 250, height: 40)
-                                        .background(Color.black.opacity(0.05))
-                                        .cornerRadius(10)
-                                        .autocapitalization(.none)
-                                        .padding(.bottom, 10)
-                                    
-                                    HStack {
-                                        Text("College*")
-                                            .foregroundColor(Color.blue)
-                                            .font(.system(size: 15))
-                                            .bold()
-                                            .padding(.leading, 20)
-                                        Spacer()
-                                    }
-                                    
-                                    // Searchable university picker
-                                    TextField("Search for your university", text: $searchText)
-                                        .padding()
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: searchText, perform: { _ in
-                                            filterUniversities()
-                                        })
-                                        .onTapGesture {
-                                            showList = true
-                                        }
-                                    
-                                    if showList {
-                                        if isLoading {
-                                            ProgressView()
-                                        } else {
-                                            List {
-                                                ForEach(filteredUniversities, id: \.self) { university in
-                                                    Text(university)
-                                                        .onTapGesture {
-                                                            if university == "Other" {
-                                                                viewModel.college = "Other"
-                                                                searchText = university
-                                                                showList = false
-                                                                hideKeyboard()
-                                                                
-                                                                // Ensure showCustomUniversityField is shown
-                                                                showCustomUniversityField = true
-                                                            } else {
-                                                                viewModel.college = university
-                                                                searchText = university
-                                                                showList = false
-                                                                hideKeyboard()
-                                                                
-                                                                // Ensure showCustomUniversityField is hidden when other university is selected
-                                                                showCustomUniversityField = false
-                                                                customUniversityName = "" // Clear custom university name if previously set
-                                                            }
-                                                        }
-                                                        .padding(.vertical, 5)
+                                        .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                        .frame(width: rectangleWidth, height: rectangleHeight)
+                                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                        .padding(.leading, props.isIPad ? 100 : 35)
+                                        .padding(.trailing, props.isIPad ? 100 : 15)
+                                        .onChange(of: viewModel.username) { newValue in
+                                                if newValue.count > 20 {
+                                                    viewModel.username = String(newValue.prefix(20))
+                                                    viewModel.errorMessage = "Username cannot exceed 20 characters."
+                                                } else if newValue.count < 6 {
+                                                    viewModel.errorMessage = "Username must be at least 6 characters long."
+                                                } else {
+                                                    viewModel.errorMessage = "" // Clear the error message if the length is valid
                                                 }
                                             }
-                                            .frame(height: 200) // Adjust the height as needed
-                                        }
                                     }
-                                    
-                                    if showCustomUniversityField {
-                                        TextField("Enter your university name", text: $viewModel.college)
-                                            .padding()
-                                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                                            .onTapGesture {
-                                                showList = false
-                                            }
-                                    }
-                                    
+                                    Spacer()
                                     HStack {
-                                        Text("Year*")
-                                            .foregroundColor(Color.blue)
-                                            .font(.system(size: 15))
-                                            .bold()
+                                        Text("Password")
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                            .foregroundColor(Color.sky)
                                             .padding(.leading, 20)
+                                        Spacer()
+                                    }
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: cornerRadius)
+                                            .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.2) :  Color.black.opacity(0.06))
+                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                        
+                                        SecureField("Strong Password", text: $viewModel.password)
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                            .autocapitalization(.none)
+                                            .padding(.bottom, 10)
+                                            .padding(.leading, props.isIPad ? 100 : 35)
+                                            .padding(.trailing, props.isIPad ? 100 : 20)
+                                    }
+                                    Spacer()
+                                    HStack {
+                                        Text("School Email Address")
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                            .foregroundColor(Color.sky)
+                                            .font(.system(size: 15))
+                                            .padding(.leading, props.isIPad ? 100 : 20)
+                                            .padding(.trailing, props.isIPad ? 100 : 20)
+                                        Spacer()
+                                    }
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: cornerRadius)
+                                            .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.2) :  Color.black.opacity(0.06))
+                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                        
+                                        TextField("Email", text: $viewModel.email)
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                            .autocapitalization(.none)
+                                            .padding(.leading, props.isIPad ? 100 : 35)
+                                            .padding(.trailing, props.isIPad ? 100 : 20)
+                                    }
+                                    
+//                                    HStack {
+//                                        Text("College*")
+//                                            .foregroundColor(Color.blue)
+//                                            .font(.system(size: 15))
+//                                            .bold()
+//                                            .padding(.leading, 20)
+//                                        Spacer()
+//                                    }
+//                                    
+//                                    // Searchable university picker
+//                                    TextField("Search for your university", text: $searchText)
+//                                        .padding()
+//                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                        .onChange(of: searchText, perform: { _ in
+//                                            filterUniversities()
+//                                        })
+//                                        .onTapGesture {
+//                                            showList = true
+//                                        }
+//                                    
+//                                    if showList {
+//                                        if isLoading {
+//                                            ProgressView()
+//                                        } else {
+//                                            List {
+//                                                ForEach(filteredUniversities, id: \.self) { university in
+//                                                    Text(university)
+//                                                        .onTapGesture {
+//                                                            if university == "Other" {
+//                                                                viewModel.college = "Other"
+//                                                                searchText = university
+//                                                                showList = false
+//                                                                hideKeyboard()
+//                                                                
+//                                                                // Ensure showCustomUniversityField is shown
+//                                                                showCustomUniversityField = true
+//                                                            } else {
+//                                                                viewModel.college = university
+//                                                                searchText = university
+//                                                                showList = false
+//                                                                hideKeyboard()
+//                                                                
+//                                                                // Ensure showCustomUniversityField is hidden when other university is selected
+//                                                                showCustomUniversityField = false
+//                                                                customUniversityName = "" // Clear custom university name if previously set
+//                                                            }
+//                                                        }
+//                                                        .padding(.vertical, 5)
+//                                                }
+//                                            }
+//                                            .frame(height: 200) // Adjust the height as needed
+//                                        }
+//                                    }
+//                                    
+//                                    if showCustomUniversityField {
+//                                        TextField("Enter your university name", text: $viewModel.college)
+//                                            .padding()
+//                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                            .onTapGesture {
+//                                                showList = false
+//                                            }
+//                                    }
+//                                    
+                                    Spacer()
+                                    HStack {
+                                        Text("Year")
+                                            .foregroundColor(Color.sky)
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                            .font(.system(size: 15))
+                                            .padding(.leading, props.isIPad ? 100 : 20)
                                         Spacer()
                                         
                                         VStack {
                                             Button(action: {
                                                 isPopoverPresented.toggle()
                                             }) {
-                                                Text("Select Year: \(viewModel.year)")
+                                                Text("\(viewModel.year == "" ? academicYears[0] : viewModel.year)")
+                                                    .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                                    .foregroundColor(Color.white)
                                                     .padding()
-                                                    .background(Capsule().fill(Color.yellow))
+                                                    .background(Capsule().fill(Color.sky))
                                             }
                                             .popover(isPresented: $isPopoverPresented, arrowEdge: .bottom) {
                                                 PopoverMenuView(options: academicYears) { selectedYear in
@@ -189,50 +225,60 @@ struct RegisterView: View {
                                                 .frame(width: 150, height: 200) // Adjust the popover size as needed
                                                 .padding()
                                             }
-                                        }
+                                        }                                      .padding(.trailing, props.isIPad ? 100 : 20)
+
                                     }
-                                    
+                                    Spacer()
                                     HStack {
-                                        Text("Major*")
-                                            .foregroundColor(Color.blue)
+                                        Text("Major")
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                            .foregroundColor(Color.sky)
+                                            .frame(height: 40)
                                             .font(.system(size: 15))
-                                            .bold()
-                                            .padding(.leading, 20)
+                                            .padding(.leading, props.isIPad ? 100 : 20)
+                                            .padding(.trailing, props.isIPad ? 100 : 10)
                                         Spacer()
                                     }
-                                    TextField("Computer Science", text: $viewModel.major)
-                                        .padding(.horizontal,20)
-                                        .frame(width: 250, height: 40)
-                                        .background(Color.black.opacity(0.05))
-                                        .cornerRadius(10)
-                                        .padding(.bottom, 10)
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: cornerRadius)
+                                            .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.2) :  Color.black.opacity(0.06))
+                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                        TextField("Computer Science", text: $viewModel.major)
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                            .cornerRadius(10)
+                                            .autocapitalization(.none)
+                                            .padding(.leading, props.isIPad ? 100 : 35)
+                                            .padding(.trailing, props.isIPad ? 100 : 20)
+                                    }
                                 }
                                 Spacer()
-                                HStack(alignment: .top) {
+                                HStack() {
                                     Toggle("", isOn: $optIn)
                                         .toggleStyle(CheckboxToggle())
                                         .padding(.leading, 18)
-                                        .offset(y:-2)
+                                        .foregroundColor(Color.sky)
                                     Text("Opt in to our mailing list for FREE productivity and study tips from a community of students all over the globe.")
-                                        .font(.system(size: 15))
-                                        .foregroundColor(Color.blue)
+                                        .font(.custom("Montserrat-Regular", size: props.customFontSize.small))
+                                        .foregroundColor(Color.sky)
                                         .padding(.top, 4)
                                         .padding(.leading, 2)
                                 }
                                 .padding(.bottom, 20)
                                 
                                 Text("By creating an account you accept our ")
-                                    .font(.footnote)
-                                    .foregroundColor(.gray) +
+                                    .font(.custom("Montserrat-Regular", size: props.customFontSize.small))
+                                    .foregroundColor(Color.sky)                                    .foregroundColor(.gray) +
                                 Text("Terms and Conditions")
                                     .font(.footnote)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.sky)
                                     .underline()
                                 Button(action: {
                                     viewModel.register()
                                     navigate = true // Activate navigation after registration
                                 }) {
-                                    ButtonView(props: props, text: "Create Account")
+                                    ButtonView(props: props, text: "Register")
                                 }
                                 .background(
                                     NavigationLink(destination: Onboarding10View(props:props), isActive: $navigate) {
@@ -247,22 +293,27 @@ struct RegisterView: View {
                                 
                                 HStack{
                                     Text("Already a member?")
-                                    NavigationLink("Login", destination: LoginView(props:props))
+                                        .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                    NavigationLink("Login", destination: LoginView(props: props))
+                                        .font(.custom("Montserrat-Bold", size: props.customFontSize.smallMedium))
+                                        .foregroundColor(Color.sky)
+                                        .textCase(.uppercase)
                                 }
                                 
                             }.padding(.top, 10)
-                            
-                        }.padding()
-                            .frame(height:1000)
-                            .background(
-                                RoundedRectangle(cornerRadius: props.round.sheet)
-                                    .fill(Color.white)
-                            )
-                            .padding(.horizontal)
+                            Spacer()
+                        }
                     }
-                    .frame(height: 1000) // Set a fixed height for the embedded view
+                    .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 1000)
+                    .background(
+                        RoundedRectangle(cornerRadius: props.round.sheet)
+                            .fill(colorScheme == .dark ? Color.black : Color.white)
+                    )
+                    .rotatingBorder()
                     
                 }
+                
             }
             .navigationBarHidden(true)
             .safeAreaInset(edge: .top) {
@@ -273,6 +324,9 @@ struct RegisterView: View {
                 viewModel.unProdST = userSettings.unProdST
                 viewModel.maxUnProdST = userSettings.maxUnProdST
                 
+            }
+            .onTapGesture {
+                hideKeyboard()
             }
         }
         
@@ -331,7 +385,8 @@ struct CheckboxToggle: ToggleStyle {
         Button(action: { configuration.isOn.toggle() }) {
             HStack {
                 Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
-                    .foregroundColor(configuration.isOn ? Color.blue : Color.gray)
+                    .foregroundColor(configuration.isOn ? Color.babyBlue : Color.gray)
+                    .frame(width:15, height: 15)
                 configuration.label
             }
         }

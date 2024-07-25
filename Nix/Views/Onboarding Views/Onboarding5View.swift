@@ -28,7 +28,7 @@ struct Onboarding5View: View {
                         .padding(.bottom, 25)
                     VStack(alignment: .leading, spacing:20) {
                             Text("Maximum limit for unproductive Screen Time?")
-                                .foregroundColor(.black)
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                 .padding(.leading, props.isIPad ? 100 : 20)
                                 .padding(.trailing, props.isIPad ? 100 : 10)
@@ -67,7 +67,7 @@ struct Onboarding5View: View {
                                                     }
                                                 }
                                             Text("hr")
-                                                .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                                 .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
                                                 .frame(width: 70, alignment: .leading)
 
@@ -102,7 +102,7 @@ struct Onboarding5View: View {
                                                     }
                                                 }
                                             Text("min")
-                                                .foregroundColor(colorScheme == .dark ? Color.black : Color.black)
+                                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                                 .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
                                                 .frame(width: 70, alignment: .leading)
 
@@ -138,14 +138,13 @@ struct Onboarding5View: View {
                 .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
                 .background(
                     RoundedRectangle(cornerRadius: props.round.sheet)
-                        .fill(Color.white)
+                        .fill(colorScheme == .dark ? Color.black : Color.white)
                 )
                 .rotatingBorder()
                 
             }
             
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.gray.opacity(0.2)) // Optional: add a background to distinguish the frame
                 Spacer(minLength: 20)
 
     }

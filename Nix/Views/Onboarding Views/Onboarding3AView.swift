@@ -28,7 +28,7 @@ struct Onboarding3AView: View {
                             .padding(.bottom, 25)
                         VStack (alignment: .leading, spacing:20) {
                                 Text("\(userSettings.name), what are your goals?")
-                                .foregroundColor(.black)
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                 .fontWeight(.bold)
                                 .padding(.leading, props.isIPad ? 100 : 20)
@@ -123,13 +123,12 @@ struct Onboarding3AView: View {
                     .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
                     .background(
                         RoundedRectangle(cornerRadius: props.round.sheet)
-                            .fill(Color.white)
+                            .fill(colorScheme == .dark ? Color.black : Color.white)
                     )
                     .rotatingBorder()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.gray.opacity(0.2)) // Optional: add a background to distinguish the frame
             Spacer(minLength: 20)
         }
         .scrollDisabled(true)
