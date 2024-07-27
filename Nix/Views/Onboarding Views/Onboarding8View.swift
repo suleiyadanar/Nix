@@ -2,28 +2,35 @@ import SwiftUI
 
 struct Onboarding8View: View {
     var props: Properties
+    @Environment(\.colorScheme) var colorScheme
+
+    @Binding var showCurrView: Bool // Use a Binding to manage the view transition state
 
     @State private var progress: Double = 0.0
     @State private var navigate: Bool = false
     
+    
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(alignment: .leading) {
+                Spacer()
                 HStack {
-                    Text("Creating your personalized \nroad map ...")
-                        .font(.system(size: 18))
-                        .foregroundStyle(.black)
+                    Spacer()
+                    Text("Creating your personalized road map ...")
+                        .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                         .padding(.bottom, 17)
-                        .padding(.leading, 38)
-                        .padding(.top, 190)
                     Spacer()
                 }
-                
-                ProgressBar(progress: $progress)
-                    .frame(width: 300, height: 20)
-                    .onAppear {
-                        startProgress()
-                    }
+                HStack{
+                    Spacer()
+                    ProgressBar(progress: $progress)
+                        .frame(width: 300, height: 20)
+                        .onAppear {
+                            startProgress()
+                        }
+                    Spacer()
+                }
                 Spacer()
             }
             .navigationDestination(isPresented: $navigate) {
@@ -36,6 +43,13 @@ struct Onboarding8View: View {
             }
         }
         .navigationBarHidden(true)
+        .interactiveDismissDisabled(true)
+        .overlay(
+            Color.clear
+                .gesture(DragGesture().onChanged { _ in
+                    // Intercept swipe gestures
+                })
+        )
     }
     
     func startProgress() {

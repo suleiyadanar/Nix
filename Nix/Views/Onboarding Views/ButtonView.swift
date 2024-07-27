@@ -30,11 +30,12 @@ struct ButtonView: View {
                 )
 
             Text(text)
-                .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
+                .font(.custom("Bungee-Regular", size: props.customFontSize.mediumLarge))
                 .foregroundColor(.white)
                 .padding()
+                .textCase(.uppercase)
         }
-        .frame(width: 300, height: 80)
+        .frame(width: props.isIPad ? 300 : 250, height: props.isIPad ? 80 : 60)
         .padding(.horizontal, 40)
         .padding(.bottom, 20)
         .onAppear {
@@ -44,6 +45,8 @@ struct ButtonView: View {
         }
     }
 }
+
+
 
 //#Preview {
 //    ButtonView(text: "")

@@ -133,6 +133,8 @@
 		3F9EB4E62C102A4F0019200C /* NewBlockedAppsViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EB4E52C102A4F0019200C /* NewBlockedAppsViewViewModel.swift */; };
 		3F9EB4E82C103CC00019200C /* BlockedAppsViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EB4E72C103CC00019200C /* BlockedAppsViewViewModel.swift */; };
 		3F9EB4EA2C10F3240019200C /* AppGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EB4E92C10F3240019200C /* AppGroupModel.swift */; };
+		3FA3882E2C4EC1EC00B4FD86 /* Bungee-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FA3882D2C4EC1EC00B4FD86 /* Bungee-Regular.ttf */; };
+		3FA388302C50334400B4FD86 /* RotatingBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */; };
 		3FA4376A2C0B6E9F00520D13 /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FA437692C0B6E9F00520D13 /* ManagedSettings.framework */; };
 		3FA4376D2C0B6E9F00520D13 /* ShieldActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA4376C2C0B6E9F00520D13 /* ShieldActionExtension.swift */; };
 		3FA437722C0B6E9F00520D13 /* ShieldAction.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3FA437682C0B6E9F00520D13 /* ShieldAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -337,6 +339,8 @@
 		3F9EB4E52C102A4F0019200C /* NewBlockedAppsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBlockedAppsViewViewModel.swift; sourceTree = "<group>"; };
 		3F9EB4E72C103CC00019200C /* BlockedAppsViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsViewViewModel.swift; sourceTree = "<group>"; };
 		3F9EB4E92C10F3240019200C /* AppGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupModel.swift; sourceTree = "<group>"; };
+		3FA3882D2C4EC1EC00B4FD86 /* Bungee-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bungee-Regular.ttf"; sourceTree = "<group>"; };
+		3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingBorder.swift; sourceTree = "<group>"; };
 		3FA437682C0B6E9F00520D13 /* ShieldAction.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShieldAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FA437692C0B6E9F00520D13 /* ManagedSettings.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettings.framework; path = System/Library/Frameworks/ManagedSettings.framework; sourceTree = SDKROOT; };
 		3FA4376C2C0B6E9F00520D13 /* ShieldActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldActionExtension.swift; sourceTree = "<group>"; };
@@ -482,6 +486,7 @@
 				3BCBF7C12C0EC39400F7532B /* UserSettings.swift */,
 				3BA6CA8F2C114CA10031B2E1 /* Onboarding10View.swift */,
 				3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */,
+				3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */,
 			);
 			path = "Onboarding Views";
 			sourceTree = "<group>";
@@ -571,6 +576,7 @@
 		3F7234AB2B86CA840095EA42 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				3FA3882D2C4EC1EC00B4FD86 /* Bungee-Regular.ttf */,
 				3F2C29C62C3C8D26000B1962 /* Montserrat */,
 				3F2C29A72C3B7FDD000B1962 /* Nunito */,
 				3F7234A92B86C93A0095EA42 /* GoogleService-Info.plist */,
@@ -894,6 +900,7 @@
 				3F2C29B52C3B7FDD000B1962 /* Nunito-Regular.ttf in Resources */,
 				3F2C29B12C3B7FDD000B1962 /* Nunito-Light.ttf in Resources */,
 				3F47EBC32C0E4D010043507C /* templates.json in Resources */,
+				3FA3882E2C4EC1EC00B4FD86 /* Bungee-Regular.ttf in Resources */,
 				3F2C29C42C3C8D14000B1962 /* Montserrat-Medium.ttf in Resources */,
 				3F2C29C12C3C8D14000B1962 /* Montserrat-Light.ttf in Resources */,
 			);
@@ -1011,6 +1018,7 @@
 				3B3222142BB0C4F40037FE2D /* HelpAndSupportView.swift in Sources */,
 				3F7234D02B86CAF70095EA42 /* NewRuleItemViewViewModel.swift in Sources */,
 				3F6F42572C4C0DC700AF6506 /* AppleCalendarViewModel.swift in Sources */,
+				3FA388302C50334400B4FD86 /* RotatingBorder.swift in Sources */,
 				3FCB35FE2B92795A00FB6088 /* ProfileViewViewModel.swift in Sources */,
 				3F86B2E62BA3468600F39E9B /* EditRuleItemViewViewModel.swift in Sources */,
 				3F7234D52B86CAF70095EA42 /* LoginViewViewModel.swift in Sources */,

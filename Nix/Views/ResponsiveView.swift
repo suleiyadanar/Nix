@@ -88,7 +88,7 @@ struct Roundness {
         switch widthToCalculate {
         case _ where widthToCalculate<700:
             sheet = 15
-            item = 15
+            item = 10
         case _ where widthToCalculate>=700 && widthToCalculate<1000:
             sheet = 40
             item = 20
@@ -116,9 +116,9 @@ struct CustomFontSize {
         switch widthToCalculate {
         case _ where widthToCalculate<700:
             small = 12
-            smallMedium = 16
-            medium = 20
-            mediumLarge = 25
+            smallMedium = 18
+            medium = 22
+            mediumLarge = 28
             large = 35
             extraLarge = 45
         case _ where widthToCalculate>=700 && widthToCalculate<1000:

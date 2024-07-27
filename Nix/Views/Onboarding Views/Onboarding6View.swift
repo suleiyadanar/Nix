@@ -11,119 +11,163 @@ import Foundation
 
 struct Onboarding6View: View {
     var props: Properties
-    @EnvironmentObject var userSettings: UserSettings
+    @Environment(\.colorScheme) var colorScheme
 
-    @State private var weeks : Int
-    @State private var days : Int
+    @EnvironmentObject var userSettings: UserSettings
+    @Binding var showCurrView: Bool // Use a Binding to manage the view transition state
+
+    @State private var weeks : Int = 0
+    @State private var days : Int = 0
     @State private var showChangeDuration: Bool
     @State private var navigationButtonID : UUID
 
-    init(weeks: Int, days:Int, props: Properties){
-        self.weeks = weeks
-        self.days = days
+    @State private var showView7 = false
+
+    init(props: Properties, showCurrView: Binding<Bool>){
         self.showChangeDuration = false
         self.navigationButtonID = UUID()
         self.props = props
-        print(weeks)
-        print(days)
+        self._showCurrView = showCurrView
     }
     
     var body: some View {
-        ZStack {
-            OnboardingBackgroundView()
-            VStack() {
-                
-                OnboardingProgressBarView(currentPage: 5)
-                    .padding(.bottom, 15)
-                    .offset(y:-15)
-                
-                HStack {
-                    Text("We believe in progressive\nScreen Time Reduction.")
-                        .font(.system(size: 25))
-                        .font(.title2)
-                        .bold()
-                        .padding(.leading, 10)
-                        .padding(.bottom, 8)
-                    Spacer()
-                }
-                
-                HStack {
-                    Text("Science shows that habit building takes time.\nAccording to our calculations ...")
-                        .font(.subheadline)
-                        .foregroundColor(Color.sky)
-                        .padding(.leading, 10)
-                        .padding(.bottom, 22)
-                    Spacer()
-                }
-                
-                HStack {
-                    Text("The optimal time to\nachieve your targeted\nscreen time is:")
-                        .font(.title3)
-                        .font(.system(size: 35))
-                        .bold()
-                        .padding(.leading, 10)
-                    Spacer()
-                }
-                VStack{
-                    HStack{
-                        Text("\(weeks)")
-                            .font(.system(size: 85))
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.lav)
-                        
-                        Text("weeks")
-                            .font(.title3)
-                            .bold()
+        ScrollView{
+            VStack {
+                if showView7 {
+                    Onboarding7View(props: props, showCurrView: $showView7)
+                }else{
+                    VStack(alignment: .center, spacing:0) {
+                        OnboardingProgressBarView(currentPage: 5)
+                            .padding(.bottom, 25)
+                        VStack(alignment: .leading, spacing:20) {
+                            Text("Time needed to achieve your targeted screen time.")
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
+                                .fontWeight(.bold)
+                                .padding(.leading, props.isIPad ? 100 : 20)
+                                .padding(.trailing, props.isIPad ? 100 : 10)
                             
-                    }
-                    HStack{
-                        Text("\(days)")
-                            .font(.system(size: 85))
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.lav)
-                        
-                        Text("days")
-                            .font(.title3)
-                            .bold()
-                          
-                    }
+                            Text("Habit building takes time. Reduce 15 mins for 3 days. Repeat :")
+                                .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                .foregroundColor(.sky)
+                                .padding(.bottom, props.isIPad ? 35 : 20)
+                                .padding(.leading, props.isIPad ? 100 : 20)
+                                .padding(.trailing, props.isIPad ? 100 : 10)
+                            if props.isIPad {
+                                Spacer()
+                            }
+                            
+                            GeometryReader { geometry in
+                               
+                                
+                                VStack() {
+                                    if props.isIPad {
+                                        Spacer()
+                                    }
+                                    HStack {
+                                        Spacer()
+                                        VStack(alignment: .leading) {
+                                            HStack {
+                                                Text("\(weeks)")
+                                                    .font(.custom("Montserrat-Bold", size: 85))
+                                                    .fontWeight(.bold)
+                                                    .foregroundColor(Color.lav)
+                                                
+                                                Text("weeks")
+                                                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                                    .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
+                                            }
+                                            HStack {
+                                                Text("\(days)")
+                                                    .font(.custom("Montserrat-Bold", size: 85))
+                                                    .fontWeight(.bold)
+                                                    .foregroundColor(Color.lav)
+                                                
+                                                Text("days")
+                                                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                                    .font(.custom("Montserrat-Bold", size: props.customFontSize.mediumLarge))
+                                            }
+                                        }
+                                        Spacer()
+                                    }
+                                    .frame(width: geometry.size.width)
+                                    HStack{
+                                        Spacer()
+                                        Button(action: {
+                                            showChangeDuration.toggle()
+                                        }) {
+                                            Text("Change Duration")
+                                                .font(.custom("Montserrat-Bold", size: props.customFontSize.smallMedium))
+                                                .foregroundColor(Color.babyBlue)
+                                        }
+                                        .sheet(isPresented: $showChangeDuration) {
+                                            Onboarding6AView(props: props, weeks: $weeks, days: $days)
+                                                .presentationDetents([.height(props.height * 0.7)])
+                                        }
+                                        Spacer()
+                                    }
+                                    if props.isIPad {
+                                        Spacer()
+                                    }
+                                }
+                                
+                                   
+                            }
+                                
+                           
+                            
+                            Spacer()
+                                HStack {
+                                    Button(action: {
+                                        showView7 = true
+                                    }) {
+                                        HStack {
+                                            Spacer()
+                                            ArrowButtonView(props:props)
+                                                .padding(.top, 40)
+                                                .padding(.bottom, 20)
+                                        }.onAppear{
+                                            userSettings.totalDays = days + weeks * 7
+                                        }
+                                        Spacer()
+                                    }
+                                }
+                            
+                            
+                        }
+                       
+                    } .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
+                        .background(
+                            RoundedRectangle(cornerRadius: props.round.sheet)
+                                .fill(colorScheme == .dark ? Color.black : Color.white)
+                        )
+                        .rotatingBorder(props:props)
                 }
-             
-                
-                Button(action: {
-                    showChangeDuration.toggle()
-                }) {
-                    Text("Change duration")
-                        .foregroundColor(Color.babyBlue)
-                }
-                .sheet(isPresented: $showChangeDuration) {
-                    Onboarding6AView(weeks: $weeks, days: $days)
-                        .presentationDetents([.height(UIScreen.main.bounds.height * 0.7)])
-                    
-                    
-                }
-                
-                Spacer()
-                
-                NavigationLink (destination: Onboarding7View(props:props) ) {
-                    HStack {
-                        Spacer()
-                        ArrowButtonView()
-                            .padding(.trailing, 20)
-                    }.onAppear{
-                        userSettings.totalDays = days + weeks * 7
-                    }
-                }
-                Spacer()
             }
-            .padding()
-            
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                Spacer(minLength: 20)
         }
-        
-        .navigationBarHidden(true)
+        .scrollDisabled(true)
+        .contentShape(Rectangle())
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    if value.translation.width > 100 { // Adjust the threshold as needed
+                        showCurrView = false
+                    }
+                }
+        )
+        .onChange(of: userSettings.totalDays) {
+            print("changed")
+            weeks = userSettings.totalDays / 7
+            days = userSettings.totalDays % 7
+        }
+        .onAppear{
+            print("appear")
+            weeks = userSettings.totalDays / 7
+            days = userSettings.totalDays % 7
+        }
     }
-    
-   
 }
 
 //#Preview {

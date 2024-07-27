@@ -2,56 +2,110 @@ import SwiftUI
 
 struct Onboarding4View: View {
     var props: Properties
+    @Binding var showCurrView: Bool // Use a Binding to manage the view transition state
+    @Environment(\.colorScheme) var colorScheme
 
     @State private var optionsChosen = Array(repeating: false, count: 6)
     @State private var otherOptionSelected = false
     @EnvironmentObject var userSettings: UserSettings
 
+    @State private var showView5 = false
+
     var body: some View {
-        ZStack {
-            OnboardingBackgroundView()
-            VStack {
-                OnboardingProgressBarView(currentPage: 3)
-                    .padding(.bottom, 25)
-                HStack {
-                    Text("What's your current daily avg \nunproductive screen time?")
-                        .foregroundColor(Color.black)
-                        .font(.system(size: 25))
-                        .fontWeight(.bold)
-                        .padding(.leading, 20)
-                    Spacer()
-                }
-                HStack {
-                    Text("Unproductive Screen Time = \nST spent other than for school, work, self \ncare, etc.")
-                        .foregroundColor(Color.sky)
-                        .font(.system(size: 15))
-                        .fontWeight(.bold)
-                        .padding(.bottom, 20)
-                        .padding(.leading, 20)
-                    Spacer()
-                }
-                
-                ForEach(0..<5) { index in
-                    OptionButtonView(isSelected: self.$optionsChosen[index], inputText: self.unProdSTOptions[index], onSelectionChange: { isSelected in
-                        self.optionChanged(index: index, isSelected: isSelected)
-                    })
-                }
-
-                if self.selectedOptionsCount() == 1 {
-                    NavigationLink(destination: Onboarding5View(props:props).onAppear {
-                        self.saveSelectedUnProdST()
-                    }) {
-                        ArrowButtonView()
-                            .padding(.trailing, 20)
-                            .padding(.top, 40)
+        ScrollView {
+            VStack(spacing: 20) {
+                if showView5 {
+                    Onboarding5View(props: props, showCurrView: $showView5)
+                } else {
+                    VStack(alignment: .center, spacing: 0) {
+                        OnboardingProgressBarView(currentPage: 3)
+                            .padding(.bottom, 25)
+                        VStack(alignment: .leading, spacing: 20) {
+                            Text("What's your current daily average \nunproductive screen time?")
+                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
+                                .padding(.leading, props.isIPad ? 100 : 20)
+                                .padding(.trailing, props.isIPad ? 100 : 10)
+                            
+                            
+                            Text("Unproductive Screen Time =\nST spent other than for school, work, self-care, etc.")
+                                .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                .foregroundColor(.sky)
+                                .padding(.bottom, props.isIPad ? 35 : 20)
+                        .padding(.leading, props.isIPad ? 100 : 20)
+                        .padding(.trailing, props.isIPad ? 100 : 10)
+                            
+                            if !props.isIPad {
+                                Spacer()
+                            }
+                            ForEach(0..<numberOfRows(), id: \.self) { row in
+                                HStack(spacing: 16) {
+                                    Spacer()
+                                    ForEach(0..<2, id: \.self) { column in
+                                        let index = row * 2 + column
+                                        if index < unProdSTOptions.count {
+                                            OptionButtonView(
+                                                props: props,
+                                                isSelected: self.$optionsChosen[index],
+                                                inputText: self.unProdSTOptions[index],
+                                                onSelectionChange: { isSelected in
+                                                    self.optionChanged(index: index, isSelected: isSelected)
+                                                },
+                                                fontSize: props.customFontSize.smallMedium
+                                            )
+                                        }
+                                    }
+                                    Spacer()
+                                }
+                            } .frame(height:props.isIPad ? 150 : 70)
+                            Spacer()
+                            HStack{
+                                Spacer()
+                                if self.selectedOptionsCount() == 1 {
+                                    Button(action: {
+                                        saveSelectedUnProdST()
+                                        showView5 = true
+                                    }) {
+                                        ArrowButtonView(props:props)
+                                    }
+                                    .padding(.top, 40)
+                                    .padding(.bottom, 20)
+                                } else {
+                                    Rectangle()
+                                        .foregroundColor(Color.clear)
+                                        .frame(height: 35) // Adjust height as needed
+                                        .padding(.top, 40)
+                                        .padding(.bottom, 20)
+                                }
+                                Spacer()
+                            }
+                        }
+                        
+                        
                     }
+                    .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
+                    .background(
+                        RoundedRectangle(cornerRadius: props.round.sheet)
+                            .fill(colorScheme == .dark ? Color.black : Color.white)
+                    )
+                    .rotatingBorder(props:props)
                 }
-                Spacer()
             }
-        }
-        .navigationBarHidden(true)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                Spacer(minLength: 20)
+            }
+            .scrollDisabled(true)
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture()
+                    .onEnded { value in
+                        if value.translation.width > 100 { // Adjust the threshold as needed
+                            showCurrView = false
+                        }
+                    }
+            )
+        
     }
-
     private var unProdSTOptions: [String] {
         return [
             "0-1 Hours",
@@ -63,6 +117,10 @@ struct Onboarding4View: View {
         ]
     }
 
+    private func numberOfRows() -> Int {
+           return (unProdSTOptions.count + 1) / 2
+       }
+    
     private func selectedOptionsCount() -> Int {
         return optionsChosen.filter { $0 }.count + (otherOptionSelected ? 1 : 0)
     }
@@ -80,6 +138,7 @@ struct Onboarding4View: View {
     private func saveSelectedUnProdST() {
         if let selectedIndex = optionsChosen.firstIndex(where: { $0 }) {
             userSettings.unProdST = unProdSTOptions[selectedIndex]
+            print("unProdST saved, \(unProdSTOptions[selectedIndex])")
         }
     }
 }

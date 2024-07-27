@@ -5,6 +5,7 @@ import Foundation
 
 class RegisterViewViewModel: ObservableObject {
     @Published var firstName = ""
+    @Published var byear = ""
     @Published var year = ""
     @Published var college = ""
     @Published var major = ""
@@ -16,7 +17,7 @@ class RegisterViewViewModel: ObservableObject {
     @Published var unProdST = ""
     @Published var maxUnProdST = 0
     
-    @Published var errorMessage: String? // Optional error message
+    @Published var errorMessage: String = "" // Optional error message
     
     private let db = Firestore.firestore()
     
