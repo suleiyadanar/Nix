@@ -33,7 +33,7 @@ struct Onboarding7View: View {
                                 Image("sTDialog")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: props.width * 0.3)
+                                    .frame(width: props.isIPad ? props.width * 0.3 : props.width * 0.5)
                                     .cornerRadius(props.round.sheet)
                                     .rotatingBorder(props: props)
                                     .onTapGesture {
