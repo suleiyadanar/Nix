@@ -165,6 +165,7 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                     email: data["email"] as? String ?? "",
                     joined: data["joined"] as? TimeInterval ?? 0,
                     college: data["college"] as? String ?? "",
+                    byear: data["byear"] as? String ?? "",
                     year: data["year"] as? String ?? "",
                     major: data["major"] as? String ?? "",
                     opt: data["opt"] as? Bool ?? false,

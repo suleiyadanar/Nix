@@ -14,6 +14,7 @@ struct User: Codable {
     let email: String
     let joined: TimeInterval
     let college: String
+    let byear: String
     let year: String
     let major: String
     let opt: Bool

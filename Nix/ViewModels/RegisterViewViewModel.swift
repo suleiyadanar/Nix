@@ -54,9 +54,41 @@ class RegisterViewViewModel: ObservableObject {
                     return
                 }
                 self?.insertUserRecord(id: userId)
+//                self?.sendEmailVerification()
             }
         }
     }
+    
+    func sendEmailVerification() {
+            guard let email = Auth.auth().currentUser?.email else { return }
+            let actionCodeSettings = ActionCodeSettings()
+            actionCodeSettings.handleCodeInApp = false
+            actionCodeSettings.url = URL(string: "https://nixproductivity.page.link/email-verification")
+            actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
+            actionCodeSettings.setAndroidPackageName("com.example.android", installIfNotAvailable: false, minimumVersion: "12")
+            
+      
+            Auth.auth().currentUser?.sendEmailVerification(with: actionCodeSettings) { error in
+                if let error = error {
+                    print("Failed to send email verification: \(error.localizedDescription)")
+                } else {
+                    print("Email verification sent.")
+                }
+            }
+        }
+    
+    func checkEmailVerificationStatus(completion: @escaping (Bool) -> Void) {
+            Auth.auth().currentUser?.reload(completion: { error in
+                if let error = error {
+                    print("Error reloading user: \(error.localizedDescription)")
+                    completion(false)
+                    return
+                }
+                let isVerified = Auth.auth().currentUser?.isEmailVerified ?? false
+                print("Email verified status: \(isVerified)")
+                completion(isVerified)
+            })
+        }
     
     private func insertUserRecord(id: String) {
         print("inserting")
@@ -65,6 +97,7 @@ class RegisterViewViewModel: ObservableObject {
                            username: username, email: email,
                            joined: Date().timeIntervalSince1970,
                            college: college,
+                           byear: byear,
                            year:year,
                            major:major,
                            opt: opt,
@@ -122,7 +155,6 @@ class RegisterViewViewModel: ObservableObject {
     func validate() -> Bool {
         errorMessage = ""
         guard !firstName.trimmingCharacters(in: .whitespaces).isEmpty,
-              !college.trimmingCharacters(in: .whitespaces).isEmpty,
               !major.trimmingCharacters(in: .whitespaces).isEmpty,
               !email.trimmingCharacters(in: .whitespaces).isEmpty,
               !password.trimmingCharacters(in: .whitespaces).isEmpty,
@@ -143,4 +175,6 @@ class RegisterViewViewModel: ObservableObject {
         
         return true
     }
+    
+   
 }
