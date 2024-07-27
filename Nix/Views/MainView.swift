@@ -33,9 +33,9 @@ struct MainView: View {
                         }
                     }
                 }
-                .onAppear {
-                    checkEmailVerification()
-                }
+//                .onAppear {
+//                    checkEmailVerification()
+//                }
         
     }
     
@@ -48,16 +48,16 @@ struct MainView: View {
 
     @Namespace var namespace
     
-    private func checkEmailVerification() {
-            registerModel.checkEmailVerificationStatus { isVerified in
-                emailVerified = isVerified
-                if isVerified {
-                    print("Email is verified.")
-                } else {
-                    print("Email is not verified.")
-                }
-            }
-        }
+//    private func checkEmailVerification() {
+//            registerModel.checkEmailVerificationStatus { isVerified in
+//                emailVerified = isVerified
+//                if isVerified {
+//                    print("Email is verified.")
+//                } else {
+//                    print("Email is not verified.")
+//                }
+//            }
+//        }
     
     var accountView: some View {
             VStack {

@@ -54,7 +54,7 @@ class RegisterViewViewModel: ObservableObject {
                     return
                 }
                 self?.insertUserRecord(id: userId)
-                self?.sendEmailVerification()
+//                self?.sendEmailVerification()
             }
         }
     }
