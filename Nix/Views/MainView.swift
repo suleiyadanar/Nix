@@ -15,21 +15,27 @@ struct MainView: View {
     @StateObject var viewModel = MainViewViewModel()
     @StateObject var registerModel = RegisterViewViewModel()
     @EnvironmentObject var pomodoroModel: PomodoroViewViewModel
+    @State private var emailVerified: Bool = false // Changed to @State
 
     var body: some View  {
 //       accountView
-        if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
-            //signed in
-            accountView.ignoresSafeArea()
-        } else {
-            ResponsiveView { props in
-            NavigationStack{
-                Onboarding1View(props:props)
-                    .environmentObject(userSettings)
-//                LoginView().padding(0)
-            }
+        Group {
+                    if viewModel.isSignedIn, !viewModel.currentUserId.isEmpty {
+                        // User is signed in
+                        accountView.ignoresSafeArea()
+                        // check if email is verified
+                    } else {
+                        ResponsiveView { props in
+                            NavigationStack {
+                                Onboarding1View(props: props)
+                                    .environmentObject(userSettings)
+                            }
                         }
-        }
+                    }
+                }
+                .onAppear {
+                    checkEmailVerification()
+                }
         
     }
     
@@ -42,6 +48,16 @@ struct MainView: View {
 
     @Namespace var namespace
     
+    private func checkEmailVerification() {
+            registerModel.checkEmailVerificationStatus { isVerified in
+                emailVerified = isVerified
+                if isVerified {
+                    print("Email is verified.")
+                } else {
+                    print("Email is not verified.")
+                }
+            }
+        }
     
     var accountView: some View {
             VStack {
