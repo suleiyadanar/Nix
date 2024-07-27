@@ -6,7 +6,8 @@ struct Onboarding2View: View {
     var body: some View {
         ZStack {
             OnboardingBackgroundView()
-            EmbeddedNavigationView(props: props)
+            EmbeddedNavigationView(props: props).frame(maxWidth: .infinity, maxHeight: .infinity)
+
         }
         .navigationBarHidden(true)
     }
@@ -20,7 +21,7 @@ struct NameRectangleView: View {
     
     var body: some View {
         ZStack {
-            let rectangleWidth = CGFloat(props.width) * 0.8
+            let rectangleWidth = props.isIPad ? CGFloat(props.width) * 0.6 : CGFloat(props.width) * 0.8
             let rectangleHeight = props.isIPad ? CGFloat(60) : CGFloat(50)
             let cornerRadius = CGFloat(props.round.item)
             let fontSize = CGFloat(props.customFontSize.medium)
@@ -56,30 +57,29 @@ struct EmbeddedNavigationView: View {
                 if showView3 {
                     Onboarding3View(props: props, showCurrView: $showView3)
                 } else {
-                    VStack(alignment:.center, spacing: 0) {
+                    VStack(alignment: .center, spacing: 0) {
                         OnboardingProgressBarView(currentPage: 1)
                             .padding(.bottom, 25)
                         VStack(alignment: .leading, spacing: 20) {
-                        
-                            
                             Text("Hi, what should we call you?")
                                 .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                 .fontWeight(.bold)
-                                .padding(.leading, props.isIPad ? 100 : 30)
-                                .padding(.trailing, props.isIPad ? 100 : 5)
+                                .padding(.leading, props.isIPad ? 100 : 20)
+                                .padding(.trailing, props.isIPad ? 100 : 10)
+
                             
                             Text("Creating a personalized journey for you...")
                                 .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                 .foregroundColor(.sky)
-                                .padding(.bottom, 20)
-                                .padding(.leading, props.isIPad ? 100 : 30)
-                                .padding(.trailing, props.isIPad ? 100 : 5)
+                                .padding(.bottom, 35)
+                                .padding(.leading, props.isIPad ? 100 : 20)
+                                .padding(.trailing, props.isIPad ? 100 : 10)
+
+                            
                             
                             NameRectangleView(props: props)
-                                .padding(.top, 15)
-                                .padding(.leading, props.isIPad ? 100 : 30)
-                                .padding(.trailing, props.isIPad ? 100 : 30)
+                                .padding(.leading, props.isIPad ? 100 : 20)
                             
                             Spacer()
                             
@@ -89,30 +89,31 @@ struct EmbeddedNavigationView: View {
                                     showView3 = true
                                 }) {
                                     if !userSettings.name.isEmpty {
-                                        ArrowButtonView()
+                                        ArrowButtonView(props:props)
                                             .padding(.top, 40)
                                             .padding(.bottom, 20)
-                                            .padding(.leading,20)
-
                                     }
                                 }
                                 Spacer()
                             }
                         }
-                        
+                        .frame(width: props.width * 0.9)
+                   
                         
                     }
+                    
                     .frame(width: props.width * 0.9, height: props.isIPad ? 1000 : 750)
                     .background(
                         RoundedRectangle(cornerRadius: props.round.sheet)
                             .fill(colorScheme == .dark ? Color.black : Color.white)
                     )
-                    .rotatingBorder()
+                    .rotatingBorder(props: props)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             Spacer(minLength: 20)
         }
+        
         .scrollDisabled(true)
         .contentShape(Rectangle())
         .onTapGesture {
@@ -128,3 +129,9 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 
+// Helper function to hide keyboard
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}

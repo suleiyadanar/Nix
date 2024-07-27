@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ArrowButtonView: View {
+    var props: Properties
+
     @State private var pulsate = false
 
     var body: some View {
@@ -30,11 +32,11 @@ struct ArrowButtonView: View {
 
         }
         
-        .frame(width: 50, height: 35)
+        .frame(width: props.isIPad ? 70 : 50, height: props.isIPad ? 45 : 35)
     }
     
 }
 
-#Preview {
-    ArrowButtonView()
-}
+//#Preview {
+//    ArrowButtonView(props:props)
+//}

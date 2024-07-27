@@ -5,6 +5,7 @@ import Foundation
 
 class RegisterViewViewModel: ObservableObject {
     @Published var firstName = ""
+    @Published var byear = ""
     @Published var year = ""
     @Published var college = ""
     @Published var major = ""

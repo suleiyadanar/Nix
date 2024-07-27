@@ -17,27 +17,17 @@ struct Onboarding9View: View {
 
             VStack(spacing: 20) {
                 HStack {
-                    Text("Your Journey \nBegins  Here!")
+                    Text("Your Journey\nBegins  Here!")
                         .font(.custom("Bungee-Regular", size: props.customFontSize.large))
                         .foregroundColor(.white)
                         .padding(.top, 55)
-                        .padding(.leading, 35)
+                        .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity, alignment: .center)
-
-//                        .overlay(
-//                            Text("Your Journey \nBegins  Here!")
-//                                .font(.custom("Bungee-Regular", size: props.customFontSize.mediumLarge))
-//                                .foregroundColor(.white)
-//                                .padding(.top, 55)
-//                                .padding(.leading, 35)
-//                                .offset(x: 2, y: 2)
-//
-//                            )
                     Spacer()
                 }
                 HStack {
                     Spacer()
-                    JourneyMapView(days: 10, unlockedDays: 1)
+                    JourneyMapView(days: userSettings.totalDays, unlockedDays: 1)
                         .frame(width: 300) // Adjust width as needed
                         .cornerRadius(25)
                         .onAppear {
@@ -52,7 +42,7 @@ struct Onboarding9View: View {
                 NavigationLink (destination: RegisterView(props:props) ) { // temp arrow button to next page
                     HStack {
                         Spacer()
-                        ArrowButtonView()
+                        ArrowButtonView(props:props)
                             .padding(.trailing, 35)
                             .padding(.bottom, 40)
                     }

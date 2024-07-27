@@ -43,6 +43,13 @@ struct Onboarding8View: View {
             }
         }
         .navigationBarHidden(true)
+        .interactiveDismissDisabled(true)
+        .overlay(
+            Color.clear
+                .gesture(DragGesture().onChanged { _ in
+                    // Intercept swipe gestures
+                })
+        )
     }
     
     func startProgress() {

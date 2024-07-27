@@ -16,22 +16,18 @@ struct Onboarding6View: View {
     @EnvironmentObject var userSettings: UserSettings
     @Binding var showCurrView: Bool // Use a Binding to manage the view transition state
 
-    @State private var weeks : Int
-    @State private var days : Int
+    @State private var weeks : Int = 0
+    @State private var days : Int = 0
     @State private var showChangeDuration: Bool
     @State private var navigationButtonID : UUID
 
     @State private var showView7 = false
 
-    init(weeks: Int, days:Int, props: Properties, showCurrView: Binding<Bool>){
-        self.weeks = weeks
-        self.days = days
+    init(props: Properties, showCurrView: Binding<Bool>){
         self.showChangeDuration = false
         self.navigationButtonID = UUID()
         self.props = props
         self._showCurrView = showCurrView
-        print(weeks)
-        print(days)
     }
     
     var body: some View {
@@ -44,22 +40,30 @@ struct Onboarding6View: View {
                         OnboardingProgressBarView(currentPage: 5)
                             .padding(.bottom, 25)
                         VStack(alignment: .leading, spacing:20) {
-                            Text("We believe in progressive Screen Time Reduction.")
+                            Text("Time needed to achieve your targeted screen time.")
                                 .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                 .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                 .fontWeight(.bold)
                                 .padding(.leading, props.isIPad ? 100 : 20)
                                 .padding(.trailing, props.isIPad ? 100 : 10)
                             
-                            Text("Habit building takes time. According to our calculations,the optimal time to achieve your targeted screen time:")
+                            Text("Habit building takes time. Reduce 15 mins for 3 days. Repeat :")
                                 .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                 .foregroundColor(.sky)
-                                .padding(.bottom, props.isIPad ? 20 : 20)
+                                .padding(.bottom, props.isIPad ? 35 : 20)
                                 .padding(.leading, props.isIPad ? 100 : 20)
                                 .padding(.trailing, props.isIPad ? 100 : 10)
+                            if props.isIPad {
+                                Spacer()
+                            }
                             
                             GeometryReader { geometry in
-                                VStack(spacing: 40) {
+                               
+                                
+                                VStack() {
+                                    if props.isIPad {
+                                        Spacer()
+                                    }
                                     HStack {
                                         Spacer()
                                         VStack(alignment: .leading) {
@@ -87,24 +91,30 @@ struct Onboarding6View: View {
                                         Spacer()
                                     }
                                     .frame(width: geometry.size.width)
+                                    HStack{
+                                        Spacer()
+                                        Button(action: {
+                                            showChangeDuration.toggle()
+                                        }) {
+                                            Text("Change Duration")
+                                                .font(.custom("Montserrat-Bold", size: props.customFontSize.smallMedium))
+                                                .foregroundColor(Color.babyBlue)
+                                        }
+                                        .sheet(isPresented: $showChangeDuration) {
+                                            Onboarding6AView(props: props, weeks: $weeks, days: $days)
+                                                .presentationDetents([.height(props.height * 0.7)])
+                                        }
+                                        Spacer()
+                                    }
+                                    if props.isIPad {
+                                        Spacer()
+                                    }
                                 }
+                                
+                                   
                             }
                                 
-                            HStack{
-                                Spacer()
-                                Button(action: {
-                                    showChangeDuration.toggle()
-                                }) {
-                                    Text("Change Duration")
-                                        .font(.custom("Montserrat-Bold", size: props.customFontSize.smallMedium))
-                                        .foregroundColor(Color.babyBlue)
-                                }
-                                .sheet(isPresented: $showChangeDuration) {
-                                    Onboarding6AView(props: props, weeks: $weeks, days: $days)
-                                        .presentationDetents([.height(UIScreen.main.bounds.height * 0.7)])
-                                }
-                                Spacer()
-                            }
+                           
                             
                             Spacer()
                                 HStack {
@@ -113,7 +123,7 @@ struct Onboarding6View: View {
                                     }) {
                                         HStack {
                                             Spacer()
-                                            ArrowButtonView()
+                                            ArrowButtonView(props:props)
                                                 .padding(.top, 40)
                                                 .padding(.bottom, 20)
                                         }.onAppear{
@@ -131,7 +141,7 @@ struct Onboarding6View: View {
                             RoundedRectangle(cornerRadius: props.round.sheet)
                                 .fill(colorScheme == .dark ? Color.black : Color.white)
                         )
-                        .rotatingBorder()
+                        .rotatingBorder(props:props)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -147,6 +157,16 @@ struct Onboarding6View: View {
                     }
                 }
         )
+        .onChange(of: userSettings.totalDays) {
+            print("changed")
+            weeks = userSettings.totalDays / 7
+            days = userSettings.totalDays % 7
+        }
+        .onAppear{
+            print("appear")
+            weeks = userSettings.totalDays / 7
+            days = userSettings.totalDays % 7
+        }
     }
 }
 

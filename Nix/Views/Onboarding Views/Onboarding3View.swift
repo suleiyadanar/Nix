@@ -36,11 +36,13 @@ struct Onboarding3View: View {
                                 Text("Choose up to three goals or write your own! You can update them later in the settings.")
                                     .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                     .foregroundColor(.sky)
-                                    .padding(.bottom, props.isIPad ? 20 : 20)
-                            .padding(.leading, props.isIPad ? 100 : 20)
-                            .padding(.trailing, props.isIPad ? 100 : 10)
+                                    .padding(.bottom, props.isIPad ? 35 : 20)
+                                    .padding(.leading, props.isIPad ? 100 : 20)
+                                    .padding(.trailing, props.isIPad ? 100 : 10)
                            
-                           
+                            if !props.isIPad {
+                                Spacer()
+                            }
                                         ForEach(0..<numberOfRows(), id: \.self) { row in
                                             HStack(spacing: 16) {
                                                 Spacer()
@@ -59,7 +61,7 @@ struct Onboarding3View: View {
                                                 }
                                                 Spacer()
                                             }
-                                        }.frame(height:70)
+                                        }.frame(height:props.isIPad ? 150 : 70)
                                     
 
 //                            Image("dottedline")
@@ -82,7 +84,7 @@ struct Onboarding3View: View {
                                     Button(action: {
                                         showView4 = true
                                     }) {
-                                        ArrowButtonView()
+                                        ArrowButtonView(props:props)
                                     }
                                     .padding(.top, 40)
                                     .padding(.bottom, 20)
@@ -103,7 +105,7 @@ struct Onboarding3View: View {
                         RoundedRectangle(cornerRadius: props.round.sheet)
                             .fill(colorScheme == .dark ? Color.black : Color.white)
                     )
-                    .rotatingBorder()
+                    .rotatingBorder(props:props)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

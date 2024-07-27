@@ -20,7 +20,7 @@ struct OptionButtonView: View {
             ZStack {
                 Rectangle()
                     .fill(isSelected ? Color.sky : Color.lightGray)
-                    .frame(width: 140, height: props.isIPad ? 100 : 80) // Ensure size consistency
+                    .frame(width: props.isIPad ? 200 : 140, height:  props.isIPad ? 150 : 80) // Ensure size consistency
                     .cornerRadius(10)
                 VStack(alignment: .center) {
                     Spacer()
@@ -33,7 +33,7 @@ struct OptionButtonView: View {
                 }
             }
         }
-        .frame(width: 140, height: 100)
+        .frame(width: props.isIPad ? 200 : 140, height:  props.isIPad ? 150 : 80)
         .buttonStyle(PlainButtonStyle())
     }
 }

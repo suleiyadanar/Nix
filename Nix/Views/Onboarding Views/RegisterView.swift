@@ -1,6 +1,59 @@
 import SwiftUI
 import SwiftCSV
 
+struct CustomPopupViewText: View {
+    var props: Properties
+    @Environment(\.colorScheme) var colorScheme
+
+    var items: [String]
+    var columns: Int
+    var onSelect: (String) -> Void
+    @Binding var isVisible: Bool
+    var selectedItem: String? // Add this property
+
+    var body: some View {
+        VStack {
+            if isVisible {
+                VStack {
+                    ScrollView {
+                        LazyVGrid(columns: Array(repeating: .init(.flexible()), count: columns), spacing: 10) {
+                            ForEach(items, id: \.self) { item in
+                                Button(action: {
+                                    onSelect(item)
+                                }) {
+                                    Text(item)
+                                        .font(.custom("Montserrat-Bold]", size: props.customFontSize.smallMedium))
+                                        .padding()
+                                        .background(
+                                            Capsule()
+                                                .fill(item == selectedItem ? Color.sky : Color.white)
+                                                .frame(width:150)
+                                                .overlay(
+                                                    Capsule()
+                                                        .stroke(item == selectedItem ? Color.sky : Color.clear, lineWidth: 2)
+                                                    )
+                                        ) // Highlight selected item
+                                        .foregroundColor(item == selectedItem ? Color.white : Color.black)
+                                }
+                            }
+                        }
+                        .padding()
+                    }
+                    .frame(width: props.width * 0.4, height: props.height * 0.4)
+                    .background(Color.black.opacity(0.6))
+                    .cornerRadius(20)
+                }
+                .position(x: props.width / 2, y: props.height / 2)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5).edgesIgnoringSafeArea(.all))
+                .onTapGesture {
+                    isVisible = false
+                }
+            }
+        }
+    }
+}
+
 
 struct RegisterView: View {
     var props: Properties
@@ -12,7 +65,7 @@ struct RegisterView: View {
     @State private var optIn: Bool = false
     @State private var navigate: Bool = false
     @State private var isPopoverPresented: Bool = false
-    let academicYears = ["Freshman", "Sophomore", "Junior", "Senior", "Associate", "Master's", "PhD", "PostDoc"]
+    let academicYears = ["Pre-college","Freshman", "Sophomore", "Junior", "Senior", "Associate", "Master's", "PhD", "PostDoc"]
 
     @State private var universities: [String] = []
     @State private var searchText: String = ""
@@ -23,7 +76,29 @@ struct RegisterView: View {
     @State private var customUniversityName: String = ""
     
     @State private var selectedDate = Date() // Track selected date
+    @State private var showTermsAndConditions = false
     
+    @State private var showYearsPopup = false
+    @State private var showBdayPopup = false
+
+    private var birthYears: [String] {
+        let currentYear = Calendar.current.component(.year, from: Date())
+        let startYear = currentYear - 25
+        let endYear = currentYear - 18
+
+        var yearsArray: [String] = []
+        yearsArray.append("≥\(endYear+1)")
+
+
+        for year in stride(from: endYear, through: startYear, by: -1) {
+            yearsArray.append(String(year))
+        }
+        
+        yearsArray.append("≤\(startYear-1)")
+
+        return yearsArray
+    }
+
     var body: some View {
         ZStack {
             OnboardingBackgroundView()
@@ -39,19 +114,25 @@ struct RegisterView: View {
                         VStack(spacing: 20) {
                             Spacer()
 
-                            HStack {
+                            VStack {
                                 Text("Creating your account for you...")
                                     .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                     .font(.custom("Bungee-Regular", size: props.customFontSize.medium))
                                     .padding(.leading, props.isIPad ? 100 : 20)
                                     .padding(.trailing, props.isIPad ? 100 : 20)
-                                Spacer()
-                                Text(viewModel.errorMessage)
-                                        .foregroundColor(.red)
-                                        .padding(.top, 8)
-                                
+                                if (viewModel.errorMessage != "" ){
+                                    Text(viewModel.errorMessage)
+                                            .foregroundColor(.red)
+                                            .padding(.top, 8)
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                }
+                           
                             }
 
+                            let rectangleWidth = props.isIPad ? CGFloat(props.width) * 0.6 : CGFloat(props.width) * 0.7
+                            let rectangleHeight = props.isIPad ? CGFloat(60) : CGFloat(50)
+                            let cornerRadius = CGFloat(props.round.item)
+                            let fontSize = CGFloat(props.customFontSize.medium)
                             // Login Form
                             VStack {
                                 VStack {
@@ -59,25 +140,22 @@ struct RegisterView: View {
                                         Text("Username")
                                             .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                             .foregroundColor(.sky)
-                                            .padding(.leading, props.isIPad ? 100 : 20)
-                                            .padding(.trailing, props.isIPad ? 100 : 20)
+                                            .padding(.leading, props.isIPad ? 100 : 35)
+                                            .padding(.trailing, props.isIPad ? 100 : 35)
                                         Spacer()
                                     }
-                                    let rectangleWidth = CGFloat(props.width) * 0.8
-                                    let rectangleHeight = props.isIPad ? CGFloat(60) : CGFloat(50)
-                                    let cornerRadius = CGFloat(props.round.item)
-                                    let fontSize = CGFloat(props.customFontSize.medium)
+                                   
                                     ZStack {
                                         RoundedRectangle(cornerRadius: cornerRadius)
                                             .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.2) :  Color.black.opacity(0.06))
-                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                           
                                         
                                     TextField("Username", text: $viewModel.username)
                                         .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
-                                        .frame(width: rectangleWidth, height: rectangleHeight)
                                         .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                                        .padding(.leading, props.isIPad ? 100 : 35)
-                                        .padding(.trailing, props.isIPad ? 100 : 15)
+                                        .frame(width: rectangleWidth, height: rectangleHeight)
+                                        .autocapitalization(.none)
+                                        .padding(.horizontal, props.isIPad ? 30 : 15)
                                         .onChange(of: viewModel.username) { newValue in
                                                 if newValue.count > 20 {
                                                     viewModel.username = String(newValue.prefix(20))
@@ -89,169 +167,134 @@ struct RegisterView: View {
                                                 }
                                             }
                                     }
+                                    .frame(width: rectangleWidth, height: rectangleHeight)
+                                    .padding(.leading, props.isIPad ? 100 : 35)
+                                    .padding(.trailing, props.isIPad ? 100 : 35)
+                                    
                                     Spacer()
+                                    
                                     HStack {
                                         Text("Password")
                                             .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                             .foregroundColor(Color.sky)
-                                            .padding(.leading, 20)
+                                            .padding(.leading, props.isIPad ? 100 : 35)
+                                            .padding(.trailing, props.isIPad ? 100 : 35)
                                         Spacer()
                                     }
                                     ZStack {
                                         RoundedRectangle(cornerRadius: cornerRadius)
                                             .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.2) :  Color.black.opacity(0.06))
-                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                            
                                         
                                         SecureField("Strong Password", text: $viewModel.password)
                                             .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                             .frame(width: rectangleWidth, height: rectangleHeight)
                                             .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                             .autocapitalization(.none)
-                                            .padding(.bottom, 10)
-                                            .padding(.leading, props.isIPad ? 100 : 35)
-                                            .padding(.trailing, props.isIPad ? 100 : 20)
-                                    }
+                                            .padding(.horizontal, props.isIPad ? 30 : 15)
+                                            
+                                    }.frame(width: rectangleWidth, height: rectangleHeight)
+                                        .padding(.leading, props.isIPad ? 100 : 35)
+                                        .padding(.trailing, props.isIPad ? 100 : 35)
                                     Spacer()
                                     HStack {
                                         Text("School Email Address")
                                             .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                             .foregroundColor(Color.sky)
-                                            .font(.system(size: 15))
-                                            .padding(.leading, props.isIPad ? 100 : 20)
-                                            .padding(.trailing, props.isIPad ? 100 : 20)
+                                            .padding(.leading, props.isIPad ? 100 : 35)
+                                            .padding(.trailing, props.isIPad ? 100 : 35)
                                         Spacer()
                                     }
                                     ZStack {
                                         RoundedRectangle(cornerRadius: cornerRadius)
                                             .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.2) :  Color.black.opacity(0.06))
-                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                          
                                         
                                         TextField("Email", text: $viewModel.email)
                                             .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                             .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                             .frame(width: rectangleWidth, height: rectangleHeight)
                                             .autocapitalization(.none)
-                                            .padding(.leading, props.isIPad ? 100 : 35)
-                                            .padding(.trailing, props.isIPad ? 100 : 20)
-                                    }
+                                            .padding(.horizontal, props.isIPad ? 30 : 15)
+                                    }.frame(width: rectangleWidth, height: rectangleHeight)
+                                        .padding(.leading, props.isIPad ? 100 : 35)
+                                        .padding(.trailing, props.isIPad ? 100 : 35)
                                     
-//                                    HStack {
-//                                        Text("College*")
-//                                            .foregroundColor(Color.blue)
-//                                            .font(.system(size: 15))
-//                                            .bold()
-//                                            .padding(.leading, 20)
-//                                        Spacer()
-//                                    }
-//                                    
-//                                    // Searchable university picker
-//                                    TextField("Search for your university", text: $searchText)
-//                                        .padding()
-//                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-//                                        .onChange(of: searchText, perform: { _ in
-//                                            filterUniversities()
-//                                        })
-//                                        .onTapGesture {
-//                                            showList = true
-//                                        }
-//                                    
-//                                    if showList {
-//                                        if isLoading {
-//                                            ProgressView()
-//                                        } else {
-//                                            List {
-//                                                ForEach(filteredUniversities, id: \.self) { university in
-//                                                    Text(university)
-//                                                        .onTapGesture {
-//                                                            if university == "Other" {
-//                                                                viewModel.college = "Other"
-//                                                                searchText = university
-//                                                                showList = false
-//                                                                hideKeyboard()
-//                                                                
-//                                                                // Ensure showCustomUniversityField is shown
-//                                                                showCustomUniversityField = true
-//                                                            } else {
-//                                                                viewModel.college = university
-//                                                                searchText = university
-//                                                                showList = false
-//                                                                hideKeyboard()
-//                                                                
-//                                                                // Ensure showCustomUniversityField is hidden when other university is selected
-//                                                                showCustomUniversityField = false
-//                                                                customUniversityName = "" // Clear custom university name if previously set
-//                                                            }
-//                                                        }
-//                                                        .padding(.vertical, 5)
-//                                                }
-//                                            }
-//                                            .frame(height: 200) // Adjust the height as needed
-//                                        }
-//                                    }
-//                                    
-//                                    if showCustomUniversityField {
-//                                        TextField("Enter your university name", text: $viewModel.college)
-//                                            .padding()
-//                                            .textFieldStyle(RoundedBorderTextFieldStyle())
-//                                            .onTapGesture {
-//                                                showList = false
-//                                            }
-//                                    }
-//                                    
                                     Spacer()
                                     HStack {
-                                        Text("Year")
+                                        Text("Birth Year")
                                             .foregroundColor(Color.sky)
                                             .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                             .font(.system(size: 15))
-                                            .padding(.leading, props.isIPad ? 100 : 20)
+                                            .padding(.leading, props.isIPad ? 100 : 35)
+                                            .padding(.trailing, props.isIPad ? 100 : 35)
                                         Spacer()
                                         
                                         VStack {
                                             Button(action: {
-                                                isPopoverPresented.toggle()
+                                                showBdayPopup.toggle()
                                             }) {
-                                                Text("\(viewModel.year == "" ? academicYears[0] : viewModel.year)")
+                                                Text("\(viewModel.byear == "" ? birthYears[1] : viewModel.byear)")
                                                     .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                                     .foregroundColor(Color.white)
                                                     .padding()
                                                     .background(Capsule().fill(Color.sky))
                                             }
-                                            .popover(isPresented: $isPopoverPresented, arrowEdge: .bottom) {
-                                                PopoverMenuView(options: academicYears) { selectedYear in
-                                                    viewModel.year = selectedYear
-                                                    isPopoverPresented = false
-                                                }
-                                                .frame(width: 150, height: 200) // Adjust the popover size as needed
-                                                .padding()
-                                            }
-                                        }                                      .padding(.trailing, props.isIPad ? 100 : 20)
+                                        
+                                        }.padding(.trailing, props.isIPad ? 80 : 20)
 
+                                    }.onAppear{
+                                        viewModel.byear = birthYears[1]
+                                    }
+                                    
+                                    Spacer()
+                                    HStack {
+                                        Text("Year")
+                                            .foregroundColor(Color.sky)
+                                            .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                            .padding(.leading, props.isIPad ? 100 : 35)
+                                            .padding(.trailing, props.isIPad ? 100 : 35)
+                                        Spacer()
+                                        
+                                        VStack {
+                                            Button(action: {
+                                                showYearsPopup.toggle()
+                                            }) {
+                                                Text("\(viewModel.year == "" ? academicYears[1] : viewModel.year)")
+                                                    .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
+                                                    .foregroundColor(Color.white)
+                                                    .padding()
+                                                    .background(Capsule().fill(Color.sky))
+                                            }
+                                        } .padding(.trailing, props.isIPad ? 80 : 20)
+
+                                    }.onAppear{
+                                        viewModel.year = academicYears[1]
                                     }
                                     Spacer()
                                     HStack {
                                         Text("Major")
                                             .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                             .foregroundColor(Color.sky)
-                                            .frame(height: 40)
-                                            .font(.system(size: 15))
-                                            .padding(.leading, props.isIPad ? 100 : 20)
-                                            .padding(.trailing, props.isIPad ? 100 : 10)
+                                            .padding(.leading, props.isIPad ? 100 : 35)
+                                            .padding(.trailing, props.isIPad ? 100 : 35)
                                         Spacer()
                                     }
                                     ZStack {
                                         RoundedRectangle(cornerRadius: cornerRadius)
                                             .foregroundColor(colorScheme == .dark ? Color.white.opacity(0.2) :  Color.black.opacity(0.06))
-                                            .frame(width: rectangleWidth, height: rectangleHeight)
+                                           
                                         TextField("Computer Science", text: $viewModel.major)
                                             .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
                                             .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                                             .frame(width: rectangleWidth, height: rectangleHeight)
                                             .cornerRadius(10)
+                                            .padding(.horizontal, props.isIPad ? 30 : 15)
                                             .autocapitalization(.none)
-                                            .padding(.leading, props.isIPad ? 100 : 35)
-                                            .padding(.trailing, props.isIPad ? 100 : 20)
-                                    }
+                                            
+                                    }.frame(width: rectangleWidth, height: rectangleHeight)
+                                        .padding(.leading, props.isIPad ? 100 : 35)
+                                        .padding(.trailing, props.isIPad ? 100 : 35)
                                 }
                                 Spacer()
                                 HStack() {
@@ -264,23 +307,39 @@ struct RegisterView: View {
                                         .foregroundColor(Color.sky)
                                         .padding(.top, 4)
                                         .padding(.leading, 2)
-                                }
-                                .padding(.bottom, 20)
+                                }.padding(.leading, props.isIPad ? 100 : 35)
+                                .padding(.trailing, props.isIPad ? 100 : 15)
+                                .padding(.vertical, 20)
                                 
-                                Text("By creating an account you accept our ")
-                                    .font(.custom("Montserrat-Regular", size: props.customFontSize.small))
-                                    .foregroundColor(Color.sky)                                    .foregroundColor(.gray) +
-                                Text("Terms and Conditions")
-                                    .font(.footnote)
-                                    .foregroundColor(.sky)
-                                    .underline()
+                                VStack {
+                                            Text("By creating an account you accept our")
+                                                .font(.custom("Montserrat-Regular", size: props.customFontSize.small))
+                                                .foregroundColor(.sky)
+                                                .multilineTextAlignment(.center)
+                                                Text("Terms and Conditions")
+                                                .font(.custom("Montserrat-Regular", size: props.customFontSize.small))
+                                                .foregroundColor(.sky)
+                                                .underline()
+                                                .multilineTextAlignment(.center)
+                                                .onTapGesture {
+                                                    showTermsAndConditions = true
+                                                }
+                                        }
+                                .sheet(isPresented: $showTermsAndConditions) {
+                                    // Your Terms and Conditions view
+                                    EmptyView()
+                                }
                                 Button(action: {
                                     viewModel.register()
-                                    navigate = true // Activate navigation after registration
+                                    if viewModel.errorMessage == "" {
+                                        navigate = true // Activate navigation after registration
+                                    }
+                                 
                                 }) {
                                     ButtonView(props: props, text: "Register")
                                 }
                                 .background(
+                                    
                                     NavigationLink(destination: Onboarding10View(props:props), isActive: $navigate) {
                                         EmptyView()
                                     }
@@ -310,11 +369,12 @@ struct RegisterView: View {
                         RoundedRectangle(cornerRadius: props.round.sheet)
                             .fill(colorScheme == .dark ? Color.black : Color.white)
                     )
-                    .rotatingBorder()
+                    .rotatingBorder(props: props)
                     
                 }
                 
             }
+            .scrollIndicators(.hidden)
             .navigationBarHidden(true)
             .safeAreaInset(edge: .top) {
                 Color.clear.frame(height: 0) // This ensures the safe area on top
@@ -327,6 +387,39 @@ struct RegisterView: View {
             }
             .onTapGesture {
                 hideKeyboard()
+            }
+            if showBdayPopup {
+                CustomPopupViewText(
+                    props: props,
+                    items: birthYears,
+                    columns: 1,
+                    onSelect: { value in
+                        viewModel.byear = value
+                        showBdayPopup = false
+                    },
+                    isVisible: $showBdayPopup,
+                    selectedItem: viewModel.byear // Pass the current selected birth year
+                ).onAppear{
+                    print("bday pop up: \(viewModel.byear)")
+                }
+            }
+
+
+            if showYearsPopup {
+               
+                CustomPopupViewText(
+                    props: props,
+                    items: academicYears,
+                    columns: 1,
+                    onSelect: { value in
+                        viewModel.year = value
+                        showYearsPopup = false
+                    },
+                    isVisible: $showYearsPopup,
+                    selectedItem: viewModel.year // Pass the current selected academic year
+                ).onAppear{
+                    print("bday pop up: \(viewModel.year)")
+                }
             }
         }
         
@@ -393,12 +486,7 @@ struct CheckboxToggle: ToggleStyle {
     }
 }
 
-// Helper function to hide keyboard
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
+
 
 
 struct PopoverMenuView: View {

@@ -113,7 +113,7 @@ struct Onboarding3AView: View {
                                     showView4 = true
                                 }){
                                     if userSettings.goals.count > 1 {
-                                        ArrowButtonView()
+                                        ArrowButtonView(props:props)
                                             .padding(.top, 40)
                                             .padding(.bottom, 20)
                                 }
@@ -125,7 +125,7 @@ struct Onboarding3AView: View {
                         RoundedRectangle(cornerRadius: props.round.sheet)
                             .fill(colorScheme == .dark ? Color.black : Color.white)
                     )
-                    .rotatingBorder()
+                    .rotatingBorder(props:props)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
