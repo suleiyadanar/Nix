@@ -141,8 +141,8 @@ struct MainHomepageView: View {
                 ScrollView{
                 DeviceActivityReport(context, filter: filterChartDay)
                     .padding(.vertical, 10)
-                    .frame(height: props.height * 0.45)
-                
+                    .frame(minHeight: props.isIPad ? props.height * 0.55 : props.height * 0.55)
+                Spacer()
                     HStack {
                         Spacer()
                         Image("friend-list")
@@ -190,7 +190,8 @@ struct MainHomepageView: View {
                         HStack {
                             Image("new-freeze")
                                 .resizable()
-                                .frame(width: 20, height: 20)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20)
                             VStack {
                                 HStack {
                                     Text("New")
@@ -213,7 +214,8 @@ struct MainHomepageView: View {
                         HStack {
                             Image("intentional-mode")
                                 .resizable()
-                                .frame(width: 20, height: 20)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20)
                             VStack {
                                 HStack {
                                     Text("Intentional")

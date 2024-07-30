@@ -153,7 +153,6 @@ struct TotalScreenTimeReport: DeviceActivityReportScene {
         let reportData = await data.flatMap { $0.activitySegments }
             .map { $0.totalActivityDuration / 60.0 }
                                           .reduce(into: [TimeInterval](), { $0.append($1) })
-        let totalActivityDuration = reportData.reduce(0, { $0 + $1 * 60 })
 
 //        let totalActivityDuration = await data.flatMap { $0.activitySegments }.reduce(0, {
 //            $0 + $1.totalActivityDuration

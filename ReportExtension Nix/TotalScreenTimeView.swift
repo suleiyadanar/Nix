@@ -128,47 +128,52 @@ struct TotalScreenTimeView: View {
             let components = remainingScreenTime(totalActivity: totalActivity).split(separator: "\n").map(String.init)
             let header = components.first ?? ""
             
-                        
+                    
+            var completeData: [TimeInterval] {
+                   // Preprocess data outside the view body if needed
+                   return prepareData(reportData: reportData)
+               }
             VStack(alignment: .leading) {
                 HStack (alignment:.top) {
                     VStack(alignment: .leading){
                         Text("Today's Screen Time")
                             .foregroundColor(.black)
-                            .font(.custom("Bungee-Regular", size: fontSize/3))
+                            .font(.custom("Bungee-Regular", size: fontSize))
                             .fixedSize(horizontal: false, vertical: true) // Allow text to expand vertically
                             .padding(.top, 5)
-                        
                         withAnimation(.easeInOut(duration: 0.5)) {
                             
                             ZStack(alignment: .leading) {
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    HStack(spacing: 10) {
-                                        Text(formattedTime.hours)
-                                            .font(.custom("Aldrich-Regular", size: fontSize))
-                                            .shadow(color: .black, radius: 0.4)
-                                            .shadow(color: .black, radius: 0.4)
-                                            .shadow(color: .black, radius: 0.4)
-                                            .shadow(color: .black, radius: 0.4)
-                                        
-                                        Text("hr")
-                                            .foregroundColor(.black)
-                                            .font(.custom("Aldrich-Regular", size: fontSize * 0.6))
-                                            .frame(alignment:.trailing)
-                                    }
-                                    HStack(spacing: 10) {
-                                        Text(formattedTime.minutes)
-                                            .font(.custom("Aldrich-Regular", size: fontSize))
-                                            .shadow(color: .black, radius: 0.4)
-                                            .shadow(color: .black, radius: 0.4)
-                                            .shadow(color: .black, radius: 0.4)
-                                            .shadow(color: .black, radius: 0.4)
-
-                                        Text("min")
-                                            .foregroundColor(.black)
-                                            .font(.custom("Aldrich-Regular", size: fontSize * 0.6))
-                                            .frame(alignment:.trailing)
-                                        
+                                    HStack {
+                                        HStack(spacing: 10) {
+                                            Text(formattedTime.hours)
+                                                .font(.custom("Aldrich-Regular", size: fontSize*2))
+                                                .shadow(color: .black, radius: 0.4)
+                                                .shadow(color: .black, radius: 0.4)
+                                                .shadow(color: .black, radius: 0.4)
+                                                .shadow(color: .black, radius: 0.4)
+                                            
+                                            Text("hr")
+                                                .foregroundColor(.black)
+                                                .font(.custom("Aldrich-Regular", size: fontSize * 0.6))
+                                                .frame(alignment:.trailing)
+                                        }
+                                        HStack(spacing: 10) {
+                                            Text(formattedTime.minutes)
+                                                .font(.custom("Aldrich-Regular", size: fontSize*2))
+                                                .shadow(color: .black, radius: 0.4)
+                                                .shadow(color: .black, radius: 0.4)
+                                                .shadow(color: .black, radius: 0.4)
+                                                .shadow(color: .black, radius: 0.4)
+                                            
+                                            Text("min")
+                                                .foregroundColor(.black)
+                                                .font(.custom("Aldrich-Regular", size: fontSize * 0.6))
+                                                .frame(alignment:.trailing)
+                                            
+                                        }
                                     }
                                 }
                                 .foregroundColor(Color.teamColor(for: team, type: .secondary))
@@ -238,8 +243,7 @@ struct TotalScreenTimeView: View {
                                     }
                                 }
                                 .fixedSize(horizontal: false, vertical: true) // Ensures vertical size is based on content
-                                .padding(0) // Remove padding to avoid extra space
-                            }
+                            } .padding(.trailing, 10)
                          
 //                                        DeviceActivityReport(contextRemaining, filter: filterRemaining)
 //                                            .frame(height: props.height * 0.1, alignment: .topTrailing)
@@ -247,69 +251,79 @@ struct TotalScreenTimeView: View {
                 }
             }
                 VStack(alignment: .leading) {
-                    Text(selectedHourST) // Show selected day's data as title text
-                        .font(.custom("Montserrat-Bold", size: 12))
-                        .foregroundColor(.black)
-
-                    let completeData = prepareData(reportData: reportData)
-                    let team = userDefaults?.string(forKey: "team") ?? "water"
+                    // Display the selected hour as title text
                     
+                  
                     ScrollViewReader { scrollView in
+                        HStack {
+                            Text(selectedHourST)
+                                .font(.custom("Montserrat-Bold", size: 12))
+                                .foregroundColor(.black)
+                            Spacer()
+                            Button(action: {
+                                let calendar = Calendar.current
+                                let hour = calendar.component(.hour, from: Date())
+                                let currentIndex = hour  // Calculate the current hour index
+                                withAnimation {
+                                    scrollView.scrollTo(currentIndex, anchor: .center) // Scroll to the calculated index
+                                }
+                            }) {
+                                Text("Jump to Current")
+                                    .font(.custom("Montserrat-Bold", size: 12))
+                                    .padding()
+                                    .background(Color.teamColor(for: team, type: .accent))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                            .padding(.bottom, 10)
+                        }
+                       
                         HStack(spacing: 10) {
                             YAxisView(maxValue: 60)
                                 .frame(height: barHeight(for: 60))
                                 .padding(.bottom, 10)
+                            
                             ScrollView(.horizontal, showsIndicators: false) {
                                 ZStack {
                                     TimeOfDayBackground()
-                                        .frame(height: barHeight(for: 60))
-                                        .padding(.bottom, 10) // Reduced padding
+                                        .frame(height: barHeight(for: 60+2))
+                                        .padding(.bottom, 7)
                                         .foregroundColor(.black)
-
-
-                                    HStack(spacing: 5) { // Reduced spacing for smaller bars
-                                        ForEach(Array(completeData.enumerated()), id: \.offset) { index, dataPoint in
-                                            VStack(spacing:5) {
+                                    
+                                    HStack(spacing: 5) {
+                                        ForEach(0..<24, id: \.self) { index in
+                                            let dataPoint = completeData[index]
+                                            VStack(spacing: 5) {
                                                 Spacer()
-                                                RoundedRectangle(cornerRadius: 10) // Reduced corner radius
+                                                UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10)
                                                     .fill(Color.teamColor(for: team, type: .primary))
-                                                    .stroke(Color.teamColor(for: team, type: .secondary), lineWidth: 1) // Reduced stroke width
-                                                    .frame(width: 25, height: barHeight(for: dataPoint)) // Reduced width
+                                                    .stroke(Color.teamColor(for: team, type: .secondary), lineWidth: 1)
+                                                    .frame(width: 25, height: barHeight(for: dataPoint))
+                                                    .overlay(
+                                                        UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10)
+                                                            .stroke(index == currentTimeIndex ? Color.teamColor(for: team, type: .secondary) : Color.clear, lineWidth: 3) // Highlight border
+                                                    )
                                                     .onTapGesture {
                                                         selectedHourST = "\(convertToHoursAndMinutes(from: dataPoint))"
-                                                        currentTimeIndex = index // Update selected day index
+                                                        currentTimeIndex = index
                                                     }
                                                 Text("\(formatHour(index)):00 \(formatAMPM(index))")
                                                     .foregroundColor(.black)
                                                     .font(.custom("Montserrat-Bold", size: 12))
-        //                                            .font(.custom("Nunito-Medium", size: 12)) // Reduced font size
-                                                    .padding(.top, 1) // Reduced padding
+                                                    .padding(.top, 1)
                                             }
-                                            .id(index)
                                         }
-                                    }
-                                }
-                                .onAppear {
-                                    selectedHourST = "\(convertToHoursAndMinutes(from: reportData.last ?? reportData[0]))"
-                                    let currentHour = Calendar.current.component(.hour, from: Date())
-                                    currentTimeIndex = currentHour
-                                    
-                                    if let currentTimeIndex = currentTimeIndex, currentTimeIndex >= 0 {
-                                        scrollToCurrentTimeIndex(scrollView: scrollView, index: currentTimeIndex)
-                                    }
-                                }
-                                .onChange(of: currentTimeIndex) { newIndex in
-                                    if let newIndex = newIndex {
-                                        scrollToCurrentTimeIndex(scrollView: scrollView, index: newIndex)
                                     }
                                 }
                             }
                             .frame(height: UIScreen.main.bounds.height / 8)
-                        }
+                        }.padding(.bottom, 10)
                     }
                 }
-            }.padding(10)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.trailing, 10)
+            }.padding(.vertical, 10)
+            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             .background(RoundedRectangle(cornerRadius: 15)
                     .fill(Color.teamColor(for: team, type: .fourth))
@@ -326,12 +340,21 @@ struct TotalScreenTimeView: View {
         }
         return completeData
     }
-
+    private func getCurrentHourIndex() -> Int {
+           let calendar = Calendar.current
+           let hour = calendar.component(.hour, from: Date())
+           return (hour + 12) % 24 // Convert hour to index: 0 for 12 AM, 1 for 1 AM, ..., 12 for 12 PM, etc.
+    }
     private func scrollToCurrentTimeIndex(scrollView: ScrollViewProxy, index: Int) {
         withAnimation {
             scrollView.scrollTo(index, anchor: .center)
         }
     }
+    private func setupInitialSelection() {
+        selectedHourST = "\(convertToHoursAndMinutes(from: reportData.last ?? reportData[0]))"
+        currentTimeIndex = Calendar.current.component(.hour, from: Date())
+    }
+
 
     private func barWidth(totalWidth: CGFloat, count: Int) -> CGFloat {
         let spacing: CGFloat = 5 // Adjusted spacing
@@ -401,9 +424,9 @@ struct TotalScreenTimeView: View {
         case ..<700:
             return 23
         case 700..<1000:
-            return 26
+            return 25
         case 1000...:
-            return 35
+            return 32
         default:
             return 23
         }
@@ -419,11 +442,13 @@ struct TotalScreenTimeView: View {
     private func fontSize(for width: CGFloat) -> CGFloat {
         switch width {
         case ..<100:
-            return 35
+            return 18
         case 100..<250:
-            return 60
+            return 20
         case 250..<405:
-            return 75
+            return 25
+        case 405...:
+            return 35
         default:
             return 35
         }
