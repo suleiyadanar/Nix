@@ -39,3 +39,40 @@ extension View {
         self.modifier(RotatingBorder(props:props))
     }
 }
+
+import SwiftUI
+
+struct CustomRotatingBorder: ViewModifier {
+    @State private var rotation: Double = 0
+    var cornerRadius: CGFloat
+    var gradientColors: [Color]
+
+    func body(content: Content) -> some View {
+        ZStack {
+            content
+                .overlay(
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .stroke(
+                            AngularGradient(
+                                gradient: Gradient(colors: gradientColors),
+                                center: .center,
+                                startAngle: .degrees(rotation),
+                                endAngle: .degrees(rotation + 360)
+                            ),
+                            lineWidth: 4
+                        )
+                )
+                .onAppear {
+                    withAnimation(Animation.linear(duration: 15).repeatForever(autoreverses: false)) {
+                        rotation = 360
+                    }
+                }
+        }
+    }
+}
+
+extension View {
+    func customRotatingBorder(cornerRadius: CGFloat, gradientColors: [Color]) -> some View {
+        self.modifier(CustomRotatingBorder(cornerRadius: cornerRadius, gradientColors: gradientColors))
+    }
+}

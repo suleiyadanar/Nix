@@ -16,6 +16,8 @@ class RegisterViewViewModel: ObservableObject {
     @Published var goals = [""]
     @Published var unProdST = ""
     @Published var maxUnProdST = 0
+    @Published var team = ""
+
     
     @Published var errorMessage: String = "" // Optional error message
     
@@ -103,7 +105,8 @@ class RegisterViewViewModel: ObservableObject {
                            opt: opt,
                            goals:goals,
         unProdST: unProdST,
-        maxUnProdST: maxUnProdST)
+        maxUnProdST: maxUnProdST,
+                           team: team)
         
         db.collection("users")
             .document(id)

@@ -57,6 +57,7 @@
 		3F0151BD2C39D37A0031B2E0 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */; };
 		3F02597B2C4578AE004EFD17 /* JourneyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */; };
 		3F095B8B2C28F868002BC3EC /* TimeOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */; };
+		3F2831A72C55F821003EB044 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2831A62C55F821003EB044 /* Aldrich-Regular.ttf */; };
 		3F2C29AC2C3B7FDD000B1962 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29962C3B7FDD000B1962 /* Nunito-ExtraBold.ttf */; };
 		3F2C29B12C3B7FDD000B1962 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C299B2C3B7FDD000B1962 /* Nunito-Light.ttf */; };
 		3F2C29B32C3B7FDD000B1962 /* Nunito-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C299D2C3B7FDD000B1962 /* Nunito-Medium.ttf */; };
@@ -148,6 +149,34 @@
 		3FB2342A2B889A82007894D5 /* GoogleCalendarViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB234292B889A82007894D5 /* GoogleCalendarViewViewModel.swift */; };
 		3FCB35FC2B92783900FB6088 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB35FB2B92783900FB6088 /* ProfileView.swift */; };
 		3FCB35FE2B92795A00FB6088 /* ProfileViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCB35FD2B92795A00FB6088 /* ProfileViewViewModel.swift */; };
+		3FE55DB92C55F9D300F3E219 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2831A62C55F821003EB044 /* Aldrich-Regular.ttf */; };
+		3FE55DBA2C55F9D300F3E219 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2831A62C55F821003EB044 /* Aldrich-Regular.ttf */; };
+		3FE55DBB2C55F9D400F3E219 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2831A62C55F821003EB044 /* Aldrich-Regular.ttf */; };
+		3FE55DBC2C55F9D800F3E219 /* Bungee-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FA3882D2C4EC1EC00B4FD86 /* Bungee-Regular.ttf */; };
+		3FE55DBD2C55F9D800F3E219 /* Bungee-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FA3882D2C4EC1EC00B4FD86 /* Bungee-Regular.ttf */; };
+		3FE55DBE2C55F9D900F3E219 /* Bungee-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FA3882D2C4EC1EC00B4FD86 /* Bungee-Regular.ttf */; };
+		3FE55DBF2C55F9DE00F3E219 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29C02C3C8D13000B1962 /* Montserrat-Bold.ttf */; };
+		3FE55DC02C55F9DE00F3E219 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29C02C3C8D13000B1962 /* Montserrat-Bold.ttf */; };
+		3FE55DC12C55F9DF00F3E219 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29C02C3C8D13000B1962 /* Montserrat-Bold.ttf */; };
+		3FE55DC22C55F9E400F3E219 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2831A62C55F821003EB044 /* Aldrich-Regular.ttf */; };
+		3FE55DC32C55F9E700F3E219 /* Bungee-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FA3882D2C4EC1EC00B4FD86 /* Bungee-Regular.ttf */; };
+		3FE55DC42C55F9EA00F3E219 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29C02C3C8D13000B1962 /* Montserrat-Bold.ttf */; };
+		3FE55DC52C55F9ED00F3E219 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BE2C3C8D13000B1962 /* Montserrat-Regular.ttf */; };
+		3FE55DC62C55F9ED00F3E219 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BD2C3C8D13000B1962 /* Montserrat-ExtraBold.ttf */; };
+		3FE55DC72C55F9ED00F3E219 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BC2C3C8D13000B1962 /* Montserrat-Light.ttf */; };
+		3FE55DC82C55F9ED00F3E219 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BF2C3C8D13000B1962 /* Montserrat-Medium.ttf */; };
+		3FE55DC92C55F9ED00F3E219 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BE2C3C8D13000B1962 /* Montserrat-Regular.ttf */; };
+		3FE55DCA2C55F9ED00F3E219 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BD2C3C8D13000B1962 /* Montserrat-ExtraBold.ttf */; };
+		3FE55DCB2C55F9ED00F3E219 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BC2C3C8D13000B1962 /* Montserrat-Light.ttf */; };
+		3FE55DCC2C55F9ED00F3E219 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BF2C3C8D13000B1962 /* Montserrat-Medium.ttf */; };
+		3FE55DCD2C55F9EE00F3E219 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BE2C3C8D13000B1962 /* Montserrat-Regular.ttf */; };
+		3FE55DCE2C55F9EE00F3E219 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BD2C3C8D13000B1962 /* Montserrat-ExtraBold.ttf */; };
+		3FE55DCF2C55F9EE00F3E219 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BC2C3C8D13000B1962 /* Montserrat-Light.ttf */; };
+		3FE55DD02C55F9EE00F3E219 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BF2C3C8D13000B1962 /* Montserrat-Medium.ttf */; };
+		3FE55DD12C55F9EE00F3E219 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BE2C3C8D13000B1962 /* Montserrat-Regular.ttf */; };
+		3FE55DD22C55F9EE00F3E219 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BD2C3C8D13000B1962 /* Montserrat-ExtraBold.ttf */; };
+		3FE55DD32C55F9EE00F3E219 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BC2C3C8D13000B1962 /* Montserrat-Light.ttf */; };
+		3FE55DD42C55F9EE00F3E219 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29BF2C3C8D13000B1962 /* Montserrat-Medium.ttf */; };
 		3FEFA7AB2BA61A740074F1EC /* DeviceActivityExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEFA7AA2BA61A740074F1EC /* DeviceActivityExtension.swift */; };
 		3FEFA7AF2BA61A740074F1EC /* DeviceActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3FEFA7A82BA61A740074F1EC /* DeviceActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3FEFA7C52BA7E6780074F1EC /* BlockedAppsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */; };
@@ -264,6 +293,7 @@
 		3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutViewModel.swift; sourceTree = "<group>"; };
 		3F14C0922C54922A00E9E089 /* NixDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NixDebug.entitlements; sourceTree = "<group>"; };
 		3F262D6A2B995F4F0080214E /* Nix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nix.entitlements; sourceTree = "<group>"; };
+		3F2831A62C55F821003EB044 /* Aldrich-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aldrich-Regular.ttf"; sourceTree = "<group>"; };
 		3F2C29962C3B7FDD000B1962 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
 		3F2C299B2C3B7FDD000B1962 /* Nunito-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Light.ttf"; sourceTree = "<group>"; };
 		3F2C299D2C3B7FDD000B1962 /* Nunito-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Medium.ttf"; sourceTree = "<group>"; };
@@ -578,6 +608,7 @@
 		3F7234AB2B86CA840095EA42 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				3F2831A62C55F821003EB044 /* Aldrich-Regular.ttf */,
 				3FA3882D2C4EC1EC00B4FD86 /* Bungee-Regular.ttf */,
 				3F2C29C62C3C8D26000B1962 /* Montserrat */,
 				3F2C29A72C3B7FDD000B1962 /* Nunito */,
@@ -891,6 +922,7 @@
 				3F48FDF32C38D3AE00A193C7 /* world-universities.csv in Resources */,
 				3F7234A32B86C8D20095EA42 /* Preview Assets.xcassets in Resources */,
 				3F2C29C32C3C8D14000B1962 /* Montserrat-Regular.ttf in Resources */,
+				3F2831A72C55F821003EB044 /* Aldrich-Regular.ttf in Resources */,
 				3F2C29AC2C3B7FDD000B1962 /* Nunito-ExtraBold.ttf in Resources */,
 				3FB234252B8871FF007894D5 /* client_secret_619760553436-cr1od3vc3nm146b1ae2eq5bnf76iu2mm.apps.googleusercontent.com.json in Resources */,
 				3F2C29C22C3C8D14000B1962 /* Montserrat-ExtraBold.ttf in Resources */,
@@ -912,6 +944,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FE55DB92C55F9D300F3E219 /* Aldrich-Regular.ttf in Resources */,
+				3FE55DBC2C55F9D800F3E219 /* Bungee-Regular.ttf in Resources */,
+				3FE55DBF2C55F9DE00F3E219 /* Montserrat-Bold.ttf in Resources */,
+				3FE55DC52C55F9ED00F3E219 /* Montserrat-Regular.ttf in Resources */,
+				3FE55DC62C55F9ED00F3E219 /* Montserrat-ExtraBold.ttf in Resources */,
+				3FE55DC72C55F9ED00F3E219 /* Montserrat-Light.ttf in Resources */,
+				3FE55DC82C55F9ED00F3E219 /* Montserrat-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,7 +958,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FE55DC12C55F9DF00F3E219 /* Montserrat-Bold.ttf in Resources */,
+				3FE55DBE2C55F9D900F3E219 /* Bungee-Regular.ttf in Resources */,
 				3FA437892C0BB62500520D13 /* Assets.xcassets in Resources */,
+				3FE55DBB2C55F9D400F3E219 /* Aldrich-Regular.ttf in Resources */,
+				3FE55DCD2C55F9EE00F3E219 /* Montserrat-Regular.ttf in Resources */,
+				3FE55DCE2C55F9EE00F3E219 /* Montserrat-ExtraBold.ttf in Resources */,
+				3FE55DCF2C55F9EE00F3E219 /* Montserrat-Light.ttf in Resources */,
+				3FE55DD02C55F9EE00F3E219 /* Montserrat-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,7 +973,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FE55DC42C55F9EA00F3E219 /* Montserrat-Bold.ttf in Resources */,
+				3FE55DC32C55F9E700F3E219 /* Bungee-Regular.ttf in Resources */,
 				3FA4378A2C0BB62500520D13 /* Assets.xcassets in Resources */,
+				3FE55DC22C55F9E400F3E219 /* Aldrich-Regular.ttf in Resources */,
+				3FE55DD12C55F9EE00F3E219 /* Montserrat-Regular.ttf in Resources */,
+				3FE55DD22C55F9EE00F3E219 /* Montserrat-ExtraBold.ttf in Resources */,
+				3FE55DD32C55F9EE00F3E219 /* Montserrat-Light.ttf in Resources */,
+				3FE55DD42C55F9EE00F3E219 /* Montserrat-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -935,6 +988,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FE55DBA2C55F9D300F3E219 /* Aldrich-Regular.ttf in Resources */,
+				3FE55DBD2C55F9D800F3E219 /* Bungee-Regular.ttf in Resources */,
+				3FE55DC02C55F9DE00F3E219 /* Montserrat-Bold.ttf in Resources */,
+				3FE55DC92C55F9ED00F3E219 /* Montserrat-Regular.ttf in Resources */,
+				3FE55DCA2C55F9ED00F3E219 /* Montserrat-ExtraBold.ttf in Resources */,
+				3FE55DCB2C55F9ED00F3E219 /* Montserrat-Light.ttf in Resources */,
+				3FE55DCC2C55F9ED00F3E219 /* Montserrat-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

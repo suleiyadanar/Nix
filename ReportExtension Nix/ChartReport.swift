@@ -28,10 +28,10 @@ struct ChartReportDay: DeviceActivityReportScene {
     let content: ([TimeInterval]) -> ChartReportDayView
 
     func makeConfiguration(representing data: DeviceActivityResults<DeviceActivityData>) async -> [TimeInterval] {
-        let activityDurations = await data.flatMap { $0.activitySegments }
+        let reportData = await data.flatMap { $0.activitySegments }
             .map { $0.totalActivityDuration / 60.0 }
                                           .reduce(into: [TimeInterval](), { $0.append($1) })
-        return activityDurations
+        return reportData
     }
 }
 

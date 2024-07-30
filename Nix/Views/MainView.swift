@@ -85,11 +85,8 @@ struct MainView: View {
             }   .ignoresSafeArea()
             .padding(.bottom, 65)
             .overlay(
-                
                 CustomTabBar()
-                    .padding(.bottom)
                     .ignoresSafeArea()
-                    .background(Color.babyBlue)
                     .cornerRadius(35)
                     .padding(.horizontal, 10)
                     .padding(.top, 10)

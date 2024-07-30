@@ -21,4 +21,5 @@ struct User: Codable {
     let goals: Array<String>
     let unProdST: String
     let maxUnProdST : Int
+    let team: String
 }

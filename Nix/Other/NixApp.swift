@@ -32,6 +32,8 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
     @StateObject var timeoutModel: TimeOutViewModel = .init()
     @Environment(\.scenePhase) var phase
     @State var lastActiveTimeStamp: Date = Date()
+  
+
     var body: some Scene {
         WindowGroup {
             ResponsiveView() { properties in
@@ -40,6 +42,7 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                     .environmentObject(userSettings)
                     .environmentObject(timeoutModel)
                     .onAppear(){
+                       
                         fetchUser { user in
                             if let user = user {
                                 // Use the fetched user object
@@ -57,6 +60,9 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                                 
                                 
                                 userDefaults?.set(daysSinceJoined, forKey:"userDays")
+                                
+                                userDefaults?.set(user.team, forKey: "team")
+                                print(user.team)
                                 print(daysSinceJoined)
                                 print("Fetched user: \(user.firstName)")
                             } else {
@@ -66,6 +72,7 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                         }
                         
                     }
+
             }
 
         }.onChange(of: phase) {
@@ -171,7 +178,8 @@ private let thisWeek = DateInterval(start: Date(), end: Date())
                     opt: data["opt"] as? Bool ?? false,
                     goals: data["goals"] as? [String] ?? [],
                     unProdST: data["unProdST"] as? String ?? "",
-                    maxUnProdST: data["maxUnProdST"] as? Int ?? 0
+                    maxUnProdST: data["maxUnProdST"] as? Int ?? 0,
+                    team: data["team"] as? String ?? ""
                 )
                 completion(user)
             }
