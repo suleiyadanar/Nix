@@ -96,7 +96,7 @@ struct MainHomepageView: View {
                                         Spacer()
                                     }
                                     HStack {
-                                        ProgressBarPixel(props: props, progress: 3, color: Color.teamColor(for: viewModel.user?.team ?? "water", type: .secondary))
+                                        ProgressBarPixel(props: props, progress: 3, color: Color.teamColor(for: teamColor, type: .secondary))
                                             .progressViewStyle(ThickProgressViewStyle(thickness: 10, color: .sky))
                                         Spacer()
                                     }
@@ -124,7 +124,7 @@ struct MainHomepageView: View {
                         .padding(10)
                         .background(RoundedRectangle(cornerRadius: 15)
 //                                .stroke(Color.sky, lineWidth: 1)
-                            .fill(Color.teamColor(for: viewModel.user?.team ?? "water", type: .primary))
+                            .fill(Color.teamColor(for: teamColor, type: .primary))
                             .padding(.horizontal, 10))
 //            ScrollView{
                 VStack {
@@ -178,13 +178,12 @@ struct MainHomepageView: View {
 
 
                     }
-                    .frame(minHeight:!props.isIPad || props.isIPad && props.isSplit ? 225 : 0)
+//                    .frame(minHeight:!props.isIPad || props.isIPad && props.isSplit ? 225 : 0)
                     .padding(10)
                     .background(RoundedRectangle(cornerRadius: 15)
-                                //                    .stroke(Color.sky, lineWidth: 1)
-                        .fill(Color.teamColor(for: viewModel.user?.team ?? "water", type: .fourth))
+                        .fill(Color.teamColor(for: teamColor, type: .fourth))
                       )
-                    .customRotatingBorder(cornerRadius: 15, gradientColors: [Color.teamColor(for: viewModel.user?.team ?? "water", type: .primary).opacity(0.8), Color.teamColor(for: viewModel.user?.team ?? "water", type: .fourth).opacity(0.8), Color.teamColor(for: viewModel.user?.team ?? "water", type: .primary).opacity(0.8)]).padding(.leading, 10).padding(.trailing, 10)
+                    .customRotatingBorder(cornerRadius: 15, gradientColors: [Color.teamColor(for: teamColor, type: .primary).opacity(0.8), Color.teamColor(for: teamColor, type: .fourth).opacity(0.8), Color.teamColor(for: teamColor, type: .primary).opacity(0.8)]).padding(.leading, 10).padding(.trailing, 10)
                     Spacer()
 //                 ScreenTimeView()
 //                    DeviceActivityReport(contextChartDay, filter: filterChartDay)
