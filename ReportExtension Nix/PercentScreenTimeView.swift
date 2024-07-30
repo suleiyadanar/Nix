@@ -7,7 +7,7 @@ struct PercentScreenTimeView: View {
     var body: some View {
         GeometryReader { geometry in
             let widthToCalculate = min(geometry.size.width, geometry.size.height)
-            let fontSize = self.fontSize(for: widthToCalculate)
+            let fontSizePercent = self.fontSizePercent(for: widthToCalculate)
             let progress = self.progressValue(from: percentScreenTime)
             let segmentCount = 10
             let segmentLineWidth: CGFloat = geometry.size.width > 200 ? 15 : 10
@@ -37,7 +37,7 @@ struct PercentScreenTimeView: View {
                 
                 Text(percentScreenTime)
                     .foregroundColor(.black)
-                    .font(.custom("Montserrat-Bold", size: fontSize))
+                    .font(.custom("Montserrat-Bold", size: fontSizePercent))
                     .rotationEffect(.degrees(0)) // Keep the text upright
                 
             }.frame(width: widthToCalculate, height: widthToCalculate, alignment: .topTrailing)
@@ -52,7 +52,7 @@ struct PercentScreenTimeView: View {
 
     }
     
-    private func fontSize(for width: CGFloat) -> CGFloat {
+    private func fontSizePercent(for width: CGFloat) -> CGFloat {
         switch width {
         case ..<700:
             return 23
@@ -73,18 +73,18 @@ struct PercentScreenTimeView: View {
     }
 }
 
-struct Arc: Shape {
-    let startAngle: Angle
-    let endAngle: Angle
-    
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let center = CGPoint(x: rect.midX, y: rect.midY)
-        let radius = max(rect.width, rect.height) / 2.5
-        path.addArc(center: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
-        return path
-    }
-}
+//struct Arc: Shape {
+//    let startAngle: Angle
+//    let endAngle: Angle
+//    
+//    func path(in rect: CGRect) -> Path {
+//        var path = Path()
+//        let center = CGPoint(x: rect.midX, y: rect.midY)
+//        let radius = max(rect.width, rect.height) / 2.5
+//        path.addArc(center: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+//        return path
+//    }
+//}
 
 //#Preview {
 //    PercentScreenTimeView(percentScreenTime: "75%")

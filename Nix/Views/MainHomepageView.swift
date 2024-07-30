@@ -127,96 +127,22 @@ struct MainHomepageView: View {
                             .fill(Color.teamColor(for: teamColor, type: .primary))
                             .padding(.horizontal, 10))
 //            ScrollView{
-                VStack {
-                    // Score box
-                    HStack {
-                        Text("\(viewModel.greeting), \(viewModel.user?.firstName ?? "User")!")
-                            .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                            .font(.custom("Montserrat-Regular", size: props.customFontSize.medium))
-                            .padding(.leading, 20)
-                        Spacer()
-                    }
-                    
-                    // Screen Time Box
-                    VStack(alignment: .leading) {
-                        HStack (alignment:.top) {
-                            VStack(alignment: .leading){
-                                Text("Today's Screen Time")
-                                    .foregroundColor(.black)
-                                    .font(.custom("Bungee-Regular", size: props.isIPad ? props.customFontSize.mediumLarge :
-                                                    props.customFontSize.medium))
-                                  
-                                    .lineLimit(nil) // Allow the text to wrap to the next line
-                                    .fixedSize(horizontal: false, vertical: true) // Allow text to expand vertically
-                                    .padding(.top, 5)
-                                
-                                DeviceActivityReport(context, filter: filter)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                                    .padding(.bottom, 15)
-//
-                            }.padding(.leading, 15)
-                            HStack {
-                                Spacer()
-                                VStack(alignment: .trailing, spacing: 10) {
-                                    // DeviceActivityReport for percentage
-                                    DeviceActivityReport(contextPercentage, filter: filterPercentage)
-                                        .frame(width: 80, alignment: .topLeading)
-                                        
-                                        .frame(width: props.isIPad && !props.isSplit ? props.width * 0.15 : props.width * 0.25, height: props.height * 0.1, alignment: .topTrailing)
-                                    
-                                    
-                                    // DeviceActivityReport for remaining time
-                                 
-                                        DeviceActivityReport(contextRemaining, filter: filterRemaining)
-                                            .frame(height: props.height * 0.1, alignment: .topTrailing)
-                                    }
-                                
-                            }.padding(.trailing, 10)
-                        }
-                        
-                       
-
-
-                    }
-//                    .frame(minHeight:!props.isIPad || props.isIPad && props.isSplit ? 225 : 0)
-                    .padding(10)
-                    .background(RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.teamColor(for: teamColor, type: .fourth))
-                      )
-                    .customRotatingBorder(cornerRadius: 15, gradientColors: [Color.teamColor(for: teamColor, type: .primary).opacity(0.8), Color.teamColor(for: teamColor, type: .fourth).opacity(0.8), Color.teamColor(for: teamColor, type: .primary).opacity(0.8)]).padding(.leading, 10).padding(.trailing, 10)
+            VStack {
+                // Score box
+                HStack {
+                    Text("\(viewModel.greeting), \(viewModel.user?.firstName ?? "User")!")
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                        .font(.custom("Montserrat-Regular", size: props.customFontSize.medium))
+                        .padding(.leading, 20)
                     Spacer()
-//                 ScreenTimeView()
-//                    DeviceActivityReport(contextChartDay, filter: filterChartDay)
-//                        .frame(maxHeight: props.height * 0.2)
-//                    VStack {
-//                                Button(action: {
-//                                    withAnimation {
-//                                        isExpanded.toggle()
-//                                    }
-//                                }) {
-//                                    HStack {
-//                                        Text("Show Details")
-//                                            .font(.headline)
-//                                        Spacer()
-//                                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-//                                    }
-//                                    .padding()
-//                                    .background(Color.blue.opacity(0.1))
-//                                    .cornerRadius(8)
-//                                }
-//                                
-//                                if isExpanded {
-//                                    HStack {
-//                                        DeviceActivityReport(contextChartDay, filter: filterChartDay)
-//                                            .frame(maxHeight: props.height * 0.2)
-//                                    }
-//                                    .padding(.horizontal, 10)
-//                                }
-//                            }
-//                            .background(Color.green)
-//                            .padding()
-                 
-                    Spacer()
+                }
+                
+                // Screen Time Box
+                ScrollView{
+                DeviceActivityReport(context, filter: filterChartDay)
+                    .padding(.vertical, 10)
+                    .frame(height: props.height * 0.45)
+                
                     HStack {
                         Spacer()
                         Image("friend-list")
@@ -255,11 +181,11 @@ struct MainHomepageView: View {
                         }
                         .padding(.leading, 17)
                         
-                        Image("separating-line2")
-                            .resizable()
-                            .frame(width: 1, height: 40)
-                            .padding(.leading, 8)
-                            .padding(.trailing, 22)
+                        //                        Image("separating-line2")
+                        //                            .resizable()
+                        //                            .frame(width: 1, height: 40)
+                        //                            .padding(.leading, 8)
+                        //                            .padding(.trailing, 22)
                         
                         HStack {
                             Image("new-freeze")
@@ -279,10 +205,10 @@ struct MainHomepageView: View {
                             }
                             .padding(.leading, 2)
                         }
-                        Image("separating-line2")
-                            .resizable()
-                            .frame(width: 1, height: 40)
-                            .padding(.trailing, 8)
+                        //                        Image("separating-line2")
+                        //                            .resizable()
+                        //                            .frame(width: 1, height: 40)
+                        //                            .padding(.trailing, 8)
                         
                         HStack {
                             Image("intentional-mode")
@@ -306,6 +232,7 @@ struct MainHomepageView: View {
                     
                     
                 }
+            }
 //            }
             QuickFreezeButton()
         }.onAppear {

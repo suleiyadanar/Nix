@@ -57,6 +57,11 @@
 		3F0151BD2C39D37A0031B2E0 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */; };
 		3F02597B2C4578AE004EFD17 /* JourneyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */; };
 		3F095B8B2C28F868002BC3EC /* TimeOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */; };
+		3F216CC02C58A915000B34F6 /* RotatingBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */; };
+		3F216CC12C58A915000B34F6 /* RotatingBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */; };
+		3F216CC32C58A93D000B34F6 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F216CC22C58A93D000B34F6 /* Properties.swift */; };
+		3F216CC42C58A97A000B34F6 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F216CC22C58A93D000B34F6 /* Properties.swift */; };
+		3F216CC52C58A97A000B34F6 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F216CC22C58A93D000B34F6 /* Properties.swift */; };
 		3F2831A72C55F821003EB044 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2831A62C55F821003EB044 /* Aldrich-Regular.ttf */; };
 		3F2C29AC2C3B7FDD000B1962 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C29962C3B7FDD000B1962 /* Nunito-ExtraBold.ttf */; };
 		3F2C29B12C3B7FDD000B1962 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F2C299B2C3B7FDD000B1962 /* Nunito-Light.ttf */; };
@@ -292,6 +297,7 @@
 		3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyMapView.swift; sourceTree = "<group>"; };
 		3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutViewModel.swift; sourceTree = "<group>"; };
 		3F14C0922C54922A00E9E089 /* NixDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NixDebug.entitlements; sourceTree = "<group>"; };
+		3F216CC22C58A93D000B34F6 /* Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
 		3F262D6A2B995F4F0080214E /* Nix.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nix.entitlements; sourceTree = "<group>"; };
 		3F2831A62C55F821003EB044 /* Aldrich-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aldrich-Regular.ttf"; sourceTree = "<group>"; };
 		3F2C29962C3B7FDD000B1962 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -630,6 +636,7 @@
 			isa = PBXGroup;
 			children = (
 				3F7234AF2B86CAD80095EA42 /* RuleItem.swift */,
+				3F216CC22C58A93D000B34F6 /* Properties.swift */,
 				3F7B97162B87110700F465D2 /* CalendarModel.swift */,
 				3F9EB4E92C10F3240019200C /* AppGroupModel.swift */,
 				3F6A89482BA5EAEC00DDE9AB /* BlockedAppsModel.swift */,
@@ -1140,6 +1147,7 @@
 				3F7234DC2B86CAF70095EA42 /* RulesView.swift in Sources */,
 				3F9EB4E42C1029AC0019200C /* NewBlockedAppsView.swift in Sources */,
 				3F7234CF2B86CAF70095EA42 /* RulesViewViewModel.swift in Sources */,
+				3F216CC32C58A93D000B34F6 /* Properties.swift in Sources */,
 				3F86B2E22BA32DD200F39E9B /* EditRuleItemView.swift in Sources */,
 				3B15E3BC2C49A01F000134DD /* MainBlockedAppsView.swift in Sources */,
 				3F312BAE2C1BACC7004798E7 /* TimeOutNotiViewViewModel.swift in Sources */,
@@ -1169,7 +1177,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F44B0352C44249A00319EA3 /* ChartReportDayView.swift in Sources */,
+				3F216CC02C58A915000B34F6 /* RotatingBorder.swift in Sources */,
 				3F856E822B9E305D00E479EB /* TotalActivityView.swift in Sources */,
+				3F216CC42C58A97A000B34F6 /* Properties.swift in Sources */,
 				3F48FDED2C377F8900A193C7 /* Colors.swift in Sources */,
 				3F856E722B9D8EEE00E479EB /* TotalScreenTimeView.swift in Sources */,
 				3F44B0342C44249A00319EA3 /* ChartReport.swift in Sources */,
@@ -1205,7 +1215,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FEFA7D82BA8A30C0074F1EC /* BlockedAppsModel.swift in Sources */,
+				3F216CC12C58A915000B34F6 /* RotatingBorder.swift in Sources */,
 				3F48FDEE2C377F8A00A193C7 /* Colors.swift in Sources */,
+				3F216CC52C58A97A000B34F6 /* Properties.swift in Sources */,
 				3FEFA7AB2BA61A740074F1EC /* DeviceActivityExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

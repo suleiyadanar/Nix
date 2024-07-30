@@ -140,24 +140,24 @@ struct TotalScreenTimeReport: DeviceActivityReportScene {
     let context: DeviceActivityReport.Context = .totalScreenTime
     
     // Define the custom configuration and the resulting view for this report.
-    let content: (String) -> TotalScreenTimeView
+    let content: ([TimeInterval]) -> TotalScreenTimeView
     
-    func makeConfiguration(representing data: DeviceActivityResults<DeviceActivityData>) async -> String {
+    func makeConfiguration(representing data: DeviceActivityResults<DeviceActivityData>) async -> [TimeInterval] {
 //        // Reformat the data into a configuration that can be used to create
 //        // the report's view.
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute]
         formatter.unitsStyle = .short
         formatter.zeroFormattingBehavior = .pad
-        
-        let totalActivityDuration = await data.flatMap { $0.activitySegments }.reduce(0, {
-            $0 + $1.totalActivityDuration
-        })
-        let formattedString = formatter.string(from: totalActivityDuration) ?? "No activity data"
 
+        let reportData = await data.flatMap { $0.activitySegments }
+            .map { $0.totalActivityDuration / 60.0 }
+                                          .reduce(into: [TimeInterval](), { $0.append($1) })
+        let totalActivityDuration = reportData.reduce(0, { $0 + $1 * 60 })
 
-        let formattedWithNewline = formattedString.replacingOccurrences(of: ", ", with: "\n")
-
-        return formattedWithNewline
+//        let totalActivityDuration = await data.flatMap { $0.activitySegments }.reduce(0, {
+//            $0 + $1.totalActivityDuration
+//        })
+        return reportData
     }
 }
