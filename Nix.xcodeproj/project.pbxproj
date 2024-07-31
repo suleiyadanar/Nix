@@ -56,6 +56,8 @@
 		3BCBF7C22C0EC39400F7532B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF7C12C0EC39400F7532B /* UserSettings.swift */; };
 		3F0151BD2C39D37A0031B2E0 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */; };
 		3F02597B2C4578AE004EFD17 /* JourneyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */; };
+		3F069B5A2C5AA64800F4B3C7 /* MessageBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F069B592C5AA64800F4B3C7 /* MessageBoxView.swift */; };
+		3F069B5C2C5AAE0300F4B3C7 /* Sort1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F069B5B2C5AAE0300F4B3C7 /* Sort1View.swift */; };
 		3F095B8B2C28F868002BC3EC /* TimeOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */; };
 		3F216CC02C58A915000B34F6 /* RotatingBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */; };
 		3F216CC12C58A915000B34F6 /* RotatingBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */; };
@@ -295,6 +297,8 @@
 		3F0151BC2C39D3790031B2E0 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
 		3F0259792C448016004EFD17 /* ReportExtension NixDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ReportExtension NixDebug.entitlements"; sourceTree = "<group>"; };
 		3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyMapView.swift; sourceTree = "<group>"; };
+		3F069B592C5AA64800F4B3C7 /* MessageBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxView.swift; sourceTree = "<group>"; };
+		3F069B5B2C5AAE0300F4B3C7 /* Sort1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort1View.swift; sourceTree = "<group>"; };
 		3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutViewModel.swift; sourceTree = "<group>"; };
 		3F14C0922C54922A00E9E089 /* NixDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NixDebug.entitlements; sourceTree = "<group>"; };
 		3F216CC22C58A93D000B34F6 /* Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
@@ -519,6 +523,7 @@
 				3BA6CA892C1108C30031B2E1 /* Onboarding7View.swift */,
 				3BA6CA8B2C110BCB0031B2E1 /* Onboarding8View.swift */,
 				3BA6CA8D2C112F8D0031B2E1 /* Onboarding9View.swift */,
+				3F069B592C5AA64800F4B3C7 /* MessageBoxView.swift */,
 				3F7234C82B86CAF70095EA42 /* RegisterView.swift */,
 				3BCBF7C12C0EC39400F7532B /* UserSettings.swift */,
 				3BA6CA8F2C114CA10031B2E1 /* Onboarding10View.swift */,
@@ -526,6 +531,14 @@
 				3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */,
 			);
 			path = "Onboarding Views";
+			sourceTree = "<group>";
+		};
+		3F069B5D2C5AAE0C00F4B3C7 /* Sorting Views */ = {
+			isa = PBXGroup;
+			children = (
+				3F069B5B2C5AAE0300F4B3C7 /* Sort1View.swift */,
+			);
+			path = "Sorting Views";
 			sourceTree = "<group>";
 		};
 		3F2C29A72C3B7FDD000B1962 /* Nunito */ = {
@@ -678,6 +691,7 @@
 				3BCBF7B42C0ADFFB00F7532B /* Onboarding Views */,
 				3B2BB1902C1D672200E08E77 /* ScreenTimeView.swift */,
 				3F6AF18C2C3614B600CA9036 /* ColorSwatchView.swift */,
+				3F069B5D2C5AAE0C00F4B3C7 /* Sorting Views */,
 				3B2BB18E2C1D66DC00E08E77 /* MainHomepageView.swift */,
 				3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */,
 				3F7234C02B86CAF70095EA42 /* SettingsView.swift */,
@@ -1077,6 +1091,7 @@
 				3F0151BD2C39D37A0031B2E0 /* CustomDatePickerView.swift in Sources */,
 				3F7234D62B86CAF70095EA42 /* SettingsView.swift in Sources */,
 				3BCBF7B82C0D4EC200F7532B /* Colors.swift in Sources */,
+				3F069B5C2C5AAE0300F4B3C7 /* Sort1View.swift in Sources */,
 				3BCBF7C02C0E71C700F7532B /* Onboarding3AView.swift in Sources */,
 				3B9E90AD2C2FCF4B00C202EF /* SuggestRow.swift in Sources */,
 				3B0DE7A82C1E26FF00C8137A /* MainRulesView.swift in Sources */,
@@ -1142,6 +1157,7 @@
 				3F7234D42B86CAF70095EA42 /* RegisterViewViewModel.swift in Sources */,
 				3BA6CA8A2C1108C30031B2E1 /* Onboarding7View.swift in Sources */,
 				3B32221E2BB0C5340037FE2D /* AddAccountView.swift in Sources */,
+				3F069B5A2C5AA64800F4B3C7 /* MessageBoxView.swift in Sources */,
 				3BCBF7B12C0A4E8F00F7532B /* OnboardingProgressBarView.swift in Sources */,
 				3F7235292B86CD540095EA42 /* NixApp.swift in Sources */,
 				3F7234DC2B86CAF70095EA42 /* RulesView.swift in Sources */,

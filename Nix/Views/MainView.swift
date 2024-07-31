@@ -40,10 +40,10 @@ struct MainView: View {
     }
     
     
-    var tabs = ["homepage", "rules", "pomodoro", "profile"]
+    var tabs = ["home", "rule", "timer", "face"]
     
 
-    @State var selectedTab = "homepage"
+    @State var selectedTab = "home"
     @State var showTabBar = true // State variable to control the visibility of the CustomTabBar
 
     @Namespace var namespace
@@ -63,17 +63,17 @@ struct MainView: View {
             VStack {
                 // Display the selected view based on selectedTab
                 switch selectedTab {
-                case "homepage":
+                case "home":
                     MainHomepageView(props: props, streakCount: 32, progress: 0.6, userId: viewModel.currentUserId, showTabBar: $showTabBar)
                         .ignoresSafeArea()
-                case "rules":
+                case "rule":
                     MainRulesView(props: props, userId: viewModel.currentUserId, viewModel: RulesViewViewModel(userId: viewModel.currentUserId))
                         .ignoresSafeArea()
-                case "pomodoro":
+                case "timer":
                     MainPomodoroView(props: props, viewModel: pomodoroModel, userId: viewModel.currentUserId)
                         .environmentObject(pomodoroModel)
                         .ignoresSafeArea()
-                case "profile":
+                case "face":
                     ProfileView(props: props)
                         .ignoresSafeArea()
                 default:

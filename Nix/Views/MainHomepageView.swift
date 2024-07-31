@@ -139,6 +139,7 @@ struct MainHomepageView: View {
                 
                 // Screen Time Box
                 ScrollView{
+                    MessageBoxView(props:props)
                 DeviceActivityReport(context, filter: filterChartDay)
                     .padding(.vertical, 10)
                     .frame(minHeight: props.isIPad ? props.height * 0.55 : props.height * 0.55)
