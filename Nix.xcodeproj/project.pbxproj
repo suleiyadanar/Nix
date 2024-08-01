@@ -58,6 +58,7 @@
 		3F02597B2C4578AE004EFD17 /* JourneyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */; };
 		3F069B5A2C5AA64800F4B3C7 /* MessageBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F069B592C5AA64800F4B3C7 /* MessageBoxView.swift */; };
 		3F069B5C2C5AAE0300F4B3C7 /* Sort1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F069B5B2C5AAE0300F4B3C7 /* Sort1View.swift */; };
+		3F069B5F2C5AB98100F4B3C7 /* sortingQuestions.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F069B5E2C5AB98100F4B3C7 /* sortingQuestions.json */; };
 		3F095B8B2C28F868002BC3EC /* TimeOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */; };
 		3F216CC02C58A915000B34F6 /* RotatingBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */; };
 		3F216CC12C58A915000B34F6 /* RotatingBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3882F2C50334300B4FD86 /* RotatingBorder.swift */; };
@@ -299,6 +300,7 @@
 		3F02597A2C4578AE004EFD17 /* JourneyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneyMapView.swift; sourceTree = "<group>"; };
 		3F069B592C5AA64800F4B3C7 /* MessageBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBoxView.swift; sourceTree = "<group>"; };
 		3F069B5B2C5AAE0300F4B3C7 /* Sort1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort1View.swift; sourceTree = "<group>"; };
+		3F069B5E2C5AB98100F4B3C7 /* sortingQuestions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sortingQuestions.json; sourceTree = "<group>"; };
 		3F095B8A2C28F868002BC3EC /* TimeOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOutViewModel.swift; sourceTree = "<group>"; };
 		3F14C0922C54922A00E9E089 /* NixDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NixDebug.entitlements; sourceTree = "<group>"; };
 		3F216CC22C58A93D000B34F6 /* Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
@@ -570,6 +572,7 @@
 			children = (
 				3F48FDF22C38D3AD00A193C7 /* world-universities.csv */,
 				3F47EBC12C0E4D010043507C /* templates.json */,
+				3F069B5E2C5AB98100F4B3C7 /* sortingQuestions.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -953,6 +956,7 @@
 				3F2C29C52C3C8D14000B1962 /* Montserrat-Bold.ttf in Resources */,
 				3F72352B2B86D6350095EA42 /* client_619760553436-cvr4rum3g66l7knjji81n76n1rag8i0b.apps.googleusercontent.com.plist in Resources */,
 				3F2C29B52C3B7FDD000B1962 /* Nunito-Regular.ttf in Resources */,
+				3F069B5F2C5AB98100F4B3C7 /* sortingQuestions.json in Resources */,
 				3F2C29B12C3B7FDD000B1962 /* Nunito-Light.ttf in Resources */,
 				3F47EBC32C0E4D010043507C /* templates.json in Resources */,
 				3FA3882E2C4EC1EC00B4FD86 /* Bungee-Regular.ttf in Resources */,

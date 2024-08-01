@@ -181,9 +181,8 @@ struct TotalScreenTimeView: View {
                                 .multilineTextAlignment(.leading)
                             }
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                            .padding(.bottom, 15)
-//
                     }
+                        Spacer()
                     }
                     HStack {
                         Spacer()
@@ -216,7 +215,7 @@ struct TotalScreenTimeView: View {
                                     .rotationEffect(.degrees(0)) // Keep the text upright
                                 
                             }
-                            .frame(width: widthToCalculate / 3, height: widthToCalculate / 3)
+                            .frame(width: widthToCalculate / 3.5, height: widthToCalculate / 3.5)
 //                            .offset(x: widthToCalculate, y: 0)
                                 
 //                                        .frame(width: props.isIPad && !props.isSplit ? props.width * 0.15 : props.width * 0.25, height: props.height * 0.1, alignment: .topTrailing)
@@ -260,24 +259,24 @@ struct TotalScreenTimeView: View {
                                 .font(.custom("Montserrat-Bold", size: 12))
                                 .foregroundColor(.black)
                             Spacer()
-                            Button(action: {
-                                let calendar = Calendar.current
-                                let hour = calendar.component(.hour, from: Date())
-                                let currentIndex = hour  // Calculate the current hour index
-                                withAnimation {
-                                    scrollView.scrollTo(currentIndex, anchor: .center) // Scroll to the calculated index
-                                }
-                            }) {
-                                Text("Jump to Current")
-                                    .font(.custom("Montserrat-Bold", size: 12))
-                                    .padding()
-                                    .background(Color.teamColor(for: team, type: .accent))
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                            .padding(.bottom, 10)
+//                            Button(action: {
+//                                let calendar = Calendar.current
+//                                let hour = calendar.component(.hour, from: Date())
+//                                let currentIndex = hour  // Calculate the current hour index
+//                                withAnimation {
+//                                    scrollView.scrollTo(currentIndex, anchor: .center) // Scroll to the calculated index
+//                                }
+//                            }) {
+//                                Text("Jump to Current")
+//                                    .font(.custom("Montserrat-Bold", size: 12))
+//                                    .padding(5)
+//                                    .background(Color.teamColor(for: team, type: .accent))
+//                                    .foregroundColor(.white)
+//                                    .cornerRadius(10)
+//                            }
+//                            .padding(.bottom, 2)
                         }
-                       
+                        
                         HStack(spacing: 10) {
                             YAxisView(maxValue: 60)
                                 .frame(height: barHeight(for: 60))
@@ -316,13 +315,19 @@ struct TotalScreenTimeView: View {
                                     }
                                 }
                             }
+                            .onAppear {
+                                withAnimation {
+                                    scrollView.scrollTo(9, anchor: .leading) // Scroll to the calculated index
+                                }
+                            }
                             .frame(height: UIScreen.main.bounds.height / 8)
                         }.padding(.bottom, 10)
                     }
+                    
                 }
                 .padding(.trailing, 10)
-            }.padding(.vertical, 10)
-            .padding(.horizontal, 20)
+            }.padding(.vertical, 8)
+                .padding(.horizontal, geometry.size.width > 420 ? 20 : 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             .background(RoundedRectangle(cornerRadius: 15)
@@ -419,19 +424,21 @@ struct TotalScreenTimeView: View {
         }
     }
 
+    
     private func fontSizePercent(for width: CGFloat) -> CGFloat {
         switch width {
-        case ..<700:
-            return 23
-        case 700..<1000:
-            return 25
-        case 1000...:
-            return 32
+        case ..<100:
+            return 14 // Extra small devices
+        case 100..<250:
+            return 16 // Small devices
+        case 250..<450:
+            return 18 // Medium devices
+        case 450...:
+            return 23 // Large devices
         default:
-            return 23
+            return 30
         }
     }
-    
     private func progressValue(from percentScreenTime: String) -> Double {
         guard let percentage = Double(percentScreenTime.replacingOccurrences(of: "%", with: "")) else {
             return 0
@@ -439,20 +446,7 @@ struct TotalScreenTimeView: View {
         return percentage / 100
     }
     
-    private func fontSize(for width: CGFloat) -> CGFloat {
-        switch width {
-        case ..<100:
-            return 18
-        case 100..<250:
-            return 20
-        case 250..<405:
-            return 25
-        case 405...:
-            return 35
-        default:
-            return 35
-        }
-    }
+   
     
     private func parseRemainingScreenTime(_ text: String) -> [String] {
         let components = text.split(separator: "\n").map(String.init)
@@ -472,29 +466,50 @@ struct TotalScreenTimeView: View {
         }
     }
     
-    private func fontSizeMessage(for width: CGFloat) -> CGFloat {
+    private func fontSize(for width: CGFloat) -> CGFloat {
         switch width {
-        case ..<700:
-            return 18
-        case 700..<1000:
-            return 22
-        case 1000...:
-            return 28
+        case ..<100:
+            return 16 // Extra small devices
+        case 100..<250:
+            return 18 // Small devices
+        case 250..<450:
+            return 24 // Medium devices
+        case 450...:
+            return 35 // Large devices
         default:
-            return 20
+            return 18
         }
     }
     
+   
+    private func fontSizeMessage(for width: CGFloat) -> CGFloat {
+        switch width {
+        case ..<100:
+            return 12 // Extra small devices
+        case 100..<250:
+            return 14 // Small devices
+        case 250..<450:
+            return 16 // Medium devices
+        case 450...:
+            return 20 // Large devices
+        default:
+            return 14
+        }
+    }
+    
+    
     private func fontSizeTime(for width: CGFloat) -> CGFloat {
         switch width {
-        case ..<700:
-            return 23
-        case 700..<1000:
-            return 26
-        case 1000...:
-            return 35
+        case ..<100:
+            return 14 // Extra small devices
+        case 100..<250:
+            return 16 // Small devices
+        case 250..<450:
+            return 18 // Medium devices
+        case 450...:
+            return 23 // Large devices
         default:
-            return 23
+            return 16
         }
     }
 }
@@ -505,7 +520,7 @@ struct Arc: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
         let center = CGPoint(x: rect.midX, y: rect.midY)
-        let radius = max(rect.width, rect.height) / 2.5
+        let radius = max(rect.width, rect.height) / 3.5
         path.addArc(center: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
         return path
     }

@@ -60,7 +60,7 @@ struct MainHomepageView: View {
     private var filterChartDay: DeviceActivityFilter {
         return DeviceActivityFilter(
             segment: .hourly(
-                during: Calendar.current.dateInterval(of: .day, for: today)!
+                during: Calendar.current.dateInterval(of: .day, for: .now)!
             ),
             users: .all,
             devices: .init([.iPhone, .iPad])
@@ -80,7 +80,7 @@ struct MainHomepageView: View {
                                     Image("calendar")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: props.isIPad && !props.isSplit ? props.width * 0.08 : props.width * 0.1)
+                                        .frame(width: props.isIPad && !props.isSplit ? props.width * 0.05 : props.width * 0.1)
                                     Text("32")
                                         .padding(.top, 5)
                                         .foregroundColor(colorScheme == .dark ? .black : .black)
@@ -100,7 +100,6 @@ struct MainHomepageView: View {
                                             .progressViewStyle(ThickProgressViewStyle(thickness: 10, color: .sky))
                                         Spacer()
                                     }
-                                    .offset(y: -5)
                                 }
                                 
                                 NavigationLink(destination: JourneyMapView(days: 3, unlockedDays: 1)
@@ -121,13 +120,13 @@ struct MainHomepageView: View {
                                 Spacer()
                             }
                         }
-                        .padding(10)
+                        .padding(.horizontal, 10)
                         .background(RoundedRectangle(cornerRadius: 15)
 //                                .stroke(Color.sky, lineWidth: 1)
                             .fill(Color.teamColor(for: teamColor, type: .primary))
                             .padding(.horizontal, 10))
 //            ScrollView{
-            VStack {
+            VStack(spacing:0) {
                 // Score box
                 HStack {
                     Text("\(viewModel.greeting), \(viewModel.user?.firstName ?? "User")!")
@@ -139,10 +138,9 @@ struct MainHomepageView: View {
                 
                 // Screen Time Box
                 ScrollView{
-                    MessageBoxView(props:props)
                 DeviceActivityReport(context, filter: filterChartDay)
-                    .padding(.vertical, 10)
-                    .frame(minHeight: props.isIPad ? props.height * 0.55 : props.height * 0.55)
+                        .padding(.vertical,  props.isIPad && !props.isLandscape ? 10 : 0)
+                        .frame(minHeight: props.isIPad && !props.isLandscape ? props.height * 0.4 : props.height * 0.44)
                 Spacer()
                     HStack {
                         Spacer()
@@ -150,13 +148,19 @@ struct MainHomepageView: View {
                             .padding(.trailing, 15)
                             .padding(.top, 10)
                     }
+//                    
+//                    Image("fire-still")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width:props.isIPad ? 300 : 150)
+//                        .padding()
+//                        .background(Color.clear)
                     
-                    Image("mascot-fox")
+                    Image("nix-house")
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width:props.isIPad ? 300 : 150)
-                        .padding()
-                        .background(Color.clear)
+                      .aspectRatio(contentMode: .fit)
+                        .frame(width:props.isIPad ? props.width*0.8 : 150)
+
                     
                     
                     // row of distracting apps icon, new freeze icon, and intentional mode icon

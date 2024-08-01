@@ -83,7 +83,7 @@ struct Onboarding1View: View {
                         stopTextAnimation()
                     }
                     Spacer()
-                    Image("mascot-fox")
+                    Image("fire-still")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 150, height: 150)
@@ -95,9 +95,13 @@ struct Onboarding1View: View {
 
                     Spacer()
                     VStack {
-                        NavigationLink(destination: Onboarding2View(props: props).navigationBarHidden(true).navigationBarBackButtonHidden(true)) {
-                            ButtonView(props: props, text: "Get Started")
-                        }
+//                        NavigationLink(destination: Onboarding2View(props: props).navigationBarHidden(true).navigationBarBackButtonHidden(true)) {
+//                            ButtonView(props: props, text: "Get Started")
+//                        }
+                        NavigationLink(destination: Sort1View(props: props).navigationBarHidden(true).navigationBarBackButtonHidden(true)) {
+                                                   ButtonView(props: props, text: "Get Started")
+                                               }
+                        
                         HStack {
                             Text("Already a member?")
                                 .font(.custom("Montserrat-Regular", size: props.customFontSize.smallMedium))
