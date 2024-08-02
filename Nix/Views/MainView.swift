@@ -11,7 +11,7 @@ import DeviceActivity
 struct MainView: View {
     @EnvironmentObject var userSettings: UserSettings
     var props: Properties
-
+    let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
     @StateObject var viewModel = MainViewViewModel()
     @StateObject var registerModel = RegisterViewViewModel()
     @EnvironmentObject var pomodoroModel: PomodoroViewViewModel
@@ -97,6 +97,8 @@ struct MainView: View {
     
     @ViewBuilder
     func CustomTabBar() -> some View {
+        let team = userDefaults?.string(forKey: "team") ?? "water"
+
            if showTabBar {
                HStack {
                    ForEach(tabs, id: \.self) { image in
@@ -116,10 +118,11 @@ struct MainView: View {
                    }
                }
                .ignoresSafeArea()
-               .background(Color.babyBlue)
+               .background(Color.teamColor(for: team, type: .primary))
                .cornerRadius(35)
                .padding(.horizontal, 10)
                .animation(.easeInOut)
+               
            }
        }
 }

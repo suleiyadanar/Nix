@@ -60,7 +60,7 @@ struct Onboarding10View: View {
                                     Button(action: {
                                        
                                     }) {
-                                        ButtonView(props: props, text: "Let's do it")
+                                        ButtonView(props: props, text: "Let's do it", imageName: nil)
                                     }
                                 }
                 .offset(y:-10)

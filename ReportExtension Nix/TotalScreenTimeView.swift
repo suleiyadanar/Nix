@@ -251,8 +251,6 @@ struct TotalScreenTimeView: View {
             }
                 VStack(alignment: .leading) {
                     // Display the selected hour as title text
-                    
-                  
                     ScrollViewReader { scrollView in
                         HStack {
                             Text(selectedHourST)
@@ -321,7 +319,7 @@ struct TotalScreenTimeView: View {
                                 }
                             }
                             .frame(height: UIScreen.main.bounds.height / 8)
-                        }.padding(.bottom, 10)
+                        }.padding(.bottom, 5)
                     }
                     
                 }
@@ -369,7 +367,7 @@ struct TotalScreenTimeView: View {
     private func barHeight(for value: TimeInterval) -> CGFloat {
         let maxValue = 60.0
         let normalizedValue = CGFloat(value / maxValue)
-        return normalizedValue * UIScreen.main.bounds.height / 8 // Adjusted height
+        return normalizedValue * UIScreen.main.bounds.height / 10 // Adjusted height
     }
 
     func convertToHoursAndMinutes(from value: Double) -> String {

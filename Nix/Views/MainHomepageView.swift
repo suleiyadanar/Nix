@@ -71,207 +71,335 @@ struct MainHomepageView: View {
 
     
     var body: some View {
-        let teamColor = userDefaults?.string(forKey: "team") ?? "water"
+            let teamColor = userDefaults?.string(forKey: "team") ?? "water"
         NavigationStack {
-            VStack(alignment: .leading) {
-                            HStack {
-                                Spacer()
-                                ZStack {
-                                    Image("calendar")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: props.isIPad && !props.isSplit ? props.width * 0.05 : props.width * 0.1)
-                                    Text("32")
-                                        .padding(.top, 5)
-                                        .foregroundColor(colorScheme == .dark ? .black : .black)
-                                        .font(.custom("Montserrat-Bold", size: props.customFontSize.smallMedium))
-                                }
-                                
-                                VStack {
-                                    HStack {
-//                                            Text("\(streakCount) days streak")
-                                        Text(teamColor)
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                        Spacer()
-                                    }
-                                    HStack {
-                                        ProgressBarPixel(props: props, progress: 3, color: Color.teamColor(for: teamColor, type: .secondary))
-                                            .progressViewStyle(ThickProgressViewStyle(thickness: 10, color: .sky))
-                                        Spacer()
-                                    }
-                                }
-                                
-                                NavigationLink(destination: JourneyMapView(days: 3, unlockedDays: 1)
-                                    .toolbarBackground(Color.clear, for: .navigationBar)
-                                    .toolbarBackground(.hidden, for: .navigationBar)
-                                    .onAppear {
-                                        showTabBar = false
-                                    }
-                                    .onDisappear {
-                                        showTabBar = true
-                                    }
-                                ) {
-                                    Image("map")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: props.isIPad && !props.isSplit ? props.width * 0.04 :props.width * 0.05)
-                                }.padding(.trailing,10)
-                                Spacer()
-                            }
-                        }
-                        .padding(.horizontal, 10)
-                        .background(RoundedRectangle(cornerRadius: 15)
-//                                .stroke(Color.sky, lineWidth: 1)
-                            .fill(Color.teamColor(for: teamColor, type: .primary))
-                            .padding(.horizontal, 10))
-//            ScrollView{
-            VStack(spacing:0) {
-                // Score box
-                HStack {
-                    Text("\(viewModel.greeting), \(viewModel.user?.firstName ?? "User")!")
-                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                        .font(.custom("Montserrat-Regular", size: props.customFontSize.medium))
-                        .padding(.leading, 20)
-                    Spacer()
-                }
-                
-                // Screen Time Box
-                ScrollView{
-                DeviceActivityReport(context, filter: filterChartDay)
-                        .padding(.vertical,  props.isIPad && !props.isLandscape ? 10 : 0)
-                        .frame(minHeight: props.isIPad && !props.isLandscape ? props.height * 0.4 : props.height * 0.44)
-                Spacer()
+            VStack{
+                VStack(alignment: .leading) {
                     HStack {
                         Spacer()
-                        Image("friend-list")
-                            .padding(.trailing, 15)
-                            .padding(.top, 10)
-                    }
-//                    
-//                    Image("fire-still")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width:props.isIPad ? 300 : 150)
-//                        .padding()
-//                        .background(Color.clear)
-                    
-                    Image("nix-house")
-                        .resizable()
-                      .aspectRatio(contentMode: .fit)
-                        .frame(width:props.isIPad ? props.width*0.8 : 150)
-
-                    
-                    
-                    // row of distracting apps icon, new freeze icon, and intentional mode icon
-                    HStack {
-                        HStack {
-                            Image("distracting-apps")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                            VStack {
-                                HStack {
-                                    Text("Distracting")
-                                        .font(.footnote)
-                                        .fixedSize(horizontal: true, vertical: false)
-                                    Spacer()
-                                }
-                                HStack {
-                                    Text("Apps")
-                                        .font(.footnote)
-                                        .fixedSize(horizontal: true, vertical: false)
-                                    Spacer()
-                                }
-                            }
-                        }
-                        .padding(.leading, 17)
-                        
-                        //                        Image("separating-line2")
-                        //                            .resizable()
-                        //                            .frame(width: 1, height: 40)
-                        //                            .padding(.leading, 8)
-                        //                            .padding(.trailing, 22)
-                        
-                        HStack {
-                            Image("new-freeze")
+                        ZStack {
+                            Image("calendar")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 20)
-                            VStack {
-                                HStack {
-                                    Text("New")
-                                        .font(.footnote)
-                                    Spacer()
-                                }
-                                HStack {
-                                    Text("Freeze")
-                                        .font(.footnote)
-                                    Spacer()
-                                }
-                            }
-                            .padding(.leading, 2)
+                                .frame(width: props.isIPad && !props.isSplit ? props.width * 0.05 : props.width * 0.1)
+                            Text("32")
+                                .padding(.top, 5)
+                                .foregroundColor(colorScheme == .dark ? .black : .black)
+                                .font(.custom("Montserrat-Bold", size: props.customFontSize.smallMedium))
                         }
-                        //                        Image("separating-line2")
-                        //                            .resizable()
-                        //                            .frame(width: 1, height: 40)
-                        //                            .padding(.trailing, 8)
                         
-                        HStack {
-                            Image("intentional-mode")
+                        VStack {
+                            HStack {
+                                // Text("\(streakCount) days streak")
+                                Text(teamColor)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                Spacer()
+                            }
+                            HStack {
+                                ProgressBarPixel(props: props, progress: 3, color: Color.teamColor(for: teamColor, type: .secondary))
+                                    .progressViewStyle(ThickProgressViewStyle(thickness: 10, color: .sky))
+                                Spacer()
+                            }
+                        }
+                        
+                        NavigationLink(destination: JourneyMapView(days: 3, unlockedDays: 1)
+                            .toolbarBackground(Color.clear, for: .navigationBar)
+                            .toolbarBackground(.hidden, for: .navigationBar)
+                            .onAppear {
+                                showTabBar = false
+                            }
+                            .onDisappear {
+                                showTabBar = true
+                            }
+                        ) {
+                            Image("map")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 20)
-                            VStack {
-                                HStack {
-                                    Text("Intentional")
-                                        .font(.footnote)
-                                    Spacer()
+                                .frame(width: props.isIPad && !props.isSplit ? props.width * 0.04 :props.width * 0.05)
+                        }
+                        .padding(.trailing,10)
+                        Spacer()
+                    }
+                }
+                .padding(.horizontal, 10)
+                .background(RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.teamColor(for: teamColor, type: .primary))
+                    .padding(.horizontal, 10))
+            //            ScrollView{
+            VStack(spacing:0) {
+                // Score box
+//                HStack {
+//                    Text("\(viewModel.greeting), \(viewModel.user?.firstName ?? "User")!")
+//                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+//                        .font(.custom("Montserrat-Regular", size: props.customFontSize.medium))
+//                        .padding(.leading, 20)
+//                    Spacer()
+//                }
+                
+                // Screen Time Box
+                ZStack{
+                    ScrollView{
+                        DeviceActivityReport(context, filter: filterChartDay)
+                            .padding(.vertical,  props.isIPad && !props.isLandscape ? 10 : 0)
+                            .frame(minHeight: props.isIPad && !props.isLandscape ? props.height * 0.4 : props.height * 0.44)
+                        Spacer()
+                        
+                        //
+                        //                    Image("fire-still")
+                        //                        .resizable()
+                        //                        .aspectRatio(contentMode: .fit)
+                        //                        .frame(width:props.isIPad ? 300 : 150)
+                        //                        .padding()
+                        //                        .background(Color.clear)
+                        VStack {
+                            if !props.isIPad || props.isSplit {
+                                // Layout for iPhone
+                                VStack(spacing: 15) {
+                                    HStack(spacing: 5) {
+                                        Button(action: {
+                                            // Action for Distracting Apps button
+                                        }) {
+                                            HStack(spacing: 10) {
+                                                VStack(alignment: .center, spacing: 5) {
+                                                    Image("distracting-apps")
+                                                        .resizable()
+                                                        .frame(width: 20, height: 20)
+                                                    
+                                                    Text("Apps")
+                                                        .font(.custom("Montserrat-Bold", size: props.customFontSize.smallMedium))
+                                                        .foregroundColor(.black)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                        .multilineTextAlignment(.center)
+                                                       
+                                                }
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .padding(10)
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .stroke(Color.teamColor(for: teamColor, type: .accent), lineWidth: 2)
+                                                    .background(RoundedRectangle(cornerRadius: 15)
+                                                        .fill(Color.teamColor(for: teamColor, type: .fourth)))
+                                                    .padding(.horizontal, 30)
+                                            }
+                                        }.shadow(color: .gray.opacity(0.5), radius: 3, x: 0, y: 0)
+                                        
+                                        Button(action: {
+                                            // Action for New Freeze button
+                                        }) {
+                                            HStack(spacing: 10) {
+                                                VStack(alignment: .center, spacing: 5) {
+                                                    Image("new-freeze")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 20)
+                                                    
+                                                    Text("Rules")
+                                                        .font(.custom("Montserrat-Bold", size: props.customFontSize.smallMedium))
+                                                        .multilineTextAlignment(.center)
+                                                        .foregroundColor(.black)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                }
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .padding(10)
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .stroke(Color.teamColor(for: teamColor, type: .accent), lineWidth: 2)
+                                                    .background(RoundedRectangle(cornerRadius: 15)
+                                                        .fill(Color.teamColor(for: teamColor, type: .fourth)))
+                                                    .padding(.horizontal, 30)
+                                            }
+                                        }.shadow(color: .gray.opacity(0.5), radius: 3, x: 0, y: 0)
+                                        
+                                        Button(action: {
+                                            // Action for Intentional Mode button
+                                        }) {
+                                            HStack(spacing: 10) {
+                                                VStack(alignment: .center, spacing: 5) {
+                                                    Image("intentional-mode")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 20)
+                                                    
+                                                    Text("Mode")
+                                                        .font(.custom("Montserrat-Bold", size: props.customFontSize.smallMedium))
+                                                        .multilineTextAlignment(.center)
+                                                        .foregroundColor(.black)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                }
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .padding(10)
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .stroke(Color.teamColor(for: teamColor, type: .accent), lineWidth: 2)
+                                                    .background(RoundedRectangle(cornerRadius: 15)
+                                                        .fill(Color.teamColor(for: teamColor, type: .fourth)))
+                                                    .padding(.horizontal, 30)
+                                            }
+                                        }.shadow(color: .gray.opacity(0.5), radius: 3, x: 0, y: 0)
+                                    }
+                                    
+                                    // Image below the buttons
+                                 
+                                    Image("nix-house")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: !props.isIPad || props.isSplit ? props.width * 0.8 : props.width * 0.6 )
                                 }
-                                HStack {
-                                    Text("Mode")
-                                        .font(.footnote)
-                                    Spacer()
+                            } else {
+                                // Layout for iPad (unchanged)
+                                HStack(alignment: .center) {
+                                    Image("nix-house")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: props.width * 0.6)
+                                    
+                                    VStack(alignment: .leading, spacing: 15) {
+                                        Button(action: {
+                                            // Action for Distracting Apps button
+                                        }) {
+                                            HStack(spacing: 10) {
+                                                Spacer()
+                                                VStack(alignment: .center, spacing: 5) {
+                                                    Image("distracting-apps")
+                                                        .resizable()
+                                                        .frame(width: 20, height: 20)
+                                                    
+                                                    Text("Apps")
+                                                        .font(.custom("Montserrat-Bold", size: props.customFontSize.small))
+                                                        .foregroundColor(.black)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                        .multilineTextAlignment(.center)
+                                                        
+                                                }
+                                                Spacer()
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .padding(20)
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 20)
+                                                    .stroke(Color.teamColor(for: teamColor, type: .accent), lineWidth: 2)
+                                                    .background(RoundedRectangle(cornerRadius: 20)
+                                                    .fill(Color.teamColor(for: teamColor, type: .fourth)))
+                                                    .padding(.horizontal, 30)
+                                                    
+                                            }
+                                            
+                                        }.shadow(color: .gray.opacity(0.5), radius: 3, x: 0, y: 0)
+                                        
+                                        Button(action: {
+                                            // Action for New Freeze button
+                                        }) {
+                                            HStack(spacing: 10) {
+                                                Spacer()
+                                                VStack(alignment: .center, spacing: 5) {
+                                                    Image("new-freeze")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 20)
+                                                    
+                                                    Text("Rules")
+                                                        .font(.custom("Montserrat-Bold", size: props.customFontSize.small))
+                                                        .multilineTextAlignment(.center)
+                                                        .foregroundColor(.black)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                }
+                                                Spacer()
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .padding(20)
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 20)
+                                                    .stroke(Color.teamColor(for: teamColor, type: .accent), lineWidth: 2)
+                                                    .background(RoundedRectangle(cornerRadius: 20)
+                                                        .fill(Color.teamColor(for: teamColor, type: .fourth)))
+                                                    .padding(.horizontal, 30)
+                                            }
+                                        }.shadow(color: .gray.opacity(0.5), radius: 3, x: 0, y: 0)
+                                        
+                                        Button(action: {
+                                            // Action for Intentional Mode button
+                                        }) {
+                                            HStack(spacing: 10) {
+                                                Spacer()
+                                                VStack(alignment: .center, spacing: 5) {
+                                                    Image("intentional-mode")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 20)
+                                                    
+                                                    Text("Mode")
+                                                        .font(.custom("Montserrat-Bold", size: props.customFontSize.small))
+                                                        .multilineTextAlignment(.center)
+                                                        .foregroundColor(.black)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                }
+                                                Spacer()
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .padding(20)
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 20)
+                                                    .stroke(Color.teamColor(for: teamColor, type: .accent), lineWidth: 2)
+                                                    .background(RoundedRectangle(cornerRadius: 20)
+                                                        .fill(Color.teamColor(for: teamColor, type: .fourth)))
+                                                    .padding(.horizontal, 30)
+                                            }
+                                        }.shadow(color: .gray.opacity(0.5), radius: 3, x: 0, y: 0)
+                                    }
                                 }
+                                .padding(.horizontal, 30)
                             }
                         }
-                        .padding(.trailing, 7)
+                        
+                        
+                        // row of distracting apps icon, new freeze icon, and intentional mode icon
+                        
+                        
                     }
+                    VStack(spacing:0) {
+                        Spacer()
+                        ButtonView(props: props, text: "Quick Freeze", imageName: "snowflake")
+                    }.padding(0)
                     
-                    
                 }
             }
-//            }
-            QuickFreezeButton()
-        }.onAppear {
-            Task {
-                do {
-                    authorizationError = nil
-                    showAlert = false
-                    let center = AuthorizationCenter.shared
-                    try await center.requestAuthorization(for: .individual)
-                } catch{
-                    authorizationError = error
-                    showAlert = true // Show the alert on error
+            }
+            }
+            .onAppear {
+                Task {
+                    do {
+                        authorizationError = nil
+                        showAlert = false
+                        let center = AuthorizationCenter.shared
+                        try await center.requestAuthorization(for: .individual)
+                    } catch{
+                        authorizationError = error
+                        showAlert = true // Show the alert on error
+                    }
+                }
+                viewModel.fetchUser()
+                NotificationCenter.default.addObserver(forName: NSNotification.Name("NotificationTapped"), object: nil, queue: .main) { _ in
+                    self.showSheet = true
                 }
             }
-            viewModel.fetchUser()
-            NotificationCenter.default.addObserver(forName: NSNotification.Name("NotificationTapped"), object: nil, queue: .main) { _ in
-                self.showSheet = true
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Authorization Error"),
+                    message: Text(authorizationError?.localizedDescription ?? "Nix requires access to Screen Time."),
+                    dismissButton: .default(Text("OK")) {
+                        showAlert = false // Dismiss the alert
+                    }
+                )
+            }
+            .sheet(isPresented: $showSheet) {
+                TimeOutNotiView(isPresented: $showSheet)
             }
         }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Authorization Error"),
-                message: Text(authorizationError?.localizedDescription ?? "Nix requires access to Screen Time."),
-                dismissButton: .default(Text("OK")) {
-                    showAlert = false // Dismiss the alert
-                }
-            )
-        }
-        .sheet(isPresented: $showSheet) {
-            TimeOutNotiView(isPresented: $showSheet)
-        }
-    }
+    
 }
 
 struct ThickProgressViewStyle: ProgressViewStyle {
@@ -314,6 +442,7 @@ struct MoreButton: View {
 //}
 
 struct QuickFreezeButton: View {
+    var props: Properties
     var body: some View {
         ZStack {
             // Shadow layer
@@ -328,8 +457,7 @@ struct QuickFreezeButton: View {
             
             HStack {
                 Text("Quick Freeze")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.custom("Bungee-Regular", size: props.customFontSize.mediumLarge))
                     .foregroundColor(.white)
                     .padding()
                 Image("snowflake")

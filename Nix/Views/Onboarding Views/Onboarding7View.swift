@@ -57,7 +57,7 @@ struct Onboarding7View: View {
                                 Button(action: {
                                     attemptAuthorization()
                                 }) {
-                                    ButtonView(props: props, text: "Connect")
+                                    ButtonView(props: props, text: "Connect", imageName: nil)
                                 }
                                 Spacer()
                             }

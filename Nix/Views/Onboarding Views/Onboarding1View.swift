@@ -99,7 +99,7 @@ struct Onboarding1View: View {
 //                            ButtonView(props: props, text: "Get Started")
 //                        }
                         NavigationLink(destination: Sort1View(props: props).navigationBarHidden(true).navigationBarBackButtonHidden(true)) {
-                                                   ButtonView(props: props, text: "Get Started")
+                            ButtonView(props: props, text: "Get Started", imageName: nil)
                                                }
                         
                         HStack {

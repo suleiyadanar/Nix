@@ -113,8 +113,8 @@ struct Roundness {
         let widthToCalculate = height<width ? height : width
         switch widthToCalculate {
         case _ where widthToCalculate<700:
-            sheet = 15
-            item = 10
+            sheet = 18
+            item = 15
         case _ where widthToCalculate>=700 && widthToCalculate<1000:
             sheet = 40
             item = 20
