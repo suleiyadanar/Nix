@@ -257,6 +257,8 @@ struct MainHomepageView: View {
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: props.width * 0.6)
+                                        .padding(.bottom, 65)
+
                                     
                                     VStack(alignment: .leading, spacing: 15) {
                                         Button(action: {
