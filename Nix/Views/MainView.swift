@@ -76,7 +76,9 @@ struct MainView: View {
                         .environmentObject(pomodoroModel)
                         .ignoresSafeArea()
                 case "face":
-                    ProfileView(props: props)
+                    MainProfileView()
+                case "profile":
+                    MainProfileView()
                         .ignoresSafeArea()
                 default:
                     EmptyView()
