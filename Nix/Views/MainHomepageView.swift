@@ -247,7 +247,8 @@ struct MainHomepageView: View {
                                     Image("nix-house")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: !props.isIPad || props.isSplit ? props.width * 0.8 : props.width * 0.6 )
+                                        .frame(width: !props.isIPad || props.isSplit ? props.width * 0.8 : props.width * 0.6)
+                                        .padding(.bottom, 65)
                                 }
                             } else {
                                 // Layout for iPad (unchanged)
@@ -360,11 +361,12 @@ struct MainHomepageView: View {
                         
                         
                     }
+                    
                     VStack(spacing:0) {
                         Spacer()
                         ButtonView(props: props, text: "Quick Freeze", imageName: "snowflake")
-                    }.padding(0)
-                    
+                        .padding(.bottom, 65)
+                    }
                 }
             }
             }
