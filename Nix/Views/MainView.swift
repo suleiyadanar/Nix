@@ -133,8 +133,8 @@ struct MainView: View {
                     } label: {
                         Image(selectedTab == image ? "\(image)-fill" : image)
                             .resizable()
-                            // Ensure the image maintains its aspect ratio
-                            .frame(width: 25, height: 25) // Adjust size proportionally
+                            .scaledToFit() // Ensure the image maintains its aspect ratio
+                            .frame(width: 25, height: 25)
                             .foregroundColor(selectedTab == image ? .black : .gray)
                     }
                     .padding(.horizontal, props.width * 0.05) // Adjust horizontal padding proportionally
