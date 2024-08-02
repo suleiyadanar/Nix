@@ -28,8 +28,8 @@ struct ReportExtension_Nix: DeviceActivityReportExtension {
             PercentScreenTimeView(percentScreenTime: percentScreenTime)
         }
         
-        TotalScreenTimeReport { totalScreenTime in
-            TotalScreenTimeView(totalScreenTime: totalScreenTime)
+        TotalScreenTimeReport { reportData in
+            TotalScreenTimeView(reportData: reportData)
         }
         
         TotalActivityReport { configuration in

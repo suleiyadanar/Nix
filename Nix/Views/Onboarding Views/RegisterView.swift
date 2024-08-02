@@ -336,7 +336,7 @@ struct RegisterView: View {
                                     }
                                  
                                 }) {
-                                    ButtonView(props: props, text: "Register")
+                                    ButtonView(props: props, text: "Register", imageName: nil)
                                 }
                                 .background(
                                     

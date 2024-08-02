@@ -65,7 +65,9 @@ struct JourneyMapView: View {
         }
         .background(Color.sky)
         .ignoresSafeArea()
+        .navigationBarHidden(true)
     }
+
     
     func offset(for phase: ScrollTransitionPhase) -> CGFloat {
         switch phase {

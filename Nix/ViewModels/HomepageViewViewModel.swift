@@ -11,7 +11,7 @@ import FirebaseFirestore
 
 class HomepageViewViewModel: ObservableObject {
     init(){}
-    
+    let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
     @Published var user: User? = nil
     var greeting: String {
             let hour = Calendar.current.component(.hour, from: Date())
@@ -51,9 +51,11 @@ class HomepageViewViewModel: ObservableObject {
                     opt: data["opt"] as? Bool ?? false,
                     goals: data["goals"] as? Array<String> ?? [""],
                     unProdST: data["unProdST"] as? String ?? "",
-                    maxUnProdST: data["maxUnProdST"] as? Int ?? 0
+                    maxUnProdST: data["maxUnProdST"] as? Int ?? 0,
+                    team: data["team"] as? String ?? ""
                 )
             }
         }
     }
+    
 }

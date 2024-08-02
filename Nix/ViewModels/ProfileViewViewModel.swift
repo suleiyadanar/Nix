@@ -42,7 +42,8 @@ class ProfileViewViewModel: ObservableObject {
                     opt: data["opt"] as? Bool ?? false,
                     goals: data["goals"] as? Array<String> ?? [""],
                     unProdST: data["unProdST"] as? String ?? "",
-                    maxUnProdST: data["maxUnProdST"] as? Int ?? 0
+                    maxUnProdST: data["maxUnProdST"] as? Int ?? 0,
+                    team: data["team"] as? String ?? ""
                 )
             }
         }

@@ -14,6 +14,5 @@ class UserSettings: ObservableObject {
     @Published var unProdST: String = ""
     @Published var maxUnProdST: Int = 0
     @Published var totalDays: Int = 0
-    @Published var ready: Bool = false
 }
 

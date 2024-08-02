@@ -7,5 +7,13 @@
 		<key>EXExtensionPointIdentifier</key>
 		<string>com.apple.deviceactivityui.report-extension</string>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Aldrich-Regular.ttf</string>
+		<string>Montserrat-Regular.ttf</string>
+		<string>Montserrat-Medium.ttf</string>
+		<string>Montserrat-Bold.ttf</string>
+		<string>Bungee-Regular.ttf</string>
+	</array>
 </dict>
 </plist>

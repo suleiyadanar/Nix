@@ -62,18 +62,18 @@ struct RemainingScreenTimeReport: DeviceActivityReportScene {
             let hours = Int(remainingTime / 60)
             let minutes = Int(remainingTime) % 60
             if hours > 0 {
-                timeString = String(format: "Remaining:\n%d hours %d min", hours, minutes)
+                timeString = String(format: "Remaining\n%02d hr %02d min", hours, minutes)
             } else {
-                timeString = String(format: "Remaining:\n%d min", minutes)
+                timeString = String(format: "Remaining\n%02d min", minutes)
             }
         } else {
             let exceededTime = abs(remainingTime)
             let hours = Int(exceededTime / 60)
             let minutes = Int(exceededTime) % 60
             if hours > 0 {
-                timeString = String(format: "Exceeding:\n%d hours %d min", hours, minutes)
+                timeString = String(format: "Exceeding\n%02d hr %02d min", hours, minutes)
             } else {
-                timeString = String(format: "Exceeding:\n%d min", minutes)
+                timeString = String(format: "Exceeding\n%02d min", minutes)
             }
         }
         print(timeString)
@@ -110,7 +110,10 @@ struct PercentScreenTimeReport: DeviceActivityReportScene {
         if totalActivityDurationInMinutes == 0 {
             percentTime = 0
         }
-            else if let maxUnProdST = maxUnProdST, maxUnProdST != 0 {
+        else if maxUnProdST == totalActivityDurationInMinutes {
+            percentTime = 100
+        }
+        else if let maxUnProdST = maxUnProdST, maxUnProdST != 0 {
             percentTime =  ((Double(maxUnProdST)-Double(totalActivityDurationInMinutes)) / Double(maxUnProdST)) * 100
         } else {
             percentTime = 100
@@ -137,23 +140,23 @@ struct TotalScreenTimeReport: DeviceActivityReportScene {
     let context: DeviceActivityReport.Context = .totalScreenTime
     
     // Define the custom configuration and the resulting view for this report.
-    let content: (String) -> TotalScreenTimeView
+    let content: ([TimeInterval]) -> TotalScreenTimeView
     
-    func makeConfiguration(representing data: DeviceActivityResults<DeviceActivityData>) async -> String {
+    func makeConfiguration(representing data: DeviceActivityResults<DeviceActivityData>) async -> [TimeInterval] {
 //        // Reformat the data into a configuration that can be used to create
 //        // the report's view.
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute]
         formatter.unitsStyle = .short
-        formatter.zeroFormattingBehavior = .dropAll
-        
-        let totalActivityDuration = await data.flatMap { $0.activitySegments }.reduce(0, {
-            $0 + $1.totalActivityDuration
-        })
-        let formattedString = formatter.string(from: totalActivityDuration) ?? "No activity data"
+        formatter.zeroFormattingBehavior = .pad
 
-        let formattedWithNewline = formattedString.replacingOccurrences(of: ", ", with: "\n")
+        let reportData = await data.flatMap { $0.activitySegments }
+            .map { $0.totalActivityDuration / 60.0 }
+                                          .reduce(into: [TimeInterval](), { $0.append($1) })
 
-        return formattedWithNewline
+//        let totalActivityDuration = await data.flatMap { $0.activitySegments }.reduce(0, {
+//            $0 + $1.totalActivityDuration
+//        })
+        return reportData
     }
 }

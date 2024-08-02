@@ -5,63 +5,64 @@ struct ChartReportDayView: View {
     let reportData: [TimeInterval]
     @State private var currentTimeIndex: Int? = nil
     @State private var selectedHourST: String = ""
-
+    let userDefaults = UserDefaults(suiteName: "group.com.nix.Nix")
 
     var body: some View {
-        VStack(alignment: .leading){
+        VStack(alignment: .leading) {
             Text(selectedHourST) // Show selected day's data as title text
-                .font(.title)
+                .font(.custom("Montserrat-Bold", size: 12))
+            
             let completeData = prepareData(reportData: reportData)
+            let team = userDefaults?.string(forKey: "team") ?? "water"
             
             ScrollViewReader { scrollView in
                 HStack(spacing: 10) {
                     YAxisView(maxValue: 60)
-                        .frame(height: UIScreen.main.bounds.height / 4)
-                    
+                        .frame(height: barHeight(for: 60))
+                        .padding(.bottom, 10)
                     ScrollView(.horizontal, showsIndicators: false) {
                         ZStack {
                             TimeOfDayBackground()
-                                .frame(height: UIScreen.main.bounds.height / 4)
-                            
-                            HStack(spacing: 10) {
+                                .frame(height: barHeight(for: 60))
+                                .padding(.bottom, 10) // Reduced padding
+
+                            HStack(spacing: 5) { // Reduced spacing for smaller bars
                                 ForEach(Array(completeData.enumerated()), id: \.offset) { index, dataPoint in
-                                    VStack {
-                                        Spacer(minLength: 0)
-                                        RoundedRectangle(cornerRadius: 15)
-                                            .fill(Color.babyBlue)
-                                            .stroke(Color.sky, lineWidth:2)
-                                            .frame(width: 50, height: barHeight(for: dataPoint))
+                                    VStack(spacing:5) {
+                                        Spacer()
+                                        RoundedRectangle(cornerRadius: 10) // Reduced corner radius
+                                            .fill(Color.teamColor(for: team, type: .primary))
+                                            .stroke(Color.teamColor(for: team, type: .secondary), lineWidth: 1) // Reduced stroke width
+                                            .frame(width: 25, height: barHeight(for: dataPoint)) // Reduced width
                                             .onTapGesture {
                                                 selectedHourST = "\(convertToHoursAndMinutes(from: dataPoint))"
-                                                // Update selected day text
                                                 currentTimeIndex = index // Update selected day index
                                             }
                                         Text("\(formatHour(index)):00 \(formatAMPM(index))")
-                                            .font(.custom("Nunito-Medium", size: 15))
-                                            .padding(.top, 2)
+                                            .font(.custom("Montserrat-Bold", size: 12))
+//                                            .font(.custom("Nunito-Medium", size: 12)) // Reduced font size
+                                            .padding(.top, 1) // Reduced padding
                                     }
                                     .id(index)
                                 }
                             }
                         }
                         .onAppear {
-                            // Set currentTimeIndex to the current hour
                             selectedHourST = "\(convertToHoursAndMinutes(from: reportData.last ?? reportData[0]))"
                             let currentHour = Calendar.current.component(.hour, from: Date())
                             currentTimeIndex = currentHour
                             
-                            // Automatically scroll to the current time index
                             if let currentTimeIndex = currentTimeIndex, currentTimeIndex >= 0 {
                                 scrollToCurrentTimeIndex(scrollView: scrollView, index: currentTimeIndex)
                             }
-                        }                    .onChange(of: currentTimeIndex) { newIndex in
-                            // Re-scroll to the updated current time index
+                        }
+                        .onChange(of: currentTimeIndex) { newIndex in
                             if let newIndex = newIndex {
                                 scrollToCurrentTimeIndex(scrollView: scrollView, index: newIndex)
                             }
                         }
                     }
-                    .frame(height: UIScreen.main.bounds.height / 4)
+                    .frame(height: UIScreen.main.bounds.height / 8)
                 }
             }
         }
@@ -84,24 +85,20 @@ struct ChartReportDayView: View {
     }
 
     private func barWidth(totalWidth: CGFloat, count: Int) -> CGFloat {
-        let spacing: CGFloat = 10
+        let spacing: CGFloat = 5 // Adjusted spacing
         return (totalWidth - (spacing * CGFloat(count - 1))) / CGFloat(count)
     }
 
     private func barHeight(for value: TimeInterval) -> CGFloat {
-        let maxValue = 60.0 // Get maximum value from reportData or default to 60
+        let maxValue = 60.0
         let normalizedValue = CGFloat(value / maxValue)
-        return normalizedValue * UIScreen.main.bounds.height / 4
+        return normalizedValue * UIScreen.main.bounds.height / 8 // Adjusted height
     }
-    
-    
+
     func convertToHoursAndMinutes(from value: Double) -> String {
-        let hours = Int(value) // Get the integer part as hours
-        let decimalPart = value - Double(hours) // Get the decimal part
-        
-        // Convert decimal part to minutes
+        let hours = Int(value)
+        let decimalPart = value - Double(hours)
         let minutes = Int(decimalPart * 60)
-        
         return "\(hours) min \(minutes) sec"
     }
 
@@ -117,30 +114,34 @@ struct ChartReportDayView: View {
     private func YAxisView(maxValue: TimeInterval) -> some View {
         VStack(spacing: 0) {
             Text("\(Int(maxValue)) min")
-                .font(.custom("Nunito-Medium", size: 15))
-                .padding(.bottom, 2)
+                .font(.custom("Montserrat-Bold", size: 12))
+                .padding(.bottom, 1) // Reduced padding
             Spacer()
             Text("\(Int(maxValue * 0.5)) min")
-                .font(.custom("Nunito-Medium", size: 15))
+                .font(.custom("Montserrat-Bold", size: 12))
             Spacer()
         }
-        .padding(.bottom, 5)
+        .padding(.bottom, 2) // Adjusted padding
     }
 
     @ViewBuilder
     private func TimeOfDayBackground() -> some View {
+        
         GeometryReader { geometry in
             let width = geometry.size.width
+            let team = userDefaults?.string(forKey: "team") ?? "water"
+
             HStack(spacing: 0) {
-                Color.babyBlue.opacity(0.2)
-                    .frame(width: width / 4) // 6 AM - 12 PM
-                Color.babyBlue.opacity(0.4)
-                    .frame(width: width / 4) // 12 PM - 6 PM
-                Color.babyBlue.opacity(0.6)
-                    .frame(width: width / 4) // 6 PM - 10 PM
-                Color.babyBlue.opacity(0.8)
-                    .frame(width: width / 4) // 10 PM - 6 AM
+                Color.teamColor(for: team, type: .accent).opacity(0.2)
+                    .frame(width: width / 4)
+                Color.teamColor(for: team, type: .accent).opacity(0.4)
+                    .frame(width: width / 4)
+                Color.teamColor(for: team, type: .accent).opacity(0.6)
+                    .frame(width: width / 4)
+                Color.teamColor(for: team, type: .accent).opacity(0.8)
+                    .frame(width: width / 4)
             }
         }
     }
 }
+

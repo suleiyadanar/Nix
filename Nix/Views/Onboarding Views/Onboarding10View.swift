@@ -58,9 +58,9 @@ struct Onboarding10View: View {
                 
                 NavigationLink(destination: MainView(props:props)) {
                                     Button(action: {
-                                        userSettings.ready = true
+                                       
                                     }) {
-                                        ButtonView(props: props, text: "Let's do it")
+                                        ButtonView(props: props, text: "Let's do it", imageName: nil)
                                     }
                                 }
                 .offset(y:-10)

@@ -1,0 +1,67 @@
+{
+  "questions": [
+    {
+      "question": "How do you prefer to start your day?",
+      "options": [
+        "Planning tasks and setting goals.",
+        "Calm routine, meditation or walk.",
+        "Diving into work with focus.",
+        "High energy and enthusiasm."
+      ]
+    },
+    {
+      "question": "What best describes your work style?",
+      "options": [
+        "Brainstorming creative solutions.",
+        "Adapting and going with the flow.",
+        "Thorough and detail-oriented.",
+        "Passionate and energetic."
+      ]
+    },
+    {
+      "question": "How do you handle challenges or obstacles?",
+      "options": [
+        "Innovative solutions and big-picture thinking.",
+        "Staying calm and adjusting plans.",
+        "Sticking to plans with persistence.",
+        "Confronting challenges with intensity."
+      ]
+    },
+    {
+      "question": "Which activity sounds most appealing to you?",
+      "options": [
+        "Exploring new ideas and possibilities.",
+        "Relaxing by water or soothing activities.",
+        "Building or creating tangible things.",
+        "Leading or competing."
+      ]
+    },
+    {
+      "question": "How do you feel about changes in your routine?",
+      "options": [
+        "Enjoying changes for variety.",
+        "Adapting smoothly and flexible.",
+        "Preferring a consistent routine.",
+        "Thriving on change and growth."
+      ]
+    },
+    {
+      "question": "When working on a group project, what role do you usually take?",
+      "options": [
+        "Idea generator with creative solutions.",
+        "Mediator ensuring group harmony.",
+        "Organizer keeping things on track.",
+        "Leader motivating the team."
+      ]
+    },
+    {
+      "question": "What is your approach to meeting deadlines?",
+      "options": [
+        "Brainstorming multiple approaches.",
+        "Going with the flow, adjusting pace.",
+        "Following a strict schedule methodically.",
+        "Working intensely, often finishing early."
+      ]
+    }
+  ]
+}
